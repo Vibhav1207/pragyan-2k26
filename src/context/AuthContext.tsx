@@ -48,9 +48,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   // Participant Google Login
-  const loginParticipantGoogle = (googleUser: { name: string; email: string; avatar?: string; role?: 'PARTICIPANT' | 'ADMIN' }) => {
+  const loginParticipantGoogle = async (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string; role?: 'PARTICIPANT' | 'ADMIN' }) => {
     const user: UserProfile = {
-      id: `USR-${Date.now()}`,
+      id: googleUser.uid || googleUser.googleId || `USR-${Date.now()}`,
       name: googleUser.name,
       email: googleUser.email,
       avatar: googleUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
@@ -58,6 +58,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     setParticipant(user);
     localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(user));
+
+    // Persist Google User Data to MongoDB Backend
+    try {
+      const payload = {
+        email: googleUser.email,
+        name: googleUser.name,
+        avatar: user.avatar,
+        googleId: googleUser.googleId || googleUser.uid || user.id,
+        uid: googleUser.uid
+      };
+      
+      const res = await fetch('/api/auth/participant/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        await fetch('http://localhost:5000/api/auth/participant/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+    } catch (err) {
+      console.warn('MongoDB API connection note (User persisted in local state):', err);
+    }
   };
 
   const logoutParticipant = () => {

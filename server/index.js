@@ -210,11 +210,53 @@ app.post('/api/auth/admin/login', async (req, res) => {
   return res.status(401).json({ error: 'Invalid admin credentials' });
 });
 
-// Participant Google Login
+// Participant Google Login - Stores Google user in MongoDB
 app.post('/api/auth/participant/google', async (req, res) => {
-  const { email, name, avatar } = req.body;
-  const token = jwt.sign({ email, name, role: 'PARTICIPANT' }, JWT_SECRET, { expiresIn: '7d' });
-  return res.json({ token, user: { email, name, avatar, role: 'PARTICIPANT' } });
+  try {
+    const { email, name, avatar, googleId, uid } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+    const gId = googleId || uid || `google-${Date.now()}`;
+
+    let user;
+    if (mongoose.connection.readyState === 1) {
+      user = await User.findOne({ email });
+      if (user) {
+        user.name = name || user.name;
+        user.avatar = avatar || user.avatar;
+        if (gId && !user.googleId) user.googleId = gId;
+        await user.save();
+        console.log(`✅ Updated existing Google user in MongoDB: ${user.email}`);
+      } else {
+        user = await User.create({
+          googleId: gId,
+          email,
+          name: name || 'Participant User',
+          avatar: avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+          role: 'PARTICIPANT'
+        });
+        console.log(`✅ Saved new Google user to MongoDB: ${user.email}`);
+      }
+    }
+
+    const userObj = user ? user.toObject() : { email, name, avatar, role: 'PARTICIPANT' };
+    const token = jwt.sign({ userId: userObj._id, email, name, role: 'PARTICIPANT' }, JWT_SECRET, { expiresIn: '7d' });
+    return res.json({ token, user: userObj });
+  } catch (err) {
+    console.error('❌ Error saving Google user to MongoDB:', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// GET all registered users from MongoDB
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 });
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Helper function to generate unique 6-character team join code

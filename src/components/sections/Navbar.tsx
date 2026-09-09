@@ -39,11 +39,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#0B192C]/95 backdrop-blur-md border-b border-white/10 py-3 shadow-xl'
-          : 'bg-[#0B192C]/90 backdrop-blur-sm border-b border-white/5 py-4'
+          ? 'bg-[#0B192C]/95 backdrop-blur-md border-b border-white/10 shadow-xl'
+          : 'bg-[#0B192C]/90 backdrop-blur-sm border-b border-white/5'
       }`}
     >
-      <div className="max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between">
+      <div className={`max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2.5' : 'py-3.5'}`}>
         
         <div className="flex items-center gap-3 text-left">
           <a href="#home" className="flex items-center group">
@@ -82,16 +82,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
 
         {/* Right CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          {isAdmin && (
-            <Link
-              to="/admin/dashboard"
-              className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 hover:text-white hover:bg-white/10 border border-slate-700/60 transition flex items-center gap-1"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#FACC15]" />
-              <span>ADMIN</span>
-            </Link>
-          )}
-
           {participant ? (
             <button
               onClick={() => navigate('/profile')}
@@ -141,16 +131,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           </div>
 
           <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
-            {isAdmin && (
-              <Link
-                to="/admin/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl bg-slate-800 text-slate-300 font-mono text-xs font-bold text-center flex items-center justify-center gap-1.5"
-              >
-                <ShieldCheck className="w-4 h-4 text-[#FACC15]" /> ADMIN PORTAL
-              </Link>
-            )}
-
             {participant ? (
               <button
                 onClick={() => {

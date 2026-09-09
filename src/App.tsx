@@ -73,7 +73,7 @@ export function App() {
       <CustomCursor />
       <Navbar onRegisterClick={handleRegisterClick} />
 
-      <main className="w-full pt-20 sm:pt-24">
+      <main className="w-full pt-24 sm:pt-28">
         <Hero
           onRegisterClick={handleRegisterClick}
           onExploreChallenges={handleExploreTracks}
