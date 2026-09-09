@@ -17,11 +17,12 @@ import {
   AlertCircle,
   ArrowRight,
   KeyRound,
-  PlusCircle
+  PlusCircle,
+  Lock
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
-import type { Team } from '../../types/admin';
+import type { Team, SubmissionFile } from '../../types/admin';
 
 export const ParticipantDashboard: React.FC = () => {
   const { participant, logoutParticipant } = useAuth();
@@ -38,6 +39,13 @@ export const ParticipantDashboard: React.FC = () => {
     t.members?.some(m => m.email?.toLowerCase() === participant?.email?.toLowerCase())
   );
 
+  // Check if logged-in user is the Team Leader
+  const isTeamLeader = Boolean(
+    participant?.email &&
+    userTeam?.leader?.email &&
+    participant.email.toLowerCase() === userTeam.leader.email.toLowerCase()
+  );
+
   // Join Team State for unregistered users
   const [joinCodeInput, setJoinCodeInput] = useState('');
   const [joinError, setJoinError] = useState('');
@@ -49,6 +57,7 @@ export const ParticipantDashboard: React.FC = () => {
   const [githubUrl, setGithubUrl] = useState('');
   const [demoUrl, setDemoUrl] = useState('');
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleLogout = () => {
     logoutParticipant();
@@ -92,20 +101,25 @@ export const ParticipantDashboard: React.FC = () => {
   const handleUploadSubmission = (e: React.FormEvent) => {
     e.preventDefault();
     if (!userTeam) return;
+    if (!isTeamLeader) {
+      alert('Only the Team Leader is authorized to submit or update the project submission.');
+      return;
+    }
 
     setUploadProgress(10);
 
-    const interval = setInterval(() => {
-      setUploadProgress(prev => {
-        if (prev === null || prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 30;
-      });
-    }, 300);
+    const processAndSubmit = (fileObj?: SubmissionFile) => {
+      const submissionFiles: SubmissionFile[] = fileObj ? [fileObj] : [];
+      if (!fileObj && selectedFile) {
+        submissionFiles.push({
+          id: `FILE-${Date.now()}-1`,
+          filename: selectedFile.name,
+          fileType: selectedFile.type || 'application/octet-stream',
+          fileSize: selectedFile.size,
+          uploadDate: new Date().toISOString()
+        });
+      }
 
-    setTimeout(() => {
       apiService.submitProject(userTeam.teamId, {
         projectTitle,
         description,
@@ -113,22 +127,36 @@ export const ParticipantDashboard: React.FC = () => {
         trackTitle: userTeam.trackTitle,
         githubUrl,
         demoUrl,
-        files: [
-          {
-            id: `FILE-${Date.now()}-1`,
-            filename: `${projectTitle.replace(/\s+/g, '_')}_Executive_Deck.pptx`,
-            fileType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            fileSize: 6400000,
-            uploadDate: new Date().toISOString()
-          }
-        ]
+        files: submissionFiles
       });
 
       setTeams(apiService.getTeams());
-      setUploadProgress(null);
-      setIsSubmitModalOpen(false);
-      alert('🎉 Project submission uploaded successfully!');
-    }, 1500);
+      setUploadProgress(100);
+      setTimeout(() => {
+        setUploadProgress(null);
+        setIsSubmitModalOpen(false);
+        alert('🎉 Project submission uploaded successfully!');
+      }, 500);
+    };
+
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        const newFile: SubmissionFile = {
+          id: `FILE-${Date.now()}-1`,
+          filename: selectedFile.name,
+          fileType: selectedFile.type || 'application/octet-stream',
+          fileSize: selectedFile.size,
+          uploadDate: new Date().toISOString(),
+          url: dataUrl
+        };
+        processAndSubmit(newFile);
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      processAndSubmit();
+    }
   };
 
   return (
@@ -370,19 +398,38 @@ export const ParticipantDashboard: React.FC = () => {
                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center space-y-3 shrink-0 shadow-sm">
                   <div className="text-[10px] font-mono font-bold text-slate-500 uppercase">SUBMISSION STATUS</div>
                   {userTeam.submission ? (
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <div className="text-xs font-mono font-bold text-emerald-700 flex items-center justify-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600" /> SUBMITTED
                       </div>
                       <div className="text-[10px] text-slate-600 font-bold truncate max-w-[200px]">{userTeam.submission.projectTitle}</div>
+                      {isTeamLeader && (
+                        <button
+                          onClick={() => {
+                            setProjectTitle(userTeam.submission?.projectTitle || '');
+                            setDescription(userTeam.submission?.description || '');
+                            setGithubUrl(userTeam.submission?.githubUrl || '');
+                            setDemoUrl(userTeam.submission?.demoUrl || '');
+                            setIsSubmitModalOpen(true);
+                          }}
+                          className="text-[10px] font-mono text-[#1D4ED8] hover:underline font-bold"
+                        >
+                          ✎ Edit / Resubmit Project
+                        </button>
+                      )}
                     </div>
-                  ) : (
+                  ) : isTeamLeader ? (
                     <button
                       onClick={() => setIsSubmitModalOpen(true)}
                       className="px-5 py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-2 shadow-md shadow-blue-600/20 transition"
                     >
                       <Upload className="w-4 h-4 text-yellow-300" /> UPLOAD PROJECT SUBMISSION
                     </button>
+                  ) : (
+                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-mono flex items-center justify-center gap-1.5 max-w-[240px] text-left">
+                      <Lock className="w-4 h-4 shrink-0 text-amber-600" />
+                      <span>Only Team Leader ({userTeam.leader.fullName}) can submit the project.</span>
+                    </div>
                   )}
                 </div>
 
@@ -525,8 +572,9 @@ export const ParticipantDashboard: React.FC = () => {
                 </label>
                 <input
                   type="file"
-                  required
-                  accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4"
+                  required={!userTeam.submission}
+                  accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.zip"
+                  onChange={(e) => e.target.files?.[0] && setSelectedFile(e.target.files[0])}
                   className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 text-xs file:mr-4 file:py-1.5 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:bg-[#1D4ED8] file:text-white file:font-bold"
                 />
               </div>

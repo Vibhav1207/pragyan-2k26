@@ -53,7 +53,7 @@ export const AdminLogin: React.FC = () => {
           loginAdmin(parsed.email, 'google-admin-token', parsed.name);
           navigate('/admin/dashboard');
         } else {
-          setError(`Access Denied: Account (${gUser.email}) does not have ADMIN role in MongoDB database. Please set role: "ADMIN" for this user in MongoDB.`);
+          setError(`Access Denied: No Admin Access.`);
         }
       }
     } catch (err: any) {

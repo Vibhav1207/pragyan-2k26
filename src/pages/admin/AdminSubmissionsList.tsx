@@ -4,10 +4,13 @@ import {
   Search, 
   ExternalLink, 
   Code2, 
-  Eye
+  Eye,
+  Download,
+  FileText
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
+import { triggerFileDownload } from '../../utils/downloadHelper';
 import type { Submission, SubmissionStatus } from '../../types/admin';
 
 export const AdminSubmissionsList: React.FC = () => {
@@ -163,8 +166,8 @@ export const AdminSubmissionsList: React.FC = () => {
 
       {/* EVALUATION MODAL */}
       {activeSubmissionModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 max-w-2xl w-full space-y-5 text-left shadow-2xl">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 max-w-2xl w-full space-y-5 text-left shadow-2xl my-8">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h3 className="font-space font-extrabold text-lg text-[#0B192C] uppercase">
@@ -172,14 +175,14 @@ export const AdminSubmissionsList: React.FC = () => {
                 </h3>
                 <p className="text-xs text-slate-500">{activeSubmissionModal.teamName} ({activeSubmissionModal.teamId})</p>
               </div>
-              <button onClick={() => setActiveSubmissionModal(null)} className="text-slate-400 font-mono font-bold text-xs">
+              <button onClick={() => setActiveSubmissionModal(null)} className="text-slate-400 font-mono font-bold text-xs hover:text-[#0B192C]">
                 ✕ CLOSE
               </button>
             </div>
 
             <div className="space-y-3">
               <div>
-                <div className="text-[10px] font-mono text-slate-400 uppercase">PROJECT TITLE</div>
+                <div className="text-[10px] font-mono text-slate-400 uppercase font-bold">PROJECT TITLE</div>
                 <h4 className="font-space font-bold text-lg text-[#0B192C]">{activeSubmissionModal.projectTitle}</h4>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed font-sans bg-slate-50 p-3 rounded-xl border border-slate-200">
@@ -187,7 +190,71 @@ export const AdminSubmissionsList: React.FC = () => {
               </p>
             </div>
 
-            <div className="space-y-2">
+            {/* SUBMITTED ARTIFACTS & FILES SECTION */}
+            <div className="space-y-2 border-t border-slate-100 pt-3">
+              <div className="text-[10px] font-mono text-slate-500 uppercase font-bold flex items-center justify-between">
+                <span>SUBMITTED ARTIFACTS & FILES</span>
+                <span className="text-slate-400">{activeSubmissionModal.files?.length || 0} Files</span>
+              </div>
+
+              {/* Links */}
+              {(activeSubmissionModal.githubUrl || activeSubmissionModal.demoUrl) && (
+                <div className="flex items-center gap-2 flex-wrap pb-1">
+                  {activeSubmissionModal.githubUrl && (
+                    <a
+                      href={activeSubmissionModal.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-[#1D4ED8] hover:underline text-xs font-mono font-bold flex items-center gap-1.5"
+                    >
+                      <Code2 className="w-3.5 h-3.5" /> Repository Code ↗
+                    </a>
+                  )}
+                  {activeSubmissionModal.demoUrl && (
+                    <a
+                      href={activeSubmissionModal.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 hover:underline text-xs font-mono font-bold flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" /> Live Demo ↗
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* Files List */}
+              {activeSubmissionModal.files && activeSubmissionModal.files.length > 0 ? (
+                <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                  {activeSubmissionModal.files.map((file) => (
+                    <div key={file.id} className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3 text-xs">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FileText className="w-4 h-4 text-[#1D4ED8] shrink-0" />
+                        <div className="truncate">
+                          <div className="font-mono font-bold text-[#0B192C] truncate">{file.filename}</div>
+                          <div className="text-[10px] text-slate-400 font-mono">
+                            {(file.fileSize / (1024 * 1024)).toFixed(2)} MB • {file.uploadDate ? new Date(file.uploadDate).toLocaleDateString() : 'Uploaded'}
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => triggerFileDownload(file)}
+                        className="px-3 py-1.5 rounded-lg bg-[#1D4ED8] hover:bg-blue-700 text-white font-mono text-[11px] font-bold flex items-center gap-1 shrink-0 shadow-sm transition"
+                      >
+                        <Download className="w-3.5 h-3.5" /> DOWNLOAD FILE
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono text-slate-400 text-center">
+                  No binary file attachments uploaded for this submission.
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2 border-t border-slate-100 pt-3">
               <div className="text-[10px] font-mono text-slate-500 uppercase font-bold">CHANGE SUBMISSION STATUS</div>
               <div className="flex items-center gap-2 flex-wrap">
                 {(['SUBMITTED', 'UNDER_REVIEW', 'REVIEWED', 'SHORTLISTED', 'DISQUALIFIED'] as SubmissionStatus[]).map(st => (

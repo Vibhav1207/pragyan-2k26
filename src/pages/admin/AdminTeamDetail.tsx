@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
+import { triggerFileDownload } from '../../utils/downloadHelper';
 
 export const AdminTeamDetail: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
@@ -252,7 +253,7 @@ export const AdminTeamDetail: React.FC = () => {
                         <div className="text-[10px] text-slate-500 font-mono">{(file.fileSize / (1024 * 1024)).toFixed(2)} MB</div>
                       </div>
                       <button
-                        onClick={() => alert(`Downloading File: ${file.filename}`)}
+                        onClick={() => triggerFileDownload(file)}
                         className="p-2 rounded-lg bg-[#1D4ED8] hover:bg-blue-600 text-white transition shrink-0"
                         title="Download File"
                       >

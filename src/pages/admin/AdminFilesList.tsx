@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
+import { triggerFileDownload } from '../../utils/downloadHelper';
 
 export const AdminFilesList: React.FC = () => {
   const [files, setFiles] = useState(() => apiService.getFiles());
@@ -155,7 +156,7 @@ export const AdminFilesList: React.FC = () => {
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
-                          onClick={() => alert(`Downloading file: ${file.filename}`)}
+                          onClick={() => triggerFileDownload(file)}
                           className="p-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition"
                           title="Download File"
                         >

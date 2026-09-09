@@ -241,17 +241,20 @@ app.post('/api/auth/participant/google', async (req, res) => {
     const cleanEmail = String(email).toLowerCase();
 
     let user = await User.findOne({ email: cleanEmail });
+    const adminAccount = await Admin.findOne({ email: cleanEmail });
+
     if (user) {
       user.name = name || user.name;
       user.avatar = avatar || user.avatar;
       if (gId && !user.googleId) user.googleId = gId;
+      if (adminAccount) user.role = 'ADMIN';
     } else {
       user = new User({
         googleId: gId,
         email: cleanEmail,
         name: name || 'Participant User',
         avatar: avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-        role: 'PARTICIPANT'
+        role: adminAccount ? 'ADMIN' : 'PARTICIPANT'
       });
     }
 
