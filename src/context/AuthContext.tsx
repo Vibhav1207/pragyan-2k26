@@ -83,6 +83,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       if (res.ok) {
         const data = await res.json();
+        if (data.token) {
+          user.token = data.token;
+          localStorage.setItem('pragyan_participant_token', data.token);
+        }
         if (data.user) {
           if (data.user.teamId) {
             user.teamId = data.user.teamId;

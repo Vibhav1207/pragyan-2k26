@@ -30,8 +30,62 @@ const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'pragyan-2k26-admin-super-secret-key-2026';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pragyan2k26';
 
-app.use(cors());
-app.use(express.json());
+// 1. Security Headers Middleware
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  next();
+});
+
+// 2. CORS Allowlist
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
+  : ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+app.use(express.json({ limit: '10mb' }));
+
+// 3. In-Memory Rate Limiters
+function createRateLimiter(windowMs, maxRequests, message) {
+  const requests = new Map();
+  return (req, res, next) => {
+    const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const windowStart = now - windowMs;
+
+    let userRequests = requests.get(ip) || [];
+    userRequests = userRequests.filter(timestamp => timestamp > windowStart);
+
+    if (userRequests.length >= maxRequests) {
+      return res.status(429).json({ error: message });
+    }
+
+    userRequests.push(now);
+    requests.set(ip, userRequests);
+    next();
+  };
+}
+
+const authLimiter = createRateLimiter(15 * 60 * 1000, 10, 'Too many login attempts. Please try again later.');
+const apiLimiter = createRateLimiter(15 * 60 * 1000, 300, 'Rate limit exceeded. Please slow down.');
+const submissionLimiter = createRateLimiter(15 * 60 * 1000, 15, 'Too many submission requests. Please try again later.');
+
+app.use('/api/', apiLimiter);
 
 let dbConnected = false;
 let dbPromise = null;
@@ -127,7 +181,7 @@ async function seedDatabaseIfNeeded() {
         registrationFee: 0,
         submissionOpen: true,
         submissionDeadline: '2026-04-10T18:00:00Z',
-        allowedFileTypes: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'mp4'],
+        allowedFileTypes: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'mp4', 'png', 'jpg', 'jpeg'],
         maxFileSizeMb: 50,
         maintenanceMode: false,
         homepageVisibility: true,
@@ -194,66 +248,108 @@ async function seedDatabaseIfNeeded() {
   }
 }
 
-// Authentication Middleware
+// Authentication Middlewares
 const authenticateAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: 'Unauthorized: Admin token required' });
   }
   try {
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET);
-    if (decoded.role !== 'ADMIN') return res.status(403).json({ error: 'Forbidden' });
+    if (decoded.role !== 'ADMIN') return res.status(403).json({ error: 'Forbidden: Admin privileges required' });
     req.admin = decoded;
     next();
   } catch {
-    return res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: 'Invalid or expired admin token' });
   }
 };
+
+const authenticateParticipant = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized: Login required' });
+  }
+  try {
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch {
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
+};
+
+// Input Sanitization Helper
+function sanitizeString(str) {
+  if (typeof str !== 'string') return '';
+  return str.trim();
+}
 
 // --- REST API ENDPOINTS ---
 
 // Health & Status
-app.get('/api/health', async (req, res) => {
-  await ensureDbConnected();
-  res.json({ status: 'ok', dbConnected: mongoose.connection.readyState === 1, timestamp: new Date().toISOString() });
+app.get('/api/health', async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    res.json({ status: 'ok', dbConnected: mongoose.connection.readyState === 1, timestamp: new Date().toISOString() });
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Admin Login
-app.post('/api/auth/admin/login', async (req, res) => {
-  const { email, password } = req.body || {};
-  if (email && email.toLowerCase() === 'admin@sanjivani.edu.in' && password === 'admin123') {
-    const token = jwt.sign({ email, name: 'PRAGYAN Super Admin', role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
-    return res.json({ token, admin: { email, name: 'PRAGYAN Super Admin', role: 'ADMIN' } });
+// Admin Login with bcrypt password hash check
+app.post('/api/auth/admin/login', authLimiter, async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const { email, password } = req.body || {};
+    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const cleanEmail = sanitizeString(email).toLowerCase();
+    const admin = await Admin.findOne({ email: cleanEmail });
+    if (!admin) {
+      return res.status(401).json({ error: 'Invalid admin credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid admin credentials' });
+    }
+
+    const token = jwt.sign({ id: admin._id, email: admin.email, name: admin.name, role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
+    return res.json({ token, admin: { id: admin._id, email: admin.email, name: admin.name, role: 'ADMIN' } });
+  } catch (err) {
+    next(err);
   }
-  return res.status(401).json({ error: 'Invalid admin credentials' });
 });
 
 // Participant Google Login - Stores Google user in MongoDB & retrieves team status
-app.post('/api/auth/participant/google', async (req, res) => {
+app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const { email, name, avatar, googleId, uid } = req.body || {};
-    if (!email) {
-      return res.status(400).json({ error: 'Email is required' });
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ error: 'Valid email is required' });
     }
-    const gId = googleId || uid || `google-${Date.now()}`;
-    const cleanEmail = String(email).toLowerCase();
+    const gId = sanitizeString(googleId || uid) || `google-${Date.now()}`;
+    const cleanEmail = sanitizeString(email).toLowerCase();
 
     let user = await User.findOne({ email: cleanEmail });
     const adminAccount = await Admin.findOne({ email: cleanEmail });
 
     if (user) {
-      user.name = name || user.name;
-      user.avatar = avatar || user.avatar;
+      if (name && typeof name === 'string') user.name = sanitizeString(name);
+      if (avatar && typeof avatar === 'string') user.avatar = sanitizeString(avatar);
       if (gId && !user.googleId) user.googleId = gId;
       if (adminAccount) user.role = 'ADMIN';
     } else {
       user = new User({
         googleId: gId,
         email: cleanEmail,
-        name: name || 'Participant User',
-        avatar: avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+        name: sanitizeString(name) || 'Participant User',
+        avatar: sanitizeString(avatar) || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
         role: adminAccount ? 'ADMIN' : 'PARTICIPANT'
       });
     }
@@ -276,46 +372,46 @@ app.post('/api/auth/participant/google', async (req, res) => {
     console.log(`✅ Saved/Updated Google user in MongoDB: ${user.email} (TeamId: ${user.teamId || 'None'})`);
 
     const userObj = user.toObject();
-    const token = jwt.sign({ userId: userObj._id, email: cleanEmail, name, role: 'PARTICIPANT' }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ userId: userObj._id, email: cleanEmail, name: userObj.name, role: userObj.role }, JWT_SECRET, { expiresIn: '7d' });
     return res.json({ token, user: userObj });
   } catch (err) {
-    console.error('❌ Error saving Google user to MongoDB:', err);
-    return res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
 // Update User Team Link in MongoDB
-app.put('/api/users/team', async (req, res) => {
+app.put('/api/users/team', authenticateParticipant, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const { email, teamId } = req.body || {};
-    if (!email || !teamId) {
-      return res.status(400).json({ error: 'Email and teamId are required.' });
+    if (!email || !teamId || typeof email !== 'string' || typeof teamId !== 'string') {
+      return res.status(400).json({ error: 'Valid email and teamId are required.' });
     }
-    const cleanEmail = String(email).toLowerCase();
+    const cleanEmail = sanitizeString(email).toLowerCase();
+    const cleanTeamId = sanitizeString(teamId);
+
     const user = await User.findOneAndUpdate(
       { email: cleanEmail },
       { 
-        $set: { teamId },
+        $set: { teamId: cleanTeamId },
         $setOnInsert: { name: 'Participant User', role: 'PARTICIPANT' }
       },
       { returnDocument: 'after', upsert: true }
     );
     res.json({ success: true, user });
   } catch (err) {
-    console.error('Error in PUT /api/users/team:', err);
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// GET all registered users from MongoDB
-app.get('/api/users', async (req, res) => {
+// GET all registered users from MongoDB (Admin only)
+app.get('/api/users', authenticateAdmin, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const users = await User.find().sort({ createdAt: -1 });
     res.json(users);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
@@ -330,28 +426,29 @@ function generateTeamCode() {
 }
 
 // Teams REST API
-app.get('/api/teams', async (req, res) => {
+app.get('/api/teams', async (req, res, next) => {
   try {
     await ensureDbConnected();
     const teams = await Team.find().sort({ registrationDate: -1 });
     res.json(teams);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.get('/api/teams/code/:code', async (req, res) => {
+app.get('/api/teams/code/:code', async (req, res, next) => {
   try {
     await ensureDbConnected();
-    const team = await Team.findOne({ teamCode: req.params.code.toUpperCase() });
-    if (!team) return res.status(404).json({ error: 'Team not found with code: ' + req.params.code });
+    const codeStr = sanitizeString(req.params.code).toUpperCase();
+    const team = await Team.findOne({ teamCode: codeStr });
+    if (!team) return res.status(404).json({ error: 'Team not found with code: ' + codeStr });
     res.json(team);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.post('/api/teams', async (req, res) => {
+app.post('/api/teams', submissionLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const { teamName, trackId, trackTitle, college, leader, members } = req.body || {};
@@ -360,37 +457,41 @@ app.post('/api/teams', async (req, res) => {
       return res.status(400).json({ error: 'Team Name, Track, College, Leader Name and Email are required.' });
     }
 
-    const leaderEmail = String(leader.email).toLowerCase();
+    const cleanTeamName = sanitizeString(teamName);
+    const cleanTrackId = sanitizeString(trackId);
+    const cleanCollege = sanitizeString(college);
+    const leaderEmail = sanitizeString(leader.email).toLowerCase();
+    const leaderName = sanitizeString(leader.fullName);
 
     // Sanitize member entries
     const validMembers = Array.isArray(members)
       ? members.filter(m => m && m.fullName && m.email).map(m => ({
-          fullName: m.fullName,
-          email: String(m.email).toLowerCase(),
-          phone: m.phone || leader.phone || '',
-          college: m.college || college || '',
-          course: m.course || leader.course || 'B.Tech / B.E.',
-          year: m.year || leader.year || '2nd Year',
+          fullName: sanitizeString(m.fullName),
+          email: sanitizeString(m.email).toLowerCase(),
+          phone: sanitizeString(m.phone || leader.phone || ''),
+          college: sanitizeString(m.college || college || ''),
+          course: sanitizeString(m.course || leader.course || 'B.Tech / B.E.'),
+          year: sanitizeString(m.year || leader.year || '2nd Year'),
           isLeader: Boolean(m.isLeader)
         }))
       : [{
-          fullName: leader.fullName,
+          fullName: leaderName,
           email: leaderEmail,
-          phone: leader.phone || '',
-          college: college,
-          course: leader.course || 'B.Tech / B.E.',
-          year: leader.year || '2nd Year',
+          phone: sanitizeString(leader.phone || ''),
+          college: cleanCollege,
+          course: sanitizeString(leader.course || 'B.Tech / B.E.'),
+          year: sanitizeString(leader.year || '2nd Year'),
           isLeader: true
         }];
 
     if (!validMembers.some(m => m.email.toLowerCase() === leaderEmail)) {
       validMembers.unshift({
-        fullName: leader.fullName,
+        fullName: leaderName,
         email: leaderEmail,
-        phone: leader.phone || '',
-        college: college,
-        course: leader.course || 'B.Tech / B.E.',
-        year: leader.year || '2nd Year',
+        phone: sanitizeString(leader.phone || ''),
+        college: cleanCollege,
+        course: sanitizeString(leader.course || 'B.Tech / B.E.'),
+        year: sanitizeString(leader.year || '2nd Year'),
         isLeader: true
       });
     }
@@ -415,17 +516,17 @@ app.post('/api/teams', async (req, res) => {
     const newTeam = await Team.create({
       teamId,
       teamCode,
-      teamName,
-      trackId,
-      trackTitle: trackTitle || 'FINTECH & FINANCIAL INNOVATION',
-      college,
+      teamName: cleanTeamName,
+      trackId: cleanTrackId,
+      trackTitle: sanitizeString(trackTitle) || 'FINTECH & FINANCIAL INNOVATION',
+      college: cleanCollege,
       leader: {
-        fullName: leader.fullName,
+        fullName: leaderName,
         email: leaderEmail,
-        phone: leader.phone || '',
-        college: college,
-        course: leader.course || 'B.Tech / B.E.',
-        year: leader.year || '2nd Year',
+        phone: sanitizeString(leader.phone || ''),
+        college: cleanCollege,
+        course: sanitizeString(leader.course || 'B.Tech / B.E.'),
+        year: sanitizeString(leader.year || '2nd Year'),
         isLeader: true
       },
       members: validMembers,
@@ -438,7 +539,7 @@ app.post('/api/teams', async (req, res) => {
       { email: leaderEmail },
       { 
         $set: { teamId },
-        $setOnInsert: { name: leader.fullName || 'Participant User', role: 'PARTICIPANT' }
+        $setOnInsert: { name: leaderName || 'Participant User', role: 'PARTICIPANT' }
       },
       { returnDocument: 'after', upsert: true }
     );
@@ -459,12 +560,11 @@ app.post('/api/teams', async (req, res) => {
     console.log(`✅ Created Team ${teamId} in MongoDB for leader ${leaderEmail}`);
     res.status(201).json(newTeam);
   } catch (err) {
-    console.error('❌ Error creating team in MongoDB:', err);
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.post('/api/teams/join', async (req, res) => {
+app.post('/api/teams/join', submissionLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const { teamCode, member } = req.body || {};
@@ -472,28 +572,29 @@ app.post('/api/teams/join', async (req, res) => {
       return res.status(400).json({ error: 'Team Code and Member details are required.' });
     }
 
-    const team = await Team.findOne({ teamCode: String(teamCode).toUpperCase() });
+    const cleanCode = sanitizeString(teamCode).toUpperCase();
+    const team = await Team.findOne({ teamCode: cleanCode });
     if (!team) {
-      return res.status(404).json({ error: 'Invalid Team Code. No registered team found with code: ' + teamCode });
+      return res.status(404).json({ error: 'Invalid Team Code. No registered team found with code: ' + cleanCode });
     }
 
     if (team.members && team.members.length >= 4) {
       return res.status(400).json({ error: 'This team is already full! Maximum 4 members allowed per team.' });
     }
 
-    const memberEmail = String(member.email).toLowerCase();
+    const memberEmail = sanitizeString(member.email).toLowerCase();
     const emailExists = team.members.some(m => m.email.toLowerCase() === memberEmail);
     if (emailExists) {
       return res.status(400).json({ error: 'Member with email ' + member.email + ' is already registered in this team.' });
     }
 
     const sanitizedMember = {
-      fullName: member.fullName || 'Team Member',
+      fullName: sanitizeString(member.fullName) || 'Team Member',
       email: memberEmail,
-      phone: member.phone || '',
-      college: member.college || team.college || '',
-      course: member.course || 'B.Tech / B.E.',
-      year: member.year || '2nd Year',
+      phone: sanitizeString(member.phone || ''),
+      college: sanitizeString(member.college || team.college || ''),
+      course: sanitizeString(member.course || 'B.Tech / B.E.'),
+      year: sanitizeString(member.year || '2nd Year'),
       isLeader: false
     };
 
@@ -513,16 +614,23 @@ app.post('/api/teams/join', async (req, res) => {
     console.log(`✅ Member ${memberEmail} joined Team ${team.teamId} in MongoDB`);
     res.json(team);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.put('/api/teams/:teamId/status', async (req, res) => {
+// Admin update team status
+app.put('/api/teams/:teamId/status', authenticateAdmin, async (req, res, next) => {
   try {
     const { status, notes, paymentStatus } = req.body || {};
-    const updates: any = { status, rejectionReason: notes, changeRequestNotes: notes };
+    const updates = {};
+
+    if (status) updates.status = sanitizeString(status);
+    if (notes) {
+      updates.rejectionReason = sanitizeString(notes);
+      updates.changeRequestNotes = sanitizeString(notes);
+    }
     if (paymentStatus) {
-      updates.paymentStatus = paymentStatus;
+      updates.paymentStatus = sanitizeString(paymentStatus);
     } else if (status === 'APPROVED') {
       updates.paymentStatus = 'PAID';
     } else if (status === 'REJECTED') {
@@ -530,183 +638,243 @@ app.put('/api/teams/:teamId/status', async (req, res) => {
     }
 
     const team = await Team.findOneAndUpdate(
-      { teamId: req.params.teamId },
+      { teamId: sanitizeString(req.params.teamId) },
       updates,
       { returnDocument: 'after' }
     );
     res.json(team);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.put('/api/teams/:teamId/payment', async (req, res) => {
+// Participant payment submission
+app.put('/api/teams/:teamId/payment', authenticateParticipant, submissionLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
+    const cleanTeamId = sanitizeString(req.params.teamId);
     const { utr, screenshot, amount } = req.body || {};
-    const team = await Team.findOneAndUpdate(
-      { teamId: req.params.teamId },
-      {
-        paymentStatus: 'UNDER_REVIEW',
-        paymentUtr: utr,
-        paymentScreenshot: screenshot,
-        paymentAmount: amount || 500,
-        paymentDate: new Date()
-      },
-      { returnDocument: 'after' }
-    );
-    console.log(`💳 Payment submitted for Team ${req.params.teamId}: UTR ${utr}`);
+
+    const team = await Team.findOne({ teamId: cleanTeamId });
+    if (!team) return res.status(404).json({ error: 'Team not found' });
+
+    // Ensure participant belongs to team
+    const userEmail = req.user.email.toLowerCase();
+    const isMember = team.leader.email.toLowerCase() === userEmail || team.members.some(m => m.email.toLowerCase() === userEmail);
+    if (!isMember && req.user.role !== 'ADMIN') {
+      return res.status(403).json({ error: 'Forbidden: You are not a member of this team' });
+    }
+
+    team.paymentStatus = 'UNDER_REVIEW';
+    team.paymentUtr = sanitizeString(utr);
+    team.paymentScreenshot = typeof screenshot === 'string' ? screenshot : '';
+    team.paymentAmount = Number(amount) || 500;
+    team.paymentDate = new Date();
+
+    await team.save();
+    console.log(`💳 Payment submitted for Team ${cleanTeamId}: UTR ${utr}`);
     res.json(team);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.put('/api/teams/:teamId/submission', async (req, res) => {
+// Participant project submission (Only Leader)
+app.put('/api/teams/:teamId/submission', authenticateParticipant, submissionLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
-    const team = await Team.findOneAndUpdate(
-      { teamId: req.params.teamId },
-      { submission: req.body },
-      { returnDocument: 'after' }
-    );
+    const cleanTeamId = sanitizeString(req.params.teamId);
+    const team = await Team.findOne({ teamId: cleanTeamId });
+    if (!team) return res.status(404).json({ error: 'Team not found' });
+
+    // Validate only team leader can submit
+    const userEmail = req.user.email.toLowerCase();
+    if (team.leader.email.toLowerCase() !== userEmail && req.user.role !== 'ADMIN') {
+      return res.status(403).json({ error: 'Only the Team Leader is authorized to submit team documents.' });
+    }
+
+    // Validate team has 4 members
+    if (team.members.length < 4 && req.user.role !== 'ADMIN') {
+      return res.status(400).json({ error: 'Submission requires a full 4-member team.' });
+    }
+
+    // Validate file extensions in submission payload if files present
+    const submissionData = req.body || {};
+    if (Array.isArray(submissionData.files)) {
+      const allowedExts = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'mp4', 'png', 'jpg', 'jpeg'];
+      for (const file of submissionData.files) {
+        if (file.fileName) {
+          const ext = file.fileName.split('.').pop().toLowerCase();
+          if (!allowedExts.includes(ext)) {
+            return res.status(400).json({ error: `File type .${ext} is not allowed.` });
+          }
+        }
+      }
+    }
+
+    team.submission = submissionData;
+    await team.save();
     res.json(team);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.delete('/api/teams/:teamId', async (req, res) => {
+// Delete team (Admin only)
+app.delete('/api/teams/:teamId', authenticateAdmin, async (req, res, next) => {
   try {
-    await Team.findOneAndDelete({ teamId: req.params.teamId });
+    await ensureDbConnected();
+    await Team.findOneAndDelete({ teamId: sanitizeString(req.params.teamId) });
     res.json({ success: true });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
 // Tracks REST API
-app.get('/api/tracks', async (req, res) => {
+app.get('/api/tracks', async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const tracks = await Track.find().sort({ order: 1 });
     res.json(tracks);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.post('/api/tracks', async (req, res) => {
+app.post('/api/tracks', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const count = await Track.countDocuments();
     const trackId = `TRK-0${count + 1}`;
     const newTrack = await Track.create({ ...req.body, trackId });
     res.status(201).json(newTrack);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.put('/api/tracks/:id', async (req, res) => {
+app.put('/api/tracks/:id', authenticateAdmin, async (req, res, next) => {
   try {
-    const updated = await Track.findOneAndUpdate({ trackId: req.params.id }, req.body, { returnDocument: 'after' });
+    await ensureDbConnected();
+    const updated = await Track.findOneAndUpdate({ trackId: sanitizeString(req.params.id) }, req.body, { returnDocument: 'after' });
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.delete('/api/tracks/:id', async (req, res) => {
+app.delete('/api/tracks/:id', authenticateAdmin, async (req, res, next) => {
   try {
-    await Track.findOneAndDelete({ trackId: req.params.id });
+    await ensureDbConnected();
+    await Track.findOneAndDelete({ trackId: sanitizeString(req.params.id) });
     res.json({ success: true });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
 // Announcements REST API
-app.get('/api/announcements', async (req, res) => {
+app.get('/api/announcements', async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const announcements = await Announcement.find().sort({ createdAt: -1 });
     res.json(announcements);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.post('/api/announcements', async (req, res) => {
+app.post('/api/announcements', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const newAnn = await Announcement.create(req.body);
     res.status(201).json(newAnn);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
-app.delete('/api/announcements/:id', async (req, res) => {
+app.delete('/api/announcements/:id', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     await Announcement.findByIdAndDelete(req.params.id);
     res.json({ success: true });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
 // Homepage CMS API
-app.get('/api/homepage', async (req, res) => {
+app.get('/api/homepage', async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const cms = await HomepageCMSContent.findOne();
     res.json(cms || {});
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.put('/api/homepage', async (req, res) => {
+app.put('/api/homepage', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const updated = await HomepageCMSContent.findOneAndUpdate({}, req.body, { upsert: true, returnDocument: 'after' });
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
 // System Settings API
-app.get('/api/settings', async (req, res) => {
+app.get('/api/settings', async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const settings = await SystemSettings.findOne();
     res.json(settings || {});
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.put('/api/settings', async (req, res) => {
+app.put('/api/settings', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const updated = await SystemSettings.findOneAndUpdate({}, req.body, { upsert: true, returnDocument: 'after' });
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
 });
 
 // Activity Logs API
-app.get('/api/activity', async (req, res) => {
+app.get('/api/activity', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const logs = await ActivityLog.find().sort({ timestamp: -1 }).limit(100);
     res.json(logs);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-app.post('/api/activity', async (req, res) => {
+app.post('/api/activity', authenticateAdmin, async (req, res, next) => {
   try {
+    await ensureDbConnected();
     const log = await ActivityLog.create(req.body);
     res.status(201).json(log);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(err);
   }
+});
+
+// Production Error Handler Middleware
+app.use((err, req, res, next) => {
+  console.error('❌ Unhandled Server Error:', err);
+  const isProd = process.env.NODE_ENV === 'production';
+  res.status(err.status || 500).json({
+    error: isProd ? 'Internal Server Error' : (err.message || 'Server Error')
+  });
 });
 
 app.listen(PORT, () => {

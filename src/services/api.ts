@@ -38,6 +38,24 @@ function setStored<T>(key: string, value: T): void {
   }
 }
 
+function getAuthHeaders(extraHeaders: Record<string, string> = {}): Record<string, string> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...extraHeaders
+  };
+  try {
+    const adminToken = localStorage.getItem('pragyan_admin_token');
+    const participantToken = localStorage.getItem('pragyan_participant_token');
+    const token = adminToken || participantToken;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+  } catch {
+    // Ignore if localStorage is unavailable
+  }
+  return headers;
+}
+
 // Default initial tracks if none in storage
 const INITIAL_TRACKS: Track[] = [
   {
@@ -221,13 +239,13 @@ class PragyanAPIService {
     try {
       let res = await fetch('/api/teams', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(teamData)
       });
       if (!res.ok) {
         res = await fetch('http://localhost:5000/api/teams', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify(teamData)
         });
       }
@@ -277,13 +295,13 @@ class PragyanAPIService {
       const payload = { teamCode: targetCode, member: newMember };
       let res = await fetch('/api/teams/join', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(payload)
       });
       if (!res.ok) {
         await fetch('http://localhost:5000/api/teams/join', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify(payload)
         });
       }
@@ -314,13 +332,13 @@ class PragyanAPIService {
       const payload = { utr, screenshot, amount };
       let res = await fetch(`/api/teams/${teamId}/payment`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(payload)
       });
       if (!res.ok) {
         res = await fetch(`http://localhost:5000/api/teams/${teamId}/payment`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify(payload)
         });
       }
@@ -363,12 +381,12 @@ class PragyanAPIService {
     // Sync status change with backend
     fetch(`/api/teams/${teamId}/status`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ status, notes, paymentStatus: teams[index].paymentStatus })
     }).catch(() => {
       fetch(`http://localhost:5000/api/teams/${teamId}/status`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ status, notes, paymentStatus: teams[index].paymentStatus })
       }).catch(err => console.warn('Failed to sync team status to MongoDB:', err));
     });
@@ -419,6 +437,20 @@ class PragyanAPIService {
 
     teams[index].submission = newSub;
     setStored(STORAGE_KEYS.TEAMS, teams);
+
+    // Sync submission to backend
+    fetch(`/api/teams/${teamId}/submission`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(newSub)
+    }).catch(() => {
+      fetch(`http://localhost:5000/api/teams/${teamId}/submission`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(newSub)
+      }).catch(err => console.warn('Failed to sync submission to MongoDB:', err));
+    });
+
     this.logActivity('PROJECT_SUBMITTED', teamId, `Project submitted: ${newSub.projectTitle}`, 'SUCCESS');
     return newSub;
   }

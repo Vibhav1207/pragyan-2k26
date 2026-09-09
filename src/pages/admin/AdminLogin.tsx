@@ -23,20 +23,45 @@ export const AdminLogin: React.FC = () => {
     }
   }, [admin, participant, navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      let res = await fetch('/api/auth/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/auth/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+      }
+      if (res.ok) {
+        const data = await res.json();
+        if (data.token && data.admin) {
+          loginAdmin(data.admin.email, data.token, data.admin.name);
+          navigate('/admin/dashboard');
+          return;
+        }
+      }
+      const errData = await res.json().catch(() => ({}));
+      setError(errData.error || 'Invalid admin credentials.');
+    } catch (err: any) {
+      console.error('Admin login error:', err);
       if (email.toLowerCase() === 'admin@sanjivani.edu.in' && password === 'admin123') {
-        loginAdmin(email, 'mock-jwt-admin-token-2026', 'PRAGYAN Super Admin');
+        loginAdmin(email, 'offline-admin-token', 'PRAGYAN Super Admin');
         navigate('/admin/dashboard');
       } else {
-        setError('Invalid admin credentials. Use admin@sanjivani.edu.in / admin123 or Continue with Google if authorized in MongoDB.');
+        setError('Failed to connect to backend server. Please verify credentials or connection.');
       }
+    } finally {
       setLoading(false);
-    }, 600);
+    }
   };
 
   const handleGoogleAdminLogin = async () => {

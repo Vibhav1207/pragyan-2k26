@@ -162,4 +162,5 @@ export interface UserProfile {
   avatar?: string;
   role: Role;
   teamId?: string;
+  token?: string;
 }
