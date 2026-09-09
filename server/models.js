@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 const UserSchema = new mongoose.Schema({
   googleId: { type: String, sparse: true },
   email: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  avatar: { type: String },
+  name: { type: String, default: 'Participant User' },
+  avatar: { type: String, default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150' },
   role: { type: String, enum: ['PARTICIPANT', 'ADMIN'], default: 'PARTICIPANT' },
   teamId: { type: String },
   createdAt: { type: Date, default: Date.now }
@@ -21,10 +21,10 @@ const AdminSchema = new mongoose.Schema({
 const TeamMemberSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   email: { type: String, required: true },
-  phone: { type: String, required: true },
-  college: { type: String, required: true },
-  course: { type: String, required: true },
-  year: { type: String, required: true },
+  phone: { type: String, default: '' },
+  college: { type: String, default: '' },
+  course: { type: String, default: '' },
+  year: { type: String, default: '' },
   isLeader: { type: Boolean, default: false }
 });
 

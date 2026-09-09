@@ -34,17 +34,28 @@ app.use(cors());
 app.use(express.json());
 
 let dbConnected = false;
+let dbPromise = null;
 
-// Connect to MongoDB & Initialize Database Collections
-mongoose.connect(MONGODB_URI)
-  .then(async () => {
-    dbConnected = true;
-    console.log('✅ Connected to MongoDB Database:', MONGODB_URI);
-    await seedDatabaseIfNeeded();
-  })
-  .catch(err => {
-    console.warn('⚠️ MongoDB connection pending/offline:', err.message);
-  });
+// Serverless DB Connection Helper for Vercel & Node
+async function ensureDbConnected() {
+  if (mongoose.connection.readyState === 1) return;
+  if (!dbPromise) {
+    dbPromise = mongoose.connect(MONGODB_URI)
+      .then(async () => {
+        dbConnected = true;
+        console.log('✅ Connected to MongoDB Database:', MONGODB_URI);
+        await seedDatabaseIfNeeded();
+      })
+      .catch(err => {
+        dbPromise = null;
+        console.warn('⚠️ MongoDB connection error:', err.message);
+      });
+  }
+  await dbPromise;
+}
+
+// Trigger initial connection
+ensureDbConnected();
 
 // Seed Initial System Data into MongoDB if collections are empty
 async function seedDatabaseIfNeeded() {
@@ -203,14 +214,15 @@ const authenticateAdmin = (req, res, next) => {
 // --- REST API ENDPOINTS ---
 
 // Health & Status
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', dbConnected, timestamp: new Date().toISOString() });
+app.get('/api/health', async (req, res) => {
+  await ensureDbConnected();
+  res.json({ status: 'ok', dbConnected: mongoose.connection.readyState === 1, timestamp: new Date().toISOString() });
 });
 
 // Admin Login
 app.post('/api/auth/admin/login', async (req, res) => {
-  const { email, password } = req.body;
-  if (email.toLowerCase() === 'admin@sanjivani.edu.in' && password === 'admin123') {
+  const { email, password } = req.body || {};
+  if (email && email.toLowerCase() === 'admin@sanjivani.edu.in' && password === 'admin123') {
     const token = jwt.sign({ email, name: 'PRAGYAN Super Admin', role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
     return res.json({ token, admin: { email, name: 'PRAGYAN Super Admin', role: 'ADMIN' } });
   }
@@ -220,49 +232,47 @@ app.post('/api/auth/admin/login', async (req, res) => {
 // Participant Google Login - Stores Google user in MongoDB & retrieves team status
 app.post('/api/auth/participant/google', async (req, res) => {
   try {
-    const { email, name, avatar, googleId, uid } = req.body;
+    await ensureDbConnected();
+    const { email, name, avatar, googleId, uid } = req.body || {};
     if (!email) {
       return res.status(400).json({ error: 'Email is required' });
     }
     const gId = googleId || uid || `google-${Date.now()}`;
-    const cleanEmail = email.toLowerCase();
+    const cleanEmail = String(email).toLowerCase();
 
-    let user;
-    if (mongoose.connection.readyState === 1) {
-      user = await User.findOne({ email: cleanEmail });
-      if (user) {
-        user.name = name || user.name;
-        user.avatar = avatar || user.avatar;
-        if (gId && !user.googleId) user.googleId = gId;
-      } else {
-        user = new User({
-          googleId: gId,
-          email: cleanEmail,
-          name: name || 'Participant User',
-          avatar: avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-          role: 'PARTICIPANT'
-        });
-      }
-
-      // Check if user is linked to any team in MongoDB
-      if (!user.teamId) {
-        const existingTeam = await Team.findOne({
-          $or: [
-            { 'leader.email': cleanEmail },
-            { 'members.email': cleanEmail }
-          ]
-        });
-        if (existingTeam) {
-          user.teamId = existingTeam.teamId;
-          console.log(`🔗 Auto-linked existing team ${existingTeam.teamId} to user ${cleanEmail}`);
-        }
-      }
-
-      await user.save();
-      console.log(`✅ Saved/Updated Google user in MongoDB: ${user.email} (TeamId: ${user.teamId || 'None'})`);
+    let user = await User.findOne({ email: cleanEmail });
+    if (user) {
+      user.name = name || user.name;
+      user.avatar = avatar || user.avatar;
+      if (gId && !user.googleId) user.googleId = gId;
+    } else {
+      user = new User({
+        googleId: gId,
+        email: cleanEmail,
+        name: name || 'Participant User',
+        avatar: avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+        role: 'PARTICIPANT'
+      });
     }
 
-    const userObj = user ? user.toObject() : { email: cleanEmail, name, avatar, role: 'PARTICIPANT' };
+    // Check if user is linked to any team in MongoDB
+    if (!user.teamId) {
+      const existingTeam = await Team.findOne({
+        $or: [
+          { 'leader.email': cleanEmail },
+          { 'members.email': cleanEmail }
+        ]
+      });
+      if (existingTeam) {
+        user.teamId = existingTeam.teamId;
+        console.log(`🔗 Auto-linked existing team ${existingTeam.teamId} to user ${cleanEmail}`);
+      }
+    }
+
+    await user.save();
+    console.log(`✅ Saved/Updated Google user in MongoDB: ${user.email} (TeamId: ${user.teamId || 'None'})`);
+
+    const userObj = user.toObject();
     const token = jwt.sign({ userId: userObj._id, email: cleanEmail, name, role: 'PARTICIPANT' }, JWT_SECRET, { expiresIn: '7d' });
     return res.json({ token, user: userObj });
   } catch (err) {
@@ -274,17 +284,23 @@ app.post('/api/auth/participant/google', async (req, res) => {
 // Update User Team Link in MongoDB
 app.put('/api/users/team', async (req, res) => {
   try {
-    const { email, teamId } = req.body;
+    await ensureDbConnected();
+    const { email, teamId } = req.body || {};
     if (!email || !teamId) {
       return res.status(400).json({ error: 'Email and teamId are required.' });
     }
+    const cleanEmail = String(email).toLowerCase();
     const user = await User.findOneAndUpdate(
-      { email: email.toLowerCase() },
-      { teamId },
-      { new: true }
+      { email: cleanEmail },
+      { 
+        $set: { teamId },
+        $setOnInsert: { name: 'Participant User', role: 'PARTICIPANT' }
+      },
+      { returnDocument: 'after', upsert: true }
     );
     res.json({ success: true, user });
   } catch (err) {
+    console.error('Error in PUT /api/users/team:', err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -292,6 +308,7 @@ app.put('/api/users/team', async (req, res) => {
 // GET all registered users from MongoDB
 app.get('/api/users', async (req, res) => {
   try {
+    await ensureDbConnected();
     const users = await User.find().sort({ createdAt: -1 });
     res.json(users);
   } catch (err) {
@@ -312,6 +329,7 @@ function generateTeamCode() {
 // Teams REST API
 app.get('/api/teams', async (req, res) => {
   try {
+    await ensureDbConnected();
     const teams = await Team.find().sort({ registrationDate: -1 });
     res.json(teams);
   } catch (err) {
@@ -321,6 +339,7 @@ app.get('/api/teams', async (req, res) => {
 
 app.get('/api/teams/code/:code', async (req, res) => {
   try {
+    await ensureDbConnected();
     const team = await Team.findOne({ teamCode: req.params.code.toUpperCase() });
     if (!team) return res.status(404).json({ error: 'Team not found with code: ' + req.params.code });
     res.json(team);
@@ -331,32 +350,110 @@ app.get('/api/teams/code/:code', async (req, res) => {
 
 app.post('/api/teams', async (req, res) => {
   try {
+    await ensureDbConnected();
+    const { teamName, trackId, trackTitle, college, leader, members } = req.body || {};
+
+    if (!teamName || !trackId || !college || !leader || !leader.email || !leader.fullName) {
+      return res.status(400).json({ error: 'Team Name, Track, College, Leader Name and Email are required.' });
+    }
+
+    const leaderEmail = String(leader.email).toLowerCase();
+
+    // Sanitize member entries
+    const validMembers = Array.isArray(members)
+      ? members.filter(m => m && m.fullName && m.email).map(m => ({
+          fullName: m.fullName,
+          email: String(m.email).toLowerCase(),
+          phone: m.phone || leader.phone || '',
+          college: m.college || college || '',
+          course: m.course || leader.course || 'B.Tech / B.E.',
+          year: m.year || leader.year || '2nd Year',
+          isLeader: Boolean(m.isLeader)
+        }))
+      : [{
+          fullName: leader.fullName,
+          email: leaderEmail,
+          phone: leader.phone || '',
+          college: college,
+          course: leader.course || 'B.Tech / B.E.',
+          year: leader.year || '2nd Year',
+          isLeader: true
+        }];
+
+    if (!validMembers.some(m => m.email.toLowerCase() === leaderEmail)) {
+      validMembers.unshift({
+        fullName: leader.fullName,
+        email: leaderEmail,
+        phone: leader.phone || '',
+        college: college,
+        course: leader.course || 'B.Tech / B.E.',
+        year: leader.year || '2nd Year',
+        isLeader: true
+      });
+    }
+
+    // Generate collision-safe teamId
     const count = await Team.countDocuments();
-    const teamId = `PRAGYAN-TM-${count + 101}`;
-    const teamCode = generateTeamCode();
-    const newTeam = await Team.create({ ...req.body, teamId, teamCode, registrationDate: new Date() });
+    let teamId = `PRAGYAN-TM-${count + 101}`;
+    let existingTeam = await Team.findOne({ teamId });
+    while (existingTeam) {
+      teamId = `PRAGYAN-TM-${Date.now().toString().slice(-4)}${Math.floor(10 + Math.random() * 90)}`;
+      existingTeam = await Team.findOne({ teamId });
+    }
+
+    // Generate collision-safe teamCode
+    let teamCode = generateTeamCode();
+    let existingCode = await Team.findOne({ teamCode });
+    while (existingCode) {
+      teamCode = generateTeamCode();
+      existingCode = await Team.findOne({ teamCode });
+    }
+
+    const newTeam = await Team.create({
+      teamId,
+      teamCode,
+      teamName,
+      trackId,
+      trackTitle: trackTitle || 'FINTECH & FINANCIAL INNOVATION',
+      college,
+      leader: {
+        fullName: leader.fullName,
+        email: leaderEmail,
+        phone: leader.phone || '',
+        college: college,
+        course: leader.course || 'B.Tech / B.E.',
+        year: leader.year || '2nd Year',
+        isLeader: true
+      },
+      members: validMembers,
+      registrationDate: new Date(),
+      status: 'PENDING'
+    });
 
     // Link teamId to user profile in MongoDB User collection
-    if (newTeam.leader && newTeam.leader.email) {
-      await User.findOneAndUpdate(
-        { email: newTeam.leader.email.toLowerCase() },
-        { teamId },
-        { new: true }
-      );
-    }
-    if (newTeam.members && Array.isArray(newTeam.members)) {
-      for (const m of newTeam.members) {
-        if (m.email) {
-          await User.findOneAndUpdate(
-            { email: m.email.toLowerCase() },
-            { teamId },
-            { new: true }
-          );
-        }
+    await User.findOneAndUpdate(
+      { email: leaderEmail },
+      { 
+        $set: { teamId },
+        $setOnInsert: { name: leader.fullName || 'Participant User', role: 'PARTICIPANT' }
+      },
+      { returnDocument: 'after', upsert: true }
+    );
+
+    for (const m of validMembers) {
+      if (m.email) {
+        await User.findOneAndUpdate(
+          { email: m.email.toLowerCase() },
+          { 
+            $set: { teamId },
+            $setOnInsert: { name: m.fullName || 'Participant User', role: 'PARTICIPANT' }
+          },
+          { returnDocument: 'after', upsert: true }
+        );
       }
     }
 
-    console.log(`✅ Created Team ${teamId} in MongoDB for leader ${newTeam.leader?.email}`);
+    console.log(`✅ Created Team ${teamId} in MongoDB for leader ${leaderEmail}`);
     res.status(201).json(newTeam);
   } catch (err) {
     console.error('❌ Error creating team in MongoDB:', err);
@@ -366,12 +463,13 @@ app.post('/api/teams', async (req, res) => {
 
 app.post('/api/teams/join', async (req, res) => {
   try {
-    const { teamCode, member } = req.body;
-    if (!teamCode || !member) {
+    await ensureDbConnected();
+    const { teamCode, member } = req.body || {};
+    if (!teamCode || !member || !member.email) {
       return res.status(400).json({ error: 'Team Code and Member details are required.' });
     }
 
-    const team = await Team.findOne({ teamCode: teamCode.toUpperCase() });
+    const team = await Team.findOne({ teamCode: String(teamCode).toUpperCase() });
     if (!team) {
       return res.status(404).json({ error: 'Invalid Team Code. No registered team found with code: ' + teamCode });
     }
@@ -380,24 +478,36 @@ app.post('/api/teams/join', async (req, res) => {
       return res.status(400).json({ error: 'This team is already full! Maximum 4 members allowed per team.' });
     }
 
-    const emailExists = team.members.some(m => m.email.toLowerCase() === member.email.toLowerCase());
+    const memberEmail = String(member.email).toLowerCase();
+    const emailExists = team.members.some(m => m.email.toLowerCase() === memberEmail);
     if (emailExists) {
       return res.status(400).json({ error: 'Member with email ' + member.email + ' is already registered in this team.' });
     }
 
-    team.members.push(member);
+    const sanitizedMember = {
+      fullName: member.fullName || 'Team Member',
+      email: memberEmail,
+      phone: member.phone || '',
+      college: member.college || team.college || '',
+      course: member.course || 'B.Tech / B.E.',
+      year: member.year || '2nd Year',
+      isLeader: false
+    };
+
+    team.members.push(sanitizedMember);
     await team.save();
 
     // Link joined member to teamId in User collection
-    if (member.email) {
-      await User.findOneAndUpdate(
-        { email: member.email.toLowerCase() },
-        { teamId: team.teamId },
-        { new: true }
-      );
-    }
+    await User.findOneAndUpdate(
+      { email: memberEmail },
+      { 
+        $set: { teamId: team.teamId },
+        $setOnInsert: { name: sanitizedMember.fullName || 'Participant User', role: 'PARTICIPANT' }
+      },
+      { returnDocument: 'after', upsert: true }
+    );
 
-    console.log(`✅ Member ${member.email} joined Team ${team.teamId} in MongoDB`);
+    console.log(`✅ Member ${memberEmail} joined Team ${team.teamId} in MongoDB`);
     res.json(team);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -410,7 +520,7 @@ app.put('/api/teams/:teamId/status', async (req, res) => {
     const team = await Team.findOneAndUpdate(
       { teamId: req.params.teamId },
       { status, rejectionReason: notes, changeRequestNotes: notes },
-      { new: true }
+      { returnDocument: 'after' }
     );
     res.json(team);
   } catch (err) {
@@ -450,7 +560,7 @@ app.post('/api/tracks', async (req, res) => {
 
 app.put('/api/tracks/:id', async (req, res) => {
   try {
-    const updated = await Track.findOneAndUpdate({ trackId: req.params.id }, req.body, { new: true });
+    const updated = await Track.findOneAndUpdate({ trackId: req.params.id }, req.body, { returnDocument: 'after' });
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -506,7 +616,7 @@ app.get('/api/homepage', async (req, res) => {
 
 app.put('/api/homepage', async (req, res) => {
   try {
-    const updated = await HomepageCMSContent.findOneAndUpdate({}, req.body, { upsert: true, new: true });
+    const updated = await HomepageCMSContent.findOneAndUpdate({}, req.body, { upsert: true, returnDocument: 'after' });
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -525,7 +635,7 @@ app.get('/api/settings', async (req, res) => {
 
 app.put('/api/settings', async (req, res) => {
   try {
-    const updated = await SystemSettings.findOneAndUpdate({}, req.body, { upsert: true, new: true });
+    const updated = await SystemSettings.findOneAndUpdate({}, req.body, { upsert: true, returnDocument: 'after' });
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
