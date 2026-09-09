@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight, ShieldCheck, User } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, ArrowUpRight, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { AnnouncementTicker } from './AnnouncementTicker';
 
@@ -11,7 +11,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const { participant, admin } = useAuth();
+  const { participant } = useAuth();
   const navigate = useNavigate();
 
   const navLinks = [
@@ -32,8 +32,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const isAdmin = (admin && admin.role === 'ADMIN') || (participant && participant.role === 'ADMIN');
 
   return (
     <header
