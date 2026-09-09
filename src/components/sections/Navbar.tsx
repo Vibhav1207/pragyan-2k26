@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           <img
             src="/pragyan-logo.png"
             alt="PRAGYAN 2K26 Logo"
-            className="h-9 sm:h-11 w-auto object-contain bg-white/95 px-2 py-0.5 rounded-lg shadow-md group-hover:scale-105 transition-transform"
+            className="h-9 sm:h-11 w-auto object-contain p-1 bg-white/10 border border-white/20 backdrop-blur-md rounded-lg shadow-md group-hover:scale-105 transition-transform"
           />
           <div className="flex flex-col">
             <span className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-tight leading-none">

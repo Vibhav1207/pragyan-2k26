@@ -267,11 +267,14 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F0F4FA;
+  background: #071324;
 }
 ::-webkit-scrollbar-thumb {
   background: #1D4ED8;
   border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
 }
 
 /* Accessibility: Reduce Motion Support */

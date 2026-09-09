@@ -50,7 +50,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
             <div className="space-y-4">
               {/* Official Pragyan 2K26 Logo Display */}
               <ScrollReveal delay={100} duration={600}>
-                <div className="inline-block p-3.5 bg-white/95 rounded-2xl border border-white/30 shadow-2xl backdrop-blur-md">
+                <div className="inline-block p-3.5 bg-white/10 rounded-2xl border border-white/20 shadow-2xl backdrop-blur-md">
                   <img
                     src="/pragyan-logo.png"
                     alt="PRAGYAN 2K26 Official Logo"

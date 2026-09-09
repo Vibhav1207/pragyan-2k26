@@ -327,7 +327,9 @@ class PragyanAPIService {
 
   // Announcements
   getAnnouncements(): Announcement[] {
-    return getStored<Announcement[]>(STORAGE_KEYS.ANNOUNCEMENTS, []);
+    const list = getStored<Announcement[]>(STORAGE_KEYS.ANNOUNCEMENTS, INITIAL_ANNOUNCEMENTS);
+    const valid = list.filter(a => a && a.title && !a.title.includes('ADFF') && a.title.trim().length > 0);
+    return valid.length > 0 ? valid : INITIAL_ANNOUNCEMENTS;
   }
 
   createAnnouncement(annData: Omit<Announcement, 'id' | 'createdAt'>): Announcement {
