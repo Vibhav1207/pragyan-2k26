@@ -58,6 +58,11 @@ export interface Team {
   submission?: Submission;
   rejectionReason?: string;
   changeRequestNotes?: string;
+  paymentStatus?: 'NOT_PAID' | 'UNDER_REVIEW' | 'PAID' | 'REJECTED';
+  paymentUtr?: string;
+  paymentScreenshot?: string;
+  paymentDate?: string;
+  paymentAmount?: number;
 }
 
 export interface Track {

@@ -296,12 +296,61 @@ class PragyanAPIService {
     return { success: true, team };
   }
 
+  async submitTeamPayment(teamId: string, utr: string, screenshot: string, amount: number = 500): Promise<Team | undefined> {
+    const teams = this.getTeams();
+    const index = teams.findIndex(t => t.teamId === teamId);
+    if (index === -1) return undefined;
+
+    teams[index].paymentStatus = 'UNDER_REVIEW';
+    teams[index].paymentUtr = utr;
+    teams[index].paymentScreenshot = screenshot;
+    teams[index].paymentAmount = amount;
+    teams[index].paymentDate = new Date().toISOString();
+
+    setStored(STORAGE_KEYS.TEAMS, teams);
+
+    // Push payment update to backend
+    try {
+      const payload = { utr, screenshot, amount };
+      let res = await fetch(`/api/teams/${teamId}/payment`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/teams/${teamId}/payment`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+      if (res.ok) {
+        const updatedMongoTeam = await res.json();
+        if (updatedMongoTeam && updatedMongoTeam.teamId) {
+          teams[index] = { ...teams[index], ...updatedMongoTeam };
+          setStored(STORAGE_KEYS.TEAMS, teams);
+        }
+      }
+    } catch (err) {
+      console.warn('MongoDB API connection note (Payment stored locally):', err);
+    }
+
+    this.logActivity('PAYMENT_SUBMITTED', teamId, `₹${amount} Payment submitted with UTR: ${utr}`, 'INFO');
+    return teams[index];
+  }
+
   updateTeamStatus(teamId: string, status: Team['status'], notes?: string): Team | undefined {
     const teams = this.getTeams();
     const index = teams.findIndex(t => t.teamId === teamId);
     if (index === -1) return undefined;
 
     teams[index].status = status;
+    if (status === 'APPROVED') {
+      teams[index].paymentStatus = 'PAID';
+    } else if (status === 'REJECTED') {
+      teams[index].paymentStatus = 'REJECTED';
+    }
+
     if (status === 'REJECTED' && notes) {
       teams[index].rejectionReason = notes;
     }
@@ -310,6 +359,20 @@ class PragyanAPIService {
     }
 
     setStored(STORAGE_KEYS.TEAMS, teams);
+
+    // Sync status change with backend
+    fetch(`/api/teams/${teamId}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status, notes, paymentStatus: teams[index].paymentStatus })
+    }).catch(() => {
+      fetch(`http://localhost:5000/api/teams/${teamId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, notes, paymentStatus: teams[index].paymentStatus })
+      }).catch(err => console.warn('Failed to sync team status to MongoDB:', err));
+    });
+
     const actionName = status === 'APPROVED' ? 'TEAM_APPROVED' : status === 'REJECTED' ? 'TEAM_REJECTED' : 'TEAM_CHANGES_REQUESTED';
     const logType = status === 'APPROVED' ? 'SUCCESS' : status === 'REJECTED' ? 'DANGER' : 'WARNING';
     this.logActivity(actionName, teamId, `Status changed to ${status}. ${notes || ''}`, logType);

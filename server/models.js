@@ -73,7 +73,12 @@ const TeamSchema = new mongoose.Schema({
   },
   rejectionReason: String,
   changeRequestNotes: String,
-  submission: { type: mongoose.Schema.Types.ObjectId, ref: 'Submission' }
+  paymentStatus: { type: String, enum: ['NOT_PAID', 'UNDER_REVIEW', 'PAID', 'REJECTED'], default: 'NOT_PAID' },
+  paymentUtr: String,
+  paymentScreenshot: String,
+  paymentDate: Date,
+  paymentAmount: { type: Number, default: 500 },
+  submission: Object
 });
 
 const TrackSchema = new mongoose.Schema({

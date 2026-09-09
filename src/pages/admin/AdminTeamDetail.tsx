@@ -14,7 +14,8 @@ import {
   Code2, 
   Calendar, 
   Layers,
-  Trash2
+  Trash2,
+  CreditCard
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
@@ -188,6 +189,86 @@ export const AdminTeamDetail: React.FC = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* REGISTRATION PAYMENT & VERIFICATION SECTION (₹500) */}
+      <div className="bg-white border border-slate-200 p-8 rounded-3xl space-y-6 shadow-sm">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <h3 className="font-space font-extrabold text-xl text-[#0B192C] uppercase flex items-center gap-2">
+            <CreditCard className="w-6 h-6 text-[#1D4ED8]" />
+            <span>REGISTRATION PAYMENT & VERIFICATION (₹500)</span>
+          </h3>
+
+          <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
+            team.paymentStatus === 'PAID' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+            team.paymentStatus === 'UNDER_REVIEW' ? 'bg-amber-100 text-amber-800 border border-amber-300' :
+            team.paymentStatus === 'REJECTED' ? 'bg-red-100 text-red-800 border border-red-300' :
+            'bg-slate-100 text-slate-600 border border-slate-300'
+          }`}>
+            PAYMENT: {team.paymentStatus || 'NOT_PAID'}
+          </span>
+        </div>
+
+        {team.paymentUtr || team.paymentScreenshot ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start text-left">
+            <div className="space-y-3 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Payment Amount:</span>
+                  <span className="font-bold text-emerald-700 text-sm">₹{team.paymentAmount || 500}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">UTR / Reference ID:</span>
+                  <span className="font-bold text-[#1D4ED8]">{team.paymentUtr || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Submitted Date:</span>
+                  <span className="font-bold text-slate-700">
+                    {team.paymentDate ? new Date(team.paymentDate).toLocaleString() : 'N/A'}
+                  </span>
+                </div>
+              </div>
+
+              {team.status !== 'APPROVED' && (
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    onClick={() => handleStatusChange('APPROVED')}
+                    className="flex-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-space font-bold text-xs uppercase flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition"
+                  >
+                    <CheckCircle2 className="w-4 h-4" /> APPROVE PAYMENT & TEAM
+                  </button>
+                  <button
+                    onClick={() => handleStatusChange('REJECTED')}
+                    className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white font-mono font-bold text-xs transition"
+                  >
+                    REJECT
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Payment Screenshot */}
+            {team.paymentScreenshot && (
+              <div className="space-y-2">
+                <div className="text-xs font-mono font-bold text-slate-500 uppercase">PAYMENT SCREENSHOT PROOF</div>
+                <div className="p-2 rounded-2xl bg-slate-50 border border-slate-200 overflow-hidden">
+                  <img
+                    src={team.paymentScreenshot}
+                    alt="Payment Screenshot Proof"
+                    className="w-full max-h-64 object-contain rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition"
+                    onClick={() => window.open(team.paymentScreenshot, '_blank')}
+                  />
+                  <div className="text-[10px] font-mono text-center text-slate-400 pt-1">Click image to expand screenshot</div>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-1">
+            <div className="text-xs font-mono font-bold text-slate-500">NO PAYMENT PROOF SUBMITTED YET</div>
+            <p className="text-[11px] text-slate-400 font-mono">Team has not uploaded ₹500 UTR ID or payment screenshot yet.</p>
+          </div>
+        )}
       </div>
 
       {/* PROJECT SUBMISSION SECTION */}

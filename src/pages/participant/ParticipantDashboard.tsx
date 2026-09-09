@@ -21,7 +21,8 @@ import {
   Lock,
   MessageSquare,
   Clock,
-  Award
+  Award,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
@@ -61,6 +62,32 @@ export const ParticipantDashboard: React.FC = () => {
   const [demoUrl, setDemoUrl] = useState('');
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // ₹500 Registration Payment State
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [utrInput, setUtrInput] = useState('');
+  const [paymentScreenshotFile, setPaymentScreenshotFile] = useState<File | null>(null);
+  const [isSubmittingPayment, setIsSubmittingPayment] = useState(false);
+
+  const handlePaymentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!userTeam || !utrInput.trim() || !paymentScreenshotFile) {
+      alert('Please enter a valid UTR Transaction ID and select your payment screenshot image.');
+      return;
+    }
+
+    setIsSubmittingPayment(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const dataUrl = reader.result as string;
+      await apiService.submitTeamPayment(userTeam.teamId, utrInput.trim(), dataUrl, 500);
+      setTeams(apiService.getTeams());
+      setIsSubmittingPayment(false);
+      setIsPaymentModalOpen(false);
+      alert('🎉 ₹500 Payment proof submitted for verification! Your team status & project submission will be approved by admins within 24 hours.');
+    };
+    reader.readAsDataURL(paymentScreenshotFile);
+  };
 
   const handleLogout = () => {
     logoutParticipant();
@@ -400,7 +427,13 @@ export const ParticipantDashboard: React.FC = () => {
                 {/* Submission Action CTA */}
                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center space-y-3 shrink-0 shadow-sm min-w-[220px]">
                   <div className="text-[10px] font-mono font-bold text-slate-500 uppercase">SUBMISSION EVALUATION</div>
-                  {userTeam.submission ? (
+                  {userTeam.status !== 'APPROVED' ? (
+                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-mono space-y-1 text-center">
+                      <Lock className="w-4 h-4 mx-auto text-amber-600" />
+                      <div className="font-bold">SUBMISSION LOCKED</div>
+                      <div className="text-[10px] text-amber-700">Unlocks once ₹500 payment & team are approved</div>
+                    </div>
+                  ) : userTeam.submission ? (
                     <div className="space-y-2">
                       <div className={`text-xs font-mono font-extrabold px-3 py-1.5 rounded-xl border flex items-center justify-center gap-1.5 uppercase ${
                         userTeam.submission.status === 'SHORTLISTED' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
@@ -450,6 +483,90 @@ export const ParticipantDashboard: React.FC = () => {
 
               </div>
             </div>
+
+            {/* ₹500 REGISTRATION PAYMENT & APPROVAL STATUS CARD */}
+            {userTeam.status !== 'APPROVED' && (
+              <div className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl space-y-5 shadow-sm text-left">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-blue-50 text-[#1D4ED8] rounded-2xl border border-blue-200">
+                      <CreditCard className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-space font-extrabold text-lg text-[#0B192C] uppercase">
+                        TEAM REGISTRATION & PAYMENT VERIFICATION (₹500)
+                      </h3>
+                      <p className="text-xs text-slate-500 font-mono">
+                        Complete ₹500 team registration fee to get approved & unlock project submission.
+                      </p>
+                    </div>
+                  </div>
+
+                  <span className={`px-3.5 py-1 rounded-full text-xs font-mono font-bold uppercase self-start sm:self-auto ${
+                    userTeam.paymentStatus === 'PAID' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+                    userTeam.paymentStatus === 'UNDER_REVIEW' ? 'bg-amber-100 text-amber-800 border border-amber-300' :
+                    userTeam.paymentStatus === 'REJECTED' ? 'bg-red-100 text-red-800 border border-red-300' :
+                    'bg-blue-100 text-[#1D4ED8] border border-blue-300'
+                  }`}>
+                    STATUS: {userTeam.paymentStatus === 'UNDER_REVIEW' ? 'UNDER REVIEW' : userTeam.paymentStatus || 'PAYMENT REQUIRED'}
+                  </span>
+                </div>
+
+                {userTeam.paymentStatus === 'UNDER_REVIEW' ? (
+                  <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                      <div className="space-y-1">
+                        <h4 className="font-space font-bold text-sm text-amber-900 uppercase">
+                          PAYMENT PROOF SUBMITTED — UNDER REVIEW
+                        </h4>
+                        <p className="text-xs text-amber-800 leading-relaxed font-sans">
+                          Your ₹500 payment proof (UTR: <strong>{userTeam.paymentUtr || 'N/A'}</strong>) has been uploaded and sent to the PRAGYAN 2K26 Admin Panel. Your payment screenshot will be verified and approved by admins within <strong>24 hours</strong>.
+                        </p>
+                      </div>
+                    </div>
+
+                    {userTeam.paymentScreenshot && (
+                      <div className="pt-2 border-t border-amber-200/60 flex items-center gap-4">
+                        <div className="text-xs font-mono font-bold text-amber-900">Uploaded Receipt:</div>
+                        <img
+                          src={userTeam.paymentScreenshot}
+                          alt="Payment Receipt Screenshot"
+                          className="w-20 h-20 object-cover rounded-xl border border-amber-300 shadow-sm cursor-pointer hover:opacity-90 transition"
+                          onClick={() => window.open(userTeam.paymentScreenshot, '_blank')}
+                          title="Click to view full screenshot"
+                        />
+                        <span className="text-[10px] font-mono text-amber-700">(Click image to view full screenshot)</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="space-y-1 max-w-xl">
+                      <h4 className="font-space font-bold text-base text-[#0B192C]">
+                        Pay ₹500 Registration Fee to Unlock Project Submission
+                      </h4>
+                      <p className="text-xs text-slate-600 font-sans leading-relaxed">
+                        Your team has registered 4 members. Please click the button below to scan the UPI QR code, pay ₹500, and upload your UTR ID & screenshot proof.
+                      </p>
+                    </div>
+
+                    {isTeamLeader ? (
+                      <button
+                        onClick={() => setIsPaymentModalOpen(true)}
+                        className="px-6 py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 transition shrink-0"
+                      >
+                        <CreditCard className="w-4 h-4 text-yellow-300" /> PAY ₹500 REGISTRATION FEE
+                      </button>
+                    ) : (
+                      <div className="px-4 py-2.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 text-xs font-mono font-bold">
+                        Leader ({userTeam.leader.fullName}) must pay fee
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* JUDGES EVALUATION & REMARKS BANNER */}
             {userTeam.submission && userTeam.submission.adminNotes && (
@@ -635,6 +752,99 @@ export const ParticipantDashboard: React.FC = () => {
                   className="px-5 py-2.5 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-1.5 shadow-md shadow-blue-600/20 transition"
                 >
                   <Upload className="w-4 h-4 text-yellow-300" /> UPLOAD FILE
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ₹500 REGISTRATION PAYMENT MODAL */}
+      {isPaymentModalOpen && userTeam && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
+            
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="font-space font-extrabold text-lg uppercase text-[#0B192C] flex items-center gap-2">
+                <CreditCard className="w-5 h-5 text-[#1D4ED8]" />
+                <span>PAY ₹500 REGISTRATION FEE</span>
+              </h3>
+              <button onClick={() => setIsPaymentModalOpen(false)} className="text-slate-400 hover:text-slate-700 font-mono text-lg">✕</button>
+            </div>
+
+            {/* QR CODE BOX */}
+            <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center space-y-3">
+              <div className="text-[11px] font-mono font-extrabold text-[#1D4ED8] uppercase tracking-wider bg-blue-100 py-1 px-3 rounded-full inline-block border border-blue-200">
+                SCAN UPI QR CODE TO PAY ₹500
+              </div>
+
+              {/* QR Image Container */}
+              <div className="w-48 h-48 bg-white border-2 border-slate-300 rounded-2xl p-2 mx-auto flex items-center justify-center shadow-inner relative group">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=pragyan2k26@upi%26pn=PRAGYAN2K26%26am=500%26cu=INR`}
+                  alt="₹500 UPI QR Code"
+                  className="w-full h-full object-contain rounded-xl"
+                />
+              </div>
+
+              <div className="space-y-1 font-mono text-xs text-slate-700">
+                <div>UPI ID: <strong className="text-[#0B192C] bg-white px-2 py-0.5 rounded border border-slate-200">pragyan2k26@upi</strong></div>
+                <div>Amount: <strong className="text-emerald-600 font-bold text-sm">₹500.00</strong></div>
+              </div>
+            </div>
+
+            {/* PAYMENT INSTRUCTIONS & FORM */}
+            <form onSubmit={handlePaymentSubmit} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-mono font-bold text-slate-700 uppercase flex items-center gap-1">
+                  <span>12-Digit UTR / Transaction ID *</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  pattern="[0-9]{10,18}"
+                  value={utrInput}
+                  onChange={(e) => setUtrInput(e.target.value)}
+                  placeholder="e.g. 425678901234"
+                  className="w-full p-3 rounded-xl bg-slate-50 border border-slate-300 text-[#0B192C] text-xs font-mono font-bold focus:ring-2 focus:ring-blue-600 outline-none"
+                />
+                <p className="text-[10px] text-slate-400 font-mono">Enter the UTR / UPI Reference number from your payment app receipt.</p>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-mono font-bold text-slate-700 uppercase">
+                  Upload Payment Screenshot *
+                </label>
+                <input
+                  type="file"
+                  required
+                  accept="image/*"
+                  onChange={(e) => e.target.files?.[0] && setPaymentScreenshotFile(e.target.files[0])}
+                  className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-700 text-xs file:mr-4 file:py-1.5 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:bg-[#1D4ED8] file:text-white file:font-bold"
+                />
+                <p className="text-[10px] text-slate-400 font-mono">Upload a clear screenshot showing ₹500 payment success & UTR ID.</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-[11px] font-sans flex items-start gap-2">
+                <Clock className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                <span>After submission, your payment screenshot will show under review on your team page and will be approved by admins within 24 hours.</span>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setIsPaymentModalOpen(false)}
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition"
+                >
+                  CANCEL
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingPayment}
+                  className="px-5 py-2.5 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-1.5 shadow-md shadow-blue-600/20 transition disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-yellow-300" />
+                  {isSubmittingPayment ? 'UPLOADING PROOF...' : 'SUBMIT PAYMENT PROOF'}
                 </button>
               </div>
             </form>

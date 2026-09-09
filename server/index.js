@@ -519,10 +519,55 @@ app.post('/api/teams/join', async (req, res) => {
 
 app.put('/api/teams/:teamId/status', async (req, res) => {
   try {
-    const { status, notes } = req.body;
+    const { status, notes, paymentStatus } = req.body || {};
+    const updates: any = { status, rejectionReason: notes, changeRequestNotes: notes };
+    if (paymentStatus) {
+      updates.paymentStatus = paymentStatus;
+    } else if (status === 'APPROVED') {
+      updates.paymentStatus = 'PAID';
+    } else if (status === 'REJECTED') {
+      updates.paymentStatus = 'REJECTED';
+    }
+
     const team = await Team.findOneAndUpdate(
       { teamId: req.params.teamId },
-      { status, rejectionReason: notes, changeRequestNotes: notes },
+      updates,
+      { returnDocument: 'after' }
+    );
+    res.json(team);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.put('/api/teams/:teamId/payment', async (req, res) => {
+  try {
+    await ensureDbConnected();
+    const { utr, screenshot, amount } = req.body || {};
+    const team = await Team.findOneAndUpdate(
+      { teamId: req.params.teamId },
+      {
+        paymentStatus: 'UNDER_REVIEW',
+        paymentUtr: utr,
+        paymentScreenshot: screenshot,
+        paymentAmount: amount || 500,
+        paymentDate: new Date()
+      },
+      { returnDocument: 'after' }
+    );
+    console.log(`💳 Payment submitted for Team ${req.params.teamId}: UTR ${utr}`);
+    res.json(team);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.put('/api/teams/:teamId/submission', async (req, res) => {
+  try {
+    await ensureDbConnected();
+    const team = await Team.findOneAndUpdate(
+      { teamId: req.params.teamId },
+      { submission: req.body },
       { returnDocument: 'after' }
     );
     res.json(team);
