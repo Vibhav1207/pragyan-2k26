@@ -612,7 +612,7 @@ export const TeamRegistration: React.FC = () => {
                 <CheckCircle2 className="w-7 h-7" />
               </div>
               <h3 className="font-space font-extrabold text-xl text-[#0B192C] uppercase">TEAM CREATED SUCCESSFULLY!</h3>
-              <p className="text-xs text-slate-500">Your team registration has been recorded in MongoDB.</p>
+              <p className="text-xs text-slate-500">Your team registration has been recorded successfully.</p>
             </div>
 
             {/* TEAM JOIN CODE DISPLAY */}

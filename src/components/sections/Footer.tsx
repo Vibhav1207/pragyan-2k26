@@ -2,6 +2,7 @@ import React from 'react';
 import { Mail, MapPin, ExternalLink } from 'lucide-react';
 import { EVENT_DATA } from '../../data/event';
 import { InstagramIcon } from '../ui/SocialIcons';
+import { ScrollReveal } from '../transitions/ScrollReveal';
 
 export const ContactSection: React.FC = () => {
   return (
@@ -9,86 +10,94 @@ export const ContactSection: React.FC = () => {
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-6 gap-4">
-          <div className="space-y-2">
-            <div className="inline-block bg-[#1D4ED8] text-white font-mono text-xs font-bold uppercase px-3 py-1 rounded-md">
-              GET IN TOUCH
+        <ScrollReveal delay={0}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-6 gap-4">
+            <div className="space-y-2">
+              <div className="inline-block bg-[#1D4ED8] text-white font-mono text-xs font-bold uppercase px-3 py-1 rounded-md">
+                GET IN TOUCH
+              </div>
+              <h2 className="font-space font-extrabold text-3xl sm:text-5xl text-[#0B192C] uppercase tracking-tight">
+                CONTACT ORGANIZERS
+              </h2>
             </div>
-            <h2 className="font-space font-extrabold text-3xl sm:text-5xl text-[#0B192C] uppercase tracking-tight">
-              CONTACT ORGANIZERS
-            </h2>
+            <div className="font-mono text-xs font-bold text-[#1D4ED8] uppercase tracking-widest">
+              SANJIVANI UNIVERSITY SECRETARIAT
+            </div>
           </div>
-          <div className="font-mono text-xs font-bold text-[#1D4ED8] uppercase tracking-widest">
-            SANJIVANI UNIVERSITY SECRETARIAT
-          </div>
-        </div>
+        </ScrollReveal>
 
         {/* 3 Contact Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* Email Card */}
-          <a
-            href={`mailto:${EVENT_DATA.email}`}
-            className="card-premium p-8 rounded-2xl border border-slate-200 space-y-4 hover:border-[#1D4ED8] transition-all group block"
-          >
-            <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 text-[#1D4ED8] flex items-center justify-center font-bold group-hover:scale-110 transition-transform">
-              <Mail className="w-6 h-6" />
-            </div>
-            <div className="space-y-1">
-              <span className="text-[11px] font-mono font-bold text-[#1D4ED8] uppercase tracking-wider">
-                OFFICIAL EMAIL
-              </span>
-              <h3 className="font-space font-extrabold text-lg sm:text-xl text-[#0B192C] lowercase break-all">
-                {EVENT_DATA.email}
-              </h3>
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-[#1D4ED8] font-mono font-bold pt-2">
-              <span>Click to email organizers</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </div>
-          </a>
+          <ScrollReveal delay={120}>
+            <a
+              href={`mailto:${EVENT_DATA.email}`}
+              className="card-premium p-8 rounded-2xl border border-slate-200 space-y-4 hover:border-[#1D4ED8] transition-all duration-300 group block h-full"
+            >
+              <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 text-[#1D4ED8] flex items-center justify-center font-bold group-hover:scale-110 transition-transform duration-300">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[11px] font-mono font-bold text-[#1D4ED8] uppercase tracking-wider">
+                  OFFICIAL EMAIL
+                </span>
+                <h3 className="font-space font-extrabold text-lg sm:text-xl text-[#0B192C] lowercase break-all">
+                  {EVENT_DATA.email}
+                </h3>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-[#1D4ED8] font-mono font-bold pt-2">
+                <span>Click to email organizers</span>
+                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </a>
+          </ScrollReveal>
 
           {/* Instagram Card */}
-          <a
-            href={EVENT_DATA.socials.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card-premium p-8 rounded-2xl border border-slate-200 space-y-4 hover:border-[#1D4ED8] transition-all group block"
-          >
-            <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 text-[#1D4ED8] flex items-center justify-center font-bold group-hover:scale-110 transition-transform">
-              <InstagramIcon className="w-6 h-6" />
-            </div>
-            <div className="space-y-1">
-              <span className="text-[11px] font-mono font-bold text-[#1D4ED8] uppercase tracking-wider">
-                INSTAGRAM HANDLE
-              </span>
-              <h3 className="font-space font-extrabold text-lg sm:text-xl text-[#0B192C]">
-                {EVENT_DATA.instagram}
-              </h3>
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-[#1D4ED8] font-mono font-bold pt-2">
-              <span>Follow official updates</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </div>
-          </a>
+          <ScrollReveal delay={220}>
+            <a
+              href={EVENT_DATA.socials.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="card-premium p-8 rounded-2xl border border-slate-200 space-y-4 hover:border-[#1D4ED8] transition-all duration-300 group block h-full"
+            >
+              <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 text-[#1D4ED8] flex items-center justify-center font-bold group-hover:scale-110 transition-transform duration-300">
+                <InstagramIcon className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[11px] font-mono font-bold text-[#1D4ED8] uppercase tracking-wider">
+                  INSTAGRAM HANDLE
+                </span>
+                <h3 className="font-space font-extrabold text-lg sm:text-xl text-[#0B192C]">
+                  {EVENT_DATA.instagram}
+                </h3>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-[#1D4ED8] font-mono font-bold pt-2">
+                <span>Follow official updates</span>
+                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </a>
+          </ScrollReveal>
 
           {/* Venue Card */}
-          <div className="card-premium p-8 rounded-2xl border border-slate-200 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 text-[#1D4ED8] flex items-center justify-center font-bold">
-              <MapPin className="w-6 h-6" />
+          <ScrollReveal delay={320}>
+            <div className="card-premium p-8 rounded-2xl border border-slate-200 space-y-4 h-full">
+              <div className="w-12 h-12 rounded-xl bg-[#1D4ED8]/10 text-[#1D4ED8] flex items-center justify-center font-bold">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[11px] font-mono font-bold text-[#1D4ED8] uppercase tracking-wider">
+                  EVENT VENUE
+                </span>
+                <h3 className="font-space font-extrabold text-lg sm:text-xl text-[#0B192C] uppercase">
+                  SANJIVANI UNIVERSITY
+                </h3>
+              </div>
+              <p className="text-xs text-slate-600 font-sans leading-relaxed">
+                Kopargaon, near Shirdi, Ahilyanagar, Maharashtra 423601
+              </p>
             </div>
-            <div className="space-y-1">
-              <span className="text-[11px] font-mono font-bold text-[#1D4ED8] uppercase tracking-wider">
-                EVENT VENUE
-              </span>
-              <h3 className="font-space font-extrabold text-lg sm:text-xl text-[#0B192C] uppercase">
-                SANJIVANI UNIVERSITY
-              </h3>
-            </div>
-            <p className="text-xs text-slate-600 font-sans leading-relaxed">
-              Kopargaon, near Shirdi, Ahilyanagar, Maharashtra 423601
-            </p>
-          </div>
+          </ScrollReveal>
 
         </div>
 

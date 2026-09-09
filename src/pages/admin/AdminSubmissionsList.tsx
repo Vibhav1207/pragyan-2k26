@@ -92,7 +92,7 @@ export const AdminSubmissionsList: React.FC = () => {
               {filteredSubmissions.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-slate-400 font-mono">
-                    No project submissions uploaded to GridFS yet.
+                    No project submissions uploaded yet.
                   </td>
                 </tr>
               ) : (

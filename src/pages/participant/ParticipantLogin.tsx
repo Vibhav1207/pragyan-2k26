@@ -8,8 +8,7 @@ import {
   AlertTriangle,
   Loader2, 
   Globe,
-  ExternalLink,
-  UserCheck
+  ExternalLink
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { 
@@ -68,13 +67,13 @@ export const ParticipantLogin: React.FC = () => {
 
     if (code === 'auth/unauthorized-domain' || msg.includes('unauthorized-domain')) {
       setUnauthorizedDomain(true);
-      setError(`Domain "${window.location.hostname}" is not authorized in Firebase Console.`);
+      setError(`Domain "${window.location.hostname}" is not authorized for Google Sign-In.`);
     } else if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
       setError('Popup was blocked by your browser. Please try "Continue with Google (Redirect)" below.');
     } else if (code === 'auth/popup-closed-by-user') {
       setError('Sign-in popup was closed before completing. Please try again.');
     } else {
-      setError(err?.message || 'Firebase Google Sign-In failed. Please check your setup.');
+      setError(err?.message || 'Google Sign-In failed. Please check your setup.');
     }
   };
 
@@ -105,15 +104,6 @@ export const ParticipantLogin: React.FC = () => {
     }
   };
 
-  const handleDemoLogin = () => {
-    loginParticipantGoogle({
-      name: 'Sanjivani Demo Participant',
-      email: 'demo.participant@sanjivani.edu.in',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
-    });
-    navigate('/register');
-  };
-
   return (
     <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] flex items-center justify-center p-4 relative overflow-hidden font-sans selection:bg-[#1D4ED8] selection:text-white">
       
@@ -131,13 +121,13 @@ export const ParticipantLogin: React.FC = () => {
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-mono text-[11px] font-bold uppercase tracking-wider">
               <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
-              <span>FIREBASE GOOGLE AUTHENTICATION</span>
+              <span>GOOGLE AUTHENTICATION</span>
             </div>
             <h1 className="font-space font-extrabold text-2xl sm:text-3xl text-[#0B192C] uppercase tracking-tight">
               JOIN PRAGYAN 2K26
             </h1>
             <p className="text-xs text-slate-500">
-              Sign in with your Google account via Firebase to proceed to Team Registration
+              Sign in with your Google account to proceed to Team Registration
             </p>
           </div>
         </div>
@@ -148,14 +138,14 @@ export const ParticipantLogin: React.FC = () => {
           <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 space-y-2">
             <div className="text-xs font-mono font-bold text-blue-700 flex items-center justify-between">
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> FIREBASE AUTH STATUS
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> AUTHENTICATION STATUS
               </span>
               <span className="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-mono">
                 Domain: {currentDomain || 'localhost'}
               </span>
             </div>
             <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
-              Powered by Firebase OAuth (`pragyan-2k26.firebaseapp.com`) for verified student Google identities.
+              Verified student Google authentication for PRAGYAN 2K26 participants.
             </p>
           </div>
 
@@ -165,18 +155,18 @@ export const ParticipantLogin: React.FC = () => {
               <div className="flex items-start gap-2.5 font-bold text-amber-800">
                 <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-sm font-space">Domain Not Authorized in Firebase Console</div>
+                  <div className="text-sm font-space">Domain Not Authorized</div>
                   <div className="text-[11px] text-amber-700 font-normal mt-0.5">
-                    Firebase blocked auth requests from <code className="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold text-amber-900">{currentDomain}</code>.
+                    Authentication requests blocked from <code className="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold text-amber-900">{currentDomain}</code>.
                   </div>
                 </div>
               </div>
               <div className="bg-white p-3 rounded-xl border border-amber-200 text-[11px] text-slate-700 space-y-1.5">
                 <div className="font-bold text-slate-900 flex items-center gap-1">
-                  <Globe className="w-3.5 h-3.5 text-blue-600" /> How to fix in Firebase Console (1 min):
+                  <Globe className="w-3.5 h-3.5 text-blue-600" /> How to authorize domain (1 min):
                 </div>
                 <ol className="list-decimal list-inside space-y-1 pl-1 text-[11px]">
-                  <li>Go to <strong>Firebase Console</strong> → <strong>Authentication</strong> → <strong>Settings</strong></li>
+                  <li>Go to <strong>Authentication Console</strong> → <strong>Settings</strong></li>
                   <li>Click <strong>Authorized domains</strong> tab</li>
                   <li>Click <strong>Add Domain</strong> and add <code className="bg-slate-100 px-1 py-0.5 rounded text-blue-600 font-bold">{currentDomain}</code></li>
                 </ol>
@@ -236,21 +226,11 @@ export const ParticipantLogin: React.FC = () => {
             </button>
           </div>
 
-          {/* Development / Demo Bypass option explicitly separated */}
-          <div className="pt-4 border-t border-slate-100 space-y-3 text-center">
-            <button
-              onClick={handleDemoLogin}
-              className="w-full py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 text-[11px] font-mono font-semibold flex items-center justify-center gap-2 transition"
-            >
-              <UserCheck className="w-3.5 h-3.5 text-blue-600" />
-              <span>TEST / DEMO LOGIN (BYPASS GOOGLE AUTH)</span>
-            </button>
-
-            <div>
-              <Link to="/" className="text-xs text-slate-500 hover:text-[#0B192C] font-bold transition">
-                ← Cancel & Return to PRAGYAN 2K26 Website
-              </Link>
-            </div>
+          {/* Cancel & Return Link */}
+          <div className="pt-4 border-t border-slate-100 text-center">
+            <Link to="/" className="text-xs text-slate-500 hover:text-[#0B192C] font-bold transition">
+              ← Cancel & Return to PRAGYAN 2K26 Website
+            </Link>
           </div>
 
         </div>

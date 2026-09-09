@@ -4,8 +4,8 @@ import { ShieldCheck, Lock, Mail, ArrowRight, KeyRound, AlertCircle, CheckCircle
 import { useAuth } from '../../context/AuthContext';
 
 export const AdminLogin: React.FC = () => {
-  const [email, setEmail] = useState('admin@sanjivani.edu.in');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
@@ -123,14 +123,7 @@ export const AdminLogin: React.FC = () => {
               </div>
             </div>
 
-            {/* Login Credentials Helper Box */}
-            <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-[11px] text-slate-700 font-mono space-y-1">
-              <div className="font-bold flex items-center gap-1 text-blue-700">
-                <KeyRound className="w-3.5 h-3.5" /> DEFAULT DEMO CREDENTIALS:
-              </div>
-              <div>Email: <span className="text-[#0B192C] font-bold">admin@sanjivani.edu.in</span></div>
-              <div>Password: <span className="text-[#0B192C] font-bold">admin123</span></div>
-            </div>
+
 
             {/* Submit Button */}
             <button

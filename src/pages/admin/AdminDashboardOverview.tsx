@@ -96,7 +96,7 @@ export const AdminDashboardOverview: React.FC = () => {
           </div>
           <div className="font-space font-extrabold text-3xl text-[#0B192C]">{totalTeams}</div>
           <div className="text-[10px] text-emerald-600 font-mono font-bold flex items-center gap-1">
-            <TrendingUp className="w-3 h-3" /> Live MongoDB Sync
+            <TrendingUp className="w-3 h-3" /> Live System Sync
           </div>
         </div>
 
@@ -157,7 +157,7 @@ export const AdminDashboardOverview: React.FC = () => {
             </div>
           </div>
           <div className="font-space font-extrabold text-3xl text-cyan-900">{totalSubmissions}</div>
-          <div className="text-[10px] text-slate-500 font-mono">GridFS Files</div>
+          <div className="text-[10px] text-slate-500 font-mono">Uploaded Files</div>
         </div>
 
       </div>

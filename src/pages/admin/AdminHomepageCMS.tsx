@@ -28,13 +28,13 @@ export const AdminHomepageCMS: React.FC = () => {
             <Globe className="w-5 h-5 text-blue-600" />
             <span>LIVE CMS MANAGEMENT</span>
           </h3>
-          <p className="text-xs text-slate-500">Content updates save to MongoDB and immediately update the public landing page</p>
+          <p className="text-xs text-slate-500">Content updates save and immediately update the public landing page</p>
         </div>
 
         <div className="flex items-center gap-3">
           {savedSuccess && (
             <span className="text-xs font-mono font-bold text-emerald-600 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> SAVED TO MONGODB!
+              <CheckCircle2 className="w-4 h-4" /> SAVED SUCCESSFULLY!
             </span>
           )}
 

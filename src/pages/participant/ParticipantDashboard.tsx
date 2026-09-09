@@ -127,7 +127,7 @@ export const ParticipantDashboard: React.FC = () => {
       setTeams(apiService.getTeams());
       setUploadProgress(null);
       setIsSubmitModalOpen(false);
-      alert('🎉 Project submission uploaded successfully to MongoDB GridFS!');
+      alert('🎉 Project submission uploaded successfully!');
     }, 1500);
   };
 
@@ -372,7 +372,7 @@ export const ParticipantDashboard: React.FC = () => {
                   {userTeam.submission ? (
                     <div className="space-y-1">
                       <div className="text-xs font-mono font-bold text-emerald-700 flex items-center justify-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" /> SUBMITTED ON GRIDFS
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" /> SUBMITTED
                       </div>
                       <div className="text-[10px] text-slate-600 font-bold truncate max-w-[200px]">{userTeam.submission.projectTitle}</div>
                     </div>
@@ -461,7 +461,7 @@ export const ParticipantDashboard: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="font-space font-extrabold text-lg uppercase text-[#0B192C] flex items-center gap-2">
                 <FileText className="w-5 h-5 text-[#1D4ED8]" />
-                <span>PROJECT SUBMISSION (GRIDFS)</span>
+                <span>PROJECT SUBMISSION</span>
               </h3>
               <button onClick={() => setIsSubmitModalOpen(false)} className="text-slate-400 hover:text-slate-700 font-mono text-lg">✕</button>
             </div>
@@ -534,7 +534,7 @@ export const ParticipantDashboard: React.FC = () => {
               {uploadProgress !== null && (
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-mono text-[#1D4ED8] font-bold">
-                    <span>UPLOADING TO MONGODB GRIDFS...</span>
+                    <span>UPLOADING FILE...</span>
                     <span>{uploadProgress}%</span>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
@@ -555,7 +555,7 @@ export const ParticipantDashboard: React.FC = () => {
                   type="submit"
                   className="px-5 py-2.5 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-1.5 shadow-md shadow-blue-600/20 transition"
                 >
-                  <Upload className="w-4 h-4 text-yellow-300" /> UPLOAD TO GRIDFS
+                  <Upload className="w-4 h-4 text-yellow-300" /> UPLOAD FILE
                 </button>
               </div>
             </form>

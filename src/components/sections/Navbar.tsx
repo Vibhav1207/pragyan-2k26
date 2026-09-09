@@ -11,7 +11,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const { participant } = useAuth();
+  const { participant, admin } = useAuth();
   const navigate = useNavigate();
 
   const navLinks = [
@@ -66,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
             <a
               key={link.name}
               href={link.href}
-              className="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-space font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
+              className="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-space font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors nav-link-indicator"
             >
               {link.name}
             </a>
@@ -75,13 +75,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
 
         {/* Right CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          <Link
-            to="/admin/login"
-            className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 hover:text-white hover:bg-white/10 border border-slate-700/60 transition flex items-center gap-1"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-[#FACC15]" />
-            <span>ADMIN</span>
-          </Link>
+          {admin && (
+            <Link
+              to="/admin/dashboard"
+              className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 hover:text-white hover:bg-white/10 border border-slate-700/60 transition flex items-center gap-1"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FACC15]" />
+              <span>ADMIN</span>
+            </Link>
+          )}
 
           {participant ? (
             <button
@@ -132,13 +134,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           </div>
 
           <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
-            <Link
-              to="/admin/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2.5 rounded-xl bg-slate-800 text-slate-300 font-mono text-xs font-bold text-center flex items-center justify-center gap-1.5"
-            >
-              <ShieldCheck className="w-4 h-4 text-[#FACC15]" /> ADMIN PORTAL LOGIN
-            </Link>
+            {admin && (
+              <Link
+                to="/admin/dashboard"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-xl bg-slate-800 text-slate-300 font-mono text-xs font-bold text-center flex items-center justify-center gap-1.5"
+              >
+                <ShieldCheck className="w-4 h-4 text-[#FACC15]" /> ADMIN PORTAL
+              </Link>
+            )}
 
             {participant ? (
               <button

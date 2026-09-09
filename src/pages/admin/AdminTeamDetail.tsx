@@ -32,7 +32,7 @@ export const AdminTeamDetail: React.FC = () => {
         <div className="bg-white border border-slate-200 p-12 rounded-3xl text-center space-y-4 shadow-sm">
           <AlertCircle className="w-12 h-12 text-amber-500 mx-auto" />
           <h2 className="text-xl font-space font-extrabold text-[#0B192C]">TEAM NOT FOUND</h2>
-          <p className="text-xs text-slate-500">Team ID "{teamId}" does not exist in MongoDB.</p>
+          <p className="text-xs text-slate-500">Team ID "{teamId}" does not exist.</p>
           <Link to="/admin/teams" className="inline-block px-4 py-2 rounded-xl bg-[#1D4ED8] text-white text-xs font-bold">
             ← Back to Teams List
           </Link>
@@ -243,7 +243,7 @@ export const AdminTeamDetail: React.FC = () => {
 
               {/* Uploaded Files (GridFS) */}
               <div className="lg:col-span-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                <div className="text-xs font-mono font-bold text-slate-500 uppercase">GRIDFS FILES STORED</div>
+                <div className="text-xs font-mono font-bold text-slate-500 uppercase">SUBMITTED FILES STORED</div>
                 <div className="space-y-2">
                   {team.submission.files.map((file: any) => (
                     <div key={file.id} className="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between shadow-sm">
@@ -252,7 +252,7 @@ export const AdminTeamDetail: React.FC = () => {
                         <div className="text-[10px] text-slate-500 font-mono">{(file.fileSize / (1024 * 1024)).toFixed(2)} MB</div>
                       </div>
                       <button
-                        onClick={() => alert(`Downloading GridFS Binary File: ${file.filename}`)}
+                        onClick={() => alert(`Downloading File: ${file.filename}`)}
                         className="p-2 rounded-lg bg-[#1D4ED8] hover:bg-blue-600 text-white transition shrink-0"
                         title="Download File"
                       >

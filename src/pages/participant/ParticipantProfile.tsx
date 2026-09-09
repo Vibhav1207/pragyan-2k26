@@ -249,7 +249,7 @@ export const ParticipantProfile: React.FC = () => {
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
                 <div className="text-slate-400 font-bold uppercase text-[10px]">PROJECT SUBMISSION</div>
                 <div className={`font-bold ${userTeam.submission ? 'text-emerald-700' : 'text-amber-700'}`}>
-                  {userTeam.submission ? '✓ SUBMITTED ON GRIDFS' : 'PENDING UPLOAD'}
+                  {userTeam.submission ? '✓ SUBMITTED' : 'PENDING UPLOAD'}
                 </div>
               </div>
             </div>

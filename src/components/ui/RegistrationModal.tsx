@@ -39,8 +39,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B192C]/80 backdrop-blur-md overflow-y-auto animate-fade-in">
-      <div className="relative w-full max-w-4xl bg-white rounded-2xl border border-slate-200 shadow-2xl my-8 p-6 sm:p-10 text-left space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B192C]/80 backdrop-blur-md overflow-y-auto animate-modal-backdrop">
+      <div className="relative w-full max-w-4xl bg-white rounded-2xl border border-slate-200 shadow-2xl my-8 p-6 sm:p-10 text-left space-y-6 animate-modal-card">
         
         {/* Close button */}
         <button

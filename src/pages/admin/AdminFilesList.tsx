@@ -27,7 +27,7 @@ export const AdminFilesList: React.FC = () => {
   });
 
   const handleDelete = (fileId: string, filename: string) => {
-    if (window.confirm(`Are you sure you want to delete file "${filename}" from GridFS storage?`)) {
+    if (window.confirm(`Are you sure you want to delete file "${filename}"?`)) {
       apiService.deleteFile(fileId);
       setFiles(apiService.getFiles());
     }
@@ -45,8 +45,8 @@ export const AdminFilesList: React.FC = () => {
 
   return (
     <AdminLayout
-      title="FILE MANAGEMENT (MONGODB GRIDFS)"
-      subtitle="Dedicated storage manager for hackathon pitch decks, PDFs, DOCX, and video artifacts stored in GridFS"
+      title="FILE MANAGEMENT"
+      subtitle="Dedicated storage manager for hackathon pitch decks, PDFs, DOCX, and video artifacts"
     >
       
       {/* STORAGE OVERVIEW & FILTERS */}
@@ -55,7 +55,7 @@ export const AdminFilesList: React.FC = () => {
         {/* Total Files Stat */}
         <div className="bg-white border border-slate-200 p-5 rounded-3xl shadow-sm flex items-center justify-between">
           <div>
-            <div className="text-[10px] font-mono font-bold text-slate-400 uppercase">GRIDFS FILES STORED</div>
+            <div className="text-[10px] font-mono font-bold text-slate-400 uppercase">FILES STORED</div>
             <div className="font-space font-extrabold text-2xl text-[#0B192C]">{files.length} Files</div>
           </div>
           <div className="p-3 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600">
@@ -112,7 +112,7 @@ export const AdminFilesList: React.FC = () => {
               {filteredFiles.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-slate-400 font-mono">
-                    No GridFS binary files stored yet.
+                    No binary files stored yet.
                   </td>
                 </tr>
               ) : (
@@ -148,14 +148,14 @@ export const AdminFilesList: React.FC = () => {
 
                     {/* Storage ID */}
                     <td className="py-3.5 px-4 font-mono text-[10px] text-slate-400">
-                      gridfs_{file.id}
+                      file_{file.id}
                     </td>
 
                     {/* Actions */}
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
-                          onClick={() => alert(`Downloading GridFS object: ${file.filename}`)}
+                          onClick={() => alert(`Downloading file: ${file.filename}`)}
                           className="p-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition"
                           title="Download File"
                         >
