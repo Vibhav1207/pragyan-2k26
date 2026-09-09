@@ -618,7 +618,7 @@ export const TeamRegistration: React.FC = () => {
       {/* PAYMENT & TEAM CODE SUCCESS MODAL */}
       {paymentModalOpen && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full space-y-6 text-left shadow-2xl text-[#0B192C]">
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full space-y-6 text-left shadow-2xl text-[#0B192C] max-h-[90vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <div className="text-center space-y-2">
               <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-7 h-7" />

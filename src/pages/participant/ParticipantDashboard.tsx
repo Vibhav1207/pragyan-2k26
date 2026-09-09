@@ -59,10 +59,17 @@ export const ParticipantDashboard: React.FC = () => {
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
   const tracksList = apiService.getTracks().filter(t => t.isActive);
 
+  // Success Modal State for Team Code
+  const [createdTeamCode, setCreatedTeamCode] = useState<string | null>(null);
+  const [createdTeamTitle, setCreatedTeamTitle] = useState<string>('');
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  // Fullscreen Image Lightbox State
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+
   const handleCreateTeamSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!createTeamName.trim() || !createCollege.trim()) {
-      alert('Please fill in Team Name and College Name.');
       return;
     }
 
@@ -93,7 +100,9 @@ export const ParticipantDashboard: React.FC = () => {
     setTeams(apiService.getTeams());
     setIsCreatingTeam(false);
     setIsCreateModalOpen(false);
-    alert(`🎉 Team "${newTeam.teamName}" created successfully! Your Team Code is: ${newTeam.teamCode}. Share this code with 3 members to complete your roster.`);
+    setCreatedTeamCode(newTeam.teamCode || newTeam.teamId);
+    setCreatedTeamTitle(newTeam.teamName);
+    setIsSuccessModalOpen(true);
   };
 
   // Join Team State for unregistered users
@@ -473,11 +482,17 @@ export const ParticipantDashboard: React.FC = () => {
                 {/* Submission Action CTA */}
                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center space-y-3 shrink-0 shadow-sm min-w-[220px]">
                   <div className="text-[10px] font-mono font-bold text-slate-500 uppercase">SUBMISSION EVALUATION</div>
-                  {userTeam.status !== 'APPROVED' ? (
+                  {userTeam.members.length < 4 ? (
                     <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-mono space-y-1 text-center">
                       <Lock className="w-4 h-4 mx-auto text-amber-600" />
-                      <div className="font-bold">SUBMISSION LOCKED</div>
-                      <div className="text-[10px] text-amber-700">Unlocks once ₹500 payment & team are approved</div>
+                      <div className="font-bold uppercase">SUBMISSION LOCKED ({userTeam.members.length}/4)</div>
+                      <div className="text-[10px] text-amber-700">Requires all 4 team members to unlock</div>
+                    </div>
+                  ) : userTeam.status !== 'APPROVED' ? (
+                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-mono space-y-1 text-center">
+                      <Lock className="w-4 h-4 mx-auto text-amber-600" />
+                      <div className="font-bold uppercase">SUBMISSION LOCKED</div>
+                      <div className="text-[10px] text-amber-700">Unlocks once ₹500 payment & team are approved by admin</div>
                     </div>
                   ) : userTeam.submission ? (
                     <div className="space-y-2">
@@ -579,12 +594,28 @@ export const ParticipantDashboard: React.FC = () => {
                           src={userTeam.paymentScreenshot}
                           alt="Payment Receipt Screenshot"
                           className="w-20 h-20 object-cover rounded-xl border border-amber-300 shadow-sm cursor-pointer hover:opacity-90 transition"
-                          onClick={() => window.open(userTeam.paymentScreenshot, '_blank')}
+                          onClick={() => setExpandedImage(userTeam.paymentScreenshot || null)}
                           title="Click to view full screenshot"
                         />
                         <span className="text-[10px] font-mono text-amber-700">(Click image to view full screenshot)</span>
                       </div>
                     )}
+                  </div>
+                ) : userTeam.members.length < 4 ? (
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="space-y-1 max-w-xl">
+                      <h4 className="font-space font-bold text-base text-[#0B192C]">
+                        Complete 4-Member Roster ({userTeam.members.length}/4 Members Added)
+                      </h4>
+                      <p className="text-xs text-slate-600 font-sans leading-relaxed">
+                        Your team currently has {userTeam.members.length} of 4 members. Share Team Code <strong className="text-[#1D4ED8] bg-white px-2 py-0.5 rounded border border-slate-300">{userTeam.teamCode}</strong> with {4 - userTeam.members.length} more member(s) to unlock ₹500 payment & admin approval.
+                      </p>
+                    </div>
+
+                    <div className="px-4 py-2.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-800 text-xs font-mono font-bold shrink-0 flex items-center gap-1.5">
+                      <Lock className="w-4 h-4 text-amber-600" />
+                      <span>{4 - userTeam.members.length} MORE MEMBER(S) NEEDED</span>
+                    </div>
                   </div>
                 ) : (
                   <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -593,7 +624,7 @@ export const ParticipantDashboard: React.FC = () => {
                         Pay ₹500 Registration Fee to Unlock Project Submission
                       </h4>
                       <p className="text-xs text-slate-600 font-sans leading-relaxed">
-                        Your team has registered 4 members. Please click the button below to scan the UPI QR code, pay ₹500, and upload your UTR ID & screenshot proof.
+                        All 4 team members have joined! Please click the button below to scan the UPI QR code, pay ₹500, and upload your UTR ID & screenshot proof.
                       </p>
                     </div>
 
@@ -698,7 +729,7 @@ export const ParticipantDashboard: React.FC = () => {
       {/* UPLOAD PROJECT SUBMISSION MODAL (LIGHT THEME) */}
       {isSubmitModalOpen && userTeam && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="font-space font-extrabold text-lg uppercase text-[#0B192C] flex items-center gap-2">
                 <FileText className="w-5 h-5 text-[#1D4ED8]" />
@@ -808,7 +839,7 @@ export const ParticipantDashboard: React.FC = () => {
       {/* ₹500 REGISTRATION PAYMENT MODAL */}
       {isPaymentModalOpen && userTeam && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="font-space font-extrabold text-lg uppercase text-[#0B192C] flex items-center gap-2">
@@ -901,7 +932,7 @@ export const ParticipantDashboard: React.FC = () => {
       {/* CREATE TEAM MODAL */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="font-space font-extrabold text-lg uppercase text-[#0B192C] flex items-center gap-2">
                 <PlusCircle className="w-5 h-5 text-[#1D4ED8]" />
@@ -983,6 +1014,80 @@ export const ParticipantDashboard: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* TEAM CREATED SUCCESS MODAL WITH CODE DISPLAY */}
+      {isSuccessModalOpen && createdTeamCode && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full space-y-6 text-left shadow-2xl text-[#0B192C] animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="text-center space-y-2">
+              <div className="w-14 h-14 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+              <h3 className="font-space font-extrabold text-xl text-[#0B192C] uppercase tracking-tight">TEAM CREATED SUCCESSFULLY!</h3>
+              <p className="text-xs text-slate-500 font-sans">
+                Team <strong>"{createdTeamTitle}"</strong> registered! Here is your official 6-character Team Code:
+              </p>
+            </div>
+
+            {/* TEAM JOIN CODE BOX */}
+            <div className="p-5 rounded-2xl bg-blue-50 border border-blue-200 space-y-3 text-center">
+              <div className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">YOUR TEAM JOIN CODE</div>
+              <div className="flex items-center justify-center gap-3">
+                <span className="font-mono font-extrabold text-2xl sm:text-3xl text-[#1D4ED8] tracking-widest bg-white px-4 py-2 rounded-xl border border-blue-200 shadow-inner">
+                  {createdTeamCode}
+                </span>
+                <button
+                  onClick={() => handleCopyCode(createdTeamCode)}
+                  className="p-3 rounded-xl bg-[#1D4ED8] text-white hover:bg-blue-700 transition shadow-md shadow-blue-600/20"
+                  title="Copy Team Code"
+                >
+                  {copied ? <Check className="w-5 h-5 text-yellow-300" /> : <Copy className="w-5 h-5" />}
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-600 font-sans leading-relaxed">
+                Share this code with your teammates so they can join your team roster from their account dashboard.
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                setIsSuccessModalOpen(false);
+              }}
+              className="w-full py-3.5 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase tracking-wider shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2"
+            >
+              <span>VIEW MY TEAM DASHBOARD</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* FULLSCREEN IMAGE LIGHTBOX OVERLAY */}
+      {expandedImage && (
+        <div
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setExpandedImage(null)}
+        >
+          <div className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center space-y-3">
+            <div className="flex items-center justify-between w-full text-white text-xs font-mono px-2">
+              <span className="font-bold uppercase tracking-wider text-amber-400">PAYMENT RECEIPT SCREENSHOT</span>
+              <button
+                onClick={() => setExpandedImage(null)}
+                className="px-3.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-bold transition flex items-center gap-1 cursor-pointer"
+              >
+                ✕ CLOSE PREVIEW
+              </button>
+            </div>
+
+            <img
+              src={expandedImage}
+              alt="Expanded Payment Receipt"
+              className="max-h-[80vh] max-w-full object-contain rounded-2xl border-2 border-white/20 shadow-2xl bg-black/60"
+              onClick={(e) => e.stopPropagation()}
+            />
           </div>
         </div>
       )}

@@ -27,6 +27,7 @@ export const AdminTeamDetail: React.FC = () => {
 
   const [team, setTeam] = useState(() => apiService.getTeamById(teamId || ''));
   const [adminNotes, setAdminNotes] = useState(team?.submission?.adminNotes || '');
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   if (!team) {
     return (
@@ -251,14 +252,21 @@ export const AdminTeamDetail: React.FC = () => {
             {team.paymentScreenshot && (
               <div className="space-y-2">
                 <div className="text-xs font-mono font-bold text-slate-500 uppercase">PAYMENT SCREENSHOT PROOF</div>
-                <div className="p-2 rounded-2xl bg-slate-50 border border-slate-200 overflow-hidden">
+                <div className="p-2.5 rounded-2xl bg-slate-50 border border-slate-200 overflow-hidden space-y-2">
                   <img
                     src={team.paymentScreenshot}
                     alt="Payment Screenshot Proof"
                     className="w-full max-h-64 object-contain rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition"
-                    onClick={() => window.open(team.paymentScreenshot, '_blank')}
+                    onClick={() => setExpandedImage(team.paymentScreenshot || null)}
+                    title="Click image to expand full size"
                   />
-                  <div className="text-[10px] font-mono text-center text-slate-400 pt-1">Click image to expand screenshot</div>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedImage(team.paymentScreenshot || null)}
+                    className="w-full py-2 rounded-xl bg-blue-50 text-[#1D4ED8] hover:bg-blue-100 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition border border-blue-200"
+                  >
+                    <span>🔍 Click to Expand Full Image</span>
+                  </button>
                 </div>
               </div>
             )}
@@ -376,6 +384,33 @@ export const AdminTeamDetail: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* FULLSCREEN IMAGE LIGHTBOX OVERLAY */}
+      {expandedImage && (
+        <div
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setExpandedImage(null)}
+        >
+          <div className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center space-y-3">
+            <div className="flex items-center justify-between w-full text-white text-xs font-mono px-2">
+              <span className="font-bold uppercase tracking-wider text-amber-400">PAYMENT SCREENSHOT PROOF</span>
+              <button
+                onClick={() => setExpandedImage(null)}
+                className="px-3.5 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white font-bold transition flex items-center gap-1 cursor-pointer"
+              >
+                ✕ CLOSE PREVIEW
+              </button>
+            </div>
+
+            <img
+              src={expandedImage}
+              alt="Expanded Payment Proof"
+              className="max-h-[80vh] max-w-full object-contain rounded-2xl border-2 border-white/20 shadow-2xl bg-black/60"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
 
     </AdminLayout>
   );
