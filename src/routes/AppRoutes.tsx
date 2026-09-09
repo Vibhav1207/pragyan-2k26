@@ -31,11 +31,11 @@ import { useAuth } from '../context/AuthContext';
 
 // Protected Route Helpers
 const AdminProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { admin } = useAuth();
-  if (!admin || admin.role !== 'ADMIN') {
-    return <Navigate to="/admin/login" replace />;
+  const { admin, participant } = useAuth();
+  if (admin || (participant && participant.role === 'ADMIN')) {
+    return <>{children}</>;
   }
-  return <>{children}</>;
+  return <Navigate to="/admin/login" replace />;
 };
 
 const ParticipantProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -82,6 +82,8 @@ export const AppRoutes: React.FC = () => {
       />
 
       {/* 3. SEPARATE ADMIN AUTHENTICATION */}
+      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route path="/admin/" element={<Navigate to="/admin/dashboard" replace />} />
       <Route path="/admin/login" element={<AdminLogin />} />
 
       {/* 4. ADMIN MANAGEMENT SUITE */}

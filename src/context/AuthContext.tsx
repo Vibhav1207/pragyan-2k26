@@ -83,8 +83,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       if (res.ok) {
         const data = await res.json();
-        if (data.user && data.user.teamId) {
-          user.teamId = data.user.teamId;
+        if (data.user) {
+          if (data.user.teamId) {
+            user.teamId = data.user.teamId;
+          }
+          if (data.user.role) {
+            user.role = data.user.role;
+          }
+          if (data.user.role === 'ADMIN') {
+            loginAdmin(user.email, data.token || 'google-admin-token', user.name);
+          }
         }
       }
     } catch (err) {
