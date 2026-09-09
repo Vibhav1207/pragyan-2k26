@@ -82,6 +82,27 @@ const INITIAL_TRACKS: Track[] = [
   }
 ];
 
+const INITIAL_ANNOUNCEMENTS: Announcement[] = [
+  {
+    id: 'ANN-01',
+    title: 'REGISTRATION OPEN',
+    content: 'National Registration for PRAGYAN 2K26 is officially OPEN for all UG, PG & PhD student teams across India.',
+    status: 'PUBLISHED',
+    publishDate: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    author: 'Sanjivani Innovation Cell'
+  },
+  {
+    id: 'ANN-02',
+    title: 'OFFICIAL THEME',
+    content: 'Innovation & Entrepreneurship on UN SDG Goal 2030 hosted at Sanjivani University, Kopargaon.',
+    status: 'PUBLISHED',
+    publishDate: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    author: 'PRAGYAN Committee'
+  }
+];
+
 const INITIAL_SETTINGS: SystemSettings = {
   registrationOpen: true,
   registrationDeadline: '2026-03-25T23:59:59Z',
