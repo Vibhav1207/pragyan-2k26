@@ -22,7 +22,15 @@ export const TeamRegistration: React.FC = () => {
 
   useEffect(() => {
     if (participant && participant.teamId) {
-      navigate('/dashboard');
+      const teams = apiService.getTeams();
+      const existingTeam = teams.find(t => 
+        t.teamId === participant.teamId ||
+        t.leader?.email?.toLowerCase() === participant.email?.toLowerCase() ||
+        t.members?.some(m => m.email?.toLowerCase() === participant.email?.toLowerCase())
+      );
+      if (existingTeam) {
+        navigate('/dashboard');
+      }
     }
   }, [participant, navigate]);
   

@@ -26,10 +26,10 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
-import type { Team, SubmissionFile } from '../../types/admin';
+import type { Team, SubmissionFile, TeamMember } from '../../types/admin';
 
 export const ParticipantDashboard: React.FC = () => {
-  const { participant, logoutParticipant } = useAuth();
+  const { participant, logoutParticipant, updateParticipantTeam } = useAuth();
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
 
@@ -49,6 +49,52 @@ export const ParticipantDashboard: React.FC = () => {
     userTeam?.leader?.email &&
     participant.email.toLowerCase() === userTeam.leader.email.toLowerCase()
   );
+
+  // Create Team Modal State
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [createTeamName, setCreateTeamName] = useState('');
+  const [createCollege, setCreateCollege] = useState('Sanjivani University');
+  const [createTrackId, setCreateTrackId] = useState('TRK-01');
+  const [createPhone, setCreatePhone] = useState('');
+  const [isCreatingTeam, setIsCreatingTeam] = useState(false);
+  const tracksList = apiService.getTracks().filter(t => t.isActive);
+
+  const handleCreateTeamSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!createTeamName.trim() || !createCollege.trim()) {
+      alert('Please fill in Team Name and College Name.');
+      return;
+    }
+
+    setIsCreatingTeam(true);
+    const selectedTrackObj = tracksList.find(t => t.id === createTrackId) || tracksList[0];
+
+    const leaderObj: TeamMember = {
+      id: `MEM-LDR-${Date.now()}`,
+      fullName: participant?.name || 'Team Leader',
+      email: participant?.email || 'leader@gmail.com',
+      phone: createPhone.trim() || '+91 98765 43210',
+      college: createCollege.trim(),
+      course: 'B.Tech Computer Science',
+      year: 'Final Year',
+      isLeader: true
+    };
+
+    const newTeam = await apiService.createTeam({
+      teamName: createTeamName.trim(),
+      trackId: selectedTrackObj ? selectedTrackObj.id : 'TRK-01',
+      trackTitle: selectedTrackObj ? selectedTrackObj.title : 'FinTech & Digital Payments',
+      college: createCollege.trim(),
+      leader: leaderObj,
+      members: [leaderObj]
+    });
+
+    updateParticipantTeam(newTeam.teamId);
+    setTeams(apiService.getTeams());
+    setIsCreatingTeam(false);
+    setIsCreateModalOpen(false);
+    alert(`🎉 Team "${newTeam.teamName}" created successfully! Your Team Code is: ${newTeam.teamCode}. Share this code with 3 members to complete your roster.`);
+  };
 
   // Join Team State for unregistered users
   const [joinCodeInput, setJoinCodeInput] = useState('');
@@ -299,8 +345,8 @@ export const ParticipantDashboard: React.FC = () => {
                     </p>
                   </div>
                   <button
-                    onClick={() => navigate('/register')}
-                    className="w-full py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-1.5"
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="w-full py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <span>CREATE NEW TEAM</span>
                     <ArrowRight className="w-4 h-4" />
@@ -845,6 +891,95 @@ export const ParticipantDashboard: React.FC = () => {
                 >
                   <CheckCircle2 className="w-4 h-4 text-yellow-300" />
                   {isSubmittingPayment ? 'UPLOADING PROOF...' : 'SUBMIT PAYMENT PROOF'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* CREATE TEAM MODAL */}
+      {isCreateModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="font-space font-extrabold text-lg uppercase text-[#0B192C] flex items-center gap-2">
+                <PlusCircle className="w-5 h-5 text-[#1D4ED8]" />
+                <span>CREATE A NEW HACKATHON TEAM</span>
+              </h3>
+              <button onClick={() => setIsCreateModalOpen(false)} className="text-slate-400 hover:text-slate-700 font-mono text-lg">✕</button>
+            </div>
+
+            <form onSubmit={handleCreateTeamSubmit} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-mono font-bold text-slate-700 uppercase">Team Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={createTeamName}
+                  onChange={(e) => setCreateTeamName(e.target.value)}
+                  placeholder="e.g. FinTech Innovators"
+                  className="w-full p-3 rounded-xl bg-slate-50 border border-slate-300 text-[#0B192C] text-xs font-bold focus:ring-2 focus:ring-blue-600 outline-none"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-mono font-bold text-slate-700 uppercase">College / University *</label>
+                <input
+                  type="text"
+                  required
+                  value={createCollege}
+                  onChange={(e) => setCreateCollege(e.target.value)}
+                  placeholder="e.g. Sanjivani University"
+                  className="w-full p-3 rounded-xl bg-slate-50 border border-slate-300 text-[#0B192C] text-xs focus:ring-2 focus:ring-blue-600 outline-none"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-mono font-bold text-slate-700 uppercase">Select Track *</label>
+                <select
+                  value={createTrackId}
+                  onChange={(e) => setCreateTrackId(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-slate-50 border border-slate-300 text-[#0B192C] text-xs font-mono focus:ring-2 focus:ring-blue-600 outline-none"
+                >
+                  {tracksList.map(tr => (
+                    <option key={tr.id} value={tr.id}>{tr.title}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-mono font-bold text-slate-700 uppercase">Leader Phone Number *</label>
+                <input
+                  type="tel"
+                  required
+                  value={createPhone}
+                  onChange={(e) => setCreatePhone(e.target.value)}
+                  placeholder="+91 98765 43210"
+                  className="w-full p-3 rounded-xl bg-slate-50 border border-slate-300 text-[#0B192C] text-xs font-mono focus:ring-2 focus:ring-blue-600 outline-none"
+                />
+              </div>
+
+              <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-[11px] font-sans flex items-start gap-2">
+                <Crown className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                <span>You will be registered as Team Leader. You'll receive a 6-character Team Code to invite your 3 team members.</span>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateModalOpen(false)}
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition"
+                >
+                  CANCEL
+                </button>
+                <button
+                  type="submit"
+                  disabled={isCreatingTeam}
+                  className="px-5 py-2.5 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-1.5 shadow-md shadow-blue-600/20 transition disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-yellow-300" />
+                  {isCreatingTeam ? 'CREATING TEAM...' : 'CREATE TEAM NOW'}
                 </button>
               </div>
             </form>
