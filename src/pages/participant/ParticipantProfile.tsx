@@ -25,7 +25,7 @@ export const ParticipantProfile: React.FC = () => {
   const [copied, setCopied] = React.useState(false);
 
   const teams = apiService.getTeams();
-  const userTeam: Team | undefined = teams.find(t => t.teamId === participant?.teamId) || teams[0];
+  const userTeam: Team | undefined = teams.find(t => t.teamId === participant?.teamId);
 
   const handleLogout = () => {
     logoutParticipant();

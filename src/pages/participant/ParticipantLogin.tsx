@@ -79,8 +79,15 @@ export const ParticipantLogin: React.FC = () => {
     setUnauthorizedDomain(false);
     try {
       const googleUser = await signInWithGoogle();
-      loginParticipantGoogle(googleUser);
-      navigate('/register');
+      await loginParticipantGoogle(googleUser);
+      
+      const saved = localStorage.getItem('pragyan_participant_user');
+      const updatedUser = saved ? JSON.parse(saved) : null;
+      if (updatedUser && updatedUser.teamId) {
+        navigate('/dashboard');
+      } else {
+        navigate('/register');
+      }
     } catch (err: any) {
       handleAuthError(err);
     } finally {

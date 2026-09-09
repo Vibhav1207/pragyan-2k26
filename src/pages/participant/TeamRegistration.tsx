@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   ShieldCheck, 
@@ -19,6 +19,12 @@ import type { TeamMember } from '../../types/admin';
 export const TeamRegistration: React.FC = () => {
   const { participant, updateParticipantTeam } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (participant && participant.teamId) {
+      navigate('/dashboard');
+    }
+  }, [participant, navigate]);
   
   const tracks = apiService.getTracks().filter(t => t.isActive);
   const systemSettings = apiService.getSettings();

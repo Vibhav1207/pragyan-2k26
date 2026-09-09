@@ -554,3 +554,5 @@ app.post('/api/activity', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 PRAGYAN 2K26 Express Server running on port ${PORT}`);
 });
+
+export default app;
