@@ -61,14 +61,14 @@ export const ParticipantDashboard: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDashboardJoinTeam = (e: React.FormEvent) => {
+  const handleDashboardJoinTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!joinCodeInput.trim()) return;
 
     setIsJoining(true);
     setJoinError('');
 
-    const res = apiService.joinTeamByCode(joinCodeInput.trim(), {
+    const res = await apiService.joinTeamByCode(joinCodeInput.trim(), {
       id: `MEM-${Date.now()}`,
       fullName: participant?.name || 'Participant Member',
       email: participant?.email || 'member@gmail.com',

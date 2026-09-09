@@ -16,12 +16,15 @@ import { KopargaonSection } from './components/sections/KopargaonSection';
 import { FAQ } from './components/sections/FAQ';
 import { ContactSection, Footer } from './components/sections/Footer';
 import { useAuth } from './context/AuthContext';
+import { apiService } from './services/api';
 
 export function App() {
   const navigate = useNavigate();
   const { participant } = useAuth();
 
   useEffect(() => {
+    apiService.fetchTeamsAsync();
+
     const lenis = new Lenis({
       duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

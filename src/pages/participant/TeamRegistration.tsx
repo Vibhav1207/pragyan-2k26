@@ -17,7 +17,7 @@ import { apiService } from '../../services/api';
 import type { TeamMember } from '../../types/admin';
 
 export const TeamRegistration: React.FC = () => {
-  const { participant } = useAuth();
+  const { participant, updateParticipantTeam } = useAuth();
   const navigate = useNavigate();
   
   const tracks = apiService.getTracks().filter(t => t.isActive);
@@ -104,7 +104,7 @@ export const TeamRegistration: React.FC = () => {
   const selectedTrackObj = tracks.find(t => t.id === trackId) || tracks[0];
 
   // Handle Join Team by Code
-  const handleJoinTeam = (e: React.FormEvent) => {
+  const handleJoinTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
@@ -113,14 +113,14 @@ export const TeamRegistration: React.FC = () => {
       return;
     }
 
-    const res = apiService.joinTeamByCode(joinTeamCode, joinMember);
+    const res = await apiService.joinTeamByCode(joinTeamCode, joinMember);
     if (!res.success) {
       setErrorMsg(res.error || 'Failed to join team.');
       return;
     }
 
-    if (participant && res.team) {
-      participant.teamId = res.team.teamId;
+    if (res.team) {
+      updateParticipantTeam(res.team.teamId);
     }
 
     alert(`🎉 Successfully joined Team "${res.team?.teamName}"! Welcome aboard.`);
@@ -128,7 +128,7 @@ export const TeamRegistration: React.FC = () => {
   };
 
   // Handle Create Team Submission
-  const handleSubmitRegistration = (e: React.FormEvent) => {
+  const handleSubmitRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
@@ -146,7 +146,7 @@ export const TeamRegistration: React.FC = () => {
       ? [leader, m2, m3, m4]
       : [leader];
 
-    const created = apiService.createTeam({
+    const created = await apiService.createTeam({
       teamName,
       trackId,
       trackTitle: selectedTrackObj.title,
@@ -155,9 +155,7 @@ export const TeamRegistration: React.FC = () => {
       members: membersList
     });
 
-    if (participant) {
-      participant.teamId = created.teamId;
-    }
+    updateParticipantTeam(created.teamId);
 
     setPendingTeamCode(created.teamCode || created.teamId);
     setPaymentModalOpen(true);

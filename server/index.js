@@ -217,7 +217,7 @@ app.post('/api/auth/admin/login', async (req, res) => {
   return res.status(401).json({ error: 'Invalid admin credentials' });
 });
 
-// Participant Google Login - Stores Google user in MongoDB
+// Participant Google Login - Stores Google user in MongoDB & retrieves team status
 app.post('/api/auth/participant/google', async (req, res) => {
   try {
     const { email, name, avatar, googleId, uid } = req.body;
@@ -225,34 +225,67 @@ app.post('/api/auth/participant/google', async (req, res) => {
       return res.status(400).json({ error: 'Email is required' });
     }
     const gId = googleId || uid || `google-${Date.now()}`;
+    const cleanEmail = email.toLowerCase();
 
     let user;
     if (mongoose.connection.readyState === 1) {
-      user = await User.findOne({ email });
+      user = await User.findOne({ email: cleanEmail });
       if (user) {
         user.name = name || user.name;
         user.avatar = avatar || user.avatar;
         if (gId && !user.googleId) user.googleId = gId;
-        await user.save();
-        console.log(`✅ Updated existing Google user in MongoDB: ${user.email}`);
       } else {
-        user = await User.create({
+        user = new User({
           googleId: gId,
-          email,
+          email: cleanEmail,
           name: name || 'Participant User',
           avatar: avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
           role: 'PARTICIPANT'
         });
-        console.log(`✅ Saved new Google user to MongoDB: ${user.email}`);
       }
+
+      // Check if user is linked to any team in MongoDB
+      if (!user.teamId) {
+        const existingTeam = await Team.findOne({
+          $or: [
+            { 'leader.email': cleanEmail },
+            { 'members.email': cleanEmail }
+          ]
+        });
+        if (existingTeam) {
+          user.teamId = existingTeam.teamId;
+          console.log(`🔗 Auto-linked existing team ${existingTeam.teamId} to user ${cleanEmail}`);
+        }
+      }
+
+      await user.save();
+      console.log(`✅ Saved/Updated Google user in MongoDB: ${user.email} (TeamId: ${user.teamId || 'None'})`);
     }
 
-    const userObj = user ? user.toObject() : { email, name, avatar, role: 'PARTICIPANT' };
-    const token = jwt.sign({ userId: userObj._id, email, name, role: 'PARTICIPANT' }, JWT_SECRET, { expiresIn: '7d' });
+    const userObj = user ? user.toObject() : { email: cleanEmail, name, avatar, role: 'PARTICIPANT' };
+    const token = jwt.sign({ userId: userObj._id, email: cleanEmail, name, role: 'PARTICIPANT' }, JWT_SECRET, { expiresIn: '7d' });
     return res.json({ token, user: userObj });
   } catch (err) {
     console.error('❌ Error saving Google user to MongoDB:', err);
     return res.status(500).json({ error: err.message });
+  }
+});
+
+// Update User Team Link in MongoDB
+app.put('/api/users/team', async (req, res) => {
+  try {
+    const { email, teamId } = req.body;
+    if (!email || !teamId) {
+      return res.status(400).json({ error: 'Email and teamId are required.' });
+    }
+    const user = await User.findOneAndUpdate(
+      { email: email.toLowerCase() },
+      { teamId },
+      { new: true }
+    );
+    res.json({ success: true, user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -302,8 +335,31 @@ app.post('/api/teams', async (req, res) => {
     const teamId = `PRAGYAN-TM-${count + 101}`;
     const teamCode = generateTeamCode();
     const newTeam = await Team.create({ ...req.body, teamId, teamCode, registrationDate: new Date() });
+
+    // Link teamId to user profile in MongoDB User collection
+    if (newTeam.leader && newTeam.leader.email) {
+      await User.findOneAndUpdate(
+        { email: newTeam.leader.email.toLowerCase() },
+        { teamId },
+        { new: true }
+      );
+    }
+    if (newTeam.members && Array.isArray(newTeam.members)) {
+      for (const m of newTeam.members) {
+        if (m.email) {
+          await User.findOneAndUpdate(
+            { email: m.email.toLowerCase() },
+            { teamId },
+            { new: true }
+          );
+        }
+      }
+    }
+
+    console.log(`✅ Created Team ${teamId} in MongoDB for leader ${newTeam.leader?.email}`);
     res.status(201).json(newTeam);
   } catch (err) {
+    console.error('❌ Error creating team in MongoDB:', err);
     res.status(400).json({ error: err.message });
   }
 });
@@ -332,6 +388,16 @@ app.post('/api/teams/join', async (req, res) => {
     team.members.push(member);
     await team.save();
 
+    // Link joined member to teamId in User collection
+    if (member.email) {
+      await User.findOneAndUpdate(
+        { email: member.email.toLowerCase() },
+        { teamId: team.teamId },
+        { new: true }
+      );
+    }
+
+    console.log(`✅ Member ${member.email} joined Team ${team.teamId} in MongoDB`);
     res.json(team);
   } catch (err) {
     res.status(400).json({ error: err.message });

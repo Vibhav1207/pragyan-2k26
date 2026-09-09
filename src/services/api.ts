@@ -166,7 +166,25 @@ const INITIAL_CMS: HomepageCMS = {
 };
 
 class PragyanAPIService {
-  // Teams
+  async fetchTeamsAsync(): Promise<Team[]> {
+    try {
+      let res = await fetch('/api/teams');
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/teams');
+      }
+      if (res.ok) {
+        const teams = await res.json();
+        if (Array.isArray(teams)) {
+          setStored(STORAGE_KEYS.TEAMS, teams);
+          return teams;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend teams fetch note:', err);
+    }
+    return this.getTeams();
+  }
+
   getTeams(): Team[] {
     return getStored<Team[]>(STORAGE_KEYS.TEAMS, []);
   }
@@ -181,7 +199,7 @@ class PragyanAPIService {
     return teams.find(t => (t.teamCode || '').toUpperCase() === teamCode.trim().toUpperCase());
   }
 
-  createTeam(teamData: Omit<Team, 'teamId' | 'registrationDate' | 'status'>): Team {
+  async createTeam(teamData: Omit<Team, 'teamId' | 'registrationDate' | 'status'>): Promise<Team> {
     const teams = this.getTeams();
     const count = teams.length + 101;
     const teamId = `PRAGYAN-TM-${count}`;
@@ -191,20 +209,48 @@ class PragyanAPIService {
       teamCode += chars.charAt(Math.floor(Math.random() * chars.length));
     }
 
-    const newTeam: Team = {
+    let newTeam: Team = {
       ...teamData,
       teamId,
       teamCode,
       registrationDate: new Date().toISOString(),
       status: 'PENDING'
     };
+
+    // Push Team to MongoDB Backend
+    try {
+      let res = await fetch('/api/teams', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(teamData)
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/teams', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(teamData)
+        });
+      }
+      if (res.ok) {
+        const mongoTeam = await res.json();
+        if (mongoTeam && mongoTeam.teamId) {
+          newTeam = {
+            ...mongoTeam,
+            registrationDate: typeof mongoTeam.registrationDate === 'string' ? mongoTeam.registrationDate : new Date(mongoTeam.registrationDate).toISOString()
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('MongoDB API connection note (Team stored in local state):', err);
+    }
+
     teams.unshift(newTeam);
     setStored(STORAGE_KEYS.TEAMS, teams);
-    this.logActivity('TEAM_REGISTERED', newTeam.teamId, `New team registered: ${newTeam.teamName} (Code: ${teamCode}) from ${newTeam.college}`, 'INFO');
+    this.logActivity('TEAM_REGISTERED', newTeam.teamId, `New team registered: ${newTeam.teamName} (Code: ${newTeam.teamCode}) from ${newTeam.college}`, 'INFO');
     return newTeam;
   }
 
-  joinTeamByCode(teamCode: string, member: Team['leader']): { success: boolean; team?: Team; error?: string } {
+  async joinTeamByCode(teamCode: string, member: Team['leader']): Promise<{ success: boolean; team?: Team; error?: string }> {
     const teams = this.getTeams();
     const targetCode = teamCode.trim().toUpperCase();
     const index = teams.findIndex(t => (t.teamCode || '').toUpperCase() === targetCode);
@@ -223,7 +269,28 @@ class PragyanAPIService {
       return { success: false, error: `Member with email "${member.email}" is already registered in this team.` };
     }
 
-    team.members.push({ ...member, isLeader: false });
+    const newMember = { ...member, isLeader: false };
+    team.members.push(newMember);
+
+    // Push Join request to MongoDB Backend
+    try {
+      const payload = { teamCode: targetCode, member: newMember };
+      let res = await fetch('/api/teams/join', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        await fetch('http://localhost:5000/api/teams/join', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+    } catch (err) {
+      console.warn('MongoDB API connection note (Member joined locally):', err);
+    }
+
     setStored(STORAGE_KEYS.TEAMS, teams);
     this.logActivity('MEMBER_JOINED_TEAM', team.teamId, `${member.fullName} joined team ${team.teamName} via Code ${teamCode}`, 'INFO');
     return { success: true, team };
