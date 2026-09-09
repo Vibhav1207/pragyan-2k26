@@ -70,52 +70,28 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] relative font-sans overflow-x-hidden selection:bg-[#1D4ED8] selection:text-white">
-      {/* Custom Trailing Cursor */}
       <CustomCursor />
-
-      {/* Sticky Navigation Bar */}
       <Navbar onRegisterClick={handleRegisterClick} />
 
-      {/* SINGLE-PAGE CONTINUOUS EXPERIENTIAL LAYOUT */}
       <main className="w-full pt-20 sm:pt-24">
-        {/* 1. HERO SECTION */}
         <Hero
           onRegisterClick={handleRegisterClick}
           onExploreChallenges={handleExploreTracks}
         />
-
-        {/* 2. ABOUT THE HACKATHON */}
         <TheMissionSection />
-
-        {/* 3. HACKATHON TRACKS */}
         <FeaturedChallenges
           onOpenFullChallenges={handleExploreTracks}
           onSelectChallenge={handleExploreTracks}
         />
-
-        {/* 4. EVENT TIMELINE */}
         <SchedulePreview />
-
-        {/* 5. REGISTRATION INFORMATION */}
         <RegistrationSection onRegisterClick={handleRegisterClick} />
-
-        {/* 6. PRIZES & OPPORTUNITIES */}
         <WhyParticipate onRegisterClick={handleRegisterClick} />
-
-        {/* 7. EVENT ORGANIZERS / BRANDING */}
         <OrganizersSection />
-
-        {/* 8. LOCATION */}
         <KopargaonSection onRegisterClick={handleRegisterClick} />
-
-        {/* 9. FAQ SECTION */}
         <FAQ />
-
-        {/* 10. CONTACT SECTION */}
         <ContactSection />
       </main>
 
-      {/* 11. FOOTER */}
       <Footer />
     </div>
   );

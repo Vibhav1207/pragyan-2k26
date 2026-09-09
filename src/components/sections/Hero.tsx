@@ -13,27 +13,23 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
   return (
     <section id="home" className="w-full pt-32 pb-20 lg:pt-40 lg:pb-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#0B192C] text-white relative overflow-hidden text-left">
       
-      {/* Sanjivani Building Campus Background Image - High Visibility with Low Amplitude Slow Motion */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <img
           src="/sanjivani-building.jpg"
           alt="Sanjivani Campus Building"
           className="w-full h-full object-cover object-center scale-100 opacity-65 filter brightness-100 contrast-110 animate-ambient-bg"
         />
-        {/* Dark Transparent Black Screen Overlay to make text 100% crisp while keeping building photo clearly visible */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-[#0B192C]" />
       </div>
 
       <div className="max-w-[1500px] mx-auto w-full space-y-12 relative z-10">
-        
-        {/* Top Institution Banner */}
         <ScrollReveal delay={0} duration={500}>
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
               <span className="w-2.5 h-2.5 rounded-full bg-[#FACC15] animate-pulse" />
-              <span className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-wider">
+              <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-wider hover:text-[#FACC15] transition-colors">
                 {EVENT_DATA.institution}
-              </span>
+              </a>
             </div>
 
             <div className="font-mono text-xs text-[#FACC15] font-bold uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
@@ -42,13 +38,9 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
           </div>
         </ScrollReveal>
 
-        {/* Hero Editorial Headlines */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
           <div className="lg:col-span-8 space-y-8">
-            
             <div className="space-y-4">
-              {/* Official Pragyan 2K26 Logo Display */}
               <ScrollReveal delay={100} duration={600}>
                 <div className="inline-block p-3.5 bg-white/10 rounded-2xl border border-white/20 shadow-2xl backdrop-blur-md">
                   <img
@@ -85,7 +77,6 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
               </ScrollReveal>
             </div>
 
-            {/* CTAs */}
             <ScrollReveal delay={350} duration={600}>
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
@@ -109,7 +100,6 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
 
           </div>
 
-          {/* Right Visual Card */}
           <div className="lg:col-span-4">
             <ScrollReveal delay={450} duration={700}>
               <div className="card-navy p-8 space-y-6 text-left border-2 border-[#1D4ED8]/40 bg-gradient-to-b from-[#0B192C] to-[#071324] shadow-2xl">
@@ -143,7 +133,7 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
 
                 <div className="pt-2 text-[11px] font-mono text-slate-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-[#FACC15]" />
-                  <span>SANJIVANI UNIVERSITY, KOPARGAON</span>
+                  <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#FACC15] hover:underline">SANJIVANI UNIVERSITY, KOPARGAON</a>
                 </div>
               </div>
             </ScrollReveal>
@@ -151,7 +141,6 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
 
         </div>
 
-        {/* Compact Badges Strip */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
           <ScrollReveal delay={550} duration={600}>
             <div className="card-premium p-6 flex items-center gap-4 bg-white text-[#0B192C]">

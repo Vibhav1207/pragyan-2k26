@@ -48,13 +48,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   // Participant Google Login
-  const loginParticipantGoogle = (googleUser: { name: string; email: string; avatar?: string }) => {
+  const loginParticipantGoogle = (googleUser: { name: string; email: string; avatar?: string; role?: 'PARTICIPANT' | 'ADMIN' }) => {
     const user: UserProfile = {
       id: `USR-${Date.now()}`,
       name: googleUser.name,
       email: googleUser.email,
       avatar: googleUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      role: 'PARTICIPANT'
+      role: googleUser.role || 'PARTICIPANT'
     };
     setParticipant(user);
     localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(user));

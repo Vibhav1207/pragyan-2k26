@@ -33,6 +33,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isAdmin = (admin && admin.role === 'ADMIN') || (participant && participant.role === 'ADMIN');
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -43,24 +45,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
     >
       <div className="max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between">
         
-        {/* Brand Left */}
-        <a href="#home" className="flex items-center gap-3 group text-left">
-          <img
-            src="/pragyan-logo.png"
-            alt="PRAGYAN 2K26 Logo"
-            className="h-9 sm:h-11 w-auto object-contain p-1 bg-white/10 border border-white/20 backdrop-blur-md rounded-lg shadow-md group-hover:scale-105 transition-transform"
-          />
+        <div className="flex items-center gap-3 text-left">
+          <a href="#home" className="flex items-center group">
+            <img
+              src="/pragyan-logo.png"
+              alt="PRAGYAN 2K26 Logo"
+              className="h-9 sm:h-11 w-auto object-contain p-1 bg-white/10 border border-white/20 backdrop-blur-md rounded-lg shadow-md group-hover:scale-105 transition-transform"
+            />
+          </a>
           <div className="flex flex-col">
-            <span className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-tight leading-none">
+            <a
+              href="https://sanjivani.edu.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-tight leading-none hover:text-[#FACC15] transition-colors"
+            >
               SANJIVANI UNIVERSITY
-            </span>
-            <span className="font-mono text-[10px] text-[#FACC15] font-bold tracking-wider uppercase">
+            </a>
+            <a href="#home" className="font-mono text-[10px] text-[#FACC15] font-bold tracking-wider uppercase hover:underline">
               PRAGYAN 2K26
-            </span>
+            </a>
           </div>
-        </a>
+        </div>
 
-        {/* Center Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => (
             <a
@@ -75,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
 
         {/* Right CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          {admin && (
+          {isAdmin && (
             <Link
               to="/admin/dashboard"
               className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 hover:text-white hover:bg-white/10 border border-slate-700/60 transition flex items-center gap-1"
@@ -134,7 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           </div>
 
           <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
-            {admin && (
+            {isAdmin && (
               <Link
                 to="/admin/dashboard"
                 onClick={() => setMobileMenuOpen(false)}

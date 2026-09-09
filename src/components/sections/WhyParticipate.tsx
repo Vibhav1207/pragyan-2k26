@@ -106,7 +106,7 @@ export const WhyParticipate: React.FC<PrizesSectionProps> = ({ onRegisterClick }
                 </div>
 
                 <p className="text-slate-300 text-sm max-w-2xl font-sans leading-relaxed">
-                  EXPLORE SHIRDI WITH YOUR JOURNEY — Top teams visiting Sanjivani University, Kopargaon will get a complimentary opportunity to visit and explore the holy city of Shirdi.
+                  EXPLORE SHIRDI WITH YOUR JOURNEY — Top teams visiting <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#FACC15] hover:underline font-semibold">Sanjivani University, Kopargaon</a> will get a complimentary opportunity to visit and explore the holy city of Shirdi.
                 </p>
               </div>
 
@@ -117,7 +117,7 @@ export const WhyParticipate: React.FC<PrizesSectionProps> = ({ onRegisterClick }
                     <span className="font-space font-extrabold text-sm uppercase">KOPARGAON & SHIRDI</span>
                   </div>
                   <p className="text-xs text-slate-300 font-sans">
-                    Sanjivani University campus is situated near Shirdi, Maharashtra.
+                    <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#FACC15] hover:underline font-semibold">Sanjivani University</a> campus is situated near Shirdi, Maharashtra.
                   </p>
                 </div>
 

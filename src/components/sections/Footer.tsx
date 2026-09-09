@@ -121,9 +121,9 @@ export const Footer: React.FC = () => {
                 className="h-10 w-auto object-contain bg-white/95 px-2 py-0.5 rounded-lg shadow-md"
               />
               <div>
-                <span className="font-space font-extrabold text-lg text-white uppercase block leading-none">
+                <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="font-space font-extrabold text-lg text-white uppercase block leading-none hover:text-[#FACC15] transition-colors">
                   SANJIVANI UNIVERSITY
-                </span>
+                </a>
                 <span className="font-mono text-xs text-[#FACC15] font-bold">
                   PRAGYAN 2K26
                 </span>
@@ -135,7 +135,7 @@ export const Footer: React.FC = () => {
                 NATIONAL LEVEL HACKATHON
               </div>
               <p className="text-xs text-slate-300 font-sans max-w-md leading-relaxed">
-                Theme: Innovation & Entrepreneurship on SDG Goal 2030. 24-Hour Innovation Sprint for India's brightest commerce & management minds hosted at Sanjivani University, Kopargaon.
+                Theme: Innovation & Entrepreneurship on SDG Goal 2030. 24-Hour Innovation Sprint for India's brightest commerce & management minds hosted at <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#FACC15] hover:underline font-semibold">Sanjivani University, Kopargaon</a>.
               </p>
             </div>
           </div>

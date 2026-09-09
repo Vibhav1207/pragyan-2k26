@@ -44,7 +44,9 @@ export const KopargaonSection: React.FC<KopargaonSectionProps> = () => {
 
               <div className="space-y-2">
                 <h3 className="font-space font-black text-2xl sm:text-4xl text-[#0B192C] uppercase tracking-tight leading-tight">
-                  SANJIVANI UNIVERSITY
+                  <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#1D4ED8] transition-colors">
+                    SANJIVANI UNIVERSITY
+                  </a>
                 </h3>
                 <p className="font-space font-extrabold text-lg sm:text-xl text-[#1D4ED8] uppercase">
                   Kopargaon, near Shirdi, Ahilyanagar, Maharashtra 423601
@@ -52,7 +54,7 @@ export const KopargaonSection: React.FC<KopargaonSectionProps> = () => {
               </div>
 
               <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed">
-                The grand finale of PRAGYAN 2K26 will take place at the state-of-the-art Sanjivani University campus, equipped with 24-hour innovation facilities, mentor lounges, high-speed Wi-Fi, and hospitality for national participants.
+                The grand finale of PRAGYAN 2K26 will take place at the state-of-the-art <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#1D4ED8] hover:underline font-semibold">Sanjivani University</a> campus, equipped with 24-hour innovation facilities, mentor lounges, high-speed Wi-Fi, and hospitality for national participants.
               </p>
 
               <div className="pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">

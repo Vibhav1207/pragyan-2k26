@@ -113,13 +113,12 @@ export const OrganizersSection: React.FC = () => {
                     </h4>
                   </div>
                   <p className="text-xs text-slate-600 font-sans leading-relaxed">
-                    Fostering systematic innovation culture, startup mentorship, and research ideation across Sanjivani University.
+                    Fostering systematic innovation culture, startup mentorship, and research ideation across <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#1D4ED8] hover:underline font-semibold">Sanjivani University</a>.
                   </p>
                 </div>
               </div>
             </ScrollReveal>
 
-            {/* 3. ENTREPRENEURSHIP DEVELOPMENT CELL */}
             <ScrollReveal delay={450} duration={600}>
               <div className="card-premium p-8 rounded-2xl border border-slate-200 text-[#0B192C] space-y-4 hover:border-[#1D4ED8] transition-all duration-300 flex flex-col justify-between h-full">
                 <div className="space-y-4">

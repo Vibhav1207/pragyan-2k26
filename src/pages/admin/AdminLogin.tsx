@@ -58,7 +58,7 @@ export const AdminLogin: React.FC = () => {
               PRAGYAN 2K26 ADMIN PORTAL
             </h1>
             <p className="text-xs text-slate-500">
-              Authorized Sanjivani University Hackathon Administrators Only
+              Authorized <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="hover:underline text-[#1D4ED8] font-medium">Sanjivani University</a> Hackathon Administrators Only
             </p>
           </div>
         </div>

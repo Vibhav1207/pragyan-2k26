@@ -38,7 +38,7 @@ export const TheMissionSection: React.FC = () => {
 
             <ScrollReveal delay={150}>
               <p className="text-base sm:text-lg text-slate-700 font-sans leading-relaxed font-medium">
-                <strong className="text-[#0B192C]">PRAGYAN 2K26</strong> is a national-level hackathon hosted by <strong className="text-[#1D4ED8]">Sanjivani University</strong> designed as a <strong className="text-[#0B192C] bg-[#FACC15]/30 px-1">24 HRS Innovation Sprint for India's Brightest Commerce and Management Minds</strong>.
+                <strong className="text-[#0B192C]">PRAGYAN 2K26</strong> is a national-level hackathon hosted by <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#1D4ED8] hover:underline font-bold transition-colors">Sanjivani University</a> designed as a <strong className="text-[#0B192C] bg-[#FACC15]/30 px-1">24 HRS Innovation Sprint for India's Brightest Commerce and Management Minds</strong>.
               </p>
             </ScrollReveal>
 
@@ -57,7 +57,7 @@ export const TheMissionSection: React.FC = () => {
                 <div className="space-y-2 font-mono text-xs text-slate-300 font-semibold">
                   <div className="flex justify-between border-b border-white/10 py-1.5">
                     <span>INSTITUTION</span>
-                    <span className="text-[#FACC15]">SANJIVANI UNIVERSITY</span>
+                    <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#FACC15] hover:underline">SANJIVANI UNIVERSITY</a>
                   </div>
                   <div className="flex justify-between border-b border-white/10 py-1.5">
                     <span>LOCATION</span>
