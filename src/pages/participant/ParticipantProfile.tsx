@@ -247,12 +247,30 @@ export const ParticipantProfile: React.FC = () => {
               </div>
 
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
-                <div className="text-slate-400 font-bold uppercase text-[10px]">PROJECT SUBMISSION</div>
-                <div className={`font-bold ${userTeam.submission ? 'text-emerald-700' : 'text-amber-700'}`}>
-                  {userTeam.submission ? '✓ SUBMITTED' : 'PENDING UPLOAD'}
+                <div className="text-slate-400 font-bold uppercase text-[10px]">SUBMISSION STATUS</div>
+                <div className={`font-bold ${
+                  userTeam.submission?.status === 'SHORTLISTED' ? 'text-emerald-600' :
+                  userTeam.submission?.status === 'REVIEWED' ? 'text-indigo-600' :
+                  userTeam.submission?.status === 'UNDER_REVIEW' ? 'text-amber-600' :
+                  userTeam.submission?.status === 'DISQUALIFIED' ? 'text-red-600' :
+                  userTeam.submission ? 'text-blue-600' : 'text-slate-400'
+                }`}>
+                  {userTeam.submission ? userTeam.submission.status.replace('_', ' ') : 'PENDING UPLOAD'}
                 </div>
               </div>
             </div>
+
+            {/* JUDGING EVALUATION REMARKS */}
+            {userTeam.submission?.adminNotes && (
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-2xl space-y-2 text-left">
+                <div className="text-xs font-mono font-bold text-[#1D4ED8] uppercase">
+                  OFFICIAL JUDGING REMARKS & FEEDBACK
+                </div>
+                <p className="text-xs text-slate-700 bg-white p-3 rounded-xl border border-blue-100 font-medium">
+                  "{userTeam.submission.adminNotes}"
+                </p>
+              </div>
+            )}
 
             {/* TEAM ROSTER */}
             <div className="space-y-3 pt-2">

@@ -18,7 +18,10 @@ import {
   ArrowRight,
   KeyRound,
   PlusCircle,
-  Lock
+  Lock,
+  MessageSquare,
+  Clock,
+  Award
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
@@ -395,14 +398,26 @@ export const ParticipantDashboard: React.FC = () => {
                 </div>
 
                 {/* Submission Action CTA */}
-                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center space-y-3 shrink-0 shadow-sm">
-                  <div className="text-[10px] font-mono font-bold text-slate-500 uppercase">SUBMISSION STATUS</div>
+                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center space-y-3 shrink-0 shadow-sm min-w-[220px]">
+                  <div className="text-[10px] font-mono font-bold text-slate-500 uppercase">SUBMISSION EVALUATION</div>
                   {userTeam.submission ? (
                     <div className="space-y-2">
-                      <div className="text-xs font-mono font-bold text-emerald-700 flex items-center justify-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" /> SUBMITTED
+                      <div className={`text-xs font-mono font-extrabold px-3 py-1.5 rounded-xl border flex items-center justify-center gap-1.5 uppercase ${
+                        userTeam.submission.status === 'SHORTLISTED' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                        userTeam.submission.status === 'REVIEWED' ? 'bg-indigo-100 text-indigo-800 border-indigo-300' :
+                        userTeam.submission.status === 'UNDER_REVIEW' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                        userTeam.submission.status === 'DISQUALIFIED' ? 'bg-red-100 text-red-800 border-red-300' :
+                        'bg-blue-100 text-blue-800 border-blue-300'
+                      }`}>
+                        {userTeam.submission.status === 'SHORTLISTED' && <Award className="w-4 h-4 text-emerald-600" />}
+                        {userTeam.submission.status === 'UNDER_REVIEW' && <Clock className="w-4 h-4 text-amber-600" />}
+                        {userTeam.submission.status === 'REVIEWED' && <CheckCircle2 className="w-4 h-4 text-indigo-600" />}
+                        {userTeam.submission.status === 'SUBMITTED' && <CheckCircle2 className="w-4 h-4 text-blue-600" />}
+                        <span>{userTeam.submission.status.replace('_', ' ')}</span>
                       </div>
-                      <div className="text-[10px] text-slate-600 font-bold truncate max-w-[200px]">{userTeam.submission.projectTitle}</div>
+
+                      <div className="text-[10px] text-slate-700 font-bold truncate max-w-[200px]">{userTeam.submission.projectTitle}</div>
+
                       {isTeamLeader && (
                         <button
                           onClick={() => {
@@ -412,7 +427,7 @@ export const ParticipantDashboard: React.FC = () => {
                             setDemoUrl(userTeam.submission?.demoUrl || '');
                             setIsSubmitModalOpen(true);
                           }}
-                          className="text-[10px] font-mono text-[#1D4ED8] hover:underline font-bold"
+                          className="text-[10px] font-mono text-[#1D4ED8] hover:underline font-bold block mx-auto"
                         >
                           ✎ Edit / Resubmit Project
                         </button>
@@ -421,12 +436,12 @@ export const ParticipantDashboard: React.FC = () => {
                   ) : isTeamLeader ? (
                     <button
                       onClick={() => setIsSubmitModalOpen(true)}
-                      className="px-5 py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-2 shadow-md shadow-blue-600/20 transition"
+                      className="px-5 py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase flex items-center gap-2 shadow-md shadow-blue-600/20 transition mx-auto"
                     >
                       <Upload className="w-4 h-4 text-yellow-300" /> UPLOAD PROJECT SUBMISSION
                     </button>
                   ) : (
-                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-mono flex items-center justify-center gap-1.5 max-w-[240px] text-left">
+                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-mono flex items-center justify-center gap-1.5 max-w-[240px] text-left mx-auto">
                       <Lock className="w-4 h-4 shrink-0 text-amber-600" />
                       <span>Only Team Leader ({userTeam.leader.fullName}) can submit the project.</span>
                     </div>
@@ -435,6 +450,22 @@ export const ParticipantDashboard: React.FC = () => {
 
               </div>
             </div>
+
+            {/* JUDGES EVALUATION & REMARKS BANNER */}
+            {userTeam.submission && userTeam.submission.adminNotes && (
+              <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 border border-blue-200 p-6 rounded-3xl space-y-3 shadow-sm text-left">
+                <div className="flex items-center gap-2 text-xs font-mono font-extrabold text-[#1D4ED8] uppercase tracking-wider">
+                  <MessageSquare className="w-4 h-4 text-blue-600" />
+                  <span>OFFICIAL JUDGING REMARKS & EVALUATION FEEDBACK</span>
+                </div>
+                <div className="bg-white p-4 rounded-2xl border border-blue-100 shadow-sm text-xs font-sans text-slate-800 leading-relaxed font-medium">
+                  "{userTeam.submission.adminNotes}"
+                </div>
+                <div className="text-[10px] font-mono text-slate-400">
+                  Evaluated by PRAGYAN 2K26 Hackathon Admin Panel
+                </div>
+              </div>
+            )}
 
             {/* 4 TEAM MEMBERS ROSTER */}
             <div className="space-y-4">
