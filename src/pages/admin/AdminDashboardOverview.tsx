@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, 
   Clock, 
@@ -27,8 +27,15 @@ import { apiService } from '../../services/api';
 
 export const AdminDashboardOverview: React.FC = () => {
   const [chartTimeframe, setChartTimeframe] = useState<'7d' | '30d' | 'all'>('7d');
+  const [teams, setTeams] = useState(() => apiService.getTeams());
 
-  const teams = apiService.getTeams();
+  useEffect(() => {
+    let isMounted = true;
+    apiService.fetchTeamsAsync().then(fresh => {
+      if (isMounted && fresh) setTeams(fresh);
+    });
+    return () => { isMounted = false; };
+  }, []);
   const submissions = apiService.getSubmissions();
   const tracks = apiService.getTracks();
   const activityLogs = apiService.getActivityLogs().slice(0, 6);

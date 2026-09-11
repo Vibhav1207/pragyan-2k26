@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Search, 
@@ -16,6 +16,14 @@ import type { Team } from '../../types/admin';
 
 export const AdminTeamsList: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>(() => apiService.getTeams());
+
+  useEffect(() => {
+    let isMounted = true;
+    apiService.fetchTeamsAsync().then(fresh => {
+      if (isMounted && fresh) setTeams(fresh);
+    });
+    return () => { isMounted = false; };
+  }, []);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTrack, setSelectedTrack] = useState('ALL');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');

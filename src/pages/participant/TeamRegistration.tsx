@@ -21,17 +21,22 @@ export const TeamRegistration: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (participant && participant.teamId) {
-      const teams = apiService.getTeams();
-      const existingTeam = teams.find(t => 
-        t.teamId === participant.teamId ||
-        t.leader?.email?.toLowerCase() === participant.email?.toLowerCase() ||
-        t.members?.some(m => m.email?.toLowerCase() === participant.email?.toLowerCase())
-      );
-      if (existingTeam) {
-        navigate('/dashboard');
+    let isMounted = true;
+    const syncAndCheck = async () => {
+      const teams = await apiService.fetchTeamsAsync();
+      if (isMounted && participant) {
+        const existingTeam = teams.find(t => 
+          (participant.teamId && t.teamId === participant.teamId) ||
+          t.leader?.email?.toLowerCase() === participant.email?.toLowerCase() ||
+          t.members?.some(m => m.email?.toLowerCase() === participant.email?.toLowerCase())
+        );
+        if (existingTeam) {
+          navigate('/dashboard');
+        }
       }
-    }
+    };
+    syncAndCheck();
+    return () => { isMounted = false; };
   }, [participant, navigate]);
   
   const tracks = apiService.getTracks().filter(t => t.isActive);

@@ -269,8 +269,48 @@ class PragyanAPIService {
   }
 
   async joinTeamByCode(teamCode: string, member: Team['leader']): Promise<{ success: boolean; team?: Team; error?: string }> {
-    const teams = this.getTeams();
     const targetCode = teamCode.trim().toUpperCase();
+    const newMember = { ...member, isLeader: false };
+
+    // 1. Fetch latest teams from backend server first to ensure local cache is up-to-date
+    await this.fetchTeamsAsync();
+
+    // 2. Try pushing join request to MongoDB Backend first
+    try {
+      const payload = { teamCode: targetCode, member: newMember };
+      let res = await fetch('/api/teams/join', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/teams/join', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(payload)
+        });
+      }
+
+      if (res.ok) {
+        const mongoTeam = await res.json();
+        if (mongoTeam && mongoTeam.teamId) {
+          const freshTeams = await this.fetchTeamsAsync();
+          const syncedTeam = freshTeams.find(t => t.teamId === mongoTeam.teamId) || mongoTeam;
+          this.logActivity('MEMBER_JOINED_TEAM', syncedTeam.teamId, `${member.fullName} joined team ${syncedTeam.teamName} via Code ${teamCode}`, 'INFO');
+          return { success: true, team: syncedTeam };
+        }
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        if (errData && errData.error) {
+          return { success: false, error: errData.error };
+        }
+      }
+    } catch (err) {
+      console.warn('MongoDB API connection note (Fallback to local join mode):', err);
+    }
+
+    // 3. Fallback to Local Storage join logic if backend server is unreachable
+    const teams = this.getTeams();
     const index = teams.findIndex(t => (t.teamCode || '').toUpperCase() === targetCode);
 
     if (index === -1) {
@@ -287,27 +327,7 @@ class PragyanAPIService {
       return { success: false, error: `Member with email "${member.email}" is already registered in this team.` };
     }
 
-    const newMember = { ...member, isLeader: false };
     team.members.push(newMember);
-
-    // Push Join request to MongoDB Backend
-    try {
-      const payload = { teamCode: targetCode, member: newMember };
-      let res = await fetch('/api/teams/join', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) {
-        await fetch('http://localhost:5000/api/teams/join', {
-          method: 'POST',
-          headers: getAuthHeaders(),
-          body: JSON.stringify(payload)
-        });
-      }
-    } catch (err) {
-      console.warn('MongoDB API connection note (Member joined locally):', err);
-    }
 
     setStored(STORAGE_KEYS.TEAMS, teams);
     this.logActivity('MEMBER_JOINED_TEAM', team.teamId, `${member.fullName} joined team ${team.teamName} via Code ${teamCode}`, 'INFO');

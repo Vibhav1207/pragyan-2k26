@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Users, 
@@ -22,7 +22,8 @@ import {
   MessageSquare,
   Clock,
   Award,
-  CreditCard
+  CreditCard,
+  RefreshCw
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
@@ -34,6 +35,42 @@ export const ParticipantDashboard: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const [teams, setTeams] = useState<Team[]>(() => apiService.getTeams());
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const refreshTeamRoster = async () => {
+    setIsRefreshing(true);
+    try {
+      const freshTeams = await apiService.fetchTeamsAsync();
+      if (freshTeams && Array.isArray(freshTeams)) {
+        setTeams(freshTeams);
+      }
+    } catch (err) {
+      console.warn('Failed to refresh team roster:', err);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLatest = async () => {
+      const freshTeams = await apiService.fetchTeamsAsync();
+      if (isMounted && freshTeams && Array.isArray(freshTeams)) {
+        setTeams(freshTeams);
+      }
+    };
+
+    fetchLatest();
+
+    // Auto-poll every 5 seconds for real-time team member join updates
+    const interval = setInterval(fetchLatest, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
   const announcements = apiService.getAnnouncements().filter(a => a.status === 'PUBLISHED');
 
   // Find team where logged-in user is leader or member
@@ -174,7 +211,9 @@ export const ParticipantDashboard: React.FC = () => {
     });
 
     if (res.success && res.team) {
-      setTeams(apiService.getTeams());
+      updateParticipantTeam(res.team.teamId);
+      const freshTeams = await apiService.fetchTeamsAsync();
+      setTeams(freshTeams);
       alert(`🎉 Successfully joined team "${res.team.teamName}"!`);
       setIsJoining(false);
     } else {
@@ -663,17 +702,28 @@ export const ParticipantDashboard: React.FC = () => {
 
             {/* 4 TEAM MEMBERS ROSTER */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-2 flex-wrap gap-2">
                 <h2 className="font-space font-extrabold text-xl text-[#0B192C] uppercase flex items-center gap-2">
                   <Users className="w-5 h-5 text-[#1D4ED8]" />
-                  <span>MY TEAM ROSTER (4 MEMBERS)</span>
+                  <span>MY TEAM ROSTER ({userTeam.members.length}/4 MEMBERS)</span>
                 </h2>
-                <Link
-                  to="/profile"
-                  className="text-xs font-mono font-bold text-[#1D4ED8] hover:underline"
-                >
-                  View Full Profile →
-                </Link>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={refreshTeamRoster}
+                    disabled={isRefreshing}
+                    className="text-xs font-mono font-semibold text-[#1D4ED8] hover:text-blue-800 flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-full border border-blue-200 transition disabled:opacity-50"
+                    title="Refresh live team roster from database"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                    <span>{isRefreshing ? 'Syncing...' : 'Refresh Roster'}</span>
+                  </button>
+                  <Link
+                    to="/profile"
+                    className="text-xs font-mono font-bold text-[#1D4ED8] hover:underline"
+                  >
+                    View Full Profile →
+                  </Link>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
