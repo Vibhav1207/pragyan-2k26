@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight, User } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Menu, X, ArrowUpRight, User, LayoutDashboard, LogIn } from 'lucide-react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { AnnouncementTicker } from './AnnouncementTicker';
 
 interface NavbarProps {
-  onRegisterClick: () => void;
+  onRegisterClick?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
@@ -13,16 +13,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const { participant } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHomepage = location.pathname === '/';
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Tracks', href: '#tracks' },
-    { name: 'Timeline', href: '#timeline' },
-    { name: 'Prizes', href: '#prizes' },
-    { name: 'Registration', href: '#registration' },
-    { name: 'FAQ', href: '#faq' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: isHomepage ? '#home' : '/#home' },
+    { name: 'About', href: isHomepage ? '#about' : '/#about' },
+    { name: 'Tracks', href: isHomepage ? '#tracks' : '/#tracks' },
+    { name: 'Timeline', href: isHomepage ? '#timeline' : '/#timeline' },
+    { name: 'Prizes', href: isHomepage ? '#prizes' : '/#prizes' },
+    { name: 'Registration', href: isHomepage ? '#registration' : '/#registration' },
+    { name: 'FAQ', href: isHomepage ? '#faq' : '/#faq' },
+    { name: 'Contact', href: isHomepage ? '#contact' : '/#contact' },
   ];
 
   useEffect(() => {
@@ -33,10 +36,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleRegisterCta = () => {
+    if (onRegisterClick) {
+      onRegisterClick();
+    } else if (participant) {
+      if (participant.teamId) {
+        navigate('/dashboard');
+      } else {
+        navigate('/register');
+      }
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        scrolled || !isHomepage
           ? 'bg-[#0B192C]/95 backdrop-blur-md border-b border-white/10 shadow-xl'
           : 'bg-[#0B192C]/90 backdrop-blur-sm border-b border-white/5'
       }`}
@@ -44,13 +61,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
       <div className={`max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2.5' : 'py-3.5'}`}>
         
         <div className="flex items-center gap-3 text-left">
-          <a href="#home" className="flex items-center group">
+          <Link to="/" className="flex items-center group">
             <img
               src="/pragyan-logo.png"
               alt="PRAGYAN 2K26 Logo"
               className="h-9 sm:h-11 w-auto object-contain p-1 bg-white/10 border border-white/20 backdrop-blur-md rounded-lg shadow-md group-hover:scale-105 transition-transform"
             />
-          </a>
+          </Link>
           <div className="flex flex-col">
             <a
               href="https://sanjivani.edu.in"
@@ -60,9 +77,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
             >
               SANJIVANI UNIVERSITY
             </a>
-            <a href="#home" className="font-mono text-[10px] text-[#FACC15] font-bold tracking-wider uppercase hover:underline">
+            <Link to="/" className="font-mono text-[10px] text-[#FACC15] font-bold tracking-wider uppercase hover:underline">
               PRAGYAN 2K26
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -81,21 +98,49 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
         {/* Right CTA */}
         <div className="hidden lg:flex items-center gap-3">
           {participant ? (
-            <button
-              onClick={() => navigate('/profile')}
-              className="px-4 py-2 rounded-xl bg-[#1D4ED8] hover:bg-blue-600 text-white font-space font-extrabold text-xs uppercase flex items-center gap-2 shadow-lg shadow-blue-600/30 transition border border-blue-400/40"
-            >
-              <User className="w-4 h-4 text-[#FACC15]" />
-              <span>MY PROFILE</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-space font-extrabold flex items-center gap-1.5 transition border ${
+                  location.pathname === '/dashboard'
+                    ? 'bg-[#1D4ED8] text-white border-blue-400'
+                    : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
+                }`}
+              >
+                <LayoutDashboard className="w-4 h-4 text-[#FACC15]" />
+                <span>DASHBOARD</span>
+              </button>
+
+              <button
+                onClick={() => navigate('/profile')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-space font-extrabold flex items-center gap-1.5 transition border ${
+                  location.pathname === '/profile'
+                    ? 'bg-[#1D4ED8] text-white border-blue-400'
+                    : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
+                }`}
+              >
+                <User className="w-4 h-4 text-[#FACC15]" />
+                <span>PROFILE</span>
+              </button>
+            </div>
           ) : (
-            <button
-              onClick={onRegisterClick}
-              className="btn-primary-blue text-xs uppercase"
-            >
-              <span>REGISTER NOW</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate('/login')}
+                className="px-3.5 py-2 rounded-xl text-xs font-space font-extrabold text-white bg-white/10 hover:bg-white/20 border border-white/20 flex items-center gap-1.5 transition"
+              >
+                <LogIn className="w-4 h-4 text-[#FACC15]" />
+                <span>LOGIN</span>
+              </button>
+
+              <button
+                onClick={handleRegisterCta}
+                className="btn-primary-blue text-xs uppercase"
+              >
+                <span>REGISTER NOW</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+            </div>
           )}
         </div>
 
@@ -130,27 +175,51 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
 
           <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
             {participant ? (
-              <button
-                onClick={() => {
-                  navigate('/profile');
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full py-3 rounded-xl bg-[#1D4ED8] text-white font-space font-extrabold text-xs uppercase flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30"
-              >
-                <User className="w-4 h-4 text-[#FACC15]" />
-                <span>MY PROFILE</span>
-              </button>
+              <>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-3 rounded-xl bg-[#1D4ED8] text-white font-space font-extrabold text-xs uppercase flex items-center justify-center gap-2"
+                >
+                  <LayoutDashboard className="w-4 h-4 text-[#FACC15]" />
+                  <span>MY DASHBOARD</span>
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/profile');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-3 rounded-xl bg-white/10 text-white font-space font-extrabold text-xs uppercase flex items-center justify-center gap-2"
+                >
+                  <User className="w-4 h-4 text-[#FACC15]" />
+                  <span>MY PROFILE</span>
+                </button>
+              </>
             ) : (
-              <button
-                onClick={() => {
-                  onRegisterClick();
-                  setMobileMenuOpen(false);
-                }}
-                className="btn-primary-blue w-full justify-center text-xs"
-              >
-                <span>REGISTER NOW</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
+              <>
+                <button
+                  onClick={() => {
+                    navigate('/login');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-3 rounded-xl bg-white/10 text-white font-space font-extrabold text-xs uppercase flex items-center justify-center gap-2"
+                >
+                  <LogIn className="w-4 h-4 text-[#FACC15]" />
+                  <span>LOGIN</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleRegisterCta();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="btn-primary-blue w-full justify-center text-xs"
+                >
+                  <span>REGISTER NOW</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </>
             )}
           </div>
         </div>

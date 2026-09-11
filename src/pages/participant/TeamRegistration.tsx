@@ -16,6 +16,8 @@ import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import type { TeamMember } from '../../types/admin';
 
+import { Navbar } from '../../components/sections/Navbar';
+
 export const TeamRegistration: React.FC = () => {
   const { participant, updateParticipantTeam } = useAuth();
   const navigate = useNavigate();
@@ -187,7 +189,8 @@ export const TeamRegistration: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] py-12 px-4 sm:px-8 font-sans selection:bg-[#1D4ED8] selection:text-white">
+    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] pt-28 pb-12 px-4 sm:px-8 font-sans selection:bg-[#1D4ED8] selection:text-white">
+      <Navbar />
       
       <div className="max-w-4xl mx-auto space-y-8 text-left">
         

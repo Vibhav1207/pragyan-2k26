@@ -19,6 +19,8 @@ import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import type { Team } from '../../types/admin';
 
+import { Navbar } from '../../components/sections/Navbar';
+
 export const ParticipantProfile: React.FC = () => {
   const { participant, logoutParticipant } = useAuth();
   const navigate = useNavigate();
@@ -43,73 +45,8 @@ export const ParticipantProfile: React.FC = () => {
   ) || userTeam?.leader;
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] font-sans selection:bg-[#1D4ED8] selection:text-white">
-      
-      {/* NAVBAR */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          
-          <div className="flex items-center gap-6">
-            <Link to="/dashboard" className="flex items-center gap-3 group">
-              <div className="p-1.5 bg-[#0B192C] rounded-xl shadow-md group-hover:scale-105 transition">
-                <img src="/pragyan-logo.png" alt="PRAGYAN Logo" className="h-7 w-auto object-contain" />
-              </div>
-              <div className="text-left">
-                <div className="font-space font-extrabold text-base text-[#0B192C] uppercase tracking-tight">
-                  PRAGYAN <span className="text-[#1D4ED8]">2K26</span>
-                </div>
-                <div className="font-mono text-[9px] text-blue-600 font-bold uppercase tracking-widest">
-                  PARTICIPANT HUB
-                </div>
-              </div>
-            </Link>
-
-            {/* Nav Links */}
-            <nav className="hidden md:flex items-center gap-2">
-              <Link
-                to="/dashboard"
-                className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-[#1D4ED8] hover:bg-blue-50 transition flex items-center gap-1.5"
-              >
-                <LayoutDashboard className="w-4 h-4 text-blue-600" /> Dashboard
-              </Link>
-              <Link
-                to="/profile"
-                className="px-3.5 py-1.5 rounded-xl text-xs font-extrabold text-white bg-[#1D4ED8] shadow-md shadow-blue-600/20 flex items-center gap-1.5"
-              >
-                <User className="w-4 h-4 text-yellow-300" /> My Profile
-              </Link>
-              <Link
-                to="/"
-                className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-[#1D4ED8] hover:bg-blue-50 transition"
-              >
-                Public Website ↗
-              </Link>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2.5 bg-slate-100 px-3 py-1.5 rounded-2xl border border-slate-200">
-              <img
-                src={participant?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
-                alt={participant?.name || 'User'}
-                className="w-7 h-7 rounded-full border border-blue-600 object-cover"
-              />
-              <div className="text-left leading-tight">
-                <div className="text-xs font-bold text-[#0B192C]">{participant?.name || 'Participant'}</div>
-                <div className="text-[10px] font-mono text-slate-500">{participant?.email}</div>
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="px-3.5 py-2 rounded-xl bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white text-xs font-mono font-bold transition flex items-center gap-1.5 shadow-sm"
-            >
-              <LogOut className="w-4 h-4" /> Logout
-            </button>
-          </div>
-
-        </div>
-      </header>
+    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] font-sans selection:bg-[#1D4ED8] selection:text-white pt-28 pb-12">
+      <Navbar />
 
       {/* PROFILE CONTENT */}
       <main className="max-w-4xl mx-auto p-4 sm:p-8 space-y-8 text-left">

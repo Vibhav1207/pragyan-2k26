@@ -14,6 +14,8 @@ import {
   checkRedirectResult 
 } from '../../config/firebase';
 
+import { Navbar } from '../../components/sections/Navbar';
+
 export const ParticipantLogin: React.FC = () => {
   const { loginParticipantGoogle, participant } = useAuth();
   const navigate = useNavigate();
@@ -96,7 +98,8 @@ export const ParticipantLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] flex items-center justify-center p-4 relative overflow-hidden font-sans selection:bg-[#1D4ED8] selection:text-white">
+    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] flex items-center justify-center p-4 relative overflow-hidden font-sans selection:bg-[#1D4ED8] selection:text-white pt-28 pb-12">
+      <Navbar />
       
       {/* Background Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[140px] pointer-events-none" />

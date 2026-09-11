@@ -17,7 +17,15 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
+  }
+
+  html.lenis, html.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  html.lenis body, html.lenis-smooth body {
+    scroll-behavior: auto !important;
   }
 
   body {
