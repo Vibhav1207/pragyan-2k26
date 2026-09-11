@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { 
   Users, 
   Upload, 
   Megaphone, 
-  LogOut, 
   Crown, 
   CheckCircle2,
   Copy,
   Check,
-  User,
-  LayoutDashboard,
   Code2,
   ExternalLink,
   FileText,
@@ -32,8 +29,7 @@ import type { Team, SubmissionFile, TeamMember } from '../../types/admin';
 import { Navbar } from '../../components/sections/Navbar';
 
 export const ParticipantDashboard: React.FC = () => {
-  const { participant, logoutParticipant, updateParticipantTeam } = useAuth();
-  const navigate = useNavigate();
+  const { participant, updateParticipantTeam } = useAuth();
   const [copied, setCopied] = useState(false);
 
   const [teams, setTeams] = useState<Team[]>(() => apiService.getTeams());
@@ -181,11 +177,6 @@ export const ParticipantDashboard: React.FC = () => {
       alert('🎉 ₹500 Payment proof submitted for verification! Your team status & project submission will be approved by admins within 24 hours.');
     };
     reader.readAsDataURL(paymentScreenshotFile);
-  };
-
-  const handleLogout = () => {
-    logoutParticipant();
-    navigate('/login');
   };
 
   const handleCopyCode = (code: string) => {

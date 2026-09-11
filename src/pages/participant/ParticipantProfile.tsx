@@ -12,8 +12,7 @@ import {
   Copy, 
   Check, 
   ArrowLeft, 
-  LogOut,
-  LayoutDashboard
+  LogOut
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
@@ -239,6 +238,15 @@ export const ParticipantProfile: React.FC = () => {
           </div>
         )}
 
+        <div className="pt-4 border-t border-slate-200 flex justify-end">
+          <button
+            onClick={handleLogout}
+            className="px-5 py-2.5 rounded-2xl bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white font-mono font-bold text-xs flex items-center gap-2 transition shadow-sm"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>SIGN OUT ACCOUNT</span>
+          </button>
+        </div>
       </main>
 
     </div>

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
 
 import { CustomCursor } from './components/ui/CustomCursor';
 import { Navbar } from './components/sections/Navbar';
