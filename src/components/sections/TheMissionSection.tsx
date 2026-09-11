@@ -2,6 +2,7 @@ import React from 'react';
 import { Lightbulb, Rocket, Users, Target } from 'lucide-react';
 import { FOUR_CONCEPTS } from '../../data/event';
 import { ScrollReveal } from '../transitions/ScrollReveal';
+import { EventHighlightsCard } from './EventHighlightsCard';
 
 export const TheMissionSection: React.FC = () => {
   const conceptIcons = [Lightbulb, Rocket, Users, Target];
@@ -27,9 +28,9 @@ export const TheMissionSection: React.FC = () => {
           </div>
         </ScrollReveal>
 
-        {/* Narrative Box */}
+        {/* Narrative Box + Redesigned Event Highlights Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-8 space-y-6">
+          <div className="lg:col-span-6 xl:col-span-7 space-y-6">
             <ScrollReveal delay={100}>
               <h3 className="font-space font-black text-2xl sm:text-4xl text-[#0B192C] leading-snug">
                 INNOVATION & ENTREPRENEURSHIP ON SDG GOAL 2030
@@ -49,26 +50,9 @@ export const TheMissionSection: React.FC = () => {
             </ScrollReveal>
           </div>
 
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-6 xl:col-span-5">
             <ScrollReveal delay={250}>
-              <div className="card-navy p-6 sm:p-8 space-y-4 text-left">
-                <div className="font-mono text-xs text-[#FACC15] font-bold uppercase">EVENT HIGHLIGHTS</div>
-                <div className="font-space font-black text-2xl uppercase text-white">24 HRS HACKATHON</div>
-                <div className="space-y-2 font-mono text-xs text-slate-300 font-semibold">
-                  <div className="flex justify-between border-b border-white/10 py-1.5">
-                    <span>INSTITUTION</span>
-                    <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#FACC15] hover:underline">SANJIVANI UNIVERSITY</a>
-                  </div>
-                  <div className="flex justify-between border-b border-white/10 py-1.5">
-                    <span>LOCATION</span>
-                    <span>KOPARGAON, NEAR SHIRDI</span>
-                  </div>
-                  <div className="flex justify-between py-1.5">
-                    <span>ELIGIBILITY</span>
-                    <span className="text-white">UG • PG • PhD</span>
-                  </div>
-                </div>
-              </div>
+              <EventHighlightsCard />
             </ScrollReveal>
           </div>
         </div>
