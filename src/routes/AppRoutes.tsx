@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Public Homepage
 import { App as PublicHomepage } from '../App';
-import { RedesignedApp } from '../RedesignedApp';
 
 // Participant Routes
 import { ParticipantLogin } from '../pages/participant/ParticipantLogin';
@@ -50,14 +49,8 @@ const ParticipantProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ ch
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      {/* 1. PUBLIC WEBSITE - REDESIGNED COPY */}
-      <Route path="/" element={<RedesignedApp />} />
-      <Route path="/v2" element={<RedesignedApp />} />
-      <Route path="/redesign" element={<RedesignedApp />} />
-      
-      {/* ORIGINAL UNTOUCHED HOMEPAGE */}
-      <Route path="/original" element={<PublicHomepage />} />
-      <Route path="/v1" element={<PublicHomepage />} />
+      {/* 1. PUBLIC WEBSITE */}
+      <Route path="/" element={<PublicHomepage />} />
 
       {/* 2. PARTICIPANT AUTH & REGISTRATION */}
       <Route path="/login" element={<ParticipantLogin />} />

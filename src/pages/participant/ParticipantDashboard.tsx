@@ -26,7 +26,7 @@ import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import type { Team, SubmissionFile, TeamMember } from '../../types/admin';
 
-import { Navbar } from '../../components/sections/Navbar';
+import { RedesignedNavbar } from '../../components/sections/redesign/RedesignedNavbar';
 
 export const ParticipantDashboard: React.FC = () => {
   const { participant, updateParticipantTeam } = useAuth();
@@ -277,51 +277,51 @@ export const ParticipantDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] font-sans selection:bg-[#1D4ED8] selection:text-white pt-28 pb-12">
-      <Navbar />
+    <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] font-sans selection:bg-[#162E28] selection:text-[#E5BE61] pt-32 pb-16">
+      <RedesignedNavbar />
 
       <main className="max-w-6xl mx-auto p-4 sm:p-8 space-y-8 text-left">
         
         {/* CASE 1: PARTICIPANT HAS NOT REGISTERED OR JOINED A TEAM YET */}
         {!userTeam ? (
           <div className="space-y-8 animate-in fade-in duration-300">
-            <div className="bg-white border border-slate-200 p-8 sm:p-12 rounded-3xl text-center space-y-6 shadow-sm relative overflow-hidden">
+            <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-8 sm:p-12 rounded-3xl text-center space-y-6 shadow-xl relative overflow-hidden">
               
-              <div className="w-16 h-16 bg-blue-50 text-[#1D4ED8] rounded-2xl flex items-center justify-center mx-auto border border-blue-200 shadow-sm">
+              <div className="w-16 h-16 bg-[#E9E1D2] text-[#A77A1C] rounded-2xl flex items-center justify-center mx-auto border border-[#A77A1C]/40 shadow-sm">
                 <Users className="w-8 h-8" />
               </div>
 
               <div className="space-y-2 max-w-md mx-auto">
-                <h2 className="font-space font-extrabold text-2xl sm:text-3xl text-[#0B192C]">
+                <h2 className="font-serif font-black text-2xl sm:text-3xl text-[#162E28] uppercase">
                   NO HACKATHON TEAM REGISTERED
                 </h2>
-                <p className="text-xs text-slate-500 font-sans leading-relaxed">
-                  Welcome, <strong>{participant?.name || 'Participant'}</strong>! You are signed in via Google Auth, but you are not linked to a registered team yet.
+                <p className="text-xs text-[#7B8379] font-sans leading-relaxed">
+                  Welcome, <strong className="text-[#162E28]">{participant?.name || 'Participant'}</strong>! You are signed in via Google Auth, but you are not linked to a registered team yet.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto pt-4 text-left">
                 
                 {/* Option 1: Create New Team */}
-                <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 hover:border-blue-300 transition flex flex-col justify-between shadow-sm">
+                <div className="p-6 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] space-y-4 hover:border-[#A77A1C] transition flex flex-col justify-between shadow-sm">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono font-extrabold text-[#1D4ED8] uppercase bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-300">
+                      <span className="text-[10px] font-mono font-extrabold text-[#A77A1C] uppercase bg-[#E9E1D2] px-3 py-1 rounded-full border border-[#A77A1C]/30">
                         OPTION 1
                       </span>
-                      <PlusCircle className="w-5 h-5 text-[#1D4ED8]" />
+                      <PlusCircle className="w-5 h-5 text-[#A77A1C]" />
                     </div>
-                    <h3 className="font-space font-bold text-lg text-[#0B192C]">Create a New Team</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">
+                    <h3 className="font-serif font-bold text-lg text-[#162E28]">Create a New Team</h3>
+                    <p className="text-xs text-[#7B8379] leading-relaxed">
                       Register as Team Leader. Enter your college details and receive an instant 6-character Team Code (e.g. <strong>PRG-7X9K2</strong>).
                     </p>
                   </div>
                   <button
                     onClick={() => setIsCreateModalOpen(true)}
-                    className="w-full py-3 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="w-full py-3 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#F9F4EA] border border-[#A77A1C]/60 font-mono font-extrabold text-xs uppercase shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <span>CREATE NEW TEAM</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 text-[#E5BE61]" />
                   </button>
                 </div>
 

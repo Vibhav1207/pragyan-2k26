@@ -108,21 +108,21 @@ export const AdminExportCenter: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* EXPORT GENERATOR (7 Cols) */}
-        <div className="lg:col-span-7 bg-white border border-slate-200 p-8 rounded-3xl space-y-6 shadow-sm text-left">
+        <div className="lg:col-span-7 bg-[#E9E1D2] border border-[#D2CAB6] p-8 rounded-3xl space-y-6 shadow-sm text-left">
           
-          <div className="border-b border-slate-200 pb-3">
-            <h3 className="font-space font-extrabold text-xl text-[#0B192C] uppercase flex items-center gap-2">
-              <FileSpreadsheet className="w-5 h-5 text-blue-600" />
+          <div className="border-b border-[#D2CAB6] pb-3">
+            <h3 className="font-serif font-bold text-xl text-[#162E28] uppercase flex items-center gap-2">
+              <FileSpreadsheet className="w-5 h-5 text-[#A77A1C]" />
               <span>EXPORT DATASET GENERATOR</span>
             </h3>
-            <p className="text-xs text-slate-500">Select parameters to download structured CSV / Excel files</p>
+            <p className="text-xs text-[#7B8379]">Select parameters to download structured CSV / Excel files</p>
           </div>
 
           <div className="space-y-4">
             
             {/* Dataset Type */}
             <div className="space-y-1.5">
-              <label className="text-xs font-mono font-bold text-slate-600 uppercase">Select Target Dataset</label>
+              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Select Target Dataset</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {(['TEAMS', 'PARTICIPANTS', 'REGISTRATIONS', 'SUBMISSIONS'] as const).map(d => (
                   <button
@@ -131,8 +131,8 @@ export const AdminExportCenter: React.FC = () => {
                     onClick={() => setDataset(d)}
                     className={`py-2.5 px-3 rounded-xl text-xs font-mono font-bold border transition ${
                       dataset === d
-                        ? 'bg-[#1D4ED8] border-blue-600 text-white shadow-md'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                        ? 'bg-[#162E28] border-[#A77A1C]/50 text-[#E5BE61] shadow-md'
+                        : 'bg-[#F9F4EA] border-[#D2CAB6] text-[#7B8379] hover:bg-[#F3EDE0]'
                     }`}
                   >
                     {d}
@@ -143,13 +143,13 @@ export const AdminExportCenter: React.FC = () => {
 
             {/* Format Selection */}
             <div className="space-y-1.5">
-              <label className="text-xs font-mono font-bold text-slate-600 uppercase">Export File Format</label>
+              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Export File Format</label>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   onClick={() => setFormat('CSV')}
                   className={`px-4 py-2 rounded-xl text-xs font-mono font-bold border transition ${
-                    format === 'CSV' ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-slate-50 border-slate-200 text-slate-600'
+                    format === 'CSV' ? 'bg-[#162E28] border-[#A77A1C]/40 text-[#E5BE61]' : 'bg-[#F9F4EA] border-[#D2CAB6] text-[#7B8379]'
                   }`}
                 >
                   CSV (Comma Separated)
@@ -158,7 +158,7 @@ export const AdminExportCenter: React.FC = () => {
                   type="button"
                   onClick={() => setFormat('EXCEL')}
                   className={`px-4 py-2 rounded-xl text-xs font-mono font-bold border transition ${
-                    format === 'EXCEL' ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-slate-50 border-slate-200 text-slate-600'
+                    format === 'EXCEL' ? 'bg-[#162E28] border-[#A77A1C]/40 text-[#E5BE61]' : 'bg-[#F9F4EA] border-[#D2CAB6] text-[#7B8379]'
                   }`}
                 >
                   Excel (.xls)
@@ -167,13 +167,13 @@ export const AdminExportCenter: React.FC = () => {
             </div>
 
             {/* Filters */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#D2CAB6]">
               <div className="space-y-1">
-                <label className="text-xs font-mono font-bold text-slate-600 uppercase">Filter by Track</label>
+                <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Filter by Track</label>
                 <select
                   value={trackFilter}
                   onChange={(e) => setTrackFilter(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[#0B192C] text-xs font-mono focus:bg-white focus:border-blue-600 focus:outline-none transition"
+                  className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"
                 >
                   <option value="ALL">All Tracks</option>
                   {tracks.map(tr => <option key={tr.id} value={tr.id}>{tr.title}</option>)}
@@ -181,11 +181,11 @@ export const AdminExportCenter: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-mono font-bold text-slate-600 uppercase">Filter by Status</label>
+                <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Filter by Status</label>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[#0B192C] text-xs font-mono focus:bg-white focus:border-blue-600 focus:outline-none transition"
+                  className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"
                 >
                   <option value="ALL">All Statuses</option>
                   <option value="APPROVED">Approved Only</option>
@@ -197,9 +197,9 @@ export const AdminExportCenter: React.FC = () => {
 
             <button
               onClick={handleGenerateExport}
-              className="w-full py-3.5 rounded-xl bg-[#1D4ED8] hover:bg-blue-700 text-white font-space font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition mt-4"
+              className="w-full py-3.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] border border-[#A77A1C]/40 font-serif font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition mt-4"
             >
-              <Download className="w-4 h-4" /> GENERATE & DOWNLOAD REPORT
+              <Download className="w-4 h-4 text-[#E5BE61]" /> GENERATE & DOWNLOAD REPORT
             </button>
 
           </div>
@@ -207,18 +207,18 @@ export const AdminExportCenter: React.FC = () => {
         </div>
 
         {/* EXPORT HISTORY (5 Cols) */}
-        <div className="lg:col-span-5 bg-white border border-slate-200 p-6 rounded-3xl space-y-4 shadow-sm text-left">
-          <div className="border-b border-slate-200 pb-3 flex items-center gap-2">
-            <History className="w-5 h-5 text-blue-600" />
-            <h3 className="font-space font-extrabold text-lg text-[#0B192C] uppercase">EXPORT HISTORY</h3>
+        <div className="lg:col-span-5 bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm text-left">
+          <div className="border-b border-[#D2CAB6] pb-3 flex items-center gap-2">
+            <History className="w-5 h-5 text-[#A77A1C]" />
+            <h3 className="font-serif font-bold text-lg text-[#162E28] uppercase">EXPORT HISTORY</h3>
           </div>
 
           <div className="space-y-3">
             {exportHistory.map((item, idx) => (
-              <div key={idx} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-1">
-                <div className="font-mono font-bold text-[#0B192C] truncate">{item.file}</div>
-                <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
-                  <span>Type: <strong className="text-blue-600 font-bold">{item.type}</strong></span>
+              <div key={idx} className="p-3.5 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] text-xs space-y-1">
+                <div className="font-mono font-bold text-[#162E28] truncate">{item.file}</div>
+                <div className="flex items-center justify-between text-[10px] text-[#7B8379] font-mono">
+                  <span>Type: <strong className="text-[#A77A1C] font-bold">{item.type}</strong></span>
                   <span>{item.date}</span>
                 </div>
               </div>
@@ -231,4 +231,5 @@ export const AdminExportCenter: React.FC = () => {
     </AdminLayout>
   );
 };
+
 

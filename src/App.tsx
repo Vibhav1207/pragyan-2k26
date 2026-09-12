@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 
 import { CustomCursor } from './components/ui/CustomCursor';
-import { Navbar } from './components/sections/Navbar';
-import { Hero } from './components/sections/Hero';
-import { TheMissionSection } from './components/sections/TheMissionSection';
-import { FeaturedChallenges } from './components/sections/FeaturedChallenges';
-import { SchedulePreview } from './components/sections/SchedulePreview';
-import { RegistrationSection } from './components/sections/RegistrationSection';
-import { WhyParticipate } from './components/sections/WhyParticipate';
-import { OrganizersSection } from './components/sections/OrganizersSection';
-import { KopargaonSection } from './components/sections/KopargaonSection';
-import { FAQ } from './components/sections/FAQ';
-import { ContactSection, Footer } from './components/sections/Footer';
+import { RedesignedNavbar } from './components/sections/redesign/RedesignedNavbar';
+import { RedesignedHero } from './components/sections/redesign/RedesignedHero';
+import { RedesignedMissionSection } from './components/sections/redesign/RedesignedMissionSection';
+import { RedesignedFeaturedChallenges } from './components/sections/redesign/RedesignedFeaturedChallenges';
+import { RedesignedSchedulePreview } from './components/sections/redesign/RedesignedSchedulePreview';
+import { RedesignedRegistrationSection } from './components/sections/redesign/RedesignedRegistrationSection';
+import { RedesignedWhyParticipate } from './components/sections/redesign/RedesignedWhyParticipate';
+import { RedesignedOrganizersSection } from './components/sections/redesign/RedesignedOrganizersSection';
+import { RedesignedKopargaonSection } from './components/sections/redesign/RedesignedKopargaonSection';
+import { RedesignedFAQ } from './components/sections/redesign/RedesignedFAQ';
+import { RedesignedContactSection, RedesignedFooter } from './components/sections/redesign/RedesignedFooter';
 import { useAuth } from './context/AuthContext';
 import { apiService } from './services/api';
 
@@ -67,30 +67,30 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F4FA] text-[#0B192C] relative font-sans overflow-x-hidden selection:bg-[#1D4ED8] selection:text-white">
+    <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] relative font-sans overflow-x-hidden selection:bg-[#162E28] selection:text-[#E5BE61]">
       <CustomCursor />
-      <Navbar onRegisterClick={handleRegisterClick} />
+      <RedesignedNavbar onRegisterClick={handleRegisterClick} />
 
       <main className="w-full pt-24 sm:pt-28">
-        <Hero
+        <RedesignedHero
           onRegisterClick={handleRegisterClick}
           onExploreChallenges={handleExploreTracks}
         />
-        <TheMissionSection />
-        <FeaturedChallenges
+        <RedesignedMissionSection />
+        <RedesignedFeaturedChallenges
           onOpenFullChallenges={handleExploreTracks}
           onSelectChallenge={handleExploreTracks}
         />
-        <SchedulePreview />
-        <RegistrationSection onRegisterClick={handleRegisterClick} />
-        <WhyParticipate onRegisterClick={handleRegisterClick} />
-        <OrganizersSection />
-        <KopargaonSection onRegisterClick={handleRegisterClick} />
-        <FAQ />
-        <ContactSection />
+        <RedesignedSchedulePreview />
+        <RedesignedRegistrationSection onRegisterClick={handleRegisterClick} />
+        <RedesignedWhyParticipate onRegisterClick={handleRegisterClick} />
+        <RedesignedOrganizersSection />
+        <RedesignedKopargaonSection onRegisterClick={handleRegisterClick} />
+        <RedesignedFAQ />
+        <RedesignedContactSection />
       </main>
 
-      <Footer />
+      <RedesignedFooter />
     </div>
   );
 }
