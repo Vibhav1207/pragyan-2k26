@@ -11,6 +11,20 @@
     --color-gold: #F59E0B;
     --color-gold-bright: #FACC15;
 
+    /* Editorial BBA Hackathon Design Tokens */
+    --color-forest-dark: #162E28;
+    --color-forest-sec: #2B3E35;
+    --color-gold-antique: #A77A1C;
+    --color-gold-bright-ed: #E5BE61;
+    --color-cream-warm: #F9F4EA;
+    --color-beige-soft: #F3EDE0;
+    --color-card-ivory: #E9E1D2;
+    --color-dark-text: #050C0C;
+    --color-muted-text: #7B8379;
+    --color-border-subtle: #D2CAB6;
+
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-cinzel: 'Cinzel', serif;
     --font-space: 'Space Grotesk', -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
     --font-sans: 'Inter', system-ui, sans-serif;
@@ -39,6 +53,14 @@
   section[id] {
     scroll-margin-top: 90px;
   }
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel);
 }
 
 .font-space {
