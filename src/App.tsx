@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 
 import { CustomCursor } from './components/ui/CustomCursor';
@@ -19,6 +19,7 @@ import { apiService } from './services/api';
 
 export function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { participant } = useAuth();
 
   useEffect(() => {
@@ -46,6 +47,22 @@ export function App() {
       lenis.destroy();
     };
   }, []);
+
+  // Handle smooth scroll to target hash when arriving from other pages (/dashboard, /profile)
+  useEffect(() => {
+    if (location.hash) {
+      const targetId = location.hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const elem = document.getElementById(targetId);
+        if (elem) {
+          elem.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname, location.hash]);
 
   const handleRegisterClick = () => {
     if (participant) {

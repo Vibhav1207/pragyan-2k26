@@ -18,15 +18,40 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const isHomepage = location.pathname === '/';
 
   const navLinks = [
-    { name: 'Home', href: isHomepage ? '#home' : '/#home' },
-    { name: 'About', href: isHomepage ? '#about' : '/#about' },
-    { name: 'Tracks', href: isHomepage ? '#tracks' : '/#tracks' },
-    { name: 'Timeline', href: isHomepage ? '#timeline' : '/#timeline' },
-    { name: 'Prizes', href: isHomepage ? '#prizes' : '/#prizes' },
-    { name: 'Registration', href: isHomepage ? '#registration' : '/#registration' },
-    { name: 'FAQ', href: isHomepage ? '#faq' : '/#faq' },
-    { name: 'Contact', href: isHomepage ? '#contact' : '/#contact' },
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Tracks', href: '#tracks' },
+    { name: 'Timeline', href: '#timeline' },
+    { name: 'Prizes', href: '#prizes' },
+    { name: 'Registration', href: '#registration' },
+    { name: 'FAQ', href: '#faq' },
+    { name: 'Contact', href: '#contact' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    const targetId = href.replace('#', '');
+
+    if (isHomepage) {
+      if (targetId === 'home' || !targetId) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const elem = document.getElementById(targetId);
+        if (elem) {
+          elem.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      if (targetId === 'home' || !targetId) {
+        navigate('/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigate('/' + href);
+      }
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,8 +112,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           {navLinks.map((link) => (
             <a
               key={link.name}
-              href={link.href}
-              className="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-space font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors nav-link-indicator"
+              href={isHomepage ? link.href : '/' + link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-space font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors nav-link-indicator cursor-pointer"
             >
               {link.name}
             </a>
@@ -164,9 +190,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
             {navLinks.map((link) => (
               <a
                 key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-3 rounded-lg bg-white/5 text-slate-200 font-space font-medium text-xs hover:bg-white/10 hover:text-white"
+                href={isHomepage ? link.href : '/' + link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="p-3 rounded-lg bg-white/5 text-slate-200 font-space font-medium text-xs hover:bg-white/10 hover:text-white cursor-pointer"
               >
                 {link.name}
               </a>

@@ -28,6 +28,31 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
     { name: 'Contact', href: '#contact' },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    const targetId = href.replace('#', '');
+
+    if (isHomepage) {
+      if (targetId === 'home' || !targetId) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const elem = document.getElementById(targetId);
+        if (elem) {
+          elem.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      if (targetId === 'home' || !targetId) {
+        navigate('/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigate('/' + href);
+      }
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
@@ -89,8 +114,9 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
           {navLinks.map((link) => (
             <a
               key={link.name}
-              href={link.href}
-              className="px-3.5 py-1.5 rounded-lg text-xs xl:text-sm font-sans font-medium text-[#F3EDE0] hover:text-[#E5BE61] hover:bg-[#2B3E35]/60 transition-all border border-transparent hover:border-[#A77A1C]/20"
+              href={isHomepage ? link.href : '/' + link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="px-3.5 py-1.5 rounded-lg text-xs xl:text-sm font-sans font-medium text-[#F3EDE0] hover:text-[#E5BE61] hover:bg-[#2B3E35]/60 transition-all border border-transparent hover:border-[#A77A1C]/20 cursor-pointer"
             >
               {link.name}
             </a>
@@ -166,9 +192,9 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
             {navLinks.map((link) => (
               <a
                 key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-3 rounded-lg bg-[#2B3E35]/60 border border-[#D2CAB6]/20 text-[#F9F4EA] font-sans font-medium text-xs hover:bg-[#2B3E35] hover:text-[#E5BE61]"
+                href={isHomepage ? link.href : '/' + link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="p-3 rounded-lg bg-[#2B3E35]/60 border border-[#D2CAB6]/20 text-[#F9F4EA] font-sans font-medium text-xs hover:bg-[#2B3E35] hover:text-[#E5BE61] cursor-pointer"
               >
                 {link.name}
               </a>

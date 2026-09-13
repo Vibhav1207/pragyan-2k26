@@ -154,15 +154,15 @@ export const AdminDashboardOverview: React.FC = () => {
         </div>
 
         {/* 6. Rejected Teams */}
-        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-red-400 transition-all">
-          <div className="flex items-center justify-between text-red-700">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">REJECTED</span>
-            <div className="p-2 rounded-xl bg-red-100 border border-red-200 text-red-700">
+        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
+          <div className="flex items-center justify-between text-[#A77A1C]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">REJECTED TEAMS</span>
+            <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
               <XCircle className="w-4 h-4" />
             </div>
           </div>
-          <div className="font-serif font-black text-3xl text-red-700">{rejectedTeams}</div>
-          <div className="text-[10px] font-mono font-bold text-red-700 uppercase">Incomplete</div>
+          <div className="font-serif font-black text-3xl text-[#A77A1C]">{rejectedTeams}</div>
+          <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Incomplete</div>
         </div>
 
       </div>
@@ -294,8 +294,8 @@ export const AdminDashboardOverview: React.FC = () => {
                     <td className="p-3.5">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase ${
                         team.status === 'APPROVED' ? 'bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]' :
-                        team.status === 'REJECTED' ? 'bg-red-100 text-red-800 border border-red-300' :
-                        'bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/50'
+                         team.status === 'REJECTED' ? 'bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30' :
+                         'bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/50'
                       }`}>
                         {team.status}
                       </span>
