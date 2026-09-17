@@ -33,9 +33,18 @@ export const OrganizersSection: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
                 <div className="lg:col-span-8 space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1D4ED8]/40 border border-[#1D4ED8] text-blue-200 text-xs font-mono font-bold uppercase">
-                    <Building2 className="w-4 h-4 text-[#FACC15]" />
-                    <span>HOST INSTITUTION</span>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="px-3.5 py-1.5 bg-white rounded-xl border border-slate-200 shadow-sm inline-block">
+                      <img
+                        src="/sanjivani-university-logo.png"
+                        alt="Sanjivani University"
+                        className="h-8 sm:h-9 w-auto object-contain"
+                      />
+                    </div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1D4ED8]/40 border border-[#1D4ED8] text-blue-200 text-xs font-mono font-bold uppercase">
+                      <Building2 className="w-4 h-4 text-[#FACC15]" />
+                      <span>HOST INSTITUTION</span>
+                    </div>
                   </div>
                   <h3 className="font-space font-black text-3xl sm:text-5xl text-white uppercase tracking-tight leading-tight">
                     SANJIVANI UNIVERSITY
@@ -122,11 +131,11 @@ export const OrganizersSection: React.FC = () => {
             <ScrollReveal delay={450} duration={600}>
               <div className="card-premium p-8 rounded-2xl border border-slate-200 text-[#0B192C] space-y-4 hover:border-[#1D4ED8] transition-all duration-300 flex flex-col justify-between h-full">
                 <div className="space-y-4">
-                  <div className="p-2 bg-white rounded-xl border border-slate-200 shadow-sm inline-block">
+                  <div className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-sm inline-block">
                     <img
                       src="/edc-logo.png"
                       alt="Entrepreneurship Development Cell Logo"
-                      className="h-12 w-auto object-contain"
+                      className="h-14 sm:h-16 w-auto object-contain"
                     />
                   </div>
                   <div className="space-y-1">

@@ -4,7 +4,9 @@ import {
   User, 
   Mail, 
   Building2, 
-  Phone, 
+  Key, 
+  Hash, 
+  Save, 
   GraduationCap, 
   Users, 
   ShieldCheck, 
@@ -22,9 +24,17 @@ import type { Team } from '../../types/admin';
 import { RedesignedNavbar } from '../../components/sections/redesign/RedesignedNavbar';
 
 export const ParticipantProfile: React.FC = () => {
-  const { participant, logoutParticipant } = useAuth();
+  const { participant, logoutParticipant, updateParticipantGroupCode } = useAuth();
   const navigate = useNavigate();
   const [copied, setCopied] = React.useState(false);
+
+  const [groupCodeInput, setGroupCodeInput] = React.useState(
+    participant?.groupCode || localStorage.getItem('pragyan_group_code') || ''
+  );
+  const [savedGroupCode, setSavedGroupCode] = React.useState(
+    participant?.groupCode || localStorage.getItem('pragyan_group_code') || ''
+  );
+  const [saveFeedback, setSaveFeedback] = React.useState('');
 
   const teams = apiService.getTeams();
   const userTeam: Team | undefined = teams.find(t => t.teamId === participant?.teamId);
@@ -38,6 +48,16 @@ export const ParticipantProfile: React.FC = () => {
     navigator.clipboard.writeText(code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleSaveGroupCode = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = groupCodeInput.trim().toUpperCase();
+    if (!trimmed) return;
+    updateParticipantGroupCode(trimmed);
+    setSavedGroupCode(trimmed);
+    setSaveFeedback(`Group Code "${trimmed}" successfully saved!`);
+    setTimeout(() => setSaveFeedback(''), 3500);
   };
 
   const currentMember = userTeam?.members.find(
@@ -132,14 +152,17 @@ export const ParticipantProfile: React.FC = () => {
                   <span className="text-[#7B8379] flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-[#A77A1C]" /> Email Address:</span>
                   <span className="font-mono font-bold text-[#A77A1C]">{participant?.email}</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7B8379] flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-[#A77A1C]" /> Phone Number:</span>
-                  <span className="font-mono font-bold text-[#162E28]">{currentMember?.phone || '+91 98765 43210'}</span>
+                <div className="flex items-center justify-between pt-1 border-t border-[#D2CAB6]/60">
+                  <span className="text-[#7B8379] flex items-center gap-1.5 font-bold"><Hash className="w-3.5 h-3.5 text-[#A77A1C]" /> Group Code:</span>
+                  <span className="font-mono font-black text-[#162E28] bg-[#E9E1D2] px-2.5 py-0.5 rounded-lg border border-[#A77A1C]/40">
+                    {savedGroupCode || participant?.groupCode || 'NOT SET'}
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
+            {/* ACADEMIC & INSTITUTION - Hidden on mobile screens */}
+            <div className="hidden md:block space-y-4">
               <h3 className="text-xs font-mono font-extrabold text-[#A77A1C] uppercase tracking-widest flex items-center gap-1.5">
                 <GraduationCap className="w-4 h-4 text-[#A77A1C]" /> ACADEMIC & INSTITUTION
               </h3>
@@ -159,6 +182,50 @@ export const ParticipantProfile: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* GROUP CODE SETTING & STORAGE CARD */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/50 space-y-4 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#A77A1C]/30 pb-3">
+              <div className="space-y-0.5">
+                <div className="text-xs font-mono font-extrabold text-[#162E28] uppercase tracking-wider flex items-center gap-2">
+                  <Key className="w-4 h-4 text-[#A77A1C]" />
+                  <span>GROUP CODE</span>
+                </div>
+                <p className="text-xs text-[#7B8379]">
+                  Add or store your assigned group code for this account.
+                </p>
+              </div>
+              {(savedGroupCode || participant?.groupCode) && (
+                <span className="px-3 py-1 rounded-full bg-[#162E28] text-[#E5BE61] border border-[#A77A1C] text-[11px] font-mono font-bold w-fit">
+                  STORED: {savedGroupCode || participant?.groupCode}
+                </span>
+              )}
+            </div>
+
+            <form onSubmit={handleSaveGroupCode} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <input
+                type="text"
+                value={groupCodeInput}
+                onChange={(e) => setGroupCodeInput(e.target.value)}
+                placeholder="Enter Group Code (e.g. GRP-2K26-01)"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] focus:border-[#A77A1C] focus:outline-none font-mono text-xs sm:text-sm uppercase text-[#162E28] placeholder:text-[#7B8379]/60 font-bold"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono font-bold text-xs uppercase border border-[#A77A1C] transition shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Save className="w-4 h-4" />
+                <span>Save Group Code</span>
+              </button>
+            </form>
+
+            {saveFeedback && (
+              <div className="text-xs font-mono font-bold text-[#162E28] flex items-center gap-1.5 bg-[#F9F4EA] px-3 py-1.5 rounded-lg border border-[#A77A1C]/30 w-fit">
+                <Check className="w-3.5 h-3.5 text-green-700" />
+                <span>{saveFeedback}</span>
+              </div>
+            )}
           </div>
 
         </div>

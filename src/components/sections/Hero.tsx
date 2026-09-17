@@ -42,11 +42,11 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
                 className="group block transition-transform hover:scale-105"
                 title="Sanjivani University"
               >
-                <div className="p-2 bg-white/95 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
+                <div className="px-3.5 py-2 bg-white/95 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
                   <img
-                    src="/sanjivani-logo.png"
-                    alt="Sanjivani University Emblem"
-                    className="h-14 sm:h-16 w-auto object-contain"
+                    src="/sanjivani-university-logo.png"
+                    alt="Sanjivani University Logo"
+                    className="h-9 sm:h-11 w-auto object-contain"
                   />
                 </div>
               </a>

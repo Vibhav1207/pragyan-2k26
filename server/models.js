@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   avatar: { type: String, default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150' },
   role: { type: String, enum: ['PARTICIPANT', 'ADMIN'], default: 'PARTICIPANT' },
   teamId: { type: String },
+  groupCode: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now }
 });
 

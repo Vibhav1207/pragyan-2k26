@@ -404,6 +404,31 @@ app.put('/api/users/team', authenticateParticipant, async (req, res, next) => {
   }
 });
 
+// Update User Group Code in MongoDB
+app.put('/api/users/group-code', async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const { email, groupCode } = req.body || {};
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ error: 'Valid email is required.' });
+    }
+    const cleanEmail = sanitizeString(email).toLowerCase();
+    const cleanGroupCode = groupCode && typeof groupCode === 'string' ? sanitizeString(groupCode).toUpperCase().trim() : '';
+
+    const user = await User.findOneAndUpdate(
+      { email: cleanEmail },
+      { 
+        $set: { groupCode: cleanGroupCode },
+        $setOnInsert: { name: 'Participant User', role: 'PARTICIPANT' }
+      },
+      { returnDocument: 'after', upsert: true }
+    );
+    res.json({ success: true, user });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // GET all registered users from MongoDB (Admin only)
 app.get('/api/users', authenticateAdmin, async (req, res, next) => {
   try {

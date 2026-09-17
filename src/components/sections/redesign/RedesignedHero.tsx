@@ -52,9 +52,9 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
                 title="Sanjivani University"
               >
                 <img
-                  src="/sanjivani-logo.png"
-                  alt="Sanjivani University Emblem"
-                  className="h-16 sm:h-20 w-auto object-contain mix-blend-multiply drop-shadow-sm group-hover:drop-shadow-md transition-all"
+                  src="/sanjivani-university-logo.png"
+                  alt="Sanjivani University Logo"
+                  className="h-10 sm:h-12 md:h-14 w-auto object-contain mix-blend-multiply drop-shadow-sm group-hover:drop-shadow-md transition-all"
                 />
               </a>
 
