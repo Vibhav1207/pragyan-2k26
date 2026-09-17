@@ -57,9 +57,9 @@ export const AdminTeamDetail: React.FC = () => {
     }
   };
 
-  const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete ${team.teamName}?`)) {
-      apiService.deleteTeam(team.teamId);
+  const handleDelete = async () => {
+    if (window.confirm(`Are you sure you want to permanently delete team "${team.teamName}"? This will remove all member links and submissions.`)) {
+      await apiService.deleteTeam(team.teamId);
       navigate('/admin/teams');
     }
   };

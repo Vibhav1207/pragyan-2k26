@@ -6,7 +6,8 @@ import {
   Search, 
   Download, 
   CheckSquare, 
-  Square
+  Square,
+  Trash2
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
@@ -56,6 +57,27 @@ export const AdminRegistrationsList: React.FC = () => {
     setTeams(apiService.getTeams());
     setSelectedIds([]);
     alert(`Bulk rejected ${selectedIds.length} registration(s)!`);
+  };
+
+  const handleDeleteTeam = async (teamId: string, teamName: string) => {
+    if (window.confirm(`Are you sure you want to permanently delete registration for "${teamName}"?`)) {
+      await apiService.deleteTeam(teamId);
+      const fresh = await apiService.fetchTeamsAsync();
+      setTeams(fresh || apiService.getTeams());
+      setSelectedIds(prev => prev.filter(id => id !== teamId));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (window.confirm(`Are you sure you want to permanently delete ${selectedIds.length} selected registration(s)?`)) {
+      for (const id of selectedIds) {
+        await apiService.deleteTeam(id);
+      }
+      const fresh = await apiService.fetchTeamsAsync();
+      setTeams(fresh || apiService.getTeams());
+      setSelectedIds([]);
+      alert(`Deleted ${selectedIds.length} registration(s)!`);
+    }
   };
 
   const handleBulkExport = () => {
@@ -135,6 +157,12 @@ export const AdminRegistrationsList: React.FC = () => {
               className="px-3 py-1.5 rounded-xl bg-red-900/20 text-red-900 border border-red-800/30 text-xs font-bold font-mono flex items-center gap-1 hover:bg-red-900/30 transition"
             >
               <XCircle className="w-3.5 h-3.5 text-red-800" /> Reject Selected
+            </button>
+            <button
+              onClick={handleBulkDelete}
+              className="px-3 py-1.5 rounded-xl bg-red-100 text-red-800 border border-red-300 text-xs font-bold font-mono flex items-center gap-1 hover:bg-red-200 transition"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-red-700" /> Delete Selected
             </button>
             <button
               onClick={handleBulkExport}
@@ -217,12 +245,21 @@ export const AdminRegistrationsList: React.FC = () => {
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <Link
-                        to={`/admin/teams/${team.teamId}`}
-                        className="px-3 py-1 rounded-lg bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/40 hover:bg-[#2B3E35] text-[11px] font-mono font-bold transition"
-                      >
-                        REVIEW →
-                      </Link>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Link
+                          to={`/admin/teams/${team.teamId}`}
+                          className="px-3 py-1 rounded-lg bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/40 hover:bg-[#2B3E35] text-[11px] font-mono font-bold transition"
+                        >
+                          REVIEW →
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteTeam(team.teamId, team.teamName)}
+                          className="p-1.5 rounded-lg bg-red-100 text-red-800 hover:bg-red-800 hover:text-white border border-red-300 transition cursor-pointer"
+                          title="Delete Registration"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

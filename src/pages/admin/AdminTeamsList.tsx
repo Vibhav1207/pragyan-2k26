@@ -56,13 +56,13 @@ export const AdminTeamsList: React.FC = () => {
   const totalPages = Math.ceil(filteredTeams.length / itemsPerPage) || 1;
   const paginatedTeams = filteredTeams.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const handleConfirmAction = () => {
+  const handleConfirmAction = async () => {
     if (!actionModal.team || !actionModal.type) return;
 
     const { team, type, notes } = actionModal;
 
     if (type === 'DELETE') {
-      apiService.deleteTeam(team.teamId);
+      await apiService.deleteTeam(team.teamId);
     } else if (type === 'APPROVE') {
       apiService.updateTeamStatus(team.teamId, 'APPROVED');
     } else if (type === 'REJECT') {
@@ -71,7 +71,8 @@ export const AdminTeamsList: React.FC = () => {
       apiService.updateTeamStatus(team.teamId, 'CHANGES_REQUESTED', notes || 'Please verify member documents');
     }
 
-    setTeams(apiService.getTeams());
+    const fresh = await apiService.fetchTeamsAsync();
+    setTeams(fresh || apiService.getTeams());
     setActionModal({ type: null, team: null, notes: '' });
   };
 
@@ -283,15 +284,26 @@ export const AdminTeamsList: React.FC = () => {
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setActionModal({ type: null, team: null, notes: '' })}
-                className="px-4 py-2 rounded-xl bg-[#E9E1D2] text-[#162E28] text-xs font-mono font-bold"
+                className="px-4 py-2 rounded-xl bg-[#E9E1D2] text-[#162E28] text-xs font-mono font-bold hover:bg-[#D2CAB6] transition"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmAction}
-                className="px-5 py-2 rounded-xl bg-[#162E28] text-[#F9F4EA] border border-[#A77A1C]/50 text-xs font-mono font-bold"
+                className={`px-5 py-2 rounded-xl text-xs font-mono font-bold transition flex items-center gap-1.5 shadow-md ${
+                  actionModal.type === 'DELETE'
+                    ? 'bg-red-700 hover:bg-red-800 text-white'
+                    : 'bg-[#162E28] text-[#F9F4EA] border border-[#A77A1C]/50 hover:bg-[#2B3E35]'
+                }`}
               >
-                Confirm {actionModal.type}
+                {actionModal.type === 'DELETE' ? (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete Permanently</span>
+                  </>
+                ) : (
+                  `Confirm ${actionModal.type}`
+                )}
               </button>
             </div>
           </div>

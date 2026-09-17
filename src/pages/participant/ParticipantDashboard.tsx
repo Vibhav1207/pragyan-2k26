@@ -26,7 +26,9 @@ import {
   Building2,
   Phone,
   GraduationCap,
-  ShieldCheck
+  ShieldCheck,
+  Trash2,
+  LogOut
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
@@ -168,6 +170,60 @@ export const ParticipantDashboard: React.FC = () => {
   const [utrInput, setUtrInput] = useState('');
   const [paymentScreenshotFile, setPaymentScreenshotFile] = useState<File | null>(null);
   const [isSubmittingPayment, setIsSubmittingPayment] = useState(false);
+
+  // Delete Team Modal State (for Team Leader)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteConfirmInput, setDeleteConfirmInput] = useState('');
+  const [isDeletingTeam, setIsDeletingTeam] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
+
+  // Leave Team Modal State (for non-leader Members)
+  const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
+  const [isLeavingTeam, setIsLeavingTeam] = useState(false);
+  const [leaveError, setLeaveError] = useState('');
+
+  const handleDeleteTeam = async () => {
+    if (!userTeam) return;
+    setIsDeletingTeam(true);
+    setDeleteError('');
+    try {
+      const success = await apiService.deleteTeam(userTeam.teamId, participant?.email);
+      if (success) {
+        updateParticipantTeam(undefined);
+        const fresh = await apiService.fetchTeamsAsync();
+        setTeams(fresh || apiService.getTeams());
+        setIsDeleteModalOpen(false);
+        setDeleteConfirmInput('');
+      } else {
+        setDeleteError('Failed to delete team. Please try again.');
+      }
+    } catch (err: any) {
+      setDeleteError(err.message || 'An error occurred while deleting the team.');
+    } finally {
+      setIsDeletingTeam(false);
+    }
+  };
+
+  const handleLeaveTeam = async () => {
+    if (!userTeam || !participant?.email) return;
+    setIsLeavingTeam(true);
+    setLeaveError('');
+    try {
+      const res = await apiService.leaveTeam(userTeam.teamId, participant.email);
+      if (res.success) {
+        updateParticipantTeam(undefined);
+        const fresh = await apiService.fetchTeamsAsync();
+        setTeams(fresh || apiService.getTeams());
+        setIsLeaveModalOpen(false);
+      } else {
+        setLeaveError(res.error || 'Failed to leave team.');
+      }
+    } catch (err: any) {
+      setLeaveError(err.message || 'An error occurred while leaving the team.');
+    } finally {
+      setIsLeavingTeam(false);
+    }
+  };
 
   const handlePaymentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -537,6 +593,33 @@ export const ParticipantDashboard: React.FC = () => {
                     }`}>
                       REGISTRATION: {userTeam.status}
                     </span>
+
+                    {isTeamLeader ? (
+                      <button
+                        onClick={() => {
+                          setDeleteConfirmInput('');
+                          setDeleteError('');
+                          setIsDeleteModalOpen(true);
+                        }}
+                        className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-red-100 hover:bg-red-200 text-red-800 border border-red-300 flex items-center gap-1.5 transition shadow-sm cursor-pointer ml-auto sm:ml-0"
+                        title="Delete and Disband Team"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-red-700" />
+                        <span>DELETE TEAM</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setLeaveError('');
+                          setIsLeaveModalOpen(true);
+                        }}
+                        className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 flex items-center gap-1.5 transition shadow-sm cursor-pointer ml-auto sm:ml-0"
+                        title="Leave this Team"
+                      >
+                        <LogOut className="w-3.5 h-3.5 text-amber-800" />
+                        <span>LEAVE TEAM</span>
+                      </button>
+                    )}
                   </div>
 
                   <h1 className="font-serif font-black text-3xl sm:text-4xl text-[#162E28] uppercase tracking-tight">
@@ -546,6 +629,11 @@ export const ParticipantDashboard: React.FC = () => {
                   <div className="text-xs font-mono text-[#7B8379] flex items-center flex-wrap gap-4">
                     <span>Track: <strong className="text-[#A77A1C]">{userTeam.trackTitle}</strong></span>
                     <span>Host: <strong className="text-[#162E28]">{userTeam.college}</strong></span>
+                    {isTeamLeader && (
+                      <span className="text-[11px] font-mono text-[#A77A1C] bg-[#E9E1D2] px-2.5 py-0.5 rounded-md border border-[#A77A1C]/30 flex items-center gap-1 font-bold">
+                        <Crown className="w-3 h-3 text-[#A77A1C]" /> Leader
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -738,7 +826,33 @@ export const ParticipantDashboard: React.FC = () => {
                   <Users className="w-5 h-5 text-[#A77A1C]" />
                   <span>MY TEAM ROSTER ({userTeam.members.length}/4 MEMBERS)</span>
                 </h2>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
+                  {isTeamLeader ? (
+                    <button
+                      onClick={() => {
+                        setDeleteConfirmInput('');
+                        setDeleteError('');
+                        setIsDeleteModalOpen(true);
+                      }}
+                      className="text-xs font-mono font-bold text-red-700 hover:text-red-950 flex items-center gap-1.5 bg-red-100 hover:bg-red-200 px-3 py-1.5 rounded-full border border-red-300 transition cursor-pointer shadow-sm"
+                      title="Disband and Delete Team"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-red-700" />
+                      <span>Delete Team</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setLeaveError('');
+                        setIsLeaveModalOpen(true);
+                      }}
+                      className="text-xs font-mono font-bold text-amber-800 hover:text-amber-950 flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-full border border-amber-300 transition cursor-pointer shadow-sm"
+                      title="Leave Team"
+                    >
+                      <LogOut className="w-3.5 h-3.5 text-amber-800" />
+                      <span>Leave Team</span>
+                    </button>
+                  )}
                   <button
                     onClick={refreshTeamRoster}
                     disabled={isRefreshing}
@@ -1169,6 +1283,154 @@ export const ParticipantDashboard: React.FC = () => {
               className="max-h-[80vh] max-w-full object-contain rounded-2xl border-2 border-[#A77A1C]/40 shadow-2xl bg-black/60"
               onClick={(e) => e.stopPropagation()}
             />
+          </div>
+        </div>
+      )}
+
+      {/* DELETE TEAM CONFIRMATION MODAL */}
+      {isDeleteModalOpen && userTeam && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#F3EDE0] border-2 border-red-500/50 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-red-100 border border-red-300 text-red-700 flex items-center justify-center shrink-0">
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-serif font-black text-xl text-[#162E28] uppercase tracking-tight">
+                  DELETE TEAM?
+                </h3>
+                <p className="text-xs text-[#7B8379] font-sans">
+                  This action will permanently remove your team registration.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] space-y-2 text-xs">
+              <div className="text-[#162E28] font-bold">
+                Team: <span className="font-serif text-sm">{userTeam.teamName}</span>
+              </div>
+              <div className="text-[#7B8379] font-mono">
+                Team ID: <span className="text-[#A77A1C] font-bold">{userTeam.teamId}</span> {userTeam.teamCode && `(Code: ${userTeam.teamCode})`}
+              </div>
+              <p className="text-[#7B8379] font-sans leading-relaxed pt-1 border-t border-[#D2CAB6]">
+                Deleting this team will disband the roster, unlink all {userTeam.members.length} member(s), and permanently erase any project submissions and payments. You and your members can create or join a new team immediately.
+              </p>
+            </div>
+
+            {deleteError && (
+              <div className="p-3 rounded-xl bg-red-100 border border-red-300 text-red-800 text-xs font-mono">
+                {deleteError}
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-mono font-bold text-[#7B8379] uppercase">
+                Type <strong className="text-red-700 font-mono">{userTeam.teamName}</strong> to confirm:
+              </label>
+              <input
+                type="text"
+                value={deleteConfirmInput}
+                onChange={(e) => setDeleteConfirmInput(e.target.value)}
+                placeholder={userTeam.teamName}
+                className="w-full p-3 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isDeletingTeam}
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  setDeleteConfirmInput('');
+                  setDeleteError('');
+                }}
+                className="px-4 py-2.5 rounded-xl bg-[#E9E1D2] hover:bg-[#D2CAB6] text-[#162E28] text-xs font-mono font-bold transition cursor-pointer"
+              >
+                CANCEL
+              </button>
+              <button
+                type="button"
+                disabled={isDeletingTeam || deleteConfirmInput.trim() !== userTeam.teamName.trim()}
+                onClick={handleDeleteTeam}
+                className="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-mono text-xs font-bold transition flex items-center gap-2 shadow-md cursor-pointer"
+              >
+                {isDeletingTeam ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>DELETING...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>DELETE PERMANENTLY</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LEAVE TEAM CONFIRMATION MODAL (FOR MEMBERS) */}
+      {isLeaveModalOpen && userTeam && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#F3EDE0] border-2 border-amber-500/50 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 text-amber-800 flex items-center justify-center shrink-0">
+                <LogOut className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-serif font-black text-xl text-[#162E28] uppercase tracking-tight">
+                  LEAVE TEAM?
+                </h3>
+                <p className="text-xs text-[#7B8379] font-sans">
+                  You will be removed from <strong>{userTeam.teamName}</strong>.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-xs text-[#7B8379] font-sans leading-relaxed p-4 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6]">
+              After leaving, you will be able to create your own team or join a different team using their team code.
+            </p>
+
+            {leaveError && (
+              <div className="p-3 rounded-xl bg-red-100 border border-red-300 text-red-800 text-xs font-mono">
+                {leaveError}
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isLeavingTeam}
+                onClick={() => {
+                  setIsLeaveModalOpen(false);
+                  setLeaveError('');
+                }}
+                className="px-4 py-2.5 rounded-xl bg-[#E9E1D2] hover:bg-[#D2CAB6] text-[#162E28] text-xs font-mono font-bold transition cursor-pointer"
+              >
+                CANCEL
+              </button>
+              <button
+                type="button"
+                disabled={isLeavingTeam}
+                onClick={handleLeaveTeam}
+                className="px-5 py-2.5 rounded-xl bg-amber-700 hover:bg-amber-800 disabled:opacity-50 text-white font-mono text-xs font-bold transition flex items-center gap-2 shadow-md cursor-pointer"
+              >
+                {isLeavingTeam ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>LEAVING...</span>
+                  </>
+                ) : (
+                  <>
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>CONFIRM LEAVE</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

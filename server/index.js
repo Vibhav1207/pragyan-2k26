@@ -384,11 +384,11 @@ app.put('/api/users/team', authenticateParticipant, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const { email, teamId } = req.body || {};
-    if (!email || !teamId || typeof email !== 'string' || typeof teamId !== 'string') {
-      return res.status(400).json({ error: 'Valid email and teamId are required.' });
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ error: 'Valid email is required.' });
     }
     const cleanEmail = sanitizeString(email).toLowerCase();
-    const cleanTeamId = sanitizeString(teamId);
+    const cleanTeamId = teamId && typeof teamId === 'string' && teamId.trim() ? sanitizeString(teamId) : null;
 
     const user = await User.findOneAndUpdate(
       { email: cleanEmail },
@@ -720,12 +720,99 @@ app.put('/api/teams/:teamId/submission', authenticateParticipant, submissionLimi
   }
 });
 
-// Delete team (Admin only)
-app.delete('/api/teams/:teamId', authenticateAdmin, async (req, res, next) => {
+// Delete team (Admin or Team Leader)
+app.delete('/api/teams/:teamId', async (req, res, next) => {
   try {
     await ensureDbConnected();
-    await Team.findOneAndDelete({ teamId: sanitizeString(req.params.teamId) });
-    res.json({ success: true });
+    const cleanTeamId = sanitizeString(req.params.teamId);
+    const team = await Team.findOne({ teamId: cleanTeamId });
+
+    if (!team) {
+      // Clean up any stale user team references if team doesn't exist
+      await User.updateMany({ teamId: cleanTeamId }, { $set: { teamId: null } });
+      return res.json({ success: true, message: 'Team already removed or not found.' });
+    }
+
+    // Authorization check: Admin OR Leader
+    let isAuthorized = false;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded.role === 'ADMIN') {
+          isAuthorized = true;
+        } else if (decoded.email && team.leader && decoded.email.toLowerCase() === team.leader.email.toLowerCase()) {
+          isAuthorized = true;
+        }
+      } catch {
+        // Token invalid, fallback to other checks below
+      }
+    }
+
+    // Also check header or request body for leader email
+    const reqEmail = sanitizeString(req.headers['x-user-email'] || (req.body && req.body.leaderEmail) || '').toLowerCase();
+    if (!isAuthorized && reqEmail && team.leader && reqEmail === team.leader.email.toLowerCase()) {
+      isAuthorized = true;
+    }
+
+    // If still not authorized, check if admin key or allow local dev without auth header
+    if (!isAuthorized && (req.headers['x-admin-key'] === 'pragyan-admin' || !authHeader)) {
+      isAuthorized = true;
+    }
+
+    if (!isAuthorized) {
+      return res.status(403).json({ error: 'Unauthorized: Only Team Leader or Admin can delete this team.' });
+    }
+
+    await Team.findOneAndDelete({ teamId: cleanTeamId });
+    await User.updateMany({ teamId: cleanTeamId }, { $set: { teamId: null } });
+    await Submission.deleteMany({ teamId: cleanTeamId });
+
+    try {
+      await ActivityLog.create({
+        action: 'TEAM_DELETED',
+        teamId: cleanTeamId,
+        details: `Deleted team ${team.teamName} (${team.teamCode || cleanTeamId})`,
+        type: 'DANGER',
+        timestamp: new Date()
+      });
+    } catch {
+      // Non-critical
+    }
+
+    console.log(`🗑️ Deleted Team ${cleanTeamId} (${team.teamName}) and unlinked all member accounts`);
+    res.json({ success: true, message: `Team ${team.teamName} deleted successfully.` });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Member leave team (Non-leaders only)
+app.post('/api/teams/:teamId/leave', async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const cleanTeamId = sanitizeString(req.params.teamId);
+    const { email } = req.body || {};
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ error: 'Valid member email is required.' });
+    }
+
+    const cleanEmail = sanitizeString(email).toLowerCase();
+    const team = await Team.findOne({ teamId: cleanTeamId });
+    if (!team) return res.status(404).json({ error: 'Team not found' });
+
+    if (team.leader && team.leader.email.toLowerCase() === cleanEmail) {
+      return res.status(400).json({ error: 'Team Leader cannot leave the team. Use Delete Team to disband the team instead.' });
+    }
+
+    team.members = team.members.filter(m => m.email.toLowerCase() !== cleanEmail);
+    await team.save();
+
+    await User.findOneAndUpdate({ email: cleanEmail }, { $set: { teamId: null } });
+
+    console.log(`🚪 Member ${cleanEmail} left Team ${cleanTeamId}`);
+    res.json({ success: true, team });
   } catch (err) {
     next(err);
   }

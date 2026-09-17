@@ -5,7 +5,7 @@ interface AuthContextType {
   // Participant State
   participant: UserProfile | null;
   loginParticipantGoogle: (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string }) => Promise<void>;
-  updateParticipantTeam: (teamId: string) => void;
+  updateParticipantTeam: (teamId?: string | null) => void;
   logoutParticipant: () => void;
 
   // Admin State
@@ -107,9 +107,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(user));
   };
 
-  const updateParticipantTeam = (teamId: string) => {
+  const updateParticipantTeam = (teamId?: string | null) => {
     if (!participant) return;
-    const updated: UserProfile = { ...participant, teamId };
+    const updated: UserProfile = { ...participant };
+    if (teamId) {
+      updated.teamId = teamId;
+    } else {
+      delete updated.teamId;
+    }
     setParticipant(updated);
     localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(updated));
 
@@ -117,12 +122,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetch('/api/users/team', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: participant.email, teamId })
+      body: JSON.stringify({ email: participant.email, teamId: teamId || null })
     }).catch(() => {
       fetch('http://localhost:5000/api/users/team', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: participant.email, teamId })
+        body: JSON.stringify({ email: participant.email, teamId: teamId || null })
       }).catch(err => console.warn('Failed to update team in MongoDB:', err));
     });
   };

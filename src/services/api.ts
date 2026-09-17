@@ -417,15 +417,105 @@ class PragyanAPIService {
     return teams[index];
   }
 
-  deleteTeam(teamId: string): boolean {
+  async deleteTeam(teamId: string, leaderEmail?: string): Promise<boolean> {
     let teams = this.getTeams();
     const target = teams.find(t => t.teamId === teamId);
-    if (!target) return false;
 
+    // 1. Remove from local storage teams
     teams = teams.filter(t => t.teamId !== teamId);
     setStored(STORAGE_KEYS.TEAMS, teams);
-    this.logActivity('TEAM_DELETED', teamId, `Deleted team ${target.teamName}`, 'DANGER');
+
+    // 2. Remove any associated submissions from local storage
+    const subs = getStored<Submission[]>(STORAGE_KEYS.SUBMISSIONS, []).filter(s => s.teamId !== teamId);
+    setStored(STORAGE_KEYS.SUBMISSIONS, subs);
+
+    // 3. Clear participant local storage if linked to this team
+    try {
+      const participantRaw = localStorage.getItem('pragyan_participant_user');
+      if (participantRaw) {
+        const pObj = JSON.parse(participantRaw);
+        if (pObj && pObj.teamId === teamId) {
+          delete pObj.teamId;
+          localStorage.setItem('pragyan_participant_user', JSON.stringify(pObj));
+        }
+      }
+    } catch {
+      // Ignore
+    }
+
+    // 4. Send DELETE request to MongoDB backend
+    try {
+      const headers = getAuthHeaders();
+      if (leaderEmail) {
+        headers['x-user-email'] = leaderEmail;
+      }
+      let res = await fetch(`/api/teams/${teamId}`, {
+        method: 'DELETE',
+        headers,
+        body: JSON.stringify({ leaderEmail })
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/teams/${teamId}`, {
+          method: 'DELETE',
+          headers,
+          body: JSON.stringify({ leaderEmail })
+        });
+      }
+    } catch (err) {
+      console.warn('MongoDB delete API note (Team removed from local storage):', err);
+    }
+
+    this.logActivity('TEAM_DELETED', teamId, `Deleted team ${target?.teamName || teamId}`, 'DANGER');
     return true;
+  }
+
+  async leaveTeam(teamId: string, memberEmail: string): Promise<{ success: boolean; error?: string }> {
+    const teams = this.getTeams();
+    const team = teams.find(t => t.teamId === teamId);
+    if (!team) return { success: false, error: 'Team not found' };
+
+    const cleanEmail = memberEmail.toLowerCase().trim();
+    if (team.leader?.email?.toLowerCase() === cleanEmail) {
+      return { success: false, error: 'Team Leader cannot leave the team. Disband or delete the team instead.' };
+    }
+
+    team.members = (team.members || []).filter(m => m.email.toLowerCase() !== cleanEmail);
+    setStored(STORAGE_KEYS.TEAMS, teams);
+
+    // Clear participant local storage
+    try {
+      const participantRaw = localStorage.getItem('pragyan_participant_user');
+      if (participantRaw) {
+        const pObj = JSON.parse(participantRaw);
+        if (pObj && pObj.email?.toLowerCase() === cleanEmail) {
+          delete pObj.teamId;
+          localStorage.setItem('pragyan_participant_user', JSON.stringify(pObj));
+        }
+      }
+    } catch {
+      // Ignore
+    }
+
+    // Send leave request to backend
+    try {
+      let res = await fetch(`/api/teams/${teamId}/leave`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ email: cleanEmail })
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/teams/${teamId}/leave`, {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ email: cleanEmail })
+        });
+      }
+    } catch (err) {
+      console.warn('MongoDB leave API note:', err);
+    }
+
+    this.logActivity('MEMBER_LEFT_TEAM', teamId, `${memberEmail} left team ${team.teamName}`, 'INFO');
+    return { success: true };
   }
 
   // Submissions
