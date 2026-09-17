@@ -95,14 +95,14 @@ export const AdminLogin: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] flex items-center justify-center p-4 relative overflow-hidden font-sans selection:bg-[#162E28] selection:text-[#E5BE61]">
-      
+
       {/* Background Watermark */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.03] font-serif font-black text-[18rem] text-[#162E28] select-none leading-none">
         ADMIN
       </div>
 
       <div className="w-full max-w-md relative z-10 space-y-8">
-        
+
         {/* Branding Header */}
         <div className="text-center space-y-3">
           <Link to="/" className="inline-block p-3.5 bg-[#F9F4EA] rounded-2xl shadow-sm border border-[#A77A1C]/40 hover:scale-105 transition">
@@ -124,7 +124,7 @@ export const AdminLogin: React.FC = () => {
 
         {/* Login Card */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-8 rounded-3xl shadow-xl space-y-6 text-left relative">
-          
+
           {error && (
             <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
@@ -159,7 +159,7 @@ export const AdminLogin: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+
             {/* Email Field */}
             <div className="space-y-1.5">
               <label className="text-xs font-mono font-bold text-[#A77A1C] uppercase tracking-wider">
@@ -225,13 +225,7 @@ export const AdminLogin: React.FC = () => {
           </form>
 
           {/* Quick Demo Credentials Info */}
-          <div className="p-3 rounded-xl bg-[#E9E1D2] border border-[#A77A1C]/40 text-[11px] text-[#162E28] font-mono space-y-1">
-            <div className="font-bold flex items-center gap-1">
-              <KeyRound className="w-3.5 h-3.5 text-[#A77A1C]" /> Demo Admin Credentials:
-            </div>
-            <div>Email: <code className="bg-[#F9F4EA] px-1 py-0.5 rounded text-[#A77A1C] font-bold">admin@sanjivani.edu.in</code></div>
-            <div>Password: <code className="bg-[#F9F4EA] px-1 py-0.5 rounded text-[#A77A1C] font-bold">admin123</code></div>
-          </div>
+
 
           <div className="pt-2 text-center">
             <Link to="/" className="text-xs text-[#7B8379] hover:text-[#162E28] font-mono font-bold transition">
