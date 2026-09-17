@@ -100,7 +100,7 @@ export const ParticipantLogin: React.FC = () => {
         {/* Logo Branding */}
         <div className="space-y-3">
           <Link to="/" className="inline-block p-3.5 bg-[#F9F4EA] rounded-2xl shadow-sm border border-[#A77A1C]/40 hover:scale-105 transition">
-            <img src="/pragyan-logo.png" alt="PRAGYAN 2K26 Logo" className="h-12 w-auto object-contain" />
+            <img src="/pragyan-logo.png" alt="PRAGYAN 2K26 Logo" className="h-12 w-auto object-contain mix-blend-multiply" />
           </Link>
           
           <div className="space-y-1">

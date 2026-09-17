@@ -90,7 +90,7 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
                   <img
                     src="/pragyan-logo.png"
                     alt="PRAGYAN 2K26 Official Logo"
-                    className="h-16 sm:h-20 xl:h-22 w-auto object-contain"
+                    className="h-16 sm:h-20 xl:h-22 w-auto object-contain mix-blend-multiply"
                   />
                 </div>
               </ScrollReveal>
