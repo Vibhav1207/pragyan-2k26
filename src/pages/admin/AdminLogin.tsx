@@ -24,56 +24,68 @@ export const AdminLogin: React.FC = () => {
     try {
       const gUser = await signInWithGoogle();
       if (!gUser || !gUser.email) {
-        throw new Error('Google authentication cancelled or returned no email.');
+        throw new Error('Google authentication was cancelled or returned no email.');
       }
+
+      const cleanEmail = gUser.email.toLowerCase().trim();
+      const localAllowedAdmins = [
+        'vibhav07patel@gmail.com',
+        'admin@sanjivani.edu.in'
+      ];
 
       // Check with backend /api/auth/admin/google
       const payload = {
-        email: gUser.email,
+        email: cleanEmail,
         name: gUser.name,
         avatar: gUser.avatar,
         googleId: gUser.uid,
         uid: gUser.uid
       };
 
-      let res = await fetch('/api/auth/admin/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      let authSuccess = false;
+      let adminData: any = null;
 
-      if (!res.ok) {
-        res = await fetch('http://localhost:5000/api/auth/admin/google', {
+      try {
+        const res = await fetch('/api/auth/admin/google', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-      }
 
-      if (res.ok) {
-        const data = await res.json();
-        if (data.token && data.admin) {
-          loginAdmin(data.admin.email, data.token, data.admin.name);
-          navigate('/admin/dashboard');
-          return;
+        if (res.ok) {
+          const data = await res.json();
+          if (data.token && data.admin) {
+            authSuccess = true;
+            adminData = data;
+          }
+        } else if (res.status === 403 || res.status === 401) {
+          const errData = await res.json().catch(() => ({}));
+          // If not explicitly in local allowed list, reject
+          if (!localAllowedAdmins.includes(cleanEmail)) {
+            setError(errData.error || `Access Denied: Google account (${cleanEmail}) does not have administrative privileges.`);
+            return;
+          }
         }
+      } catch (networkErr) {
+        console.warn('Backend API connection notice (falling back to client authorization verification):', networkErr);
       }
 
-      // Handle unauthorized or backend responses
-      if (res.status === 403 || res.status === 401) {
-        const errData = await res.json().catch(() => ({}));
-        setError(errData.error || `Access Denied: Google account (${gUser.email}) does not have administrative privileges.`);
+      if (authSuccess && adminData) {
+        loginAdmin(adminData.admin.email, adminData.token, adminData.admin.name);
+        navigate('/admin/dashboard');
         return;
       }
 
-      // Fallback offline verification if server is unreachable
-      const cleanEmail = gUser.email.toLowerCase();
-      const localAllowedAdmins = ['admin@sanjivani.edu.in'];
-      if (localAllowedAdmins.includes(cleanEmail)) {
-        loginAdmin(gUser.email, 'offline-admin-token', gUser.name || 'PRAGYAN Super Admin');
+      // Check local authorization (including vibhav07patel@gmail.com & stored participant role)
+      const storedPart = localStorage.getItem('pragyan_participant_user');
+      const parsed = storedPart ? JSON.parse(storedPart) : null;
+      const isRoleAdmin = parsed && parsed.role && typeof parsed.role === 'string' && parsed.role.toUpperCase() === 'ADMIN';
+
+      if (localAllowedAdmins.includes(cleanEmail) || isRoleAdmin) {
+        loginAdmin(cleanEmail, 'authorized-admin-token', gUser.name || 'PRAGYAN Super Admin');
         navigate('/admin/dashboard');
       } else {
-        setError(`Access Denied: Google account (${gUser.email}) is not registered as an authorized administrator.`);
+        setError(`Access Denied: Google account (${cleanEmail}) is not authorized for administrative access.`);
       }
     } catch (err: any) {
       console.error('Admin Google login error:', err);

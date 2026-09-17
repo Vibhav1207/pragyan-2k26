@@ -335,12 +335,14 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
     }
     const cleanEmail = sanitizeString(email).toLowerCase();
     const adminAccount = await Admin.findOne({ email: cleanEmail });
-    const userAccount = await User.findOne({ email: cleanEmail, role: 'ADMIN' });
-    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'admin@sanjivani.edu.in')
+    const userAccount = await User.findOne({ email: cleanEmail });
+    const isUserAdmin = userAccount && typeof userAccount.role === 'string' && userAccount.role.toUpperCase() === 'ADMIN';
+
+    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'admin@sanjivani.edu.in,vibhav07patel@gmail.com')
       .split(',')
       .map(e => e.trim().toLowerCase());
 
-    const isAuthorized = Boolean(adminAccount || userAccount || envAdminList.includes(cleanEmail));
+    const isAuthorized = Boolean(adminAccount || isUserAdmin || envAdminList.includes(cleanEmail));
 
     if (!isAuthorized) {
       return res.status(403).json({ 
@@ -348,26 +350,33 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
       });
     }
 
-    const adminName = sanitizeString(name) || (adminAccount ? adminAccount.name : 'PRAGYAN Administrator');
+    const adminName = sanitizeString(name) || (userAccount ? userAccount.name : (adminAccount ? adminAccount.name : 'PRAGYAN Administrator'));
     const adminId = adminAccount ? adminAccount._id : (userAccount ? userAccount._id : `ADM-${Date.now()}`);
 
-    // If not in Admin collection, register them
+    // Ensure role is normalized in User collection
+    if (userAccount && userAccount.role !== 'ADMIN') {
+      userAccount.role = 'ADMIN';
+      await userAccount.save().catch(() => {});
+    }
+
+    // Ensure they exist in Admin collection too
     if (!adminAccount) {
       await Admin.findOneAndUpdate(
         { email: cleanEmail },
         { $setOnInsert: { email: cleanEmail, name: adminName, role: 'ADMIN', passwordHash: 'oauth-google-managed' } },
         { upsert: true }
-      );
+      ).catch(() => {});
     }
 
     const token = jwt.sign({ id: adminId, email: cleanEmail, name: adminName, role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
     return res.json({
       success: true,
       token,
-      admin: { id: adminId, email: cleanEmail, name: adminName, role: 'ADMIN', avatar }
+      admin: { id: adminId, email: cleanEmail, name: adminName, role: 'ADMIN', avatar: avatar || (userAccount ? userAccount.avatar : undefined) }
     });
   } catch (err) {
-    next(err);
+    console.error('Error in /api/auth/admin/google:', err);
+    return res.status(500).json({ error: err?.message || 'Server error during admin verification.' });
   }
 });
 
