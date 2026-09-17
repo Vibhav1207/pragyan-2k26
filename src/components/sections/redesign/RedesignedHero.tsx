@@ -25,7 +25,7 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
 
       {/* Decorative Oversized Watermark Typography */}
       <div className="absolute top-16 right-10 z-0 pointer-events-none opacity-[0.04] font-serif font-black text-[12rem] xl:text-[16rem] text-[#162E28] leading-none select-none">
-        BBA
+        SCM
       </div>
 
       <div className="max-w-[1500px] mx-auto w-full space-y-10 sm:space-y-14 relative z-10">
