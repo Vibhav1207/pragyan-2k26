@@ -3,11 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   User, 
   Mail, 
-  Building2, 
   Key, 
   Hash, 
   Save, 
-  GraduationCap, 
   Users, 
   ShieldCheck, 
   Crown, 
@@ -136,50 +134,26 @@ export const ParticipantProfile: React.FC = () => {
             )}
           </div>
 
-          {/* USER & ACADEMIC DETAILS GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="text-xs font-mono font-extrabold text-[#A77A1C] uppercase tracking-widest flex items-center gap-1.5">
-                <User className="w-4 h-4 text-[#A77A1C]" /> PERSONAL INFORMATION
-              </h3>
-              
-              <div className="bg-[#F9F4EA] p-5 rounded-2xl border border-[#D2CAB6] space-y-3 text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7B8379] flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-[#A77A1C]" /> Full Name:</span>
-                  <span className="font-serif font-bold text-[#162E28]">{currentMember?.fullName || participant?.name}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7B8379] flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-[#A77A1C]" /> Email Address:</span>
-                  <span className="font-mono font-bold text-[#A77A1C]">{participant?.email}</span>
-                </div>
-                <div className="flex items-center justify-between pt-1 border-t border-[#D2CAB6]/60">
-                  <span className="text-[#7B8379] flex items-center gap-1.5 font-bold"><Hash className="w-3.5 h-3.5 text-[#A77A1C]" /> Group Code:</span>
-                  <span className="font-mono font-black text-[#162E28] bg-[#E9E1D2] px-2.5 py-0.5 rounded-lg border border-[#A77A1C]/40">
-                    {savedGroupCode || participant?.groupCode || 'NOT SET'}
-                  </span>
-                </div>
+          {/* PERSONAL INFORMATION */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-mono font-extrabold text-[#A77A1C] uppercase tracking-widest flex items-center gap-1.5">
+              <User className="w-4 h-4 text-[#A77A1C]" /> PERSONAL INFORMATION
+            </h3>
+            
+            <div className="bg-[#F9F4EA] p-5 rounded-2xl border border-[#D2CAB6] space-y-3 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[#7B8379] flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-[#A77A1C]" /> Full Name:</span>
+                <span className="font-serif font-bold text-[#162E28]">{currentMember?.fullName || participant?.name}</span>
               </div>
-            </div>
-
-            {/* ACADEMIC & INSTITUTION - Hidden on mobile screens */}
-            <div className="hidden md:block space-y-4">
-              <h3 className="text-xs font-mono font-extrabold text-[#A77A1C] uppercase tracking-widest flex items-center gap-1.5">
-                <GraduationCap className="w-4 h-4 text-[#A77A1C]" /> ACADEMIC & INSTITUTION
-              </h3>
-              
-              <div className="bg-[#F9F4EA] p-5 rounded-2xl border border-[#D2CAB6] space-y-3 text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7B8379] flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5 text-[#A77A1C]" /> University / College:</span>
-                  <span className="font-serif font-bold text-[#162E28] truncate max-w-[200px]">{currentMember?.college || 'Sanjivani University'}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7B8379] flex items-center gap-1.5"><GraduationCap className="w-3.5 h-3.5 text-[#A77A1C]" /> Degree & Branch:</span>
-                  <span className="font-serif font-bold text-[#162E28]">{currentMember?.course || 'B.Tech Computer Science'}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7B8379] flex items-center gap-1.5"><GraduationCap className="w-3.5 h-3.5 text-[#A77A1C]" /> Year of Study:</span>
-                  <span className="font-mono font-bold text-[#162E28]">{currentMember?.year || 'Final Year'}</span>
-                </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[#7B8379] flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-[#A77A1C]" /> Email Address:</span>
+                <span className="font-mono font-bold text-[#A77A1C]">{participant?.email}</span>
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-[#D2CAB6]/60">
+                <span className="text-[#7B8379] flex items-center gap-1.5 font-bold"><Hash className="w-3.5 h-3.5 text-[#A77A1C]" /> Group Code:</span>
+                <span className="font-mono font-black text-[#162E28] bg-[#E9E1D2] px-2.5 py-0.5 rounded-lg border border-[#A77A1C]/40">
+                  {savedGroupCode || participant?.groupCode || 'NOT SET'}
+                </span>
               </div>
             </div>
           </div>
