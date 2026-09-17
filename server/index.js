@@ -325,6 +325,52 @@ app.post('/api/auth/admin/login', authLimiter, async (req, res, next) => {
   }
 });
 
+// Admin Google Login - Direct Google OAuth with Admin Authorization verification
+app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const { email, name, avatar, googleId, uid } = req.body || {};
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ error: 'Valid email is required.' });
+    }
+    const cleanEmail = sanitizeString(email).toLowerCase();
+    const adminAccount = await Admin.findOne({ email: cleanEmail });
+    const userAccount = await User.findOne({ email: cleanEmail, role: 'ADMIN' });
+    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'admin@sanjivani.edu.in')
+      .split(',')
+      .map(e => e.trim().toLowerCase());
+
+    const isAuthorized = Boolean(adminAccount || userAccount || envAdminList.includes(cleanEmail));
+
+    if (!isAuthorized) {
+      return res.status(403).json({ 
+        error: `Access Denied: Google account (${cleanEmail}) does not have administrative access.` 
+      });
+    }
+
+    const adminName = sanitizeString(name) || (adminAccount ? adminAccount.name : 'PRAGYAN Administrator');
+    const adminId = adminAccount ? adminAccount._id : (userAccount ? userAccount._id : `ADM-${Date.now()}`);
+
+    // If not in Admin collection, register them
+    if (!adminAccount) {
+      await Admin.findOneAndUpdate(
+        { email: cleanEmail },
+        { $setOnInsert: { email: cleanEmail, name: adminName, role: 'ADMIN', passwordHash: 'oauth-google-managed' } },
+        { upsert: true }
+      );
+    }
+
+    const token = jwt.sign({ id: adminId, email: cleanEmail, name: adminName, role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
+    return res.json({
+      success: true,
+      token,
+      admin: { id: adminId, email: cleanEmail, name: adminName, role: 'ADMIN', avatar }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Participant Google Login - Stores Google user in MongoDB & retrieves team status
 app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => {
   try {
