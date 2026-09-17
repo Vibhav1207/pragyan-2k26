@@ -33,15 +33,33 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
 
       <div className="max-w-[1500px] mx-auto w-full space-y-12 sm:space-y-16 relative z-10">
         <ScrollReveal delay={0} duration={500}>
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FACC15] animate-pulse" />
-              <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-wider hover:text-[#FACC15] transition-colors">
-                {EVENT_DATA.institution}
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-6">
+            <div className="flex flex-col items-start gap-3">
+              <a
+                href="https://sanjivani.edu.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block transition-transform hover:scale-105"
+                title="Sanjivani University"
+              >
+                <div className="p-2 bg-white/95 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
+                  <img
+                    src="/sanjivani-logo.png"
+                    alt="Sanjivani University Emblem"
+                    className="h-14 sm:h-16 w-auto object-contain"
+                  />
+                </div>
               </a>
+
+              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FACC15] animate-pulse" />
+                <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="font-space font-extrabold text-xs sm:text-sm text-white uppercase tracking-wider hover:text-[#FACC15] transition-colors">
+                  {EVENT_DATA.institution}
+                </a>
+              </div>
             </div>
 
-            <div className="font-mono text-xs text-[#FACC15] font-bold uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+            <div className="font-mono text-xs text-[#FACC15] font-bold uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 mb-1">
               OFFICIAL NATIONAL HACKATHON
             </div>
           </div>

@@ -42,20 +42,36 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
 
         {/* Top Eyebrow Header Bar */}
         <ScrollReveal delay={0} duration={500}>
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D2CAB6] pb-5">
-            <div className="inline-flex items-center gap-3 bg-[#E9E1D2] px-4 py-1.5 rounded-full border border-[#A77A1C]/30 shadow-sm">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#A77A1C] animate-pulse" />
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#D2CAB6] pb-5">
+            <div className="flex flex-col items-start gap-3">
               <a
                 href="https://sanjivani.edu.in"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-serif font-extrabold text-xs sm:text-sm text-[#162E28] uppercase tracking-wider hover:text-[#A77A1C] transition-colors"
+                className="group block transition-transform hover:scale-105"
+                title="Sanjivani University"
               >
-                {EVENT_DATA.institution}
+                <img
+                  src="/sanjivani-logo.png"
+                  alt="Sanjivani University Emblem"
+                  className="h-16 sm:h-20 w-auto object-contain mix-blend-multiply drop-shadow-sm group-hover:drop-shadow-md transition-all"
+                />
               </a>
+
+              <div className="inline-flex items-center gap-3 bg-[#E9E1D2] px-4 py-1.5 rounded-full border border-[#A77A1C]/30 shadow-sm">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#A77A1C] animate-pulse" />
+                <a
+                  href="https://sanjivani.edu.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-serif font-extrabold text-xs sm:text-sm text-[#162E28] uppercase tracking-wider hover:text-[#A77A1C] transition-colors"
+                >
+                  {EVENT_DATA.institution}
+                </a>
+              </div>
             </div>
 
-            <div className="font-mono text-xs text-[#162E28] font-bold uppercase tracking-widest bg-[#E9E1D2]/80 px-3.5 py-1.5 rounded-lg border border-[#D2CAB6] flex items-center gap-1.5">
+            <div className="font-mono text-xs text-[#162E28] font-bold uppercase tracking-widest bg-[#E9E1D2]/80 px-3.5 py-1.5 rounded-lg border border-[#D2CAB6] flex items-center gap-1.5 mb-1">
               <Award className="w-3.5 h-3.5 text-[#A77A1C]" />
               <span>OFFICIAL NATIONAL LEVEL HACKATHON</span>
             </div>
