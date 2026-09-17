@@ -77,14 +77,13 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || !isHomepage
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || !isHomepage
           ? 'bg-[#162E28]/95 backdrop-blur-md border-b border-[#A77A1C]/30 shadow-2xl'
           : 'bg-[#162E28]/90 backdrop-blur-sm border-b border-[#D2CAB6]/15'
-      }`}
+        }`}
     >
       <div className={`max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2.5' : 'py-3.5'}`}>
-        
+
         {/* Brand Logo & Institution Info */}
         <div className="flex items-center gap-3 text-left">
           <Link to="/" className="flex items-center group">
@@ -104,7 +103,7 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
               SANJIVANI UNIVERSITY
             </a>
             <Link to="/" className="font-mono text-[10px] text-[#E5BE61] font-extrabold tracking-widest uppercase hover:underline">
-              PRAGYAN 2K26 • BBA HACKATHON
+              PRAGYAN 2K26 • National Level Hackathon on SDG GOAL 2030
             </Link>
           </div>
         </div>
@@ -129,11 +128,10 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
             <div className="flex items-center gap-2">
               <button
                 onClick={() => navigate('/dashboard')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-mono font-extrabold flex items-center gap-1.5 transition border ${
-                  location.pathname === '/dashboard'
+                className={`px-3.5 py-2 rounded-xl text-xs font-mono font-extrabold flex items-center gap-1.5 transition border ${location.pathname === '/dashboard'
                     ? 'bg-[#A77A1C] text-[#F9F4EA] border-[#E5BE61]'
                     : 'bg-[#2B3E35] hover:bg-[#344B41] text-[#F9F4EA] border-[#D2CAB6]/30'
-                }`}
+                  }`}
               >
                 <LayoutDashboard className="w-4 h-4 text-[#E5BE61]" />
                 <span>DASHBOARD</span>
@@ -141,11 +139,10 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
 
               <button
                 onClick={() => navigate('/profile')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-mono font-extrabold flex items-center gap-1.5 transition border ${
-                  location.pathname === '/profile'
+                className={`px-3.5 py-2 rounded-xl text-xs font-mono font-extrabold flex items-center gap-1.5 transition border ${location.pathname === '/profile'
                     ? 'bg-[#A77A1C] text-[#F9F4EA] border-[#E5BE61]'
                     : 'bg-[#2B3E35] hover:bg-[#344B41] text-[#F9F4EA] border-[#D2CAB6]/30'
-                }`}
+                  }`}
               >
                 <User className="w-4 h-4 text-[#E5BE61]" />
                 <span>PROFILE</span>

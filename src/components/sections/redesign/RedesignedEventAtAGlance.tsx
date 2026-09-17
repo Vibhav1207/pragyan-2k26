@@ -9,7 +9,7 @@ interface RedesignedEventAtAGlanceProps {
 export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> = ({ className = '' }) => {
   return (
     <div className={`w-full rounded-3xl bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-7 xl:p-8 shadow-xl relative overflow-hidden text-left ${className}`}>
-      
+
       {/* Subtle Background Watermark Graphic */}
       <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 pointer-events-none opacity-5 font-serif font-black text-9xl text-[#162E28] select-none">
         2K26
@@ -22,11 +22,11 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
             <TrendingUp className="w-3.5 h-3.5 text-[#A77A1C]" />
             <span>KEY EXECUTIVE SUMMARY</span>
           </div>
-          
+
           <h2 className="font-serif font-black text-2xl sm:text-3xl xl:text-4xl text-[#162E28] tracking-tight uppercase leading-none">
             EVENT <span className="italic font-normal text-[#A77A1C]">AT A GLANCE</span>
           </h2>
-          
+
           <p className="font-sans text-xs sm:text-sm text-[#7B8379] font-medium mt-1">
             Essential operational details for national delegates.
           </p>
@@ -47,7 +47,7 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
 
       {/* 3 Stat Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6 relative z-10">
-        
+
         {/* Card 1: TEAM COMPOSITION */}
         <div className="bg-[#F9F4EA] border border-[#D2CAB6] rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden hover:border-[#A77A1C] transition-all duration-300 group shadow-sm">
           <div>

@@ -12,7 +12,7 @@ interface RedesignedHeroProps {
 export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick, onExploreChallenges }) => {
   return (
     <section id="home" className="w-full pt-32 pb-20 lg:pt-40 lg:pb-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] relative overflow-hidden text-left border-b border-[#D2CAB6]">
-      
+
       {/* Faint Background Business/Campus Visuals */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-[0.08]">
         <img
@@ -29,7 +29,7 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
       </div>
 
       <div className="max-w-[1500px] mx-auto w-full space-y-10 sm:space-y-14 relative z-10">
-        
+
         {/* Top Eyebrow Header Bar */}
         <ScrollReveal delay={0} duration={500}>
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D2CAB6] pb-5">
@@ -54,10 +54,10 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
 
         {/* Hero 2-Column Main Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
-          
+
           {/* Left Column: Brand Logo, Titles, Theme Card & Action CTAs */}
           <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8">
-            
+
             <div className="space-y-4">
               <ScrollReveal delay={100} duration={600}>
                 <div className="inline-block p-3.5 bg-[#E9E1D2] rounded-2xl border border-[#A77A1C]/40 shadow-md">
@@ -73,9 +73,9 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
                 <div className="font-serif font-black text-4xl sm:text-6xl xl:text-7xl tracking-tight text-[#162E28] leading-none">
                   PRAGYAN <span className="italic font-normal text-[#A77A1C]">2K26</span>
                 </div>
-                
+
                 <h1 className="font-serif font-bold text-xl sm:text-3xl xl:text-4xl tracking-tight text-[#2B3E35] uppercase leading-tight mt-2">
-                  NATIONAL LEVEL BBA HACKATHON
+                  NATIONAL LEVEL HACKATHON ON SDG GOAL 2030
                 </h1>
               </ScrollReveal>
 
@@ -83,7 +83,7 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
               <ScrollReveal delay={250} duration={600}>
                 <div className="p-5 sm:p-6.5 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/40 space-y-3 shadow-md relative overflow-hidden">
                   <div className="w-1 bg-[#A77A1C] absolute top-0 bottom-0 left-0" />
-                  
+
                   <div className="flex items-center gap-2 font-mono text-xs text-[#A77A1C] font-black uppercase tracking-widest pl-1">
                     <Sparkles className="w-4 h-4 text-[#A77A1C]" />
                     <span>OFFICIAL HACKATHON THEME</span>
