@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight, User, LayoutDashboard, LogIn } from 'lucide-react';
+import { Menu, X, ArrowUpRight, User, LogIn } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { AnnouncementTicker } from '../AnnouncementTicker';
@@ -64,14 +64,8 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
   const handleRegisterCta = () => {
     if (onRegisterClick) {
       onRegisterClick();
-    } else if (participant) {
-      if (participant.teamId) {
-        navigate('/dashboard');
-      } else {
-        navigate('/register');
-      }
     } else {
-      navigate('/login');
+      window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
     }
   };
 
@@ -125,18 +119,7 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
         {/* Right Action CTAs */}
         <div className="hidden lg:flex items-center gap-3">
           {participant ? (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => navigate('/dashboard')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-mono font-extrabold flex items-center gap-1.5 transition border ${location.pathname === '/dashboard'
-                    ? 'bg-[#A77A1C] text-[#F9F4EA] border-[#E5BE61]'
-                    : 'bg-[#2B3E35] hover:bg-[#344B41] text-[#F9F4EA] border-[#D2CAB6]/30'
-                  }`}
-              >
-                <LayoutDashboard className="w-4 h-4 text-[#E5BE61]" />
-                <span>DASHBOARD</span>
-              </button>
-
+            <div className="flex items-center gap-2.5">
               <button
                 onClick={() => navigate('/profile')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-mono font-extrabold flex items-center gap-1.5 transition border ${location.pathname === '/profile'
@@ -147,12 +130,20 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
                 <User className="w-4 h-4 text-[#E5BE61]" />
                 <span>PROFILE</span>
               </button>
+
+              <button
+                onClick={handleRegisterCta}
+                className="px-5 py-2.5 rounded-xl text-xs font-mono font-black uppercase text-[#F9F4EA] bg-[#A77A1C] hover:bg-[#8F6716] border border-[#E5BE61]/60 flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+              >
+                <span>REGISTER NOW</span>
+                <ArrowUpRight className="w-4 h-4 text-[#F9F4EA]" />
+              </button>
             </div>
           ) : (
             <div className="flex items-center gap-2.5">
               <button
                 onClick={() => navigate('/login')}
-                className="px-4 py-2 rounded-xl text-xs font-mono font-bold text-[#F9F4EA] bg-[#2B3E35] hover:bg-[#344B41] border border-[#D2CAB6]/30 flex items-center gap-1.5 transition shadow-sm"
+                className="px-4 py-2 rounded-xl text-xs font-mono font-bold text-[#F9F4EA] bg-[#2B3E35] hover:bg-[#344B41] border border-[#D2CAB6]/30 flex items-center gap-1.5 transition shadow-sm cursor-pointer"
               >
                 <LogIn className="w-4 h-4 text-[#E5BE61]" />
                 <span>LOGIN</span>
@@ -160,7 +151,7 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
 
               <button
                 onClick={handleRegisterCta}
-                className="px-5 py-2.5 rounded-xl text-xs font-mono font-black uppercase text-[#F9F4EA] bg-[#A77A1C] hover:bg-[#8F6716] border border-[#E5BE61]/60 flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                className="px-5 py-2.5 rounded-xl text-xs font-mono font-black uppercase text-[#F9F4EA] bg-[#A77A1C] hover:bg-[#8F6716] border border-[#E5BE61]/60 flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
               >
                 <span>REGISTER NOW</span>
                 <ArrowUpRight className="w-4 h-4 text-[#F9F4EA]" />
@@ -203,16 +194,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
               <>
                 <button
                   onClick={() => {
-                    navigate('/dashboard');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full py-3 rounded-xl bg-[#A77A1C] text-[#F9F4EA] font-mono font-extrabold text-xs uppercase flex items-center justify-center gap-2"
-                >
-                  <LayoutDashboard className="w-4 h-4 text-[#E5BE61]" />
-                  <span>MY DASHBOARD</span>
-                </button>
-                <button
-                  onClick={() => {
                     navigate('/profile');
                     setMobileMenuOpen(false);
                   }}
@@ -220,6 +201,16 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
                 >
                   <User className="w-4 h-4 text-[#E5BE61]" />
                   <span>MY PROFILE</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleRegisterCta();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-3 rounded-xl bg-[#A77A1C] text-[#F9F4EA] font-mono font-black text-xs uppercase flex items-center justify-center gap-2 border border-[#E5BE61]/60"
+                >
+                  <span>REGISTER NOW</span>
+                  <ArrowUpRight className="w-4 h-4" />
                 </button>
               </>
             ) : (

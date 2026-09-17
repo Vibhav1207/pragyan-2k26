@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Lenis from 'lenis';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
@@ -15,12 +15,9 @@ import { RedesignedOrganizersSection } from './components/sections/redesign/Rede
 import { RedesignedKopargaonSection } from './components/sections/redesign/RedesignedKopargaonSection';
 import { RedesignedFAQ } from './components/sections/redesign/RedesignedFAQ';
 import { RedesignedContactSection, RedesignedFooter } from './components/sections/redesign/RedesignedFooter';
-import { useAuth } from './context/AuthContext';
 import { apiService } from './services/api';
 
 export function RedesignedApp() {
-  const navigate = useNavigate();
-  const { participant } = useAuth();
 
   useEffect(() => {
     apiService.fetchTeamsAsync();
@@ -49,15 +46,7 @@ export function RedesignedApp() {
   }, []);
 
   const handleRegisterClick = () => {
-    if (participant) {
-      if (participant.teamId) {
-        navigate('/dashboard');
-      } else {
-        navigate('/register');
-      }
-    } else {
-      navigate('/login');
-    }
+    window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
   };
 
   const handleExploreTracks = () => {

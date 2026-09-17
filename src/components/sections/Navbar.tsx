@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight, User, LayoutDashboard, LogIn } from 'lucide-react';
+import { Menu, X, ArrowUpRight, User, LogIn } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { AnnouncementTicker } from './AnnouncementTicker';
@@ -64,14 +64,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
   const handleRegisterCta = () => {
     if (onRegisterClick) {
       onRegisterClick();
-    } else if (participant) {
-      if (participant.teamId) {
-        navigate('/dashboard');
-      } else {
-        navigate('/register');
-      }
     } else {
-      navigate('/login');
+      window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
     }
   };
 
@@ -126,18 +120,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
           {participant ? (
             <div className="flex items-center gap-2">
               <button
-                onClick={() => navigate('/dashboard')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-space font-extrabold flex items-center gap-1.5 transition border ${
-                  location.pathname === '/dashboard'
-                    ? 'bg-[#1D4ED8] text-white border-blue-400'
-                    : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
-                }`}
-              >
-                <LayoutDashboard className="w-4 h-4 text-[#FACC15]" />
-                <span>DASHBOARD</span>
-              </button>
-
-              <button
                 onClick={() => navigate('/profile')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-space font-extrabold flex items-center gap-1.5 transition border ${
                   location.pathname === '/profile'
@@ -147,6 +129,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
               >
                 <User className="w-4 h-4 text-[#FACC15]" />
                 <span>PROFILE</span>
+              </button>
+
+              <button
+                onClick={handleRegisterCta}
+                className="btn-primary-blue text-xs uppercase"
+              >
+                <span>REGISTER NOW</span>
+                <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>
           ) : (
@@ -204,16 +194,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
               <>
                 <button
                   onClick={() => {
-                    navigate('/dashboard');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full py-3 rounded-xl bg-[#1D4ED8] text-white font-space font-extrabold text-xs uppercase flex items-center justify-center gap-2"
-                >
-                  <LayoutDashboard className="w-4 h-4 text-[#FACC15]" />
-                  <span>MY DASHBOARD</span>
-                </button>
-                <button
-                  onClick={() => {
                     navigate('/profile');
                     setMobileMenuOpen(false);
                   }}
@@ -221,6 +201,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick }) => {
                 >
                   <User className="w-4 h-4 text-[#FACC15]" />
                   <span>MY PROFILE</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleRegisterCta();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="btn-primary-blue w-full justify-center text-xs"
+                >
+                  <span>REGISTER NOW</span>
+                  <ArrowUpRight className="w-4 h-4" />
                 </button>
               </>
             ) : (

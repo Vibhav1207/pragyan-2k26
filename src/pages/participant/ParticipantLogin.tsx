@@ -24,14 +24,10 @@ export const ParticipantLogin: React.FC = () => {
   const [unauthorizedDomain, setUnauthorizedDomain] = useState<boolean>(false);
   const [currentDomain, setCurrentDomain] = useState<string>('');
 
-  // If already authenticated, redirect straight to register or dashboard
+  // If already authenticated, redirect straight to profile
   useEffect(() => {
     if (participant) {
-      if (participant.teamId) {
-        navigate('/dashboard');
-      } else {
-        navigate('/register');
-      }
+      navigate('/profile');
     }
   }, [participant, navigate]);
 
@@ -46,7 +42,7 @@ export const ParticipantLogin: React.FC = () => {
         const user = await checkRedirectResult();
         if (user) {
           loginParticipantGoogle(user);
-          navigate('/register');
+          navigate('/profile');
         }
       } catch (err: any) {
         console.error('Redirect result error:', err);
@@ -82,14 +78,7 @@ export const ParticipantLogin: React.FC = () => {
     try {
       const googleUser = await signInWithGoogle();
       await loginParticipantGoogle(googleUser);
-      
-      const saved = localStorage.getItem('pragyan_participant_user');
-      const updatedUser = saved ? JSON.parse(saved) : null;
-      if (updatedUser && updatedUser.teamId) {
-        navigate('/dashboard');
-      } else {
-        navigate('/register');
-      }
+      navigate('/profile');
     } catch (err: any) {
       handleAuthError(err);
     } finally {
@@ -103,7 +92,7 @@ export const ParticipantLogin: React.FC = () => {
       
       {/* Background Watermark Visuals */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.03] font-serif font-black text-[18rem] text-[#162E28] select-none leading-none">
-        BBA
+        SCM
       </div>
 
       <div className="w-full max-w-lg relative z-10 space-y-8 text-center">
@@ -123,7 +112,7 @@ export const ParticipantLogin: React.FC = () => {
               JOIN PRAGYAN <span className="italic font-normal text-[#A77A1C]">2K26</span>
             </h1>
             <p className="text-xs text-[#7B8379] font-sans">
-              Sign in with your Google account to proceed to Team Registration
+              Sign in with your Google account to access your Participant Profile
             </p>
           </div>
         </div>

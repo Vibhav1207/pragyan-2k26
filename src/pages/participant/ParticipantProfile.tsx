@@ -12,7 +12,8 @@ import {
   Copy, 
   Check, 
   ArrowLeft, 
-  LogOut
+  LogOut,
+  ExternalLink
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
@@ -50,14 +51,24 @@ export const ParticipantProfile: React.FC = () => {
       {/* PROFILE CONTENT */}
       <main className="max-w-4xl mx-auto p-4 sm:p-8 space-y-8 text-left">
         
-        {/* Back Link */}
-        <div>
+        {/* Top Actions */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <Link
-            to="/dashboard"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F3EDE0] border border-[#D2CAB6] text-xs font-mono font-bold text-[#162E28] hover:border-[#A77A1C] shadow-sm transition"
+            to="/"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F3EDE0] border border-[#D2CAB6] text-xs font-mono font-bold text-[#162E28] hover:border-[#A77A1C] shadow-sm transition"
           >
-            <ArrowLeft className="w-4 h-4 text-[#A77A1C]" /> ← Back to Participant Dashboard
+            <ArrowLeft className="w-4 h-4 text-[#A77A1C]" /> ← Back to Home
           </Link>
+
+          <a
+            href="https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#A77A1C] hover:bg-[#8F6716] text-[#F9F4EA] text-xs font-mono font-extrabold uppercase shadow-md hover:shadow-lg transition"
+          >
+            <span>REGISTER ON SANJIVANI UMS</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
 
         {/* HEADER HERO CARD */}

@@ -18,12 +18,15 @@ export interface EventInfo {
   email: string;
   instagram: string;
   year: string;
+  registrationUrl?: string;
   socials: {
     instagram: string;
     email: string;
   };
   organizers: string[];
 }
+
+export const REGISTRATION_URL = "https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8";
 
 export const EVENT_DATA: EventInfo = {
   name: "PRAGYAN 2K26",

@@ -5,10 +5,19 @@ import { ScrollReveal } from '../transitions/ScrollReveal';
 import { AnimatedCounter } from '../ui/AnimatedCounter';
 
 interface RegistrationSectionProps {
-  onRegisterClick: () => void;
+  onRegisterClick?: () => void;
 }
 
+const REGISTRATION_URL = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
+
 export const RegistrationSection: React.FC<RegistrationSectionProps> = ({ onRegisterClick }) => {
+  const handleRegister = () => {
+    if (onRegisterClick) {
+      onRegisterClick();
+    } else {
+      window.location.href = REGISTRATION_URL;
+    }
+  };
   return (
     <section id="registration" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-white text-[#0B192C] text-left border-b border-slate-200">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
@@ -117,8 +126,8 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({ onRegi
         <ScrollReveal delay={550}>
           <div className="pt-4 flex justify-center">
             <button
-              onClick={onRegisterClick}
-              className="btn-primary-blue text-base px-10 py-5 uppercase shadow-xl"
+              onClick={handleRegister}
+              className="btn-primary-blue text-base px-10 py-5 uppercase shadow-xl cursor-pointer"
             >
               <span>REGISTER NOW FOR PRAGYAN 2K26</span>
               <ArrowUpRight className="w-6 h-6" />

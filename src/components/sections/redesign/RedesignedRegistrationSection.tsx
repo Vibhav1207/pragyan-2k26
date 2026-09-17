@@ -5,10 +5,19 @@ import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { AnimatedCounter } from '../../ui/AnimatedCounter';
 
 interface RedesignedRegistrationSectionProps {
-  onRegisterClick: () => void;
+  onRegisterClick?: () => void;
 }
 
+const REGISTRATION_URL = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
+
 export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSectionProps> = ({ onRegisterClick }) => {
+  const handleRegister = () => {
+    if (onRegisterClick) {
+      onRegisterClick();
+    } else {
+      window.location.href = REGISTRATION_URL;
+    }
+  };
   return (
     <section id="registration" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
@@ -121,8 +130,8 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
         <ScrollReveal delay={550}>
           <div className="pt-4 flex justify-center">
             <button
-              onClick={onRegisterClick}
-              className="px-10 py-5 rounded-xl font-mono font-black text-base uppercase text-[#F9F4EA] bg-[#162E28] hover:bg-[#2B3E35] border border-[#A77A1C]/60 flex items-center gap-2 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
+              onClick={handleRegister}
+              className="px-10 py-5 rounded-xl font-mono font-black text-base uppercase text-[#F9F4EA] bg-[#162E28] hover:bg-[#2B3E35] border border-[#A77A1C]/60 flex items-center gap-2 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5 cursor-pointer"
             >
               <span>REGISTER NOW FOR PRAGYAN 2K26</span>
               <ArrowUpRight className="w-6 h-6 text-[#E5BE61]" />

@@ -5,11 +5,20 @@ import { ScrollReveal } from '../transitions/ScrollReveal';
 import { EventAtAGlance } from './EventAtAGlance';
 
 interface HeroProps {
-  onRegisterClick: () => void;
+  onRegisterClick?: () => void;
   onExploreChallenges?: () => void;
 }
 
+const REGISTRATION_URL = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
+
 export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges }) => {
+  const handleRegister = () => {
+    if (onRegisterClick) {
+      onRegisterClick();
+    } else {
+      window.location.href = REGISTRATION_URL;
+    }
+  };
   return (
     <section id="home" className="w-full pt-32 pb-20 lg:pt-40 lg:pb-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#0B192C] text-white relative overflow-hidden text-left">
       
@@ -83,8 +92,8 @@ export const Hero: React.FC<HeroProps> = ({ onRegisterClick, onExploreChallenges
             <ScrollReveal delay={350} duration={600}>
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
-                  onClick={onRegisterClick}
-                  className="btn-primary-blue text-sm px-7 py-3.5 sm:px-8 sm:py-4 uppercase"
+                  onClick={handleRegister}
+                  className="btn-primary-blue text-sm px-7 py-3.5 sm:px-8 sm:py-4 uppercase cursor-pointer"
                 >
                   <span>REGISTER NOW</span>
                   <ArrowUpRight className="w-5 h-5" />

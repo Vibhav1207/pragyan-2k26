@@ -7,8 +7,6 @@ import { App as PublicHomepage } from '../App';
 // Participant Routes
 import { ParticipantLogin } from '../pages/participant/ParticipantLogin';
 import { ParticipantSignup } from '../pages/participant/ParticipantSignup';
-import { TeamRegistration } from '../pages/participant/TeamRegistration';
-import { ParticipantDashboard } from '../pages/participant/ParticipantDashboard';
 import { ParticipantProfile } from '../pages/participant/ParticipantProfile';
 
 // Admin Routes
@@ -46,6 +44,13 @@ const ParticipantProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ ch
   return <>{children}</>;
 };
 
+const ExternalRegisterRedirect: React.FC = () => {
+  React.useEffect(() => {
+    window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
+  }, []);
+  return null;
+};
+
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
@@ -58,17 +63,13 @@ export const AppRoutes: React.FC = () => {
       
       <Route
         path="/register"
-        element={
-          <ParticipantProtectedRoute>
-            <TeamRegistration />
-          </ParticipantProtectedRoute>
-        }
+        element={<ExternalRegisterRedirect />}
       />
       <Route
         path="/dashboard"
         element={
           <ParticipantProtectedRoute>
-            <ParticipantDashboard />
+            <Navigate to="/profile" replace />
           </ParticipantProtectedRoute>
         }
       />
