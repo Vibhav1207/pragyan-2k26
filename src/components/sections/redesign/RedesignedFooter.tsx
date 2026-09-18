@@ -170,19 +170,18 @@ export const RedesignedFooter: React.FC = () => {
         </div>
 
         {/* Developer Credit Section */}
-        <div className="relative w-full rounded-2xl sm:rounded-3xl border border-blue-500/40 bg-[#070A10] shadow-[0_0_35px_rgba(37,99,235,0.25)] overflow-hidden">
-          <div className="absolute -left-20 -top-20 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative w-full rounded-2xl sm:rounded-3xl border border-red-500/30 bg-[#070709] shadow-[0_0_35px_rgba(220,38,38,0.2)] overflow-hidden">
+          <div className="absolute -left-20 -top-20 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src={devBannerImg}
               alt="Developer Card Banner"
-              className="w-full h-full object-cover object-center opacity-70 md:opacity-85 mix-blend-screen select-none"
-              style={{ filter: 'hue-rotate(215deg) saturate(1.2)' }}
+              className="w-full h-full object-cover object-center select-none"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070A10]/95 via-[#070A10]/60 to-[#070A10]/80 z-1" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070A10]/90 via-transparent to-[#070A10]/70 z-1" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#070709]/90 via-[#070709]/35 to-[#070709]/85 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#070709]/90 via-transparent to-[#070709]/50 pointer-events-none" />
           </div>
 
           <div className="absolute top-3 right-4 sm:top-4 sm:right-6 z-10 hidden sm:flex items-center gap-2">
@@ -193,12 +192,12 @@ export const RedesignedFooter: React.FC = () => {
 
           <div className="relative z-10 p-5 sm:p-7 md:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="flex items-center gap-4 sm:gap-5 text-left">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-black/60 backdrop-blur-md border border-blue-500/40 flex items-center justify-center text-[#38BDF8] shrink-0 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-black/70 backdrop-blur-md border border-red-500/40 flex items-center justify-center text-[#EF4444] shrink-0 shadow-[0_0_15px_rgba(239,68,68,0.3)]">
                 <span className="font-mono font-black text-lg sm:text-xl tracking-tighter select-none">&lt;/&gt;</span>
               </div>
 
               <div>
-                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-blue-300/80 uppercase font-semibold">
+                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-red-200/80 uppercase font-semibold">
                   PLATFORM ARCHITECTURE &amp; ENGINEERING
                 </div>
 
@@ -208,14 +207,14 @@ export const RedesignedFooter: React.FC = () => {
                     href="https://vibhavpatel.site"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#38BDF8] hover:text-[#60A5FA] transition-colors inline-flex items-center gap-1 font-extrabold hover:underline drop-shadow-[0_0_12px_rgba(56,189,248,0.5)]"
+                    className="text-[#EF4444] hover:text-[#F87171] transition-colors inline-flex items-center gap-1.5 font-extrabold hover:underline drop-shadow-[0_0_12px_rgba(239,68,68,0.5)]"
                   >
                     Vibhav Patel
                     <ExternalLink className="w-4 h-4 inline" />
                   </a>
                 </div>
 
-                <div className="w-12 h-0.5 bg-blue-500/50 rounded-full my-1.5" />
+                <div className="w-12 h-0.5 bg-red-500/50 rounded-full my-1.5" />
 
                 <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-white/60 uppercase font-semibold">
                   BUILD / LEARN / COMPETE / REPEAT
@@ -227,9 +226,9 @@ export const RedesignedFooter: React.FC = () => {
               <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                 <a
                   href="mailto:vibhav07patel@gmail.com"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black/70 backdrop-blur-md border border-blue-500/30 text-xs font-mono text-white/90 hover:border-[#38BDF8] hover:text-white transition-all shadow-md group"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black/75 backdrop-blur-md border border-red-500/30 text-xs font-mono text-white/90 hover:border-[#EF4444] hover:text-white transition-all shadow-md group"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#38BDF8] group-hover:scale-110 transition-transform" />
+                  <Mail className="w-3.5 h-3.5 text-[#EF4444] group-hover:scale-110 transition-transform" />
                   <span>vibhav07patel@gmail.com</span>
                 </a>
 
@@ -237,15 +236,15 @@ export const RedesignedFooter: React.FC = () => {
                   href="https://vibhavpatel.site"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white font-mono font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_28px_rgba(59,130,246,0.65)] transition-all group"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#DC2626] to-[#991B1B] hover:from-[#EF4444] hover:to-[#DC2626] text-white font-mono font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_28px_rgba(239,68,68,0.65)] transition-all group"
                 >
                   <span>View Portfolio</span>
                   <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
               </div>
 
-              <div className="flex items-center gap-2 self-start lg:self-end text-[9px] font-mono tracking-widest text-blue-400/70 uppercase">
-                <span className="w-10 h-px bg-blue-500/40 inline-block" />
+              <div className="flex items-center gap-2 self-start lg:self-end text-[9px] font-mono tracking-widest text-red-500/70 uppercase">
+                <span className="w-10 h-px bg-red-500/40 inline-block" />
                 <span>JUJUTSU KAISEN</span>
               </div>
             </div>
