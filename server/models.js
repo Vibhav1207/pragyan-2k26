@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-  googleId: { type: String, sparse: true },
-  email: { type: String, required: true, unique: true },
+  googleId: { type: String, sparse: true, index: true },
+  email: { type: String, required: true, unique: true, index: true },
   name: { type: String, default: 'Participant User' },
   avatar: { type: String, default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150' },
   role: { 
@@ -10,13 +10,13 @@ const UserSchema = new mongoose.Schema({
     default: 'PARTICIPANT',
     set: (v) => (typeof v === 'string' ? v.toUpperCase() : v)
   },
-  teamId: { type: String },
+  teamId: { type: String, index: true },
   groupCode: { type: String, default: '' },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now, index: true }
 });
 
 const AdminSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, index: true },
   passwordHash: { type: String, required: true },
   name: { type: String, required: true },
   role: { type: String, default: 'ADMIN' },
@@ -42,43 +42,45 @@ const SubmissionFileSchema = new mongoose.Schema({
 });
 
 const SubmissionSchema = new mongoose.Schema({
-  teamId: { type: String, required: true, unique: true },
+  teamId: { type: String, required: true, unique: true, index: true },
   teamName: { type: String, required: true },
   projectTitle: { type: String, required: true },
   description: { type: String, required: true },
-  trackId: { type: String, required: true },
+  trackId: { type: String, required: true, index: true },
   trackTitle: { type: String, required: true },
   status: { 
     type: String, 
     enum: ['NOT_SUBMITTED', 'SUBMITTED', 'UNDER_REVIEW', 'REVIEWED', 'SHORTLISTED', 'DISQUALIFIED'], 
-    default: 'SUBMITTED' 
+    default: 'SUBMITTED',
+    index: true
   },
   githubUrl: String,
   demoUrl: String,
   files: [SubmissionFileSchema],
   adminNotes: String,
   score: Number,
-  submittedAt: { type: Date, default: Date.now }
+  submittedAt: { type: Date, default: Date.now, index: true }
 });
 
 const TeamSchema = new mongoose.Schema({
-  teamId: { type: String, required: true, unique: true },
-  teamCode: { type: String, unique: true, sparse: true },
+  teamId: { type: String, required: true, unique: true, index: true },
+  teamCode: { type: String, unique: true, sparse: true, index: true },
   teamName: { type: String, required: true },
-  trackId: { type: String, required: true },
+  trackId: { type: String, required: true, index: true },
   trackTitle: { type: String, required: true },
   college: { type: String, required: true },
   leader: { type: TeamMemberSchema, required: true },
-  members: [TeamMemberSchema], // Up to 4 members total
-  registrationDate: { type: Date, default: Date.now },
+  members: [TeamMemberSchema],
+  registrationDate: { type: Date, default: Date.now, index: true },
   status: { 
     type: String, 
     enum: ['PENDING', 'APPROVED', 'REJECTED', 'CHANGES_REQUESTED'], 
-    default: 'PENDING' 
+    default: 'PENDING',
+    index: true
   },
   rejectionReason: String,
   changeRequestNotes: String,
-  paymentStatus: { type: String, enum: ['NOT_PAID', 'UNDER_REVIEW', 'PAID', 'REJECTED'], default: 'NOT_PAID' },
+  paymentStatus: { type: String, enum: ['NOT_PAID', 'UNDER_REVIEW', 'PAID', 'REJECTED'], default: 'NOT_PAID', index: true },
   paymentUtr: String,
   paymentScreenshot: String,
   paymentDate: Date,
@@ -87,33 +89,33 @@ const TeamSchema = new mongoose.Schema({
 });
 
 const TrackSchema = new mongoose.Schema({
-  trackId: { type: String, required: true, unique: true },
+  trackId: { type: String, required: true, unique: true, index: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: String,
   iconName: String,
-  isActive: { type: Boolean, default: true },
-  order: { type: Number, default: 0 }
+  isActive: { type: Boolean, default: true, index: true },
+  order: { type: Number, default: 0, index: true }
 });
 
 const AnnouncementSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
-  status: { type: String, enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED'], default: 'PUBLISHED' },
-  publishDate: { type: Date, default: Date.now },
+  status: { type: String, enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED'], default: 'PUBLISHED', index: true },
+  publishDate: { type: Date, default: Date.now, index: true },
   expiryDate: Date,
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now, index: true },
   author: { type: String, default: 'PRAGYAN Admin' }
 });
 
 const ActivityLogSchema = new mongoose.Schema({
   adminName: { type: String, required: true },
-  adminEmail: { type: String, required: true },
+  adminEmail: { type: String, required: true, index: true },
   action: { type: String, required: true },
   entity: { type: String, required: true },
   details: { type: String },
-  type: { type: String, enum: ['INFO', 'SUCCESS', 'WARNING', 'DANGER'], default: 'INFO' },
-  timestamp: { type: Date, default: Date.now }
+  type: { type: String, enum: ['INFO', 'SUCCESS', 'WARNING', 'DANGER'], default: 'INFO', index: true },
+  timestamp: { type: Date, default: Date.now, index: true }
 });
 
 const SystemSettingsSchema = new mongoose.Schema({

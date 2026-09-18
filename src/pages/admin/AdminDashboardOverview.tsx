@@ -40,23 +40,21 @@ export const AdminDashboardOverview: React.FC = () => {
   const announcements = apiService.getAnnouncements();
   const activityLogs = apiService.getActivityLogs().slice(0, 6);
 
-  // Metrics
   const totalDelegates = users.length;
   const participantUsers = users.filter(u => u.role !== 'ADMIN').length;
   const totalTracks = tracks.length;
   const totalSubmissions = submissions.length;
   const totalAnnouncements = announcements.length;
 
-  // Dynamic Chart Analytics based on user registrations
   const generateDynamicChartData = (daysCount: number) => {
     const data = [];
     const now = new Date();
-    
+
     for (let i = daysCount - 1; i >= 0; i--) {
       const d = new Date(now);
       d.setDate(d.getDate() - i);
       const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-      
+
       d.setHours(23, 59, 59, 999);
       const cutoffTime = d.getTime();
 
@@ -81,11 +79,9 @@ export const AdminDashboardOverview: React.FC = () => {
       title="ADMIN DASHBOARD OVERVIEW"
       subtitle="PRAGYAN 2K26 Hackathon Delegate Management & Real-Time Analytics"
     >
-      
-      {/* OVERVIEW METRIC CARDS */}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        
-        {/* 1. Total Delegates */}
+
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">REGISTERED DELEGATES</span>
@@ -99,7 +95,6 @@ export const AdminDashboardOverview: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. Google Verified Delegates */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#162E28]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">GOOGLE VERIFIED</span>
@@ -113,7 +108,6 @@ export const AdminDashboardOverview: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Participant Delegates */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PARTICIPANTS</span>
@@ -125,7 +119,6 @@ export const AdminDashboardOverview: React.FC = () => {
           <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Standard Delegates</div>
         </div>
 
-        {/* 4. Active Tracks */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">INNOVATION TRACKS</span>
@@ -137,7 +130,6 @@ export const AdminDashboardOverview: React.FC = () => {
           <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">Active Domains</div>
         </div>
 
-        {/* 5. Submissions */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PROJECT IDEAS</span>
@@ -149,7 +141,6 @@ export const AdminDashboardOverview: React.FC = () => {
           <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Phase 1 Solutions</div>
         </div>
 
-        {/* 6. Announcements */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">COMMUNICATIONS</span>
@@ -163,10 +154,8 @@ export const AdminDashboardOverview: React.FC = () => {
 
       </div>
 
-      {/* SECOND ROW: REAL-TIME ANALYTICS CHART & TRACKS OVERVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Registration Velocity Chart */}
+
         <div className="lg:col-span-8 bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-8 rounded-3xl shadow-md space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D2CAB6] pb-4">
             <div>
@@ -219,7 +208,6 @@ export const AdminDashboardOverview: React.FC = () => {
           </div>
         </div>
 
-        {/* Tracks Overview */}
         <div className="lg:col-span-4 bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-8 rounded-3xl shadow-md space-y-6 flex flex-col justify-between">
           <div className="space-y-4">
             <h2 className="font-serif font-black text-xl text-[#162E28] uppercase border-b border-[#D2CAB6] pb-3 flex items-center justify-between">
@@ -253,10 +241,8 @@ export const AdminDashboardOverview: React.FC = () => {
 
       </div>
 
-      {/* THIRD ROW: RECENT REGISTERED DELEGATES & AUDIT TRAIL */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Recent Registered Delegates */}
+
         <div className="lg:col-span-8 bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-8 rounded-3xl shadow-md space-y-4">
           <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
             <h2 className="font-serif font-black text-xl text-[#162E28] uppercase">
@@ -314,7 +300,6 @@ export const AdminDashboardOverview: React.FC = () => {
           </div>
         </div>
 
-        {/* System Activity Feed */}
         <div className="lg:col-span-4 bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-8 rounded-3xl shadow-md space-y-4">
           <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
             <h2 className="font-serif font-black text-xl text-[#162E28] uppercase flex items-center gap-2">

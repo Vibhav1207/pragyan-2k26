@@ -39,10 +39,9 @@ export const AdminSettings: React.FC = () => {
       title="SYSTEM SETTINGS & CONFIGURATION"
       subtitle="Manage registration deadlines, submission rules, maintenance mode, and admin account security"
     >
-      
+
       <div className="space-y-8 text-left">
-        
-        {/* HEADER SAVE ACTION */}
+
         <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
           <div>
             <h3 className="font-serif font-bold text-xl text-[#162E28] uppercase flex items-center gap-2">
@@ -67,14 +66,13 @@ export const AdminSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* 1. REGISTRATION SETTINGS */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             1. REGISTRATION CONFIGURATION
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            
+
             <div className="space-y-1">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Registration Portal Status</label>
               <button
@@ -123,14 +121,13 @@ export const AdminSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. SUBMISSION SETTINGS */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             2. PROJECT SUBMISSION CONFIGURATION
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
+
             <div className="space-y-1">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Submission Upload Status</label>
               <button
@@ -169,7 +166,6 @@ export const AdminSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. WEBSITE MAINTENANCE MODE */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             3. WEBSITE MAINTENANCE & VISIBILITY
@@ -193,7 +189,6 @@ export const AdminSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* 4. ADMIN ACCOUNT PASSWORD */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             4. ADMIN ACCOUNT SECURITY
@@ -255,5 +250,3 @@ export const AdminSettings: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

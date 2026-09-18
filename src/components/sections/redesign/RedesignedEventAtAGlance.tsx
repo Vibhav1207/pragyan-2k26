@@ -10,12 +10,10 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
   return (
     <div className={`w-full rounded-3xl bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-7 xl:p-8 shadow-xl relative overflow-hidden text-left ${className}`}>
 
-      {/* Subtle Background Watermark Graphic */}
       <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 pointer-events-none opacity-5 font-serif font-black text-9xl text-[#162E28] select-none">
         2K26
       </div>
 
-      {/* Header Row */}
       <div className="flex flex-wrap items-center justify-between gap-4 relative z-10 border-b border-[#D2CAB6]/80 pb-5">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#162E28]/10 border border-[#162E28]/20 text-[#162E28] text-[11px] font-mono font-extrabold uppercase tracking-widest mb-2">
@@ -32,7 +30,6 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
           </p>
         </div>
 
-        {/* Decorative Editorial Tag */}
         <div className="hidden sm:flex items-center gap-3 shrink-0 select-none">
           <div className="font-mono text-[9px] text-[#A77A1C] font-extrabold tracking-widest uppercase text-right leading-snug border-r border-[#D2CAB6] pr-3">
             <div>BBA INNOVATION</div>
@@ -45,10 +42,8 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
         </div>
       </div>
 
-      {/* 3 Stat Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6 relative z-10">
 
-        {/* Card 1: TEAM COMPOSITION */}
         <div className="bg-[#F9F4EA] border border-[#D2CAB6] rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden hover:border-[#A77A1C] transition-all duration-300 group shadow-sm">
           <div>
             <div className="w-11 h-11 rounded-xl bg-[#E9E1D2] border border-[#A77A1C]/30 flex items-center justify-center mb-4 group-hover:bg-[#162E28] group-hover:text-[#F9F4EA] transition-colors duration-300">
@@ -71,7 +66,6 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
           <div className="w-8 h-0.5 bg-[#A77A1C] rounded-full mt-4" />
         </div>
 
-        {/* Card 2: FIRST ROUND FEE (Highlighted Dark Forest Green + Gold Card) */}
         <div className="bg-[#162E28] border border-[#A77A1C] rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
           <div>
             <div className="w-11 h-11 rounded-xl bg-[#2B3E35] border border-[#E5BE61]/40 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
@@ -100,7 +94,6 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
           <div className="w-8 h-0.5 bg-[#E5BE61] rounded-full mt-4" />
         </div>
 
-        {/* Card 3: SPRINT DURATION */}
         <div className="bg-[#F9F4EA] border border-[#D2CAB6] rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden hover:border-[#A77A1C] transition-all duration-300 group shadow-sm">
           <div>
             <div className="w-11 h-11 rounded-xl bg-[#E9E1D2] border border-[#A77A1C]/30 flex items-center justify-center mb-4 group-hover:bg-[#162E28] group-hover:text-[#F9F4EA] transition-colors duration-300">
@@ -125,7 +118,6 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
 
       </div>
 
-      {/* Bottom Location Pill */}
       <a
         href="https://sanjivani.edu.in"
         target="_blank"

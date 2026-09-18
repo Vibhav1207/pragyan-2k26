@@ -8,8 +8,7 @@ export const RedesignedContactSection: React.FC = () => {
   return (
     <section id="contact" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F3EDE0] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -26,10 +25,8 @@ export const RedesignedContactSection: React.FC = () => {
           </div>
         </ScrollReveal>
 
-        {/* 3 Contact Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Email Card */}
+
           <ScrollReveal delay={120}>
             <a
               href={`mailto:${EVENT_DATA.email}`}
@@ -53,7 +50,6 @@ export const RedesignedContactSection: React.FC = () => {
             </a>
           </ScrollReveal>
 
-          {/* Instagram Card */}
           <ScrollReveal delay={220}>
             <a
               href={EVENT_DATA.socials.instagram}
@@ -79,7 +75,6 @@ export const RedesignedContactSection: React.FC = () => {
             </a>
           </ScrollReveal>
 
-          {/* Venue Card */}
           <ScrollReveal delay={320}>
             <div className="p-8 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] space-y-4 h-full">
               <div className="w-12 h-12 rounded-xl bg-[#E9E1D2] border border-[#A77A1C]/30 text-[#A77A1C] flex items-center justify-center font-bold">
@@ -110,9 +105,9 @@ export const RedesignedFooter: React.FC = () => {
   return (
     <footer className="w-full bg-[#162E28] text-[#F9F4EA] pt-16 pb-12 px-4 sm:px-8 lg:px-12 xl:px-16 border-t border-[#A77A1C]/40 text-left">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#D2CAB6]/20">
-          
+
           <div className="md:col-span-6 space-y-4">
             <div className="flex items-center gap-3">
               <img

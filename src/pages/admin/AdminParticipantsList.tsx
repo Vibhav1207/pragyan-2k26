@@ -71,8 +71,7 @@ export const AdminParticipantsList: React.FC = () => {
       title="PARTICIPANT & DELEGATE DIRECTORY"
       subtitle="Comprehensive roster of all registered hackathon delegates and Google logins"
     >
-      
-      {/* SUMMARY STATS */}
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-4 rounded-2xl shadow-sm text-left">
           <div className="text-[10px] font-mono text-[#7B8379] uppercase font-bold">TOTAL DELEGATES</div>
@@ -98,10 +97,9 @@ export const AdminParticipantsList: React.FC = () => {
         </div>
       </div>
 
-      {/* FILTER BAR */}
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-5 rounded-3xl space-y-4 shadow-sm text-left">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto flex-1">
             <div className="relative">
               <Search className="w-4 h-4 text-[#7B8379] absolute left-3.5 top-3" />
@@ -147,7 +145,6 @@ export const AdminParticipantsList: React.FC = () => {
         </div>
       </div>
 
-      {/* PARTICIPANTS TABLE */}
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -230,7 +227,6 @@ export const AdminParticipantsList: React.FC = () => {
         </div>
       </div>
 
-      {/* PARTICIPANT DETAIL MODAL */}
       {selectedUser && (
         <div className="fixed inset-0 bg-[#162E28]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-6 max-w-md w-full space-y-5 text-left shadow-2xl">

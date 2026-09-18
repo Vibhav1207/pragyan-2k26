@@ -10,8 +10,7 @@ export const RedesignedMissionSection: React.FC = () => {
   return (
     <section id="about" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F3EDE0] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Section Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -23,12 +22,11 @@ export const RedesignedMissionSection: React.FC = () => {
               </h2>
             </div>
             <div className="font-mono text-xs font-extrabold text-[#A77A1C] uppercase tracking-widest">
-              SANJIVANI UNIVERSITY // KOPARGAON
+              SANJIVANI UNIVERSITY 
             </div>
           </div>
         </ScrollReveal>
 
-        {/* Narrative Box + Redesigned Event Highlights Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-6 xl:col-span-7 space-y-6">
             <ScrollReveal delay={100}>

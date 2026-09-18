@@ -45,14 +45,14 @@ export interface Submission {
 }
 
 export interface Team {
-  teamId: string; // e.g. PRAGYAN-TM-101
-  teamCode?: string; // e.g. PRG-7X9K2 for team joining
+  teamId: string; 
+  teamCode?: string; 
   teamName: string;
   trackId: string;
   trackTitle: string;
   college: string;
   leader: TeamMember;
-  members: TeamMember[]; // Up to 4 members total including leader
+  members: TeamMember[]; 
   registrationDate: string;
   status: TeamStatus;
   submission?: Submission;
@@ -92,7 +92,7 @@ export interface ActivityLog {
   adminName: string;
   adminEmail: string;
   action: string;
-  entity: string; // e.g. "Team PRAGYAN-TM-101"
+  entity: string; 
   details: string;
   timestamp: string;
   type: 'INFO' | 'SUCCESS' | 'WARNING' | 'DANGER';

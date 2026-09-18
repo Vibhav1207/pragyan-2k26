@@ -70,7 +70,6 @@ export const AdminExportCenter: React.FC = () => {
       return;
     }
 
-    // Convert to CSV
     const keys = Object.keys(data[0]);
     const csvLines = [keys.join(',')];
     data.forEach(row => {
@@ -104,12 +103,11 @@ export const AdminExportCenter: React.FC = () => {
       title="EXPORT CENTER"
       subtitle="Generate and download complete CSV & Excel data reports for Teams, Participants, Registrations & Submissions"
     >
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* EXPORT GENERATOR (7 Cols) */}
+
         <div className="lg:col-span-7 bg-[#E9E1D2] border border-[#D2CAB6] p-8 rounded-3xl space-y-6 shadow-sm text-left">
-          
+
           <div className="border-b border-[#D2CAB6] pb-3">
             <h3 className="font-serif font-bold text-xl text-[#162E28] uppercase flex items-center gap-2">
               <FileSpreadsheet className="w-5 h-5 text-[#A77A1C]" />
@@ -119,8 +117,7 @@ export const AdminExportCenter: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            
-            {/* Dataset Type */}
+
             <div className="space-y-1.5">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Select Target Dataset</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -141,7 +138,6 @@ export const AdminExportCenter: React.FC = () => {
               </div>
             </div>
 
-            {/* Format Selection */}
             <div className="space-y-1.5">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Export File Format</label>
               <div className="flex items-center gap-3">
@@ -166,7 +162,6 @@ export const AdminExportCenter: React.FC = () => {
               </div>
             </div>
 
-            {/* Filters */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#D2CAB6]">
               <div className="space-y-1">
                 <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Filter by Track</label>
@@ -206,7 +201,6 @@ export const AdminExportCenter: React.FC = () => {
 
         </div>
 
-        {/* EXPORT HISTORY (5 Cols) */}
         <div className="lg:col-span-5 bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm text-left">
           <div className="border-b border-[#D2CAB6] pb-3 flex items-center gap-2">
             <History className="w-5 h-5 text-[#A77A1C]" />
@@ -231,5 +225,3 @@ export const AdminExportCenter: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

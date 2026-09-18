@@ -37,8 +37,7 @@ export const RedesignedWhyParticipate: React.FC<PrizesSectionProps> = ({ onRegis
   return (
     <section id="prizes" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F3EDE0] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Section Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -55,7 +54,6 @@ export const RedesignedWhyParticipate: React.FC<PrizesSectionProps> = ({ onRegis
           </div>
         </ScrollReveal>
 
-        {/* 4 Main Prize Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {prizes.map((p, idx) => {
             const IconComp = p.icon;
@@ -85,11 +83,10 @@ export const RedesignedWhyParticipate: React.FC<PrizesSectionProps> = ({ onRegis
           })}
         </div>
 
-        {/* SHIRDI TOURISM COMPLEMENTARY BANNER */}
         <ScrollReveal delay={550} duration={700}>
           <div className="p-8 sm:p-12 rounded-3xl bg-[#162E28] text-[#F9F4EA] border-2 border-[#A77A1C] relative overflow-hidden shadow-2xl">
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              
+
               <div className="lg:col-span-8 space-y-4">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A77A1C]/40 border border-[#E5BE61]/50 text-[#E5BE61] text-xs font-mono font-extrabold uppercase">
                   <Compass className="w-4 h-4 text-[#E5BE61]" />

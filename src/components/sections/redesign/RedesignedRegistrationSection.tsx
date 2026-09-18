@@ -21,8 +21,7 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
   return (
     <section id="registration" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Section Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -39,10 +38,9 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
           </div>
         </ScrollReveal>
 
-        {/* Primary Banner: OPEN FOR ALL DOMAIN STUDENTS */}
         <ScrollReveal delay={150} duration={650}>
           <div className="p-8 sm:p-12 space-y-6 text-left rounded-3xl bg-[#162E28] text-[#F9F4EA] border-2 border-[#A77A1C] shadow-2xl relative overflow-hidden">
-            
+
             <div className="inline-flex items-center gap-2 font-mono text-xs font-extrabold bg-[#A77A1C] text-[#F9F4EA] px-4 py-1.5 rounded-full uppercase border border-[#E5BE61]/50">
               <GraduationCap className="w-4 h-4 text-[#E5BE61]" />
               <span>INCLUSIVE ELIGIBILITY</span>
@@ -58,10 +56,8 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
           </div>
         </ScrollReveal>
 
-        {/* Key Info Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Card 1: TEAM SIZE */}
+
           <ScrollReveal delay={250} duration={600}>
             <div className="p-8 space-y-4 text-left rounded-2xl bg-[#F3EDE0] border border-[#D2CAB6] hover:border-[#A77A1C] transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col justify-between">
               <div className="space-y-4">
@@ -82,7 +78,6 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
             </div>
           </ScrollReveal>
 
-          {/* Card 2: FIRST ROUND REGISTRATION FEE */}
           <ScrollReveal delay={350} duration={600}>
             <div className="p-8 space-y-4 text-left rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/60 hover:border-[#A77A1C] transition-all duration-300 shadow-md h-full flex flex-col justify-between">
               <div className="space-y-4">
@@ -103,7 +98,6 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
             </div>
           </ScrollReveal>
 
-          {/* Card 3: SECOND ROUND FEE NOTICE */}
           <ScrollReveal delay={450} duration={600}>
             <div className="p-8 space-y-4 text-left rounded-2xl bg-[#F3EDE0] border border-[#D2CAB6] hover:border-[#A77A1C] transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col justify-between">
               <div className="space-y-4">
@@ -126,7 +120,6 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
 
         </div>
 
-        {/* Main CTA */}
         <ScrollReveal delay={550}>
           <div className="pt-4 flex justify-center">
             <button

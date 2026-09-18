@@ -49,11 +49,9 @@ export const AdminFilesList: React.FC = () => {
       title="FILE MANAGEMENT"
       subtitle="Dedicated storage manager for hackathon pitch decks, PDFs, DOCX, and video artifacts"
     >
-      
-      {/* STORAGE OVERVIEW & FILTERS */}
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        
-        {/* Total Files Stat */}
+
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm flex items-center justify-between">
           <div>
             <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase tracking-wider">FILES STORED</div>
@@ -64,7 +62,6 @@ export const AdminFilesList: React.FC = () => {
           </div>
         </div>
 
-        {/* Search */}
         <div className="md:col-span-2 bg-[#E9E1D2] border border-[#D2CAB6] p-4 rounded-3xl shadow-sm flex items-center">
           <div className="relative w-full">
             <Search className="w-4 h-4 text-[#7B8379] absolute left-3.5 top-3" />
@@ -78,7 +75,6 @@ export const AdminFilesList: React.FC = () => {
           </div>
         </div>
 
-        {/* Filter */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-4 rounded-3xl shadow-sm flex items-center">
           <select
             value={typeFilter}
@@ -94,7 +90,6 @@ export const AdminFilesList: React.FC = () => {
 
       </div>
 
-      {/* FILES DATA TABLE */}
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -119,40 +114,33 @@ export const AdminFilesList: React.FC = () => {
               ) : (
                 filteredFiles.map((file) => (
                   <tr key={file.id} className="hover:bg-[#F9F4EA]/60 transition">
-                    
-                    {/* Name */}
+
                     <td className="py-3.5 px-4 font-bold text-[#162E28] flex items-center gap-2">
                       {getFileIcon(file.fileType)}
                       <span className="truncate max-w-[240px] font-mono text-xs">{file.filename}</span>
                     </td>
 
-                    {/* Team */}
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-[#162E28] font-serif">{file.teamName}</div>
                       <div className="text-[10px] font-mono text-[#A77A1C] font-bold">{file.teamId}</div>
                     </td>
 
-                    {/* File Type */}
                     <td className="py-3.5 px-4 text-[#7B8379] font-mono text-[11px] truncate max-w-[150px]">
                       {file.fileType}
                     </td>
 
-                    {/* Size */}
                     <td className="py-3.5 px-4 font-mono text-[#162E28] font-bold">
                       {(file.fileSize / (1024 * 1024)).toFixed(2)} MB
                     </td>
 
-                    {/* Date */}
                     <td className="py-3.5 px-4 text-[#7B8379] font-mono text-[11px]">
                       {new Date(file.uploadDate).toLocaleDateString()}
                     </td>
 
-                    {/* Storage ID */}
                     <td className="py-3.5 px-4 font-mono text-[10px] text-[#7B8379]">
                       file_{file.id}
                     </td>
 
-                    {/* Actions */}
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
@@ -183,5 +171,3 @@ export const AdminFilesList: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

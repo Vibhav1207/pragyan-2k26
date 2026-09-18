@@ -20,7 +20,7 @@ import {
 try {
   dns.setServers(['8.8.8.8', '1.1.1.1']);
 } catch (e) {
-  // Ignore if DNS server override is restricted
+
 }
 
 dotenv.config();
@@ -30,7 +30,6 @@ const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'pragyan-2k26-admin-super-secret-key-2026';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pragyan2k26';
 
-// 1. Security Headers Middleware
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
@@ -42,7 +41,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// 2. CORS Allowlist
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
   : ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'];
@@ -60,7 +58,6 @@ app.use(cors({
 
 app.use(express.json({ limit: '10mb' }));
 
-// 3. In-Memory Rate Limiters
 function createRateLimiter(windowMs, maxRequests, message) {
   const requests = new Map();
   return (req, res, next) => {
@@ -90,7 +87,6 @@ app.use('/api/', apiLimiter);
 let dbConnected = false;
 let dbPromise = null;
 
-// Serverless DB Connection Helper for Vercel & Node
 async function ensureDbConnected() {
   if (mongoose.connection.readyState === 1) return;
   if (!dbPromise) {
@@ -108,13 +104,11 @@ async function ensureDbConnected() {
   await dbPromise;
 }
 
-// Trigger initial connection
 ensureDbConnected();
 
-// Seed Initial System Data into MongoDB if collections are empty
 async function seedDatabaseIfNeeded() {
   try {
-    // 1. Purge all teams from database as per hackathon requirement
+
     try {
       const deletedTeams = await Team.deleteMany({});
       await User.updateMany({}, { $unset: { teamId: "" } });
@@ -125,7 +119,6 @@ async function seedDatabaseIfNeeded() {
       console.warn('Note cleaning up teams from DB:', teamPurgeErr.message);
     }
 
-    // 2. Admin Account Seed
     const adminCount = await Admin.countDocuments();
     if (adminCount === 0) {
       const hash = await bcrypt.hash('admin123', 10);
@@ -138,7 +131,6 @@ async function seedDatabaseIfNeeded() {
       console.log('🌱 Seeded default Admin user in MongoDB (admin@sanjivani.edu.in / admin123)');
     }
 
-    // 2. Tracks Seed
     const tracksCount = await Track.countDocuments();
     if (tracksCount === 0) {
       await Track.insertMany([
@@ -182,7 +174,6 @@ async function seedDatabaseIfNeeded() {
       console.log('🌱 Seeded 4 default Tracks in MongoDB');
     }
 
-    // 3. System Settings Seed
     const settingsCount = await SystemSettings.countDocuments();
     if (settingsCount === 0) {
       await SystemSettings.create({
@@ -201,7 +192,6 @@ async function seedDatabaseIfNeeded() {
       console.log('🌱 Seeded default System Settings in MongoDB');
     }
 
-    // 4. Homepage CMS Seed
     const cmsCount = await HomepageCMSContent.countDocuments();
     if (cmsCount === 0) {
       await HomepageCMSContent.create({
@@ -259,7 +249,6 @@ async function seedDatabaseIfNeeded() {
   }
 }
 
-// Authentication Middlewares
 const authenticateAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -291,15 +280,11 @@ const authenticateParticipant = (req, res, next) => {
   }
 };
 
-// Input Sanitization Helper
 function sanitizeString(str) {
   if (typeof str !== 'string') return '';
   return str.trim();
 }
 
-// --- REST API ENDPOINTS ---
-
-// Health & Status
 app.get('/api/health', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -309,7 +294,6 @@ app.get('/api/health', async (req, res, next) => {
   }
 });
 
-// Admin Login with bcrypt password hash check
 app.post('/api/auth/admin/login', authLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -336,7 +320,6 @@ app.post('/api/auth/admin/login', authLimiter, async (req, res, next) => {
   }
 });
 
-// Admin Google Login - Direct Google OAuth with Admin Authorization verification
 app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -364,13 +347,11 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
     const adminName = sanitizeString(name) || (userAccount ? userAccount.name : (adminAccount ? adminAccount.name : 'PRAGYAN Administrator'));
     const adminId = adminAccount ? adminAccount._id : (userAccount ? userAccount._id : `ADM-${Date.now()}`);
 
-    // Ensure role is normalized in User collection
     if (userAccount && userAccount.role !== 'ADMIN') {
       userAccount.role = 'ADMIN';
       await userAccount.save().catch(() => {});
     }
 
-    // Ensure they exist in Admin collection too
     if (!adminAccount) {
       await Admin.findOneAndUpdate(
         { email: cleanEmail },
@@ -391,7 +372,6 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
   }
 });
 
-// Participant Google Login - Stores Google user in MongoDB & retrieves team status
 app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -431,7 +411,6 @@ app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => 
   }
 });
 
-// GET all registered users from MongoDB (Accessible for Admin and management)
 app.get('/api/users', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -442,7 +421,6 @@ app.get('/api/users', async (req, res, next) => {
   }
 });
 
-// Update participant group code by ID (Admin)
 app.put('/api/users/:id/group-code', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -460,7 +438,6 @@ app.put('/api/users/:id/group-code', async (req, res, next) => {
   }
 });
 
-// Delete user by ID (Admin)
 app.delete('/api/users/:id', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -471,7 +448,6 @@ app.delete('/api/users/:id', async (req, res, next) => {
   }
 });
 
-// Explicit endpoint to purge all teams from MongoDB
 app.all(['/api/admin/clear-teams', '/api/teams/purge'], async (req, res) => {
   try {
     await ensureDbConnected();
@@ -488,12 +464,10 @@ app.all(['/api/admin/clear-teams', '/api/teams/purge'], async (req, res) => {
   }
 });
 
-// Teams REST API - Teams removed from web & database
 app.get('/api/teams', async (req, res) => {
   res.json([]);
 });
 
-// Tracks REST API
 app.get('/api/tracks', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -536,7 +510,6 @@ app.delete('/api/tracks/:id', authenticateAdmin, async (req, res, next) => {
   }
 });
 
-// Announcements REST API
 app.get('/api/announcements', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -567,7 +540,6 @@ app.delete('/api/announcements/:id', authenticateAdmin, async (req, res, next) =
   }
 });
 
-// Homepage CMS API
 app.get('/api/homepage', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -588,7 +560,6 @@ app.put('/api/homepage', authenticateAdmin, async (req, res, next) => {
   }
 });
 
-// System Settings API
 app.get('/api/settings', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -609,7 +580,6 @@ app.put('/api/settings', authenticateAdmin, async (req, res, next) => {
   }
 });
 
-// Activity Logs API
 app.get('/api/activity', authenticateAdmin, async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -630,7 +600,6 @@ app.post('/api/activity', authenticateAdmin, async (req, res, next) => {
   }
 });
 
-// Production Error Handler Middleware
 app.use((err, req, res, next) => {
   console.error('❌ Unhandled Server Error:', err);
   const isProd = process.env.NODE_ENV === 'production';

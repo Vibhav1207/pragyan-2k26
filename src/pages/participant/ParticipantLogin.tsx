@@ -24,14 +24,12 @@ export const ParticipantLogin: React.FC = () => {
   const [unauthorizedDomain, setUnauthorizedDomain] = useState<boolean>(false);
   const [currentDomain, setCurrentDomain] = useState<string>('');
 
-  // If already authenticated, redirect straight to profile
   useEffect(() => {
     if (participant) {
       navigate('/profile');
     }
   }, [participant, navigate]);
 
-  // Check if returning from Google OAuth Redirect flow
   useEffect(() => {
     const domain = window.location.hostname;
     setCurrentDomain(domain);
@@ -89,20 +87,18 @@ export const ParticipantLogin: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] flex items-center justify-center p-4 relative overflow-hidden font-sans selection:bg-[#162E28] selection:text-[#E5BE61] pt-32 pb-16">
       <RedesignedNavbar />
-      
-      {/* Background Watermark Visuals */}
+
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.03] font-serif font-black text-[18rem] text-[#162E28] select-none leading-none">
         SCM
       </div>
 
       <div className="w-full max-w-lg relative z-10 space-y-8 text-center">
-        
-        {/* Logo Branding */}
+
         <div className="space-y-3">
           <Link to="/" className="inline-block p-3.5 bg-[#F9F4EA] rounded-2xl shadow-sm border border-[#A77A1C]/40 hover:scale-105 transition">
             <img src="/pragyan-logo.png" alt="PRAGYAN 2K26 Logo" className="h-12 w-auto object-contain mix-blend-multiply" />
           </Link>
-          
+
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#E9E1D2] border border-[#A77A1C]/40 text-[#A77A1C] font-mono text-[11px] font-bold uppercase tracking-widest">
               <ShieldCheck className="w-3.5 h-3.5 text-[#A77A1C]" />
@@ -117,10 +113,8 @@ export const ParticipantLogin: React.FC = () => {
           </div>
         </div>
 
-        {/* Google Authentication Card */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-9 rounded-3xl shadow-xl space-y-6 text-center">
-          
-          {/* Unauthorized Domain Warning */}
+
           {unauthorizedDomain && (
             <div className="p-4 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C] text-[#162E28] text-xs space-y-3 text-left shadow-sm">
               <div className="flex items-start gap-2.5 font-bold text-[#162E28]">
@@ -152,7 +146,6 @@ export const ParticipantLogin: React.FC = () => {
             </div>
           )}
 
-          {/* Google Auth Button */}
           <button
             onClick={handleGooglePopupAuth}
             disabled={loading}
@@ -177,7 +170,6 @@ export const ParticipantLogin: React.FC = () => {
             )}
           </button>
 
-          {/* Return Link */}
           <div className="pt-3 border-t border-[#D2CAB6] text-center">
             <Link to="/" className="text-xs text-[#7B8379] hover:text-[#162E28] font-mono font-bold transition inline-block">
               ← Return to PRAGYAN 2K26 Website

@@ -10,8 +10,7 @@ export const RedesignedKopargaonSection: React.FC<RedesignedKopargaonSectionProp
   return (
     <section id="location" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F3EDE0] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -28,11 +27,10 @@ export const RedesignedKopargaonSection: React.FC<RedesignedKopargaonSectionProp
           </div>
         </ScrollReveal>
 
-        {/* Location Details Container */}
         <div className="max-w-4xl mx-auto w-full">
           <ScrollReveal delay={150} duration={650}>
             <div className="p-8 sm:p-12 rounded-3xl bg-[#F9F4EA] border border-[#D2CAB6] space-y-6 shadow-md hover:shadow-lg hover:border-[#A77A1C] transition-all">
-              
+
               <div className="flex items-center gap-3 text-[#A77A1C]">
                 <div className="w-11 h-11 rounded-xl bg-[#E9E1D2] border border-[#A77A1C]/30 flex items-center justify-center font-bold text-[#162E28]">
                   <MapPin className="w-5 h-5 text-[#A77A1C]" />

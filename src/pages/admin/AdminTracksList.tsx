@@ -76,8 +76,7 @@ export const AdminTracksList: React.FC = () => {
       title="TRACK MANAGEMENT"
       subtitle="Configure, enable/disable, reorder, and create hackathon innovation tracks"
     >
-      
-      {/* HEADER & CREATE ACTION */}
+
       <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
         <div>
           <h3 className="font-serif font-bold text-xl text-[#162E28] uppercase">HACKATHON TRACKS</h3>
@@ -92,7 +91,6 @@ export const AdminTracksList: React.FC = () => {
         </button>
       </div>
 
-      {/* TRACKS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {tracks.map((tr) => (
           <div
@@ -151,7 +149,6 @@ export const AdminTracksList: React.FC = () => {
         ))}
       </div>
 
-      {/* CREATE / EDIT TRACK MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-[#162E28]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-6 max-w-md w-full space-y-4 text-left shadow-2xl text-[#162E28]">
@@ -242,5 +239,3 @@ export const AdminTracksList: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

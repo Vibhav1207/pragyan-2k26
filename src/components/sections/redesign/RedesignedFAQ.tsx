@@ -13,8 +13,7 @@ export const RedesignedFAQ: React.FC = () => {
   return (
     <section id="faq" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -32,7 +31,6 @@ export const RedesignedFAQ: React.FC = () => {
           </div>
         </ScrollReveal>
 
-        {/* Accordions */}
         <div className="space-y-4 max-w-4xl mx-auto w-full">
           {FAQ_ITEMS.map((item, idx) => {
             const isOpen = openId === item.id;

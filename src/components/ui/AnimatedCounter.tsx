@@ -4,7 +4,7 @@ interface AnimatedCounterProps {
   value: number;
   prefix?: string;
   suffix?: string;
-  duration?: number; // in ms
+  duration?: number;
   className?: string;
 }
 
@@ -38,8 +38,6 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
           const animate = (currentTime: number) => {
             if (!startTime) startTime = currentTime;
             const progress = Math.min((currentTime - startTime) / duration, 1);
-            
-            // Ease out expo
             const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
             const currentCount = Math.floor(easeProgress * value);
 

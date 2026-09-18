@@ -41,8 +41,7 @@ export const AdminSubmissionsList: React.FC = () => {
       title="SUBMISSION MANAGEMENT"
       subtitle="Review team project submissions, pitch decks, demo videos, repositories and scores"
     >
-      
-      {/* FILTER BAR */}
+
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-5 rounded-3xl space-y-4 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
@@ -75,7 +74,6 @@ export const AdminSubmissionsList: React.FC = () => {
         </div>
       </div>
 
-      {/* SUBMISSIONS TABLE */}
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -163,7 +161,6 @@ export const AdminSubmissionsList: React.FC = () => {
         </div>
       </div>
 
-      {/* EVALUATION MODAL */}
       {activeSubmissionModal && (
         <div className="fixed inset-0 bg-[#162E28]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-6 max-w-2xl w-full space-y-5 text-left shadow-2xl my-8">
@@ -189,14 +186,12 @@ export const AdminSubmissionsList: React.FC = () => {
               </p>
             </div>
 
-            {/* SUBMITTED ARTIFACTS & FILES SECTION */}
             <div className="space-y-2 border-t border-[#D2CAB6] pt-3">
               <div className="text-[10px] font-mono text-[#7B8379] uppercase font-bold flex items-center justify-between tracking-wider">
                 <span>SUBMITTED ARTIFACTS & FILES</span>
                 <span className="text-[#7B8379]">{activeSubmissionModal.files?.length || 0} Files</span>
               </div>
 
-              {/* Links */}
               {(activeSubmissionModal.githubUrl || activeSubmissionModal.demoUrl) && (
                 <div className="flex items-center gap-2 flex-wrap pb-1">
                   {activeSubmissionModal.githubUrl && (
@@ -222,7 +217,6 @@ export const AdminSubmissionsList: React.FC = () => {
                 </div>
               )}
 
-              {/* Files List */}
               {activeSubmissionModal.files && activeSubmissionModal.files.length > 0 ? (
                 <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
                   {activeSubmissionModal.files.map((file) => (
@@ -302,4 +296,3 @@ export const AdminSubmissionsList: React.FC = () => {
     </AdminLayout>
   );
 };
-

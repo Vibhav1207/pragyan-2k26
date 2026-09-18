@@ -23,16 +23,14 @@ const STORAGE_KEYS = {
   USERS: 'pragyan_registered_users_v2',
 };
 
-// Immediately clear any legacy team caches from localStorage
 try {
   localStorage.removeItem('pragyan_teams_v2');
   localStorage.removeItem('pragyan_teams_v1');
   localStorage.removeItem('pragyan_teams');
 } catch {
-  // Ignore
+
 }
 
-// Storage Helpers
 function getStored<T>(key: string, defaultValue: T): T {
   try {
     const raw = localStorage.getItem(key);
@@ -63,12 +61,11 @@ function getAuthHeaders(extraHeaders: Record<string, string> = {}): Record<strin
       headers['Authorization'] = `Bearer ${token}`;
     }
   } catch {
-    // Ignore if localStorage is unavailable
+
   }
   return headers;
 }
 
-// Default initial tracks if none in storage
 const INITIAL_TRACKS: Track[] = [
   {
     id: 'TRK-01',
@@ -200,7 +197,6 @@ class PragyanAPIService {
     return [];
   }
 
-  // Submissions
   getSubmissions(): Submission[] {
     return getStored<Submission[]>(STORAGE_KEYS.SUBMISSIONS, []);
   }
@@ -216,7 +212,6 @@ class PragyanAPIService {
     return true;
   }
 
-  // Tracks
   getTracks(): Track[] {
     return getStored<Track[]>(STORAGE_KEYS.TRACKS, INITIAL_TRACKS);
   }
@@ -252,7 +247,6 @@ class PragyanAPIService {
     return true;
   }
 
-  // Announcements
   getAnnouncements(): Announcement[] {
     const list = getStored<Announcement[]>(STORAGE_KEYS.ANNOUNCEMENTS, INITIAL_ANNOUNCEMENTS);
     const valid = list.filter(a => a && a.title && !a.title.includes('ADFF') && a.title.trim().length > 0);
@@ -280,7 +274,6 @@ class PragyanAPIService {
     return true;
   }
 
-  // CMS
   getCMS(): HomepageCMS {
     return getStored<HomepageCMS>(STORAGE_KEYS.CMS, INITIAL_CMS);
   }
@@ -291,7 +284,6 @@ class PragyanAPIService {
     return cms;
   }
 
-  // Settings
   getSettings(): SystemSettings {
     return getStored<SystemSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
   }
@@ -302,7 +294,6 @@ class PragyanAPIService {
     return settings;
   }
 
-  // Activity Logs
   getActivityLogs(): ActivityLog[] {
     return getStored<ActivityLog[]>(STORAGE_KEYS.ACTIVITY_LOGS, []);
   }
@@ -324,7 +315,6 @@ class PragyanAPIService {
     setStored(STORAGE_KEYS.ACTIVITY_LOGS, logs.slice(0, 100));
   }
 
-  // User and Participant Management
   async fetchUsersAsync(): Promise<UserProfile[]> {
     try {
       let res = await fetch('/api/users');
@@ -354,7 +344,7 @@ class PragyanAPIService {
 
   getRegisteredUsers(): UserProfile[] {
     const list = getStored<UserProfile[]>(STORAGE_KEYS.USERS, []);
-    // Include current logged in participant if exists and not yet in list
+
     try {
       const current = localStorage.getItem('pragyan_participant_user');
       if (current) {
@@ -391,7 +381,6 @@ class PragyanAPIService {
     return true;
   }
 
-  // Participants (Unified with Registered Users)
   getParticipants() {
     const users = this.getRegisteredUsers();
     return users.map(u => ({
@@ -412,7 +401,6 @@ class PragyanAPIService {
     }));
   }
 
-  // Files
   getFiles(): (SubmissionFile & { teamId: string; teamName: string; trackTitle: string })[] {
     const submissions = this.getSubmissions();
     const filesList: (SubmissionFile & { teamId: string; teamName: string; trackTitle: string })[] = [];

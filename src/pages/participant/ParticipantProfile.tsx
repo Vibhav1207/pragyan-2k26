@@ -26,10 +26,8 @@ export const ParticipantProfile: React.FC = () => {
     <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] font-sans selection:bg-[#162E28] selection:text-[#E5BE61] pt-32 pb-16">
       <RedesignedNavbar />
 
-      {/* PROFILE CONTENT */}
       <main className="max-w-4xl mx-auto p-4 sm:p-8 space-y-8 text-left">
-        
-        {/* Top Actions */}
+
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <Link
             to="/"
@@ -49,9 +47,8 @@ export const ParticipantProfile: React.FC = () => {
           </a>
         </div>
 
-        {/* HEADER HERO CARD */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 relative overflow-hidden">
-          
+
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-[#D2CAB6]">
             <div className="flex items-center gap-4">
               <img
@@ -84,12 +81,11 @@ export const ParticipantProfile: React.FC = () => {
             </div>
           </div>
 
-          {/* PERSONAL INFORMATION */}
           <div className="space-y-4">
             <h3 className="text-xs font-mono font-extrabold text-[#A77A1C] uppercase tracking-widest flex items-center gap-1.5">
               <User className="w-4 h-4 text-[#A77A1C]" /> PERSONAL INFORMATION
             </h3>
-            
+
             <div className="bg-[#F9F4EA] p-5 rounded-2xl border border-[#D2CAB6] space-y-3 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-[#7B8379] flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-[#A77A1C]" /> Full Name:</span>
@@ -108,7 +104,6 @@ export const ParticipantProfile: React.FC = () => {
             </div>
           </div>
 
-          {/* OFFICIAL UMS REGISTRATION INSTRUCTIONS */}
           <div className="p-5 sm:p-6 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/50 space-y-4 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#A77A1C]/30 pb-3">
               <div className="space-y-0.5">

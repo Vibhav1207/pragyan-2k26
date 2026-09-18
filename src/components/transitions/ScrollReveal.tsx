@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
-  delay?: number; // in ms
-  duration?: number; // in ms
+  delay?: number;
+  duration?: number;
   direction?: 'up' | 'down' | 'left' | 'right' | 'none';
-  distance?: number; // in px
+  distance?: number;
   threshold?: number;
   once?: boolean;
 }
@@ -26,7 +26,6 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check user preferences
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
 

@@ -6,8 +6,7 @@ export const RedesignedOrganizersSection: React.FC = () => {
   return (
     <section id="organizers" className="w-full py-20 lg:py-24 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -24,14 +23,12 @@ export const RedesignedOrganizersSection: React.FC = () => {
           </div>
         </ScrollReveal>
 
-        {/* Hierarchy Layout */}
         <div className="space-y-8">
-          
-          {/* Primary Host Banner: SANJIVANI UNIVERSITY */}
+
           <ScrollReveal delay={150} duration={650}>
             <div className="p-8 sm:p-12 rounded-3xl bg-[#162E28] text-[#F9F4EA] border-2 border-[#A77A1C] relative overflow-hidden shadow-xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
+
                 <div className="lg:col-span-8 space-y-4">
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="px-3.5 py-1.5 bg-white rounded-xl border border-[#A77A1C]/40 shadow-sm inline-block">
@@ -73,10 +70,8 @@ export const RedesignedOrganizersSection: React.FC = () => {
             </div>
           </ScrollReveal>
 
-          {/* Institutional Co-Organizers Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* 1. PRAGYAN 2K26 */}
+
             <ScrollReveal delay={250} duration={600}>
               <div className="p-8 rounded-2xl bg-[#F3EDE0] border border-[#D2CAB6] text-[#162E28] space-y-4 hover:border-[#A77A1C] transition-all duration-300 flex flex-col justify-between h-full shadow-sm">
                 <div className="space-y-4">

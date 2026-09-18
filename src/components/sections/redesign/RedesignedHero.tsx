@@ -23,7 +23,6 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
   return (
     <section id="home" className="w-full pt-32 pb-20 lg:pt-40 lg:pb-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] relative overflow-hidden text-left border-b border-[#D2CAB6]">
 
-      {/* Faint Background Business/Campus Visuals */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-[0.08]">
         <img
           src="/sanjivani-building.jpg"
@@ -33,14 +32,12 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
         <div className="absolute inset-0 bg-gradient-to-b from-[#F9F4EA]/40 via-transparent to-[#F9F4EA]" />
       </div>
 
-      {/* Decorative Oversized Watermark Typography */}
       <div className="absolute top-16 right-10 z-0 pointer-events-none opacity-[0.04] font-serif font-black text-[12rem] xl:text-[16rem] text-[#162E28] leading-none select-none">
         SCM
       </div>
 
       <div className="max-w-[1500px] mx-auto w-full space-y-10 sm:space-y-14 relative z-10">
 
-        {/* Top Eyebrow Header Bar */}
         <ScrollReveal delay={0} duration={500}>
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#D2CAB6] pb-5">
             <div className="flex flex-col items-start gap-3">
@@ -78,10 +75,8 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
           </div>
         </ScrollReveal>
 
-        {/* Hero 2-Column Main Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
 
-          {/* Left Column: Brand Logo, Titles, Theme Card & Action CTAs */}
           <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8">
 
             <div className="space-y-4">
@@ -105,7 +100,6 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
                 </h1>
               </ScrollReveal>
 
-              {/* Official Theme Card */}
               <ScrollReveal delay={250} duration={600}>
                 <div className="p-5 sm:p-6.5 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/40 space-y-3 shadow-md relative overflow-hidden">
                   <div className="w-1 bg-[#A77A1C] absolute top-0 bottom-0 left-0" />
@@ -126,7 +120,6 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
               </ScrollReveal>
             </div>
 
-            {/* Action Buttons */}
             <ScrollReveal delay={350} duration={600}>
               <div className="flex flex-wrap items-center gap-4 pt-1">
                 <button
@@ -150,7 +143,6 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
 
           </div>
 
-          {/* Right Column: Redesigned Event At A Glance Component */}
           <div className="lg:col-span-6 xl:col-span-6">
             <ScrollReveal delay={450} duration={700}>
               <RedesignedEventAtAGlance />

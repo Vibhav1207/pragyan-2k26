@@ -2,12 +2,11 @@ import React, { createContext, useContext, useState } from 'react';
 import type { UserProfile } from '../types/admin';
 
 interface AuthContextType {
-  // Participant State
+
   participant: UserProfile | null;
   loginParticipantGoogle: (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string }) => Promise<void>;
   logoutParticipant: () => void;
 
-  // Admin State
   admin: UserProfile | null;
   adminToken: string | null;
   loginAdmin: (email: string, token: string, name?: string) => void;
@@ -47,7 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   });
 
-  // Participant Google Login
   const loginParticipantGoogle = async (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string; role?: 'PARTICIPANT' | 'ADMIN' }) => {
     let user: UserProfile = {
       id: googleUser.uid || googleUser.googleId || `USR-${Date.now()}`,
@@ -57,7 +55,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       role: googleUser.role || 'PARTICIPANT'
     };
 
-    // Persist Google User Data to MongoDB Backend
     try {
       const payload = {
         email: googleUser.email,
@@ -66,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         googleId: googleUser.googleId || googleUser.uid || user.id,
         uid: googleUser.uid
       };
-      
+
       let res = await fetch('/api/auth/participant/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -107,7 +104,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(PARTICIPANT_KEY);
   };
 
-  // Admin Login
   const loginAdmin = (email: string, token: string, name: string = 'PRAGYAN Super Admin') => {
     const adminUser: UserProfile = {
       id: 'ADM-001',

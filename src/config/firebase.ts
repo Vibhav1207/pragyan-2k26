@@ -22,7 +22,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// Force Google account selection
 googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
@@ -69,4 +68,3 @@ export const checkRedirectResult = async () => {
 export const logoutFirebase = async () => {
   await signOut(auth);
 };
-

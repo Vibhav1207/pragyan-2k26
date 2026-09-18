@@ -24,8 +24,7 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
   return (
     <section id="tracks" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
-        
-        {/* Section Header */}
+
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
@@ -45,7 +44,6 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
           </div>
         </ScrollReveal>
 
-        {/* 4 Track Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {HACKATHON_TRACKS.map((t: Track, idx: number) => {
             const IconComp = iconMap[t.iconName] || Briefcase;
@@ -60,7 +58,7 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
                   className="p-8 rounded-2xl bg-[#F3EDE0] border border-[#D2CAB6] hover:border-[#A77A1C] hover:bg-[#E9E1D2] group cursor-pointer h-full flex flex-col justify-between space-y-6 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg"
                 >
                   <div className="space-y-4">
-                    {/* Track Badge & Icon */}
+
                     <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
                       <span className="font-mono font-black text-xs px-4 py-1.5 rounded-lg bg-[#162E28] text-[#E5BE61] uppercase tracking-wider shadow-sm border border-[#A77A1C]/40">
                         {t.number}
@@ -70,7 +68,6 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
                       </div>
                     </div>
 
-                    {/* Title & Description */}
                     <div className="space-y-2">
                       <h3 className="font-serif font-black text-2xl sm:text-3xl text-[#162E28] uppercase leading-tight group-hover:text-[#A77A1C] transition-colors">
                         {t.title}
@@ -81,7 +78,6 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
                     </div>
                   </div>
 
-                  {/* Card Footer Action */}
                   <div className="pt-4 border-t border-[#D2CAB6] flex items-center justify-between text-xs font-mono font-extrabold text-[#A77A1C]">
                     <span>SDG GOAL 2030 TRACK</span>
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 text-[#162E28]" />

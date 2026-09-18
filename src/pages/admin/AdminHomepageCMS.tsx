@@ -20,8 +20,7 @@ export const AdminHomepageCMS: React.FC = () => {
       title="HOMEPAGE CMS EDITOR"
       subtitle="Edit public PRAGYAN 2K26 website copy, hero headers, event details, prize pools & contact info without touching code"
     >
-      
-      {/* CMS HEADER ACTION BAR */}
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#D2CAB6] pb-4">
         <div>
           <h3 className="font-serif font-bold text-xl text-[#162E28] uppercase flex items-center gap-2">
@@ -54,15 +53,13 @@ export const AdminHomepageCMS: React.FC = () => {
         </div>
       </div>
 
-      {/* CMS EDITABLE SECTIONS */}
       <div className="space-y-8 text-left">
-        
-        {/* 1. HERO SECTION */}
+
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             1. HERO SECTION
           </h4>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Event Title</label>
@@ -116,7 +113,6 @@ export const AdminHomepageCMS: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. EVENT DETAILS SECTION */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             2. EVENT KEY PARAMETERS
@@ -155,7 +151,6 @@ export const AdminHomepageCMS: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. PRIZES SECTION */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             3. PRIZE POOL & REWARDS
@@ -204,7 +199,6 @@ export const AdminHomepageCMS: React.FC = () => {
           </div>
         </div>
 
-        {/* 4. CONTACT INFORMATION */}
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             4. CONTACT & HOST ADDRESS
@@ -245,7 +239,6 @@ export const AdminHomepageCMS: React.FC = () => {
 
       </div>
 
-      {/* LIVE PREVIEW MODAL */}
       {previewOpen && (
         <div className="fixed inset-0 bg-[#162E28]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-8 max-w-2xl w-full space-y-6 text-left shadow-2xl text-[#162E28]">
@@ -270,5 +263,3 @@ export const AdminHomepageCMS: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

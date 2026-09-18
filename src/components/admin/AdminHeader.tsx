@@ -38,7 +38,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ title, subtitle, onTog
       </div>
 
       <div className="flex items-center gap-3 sm:gap-4">
-        {/* Search */}
+
         <div className="hidden md:flex items-center gap-2 bg-[#2B3E35] border border-[#A77A1C]/30 rounded-xl px-3 py-1.5 text-xs text-[#F3EDE0] w-48 lg:w-64 focus-within:border-[#E5BE61] transition">
           <Search className="w-4 h-4 text-[#A77A1C]" />
           <input
@@ -48,7 +48,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ title, subtitle, onTog
           />
         </div>
 
-        {/* Live Public Site Button */}
         <Link
           to="/"
           target="_blank"
@@ -58,13 +57,11 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ title, subtitle, onTog
           <span>VIEW SITE</span>
         </Link>
 
-        {/* Notifications */}
         <button className="relative p-2 rounded-xl bg-[#2B3E35] border border-[#A77A1C]/30 text-[#F9F4EA] hover:text-[#E5BE61] transition">
           <Bell className="w-4 h-4" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#E5BE61] animate-pulse"></span>
         </button>
 
-        {/* Admin Avatar */}
         <div className="flex items-center gap-2 pl-2 border-l border-[#A77A1C]/30">
           <img
             src={admin?.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150'}

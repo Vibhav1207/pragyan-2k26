@@ -25,8 +25,7 @@ export const AdminActivityLogs: React.FC = () => {
       title="SECURITY ACTIVITY AUDIT LOGS"
       subtitle="Complete chronological audit trail recording all administrative actions, team approvals, and CMS updates"
     >
-      
-      {/* FILTER BAR */}
+
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-5 rounded-3xl space-y-4 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative md:col-span-2">
@@ -54,7 +53,6 @@ export const AdminActivityLogs: React.FC = () => {
         </div>
       </div>
 
-      {/* AUDIT LOG TABLE */}
       <div className="bg-[#E9E1D2] border border-[#D2CAB6] rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -77,19 +75,16 @@ export const AdminActivityLogs: React.FC = () => {
               ) : (
                 filteredLogs.map((log) => (
                   <tr key={log.id} className="hover:bg-[#F9F4EA]/60 transition">
-                    
-                    {/* Timestamp */}
+
                     <td className="py-3.5 px-4 text-[#7B8379] font-mono text-[11px] whitespace-nowrap">
                       {new Date(log.timestamp).toLocaleString()}
                     </td>
 
-                    {/* Admin */}
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-[#162E28] font-serif">{log.adminName}</div>
                       <div className="text-[10px] font-mono text-[#A77A1C] font-bold">{log.adminEmail}</div>
                     </td>
 
-                    {/* Action */}
                     <td className="py-3.5 px-4">
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
                         log.type === 'SUCCESS' ? 'bg-emerald-900/20 text-emerald-900 border border-emerald-600/30' :
@@ -101,12 +96,10 @@ export const AdminActivityLogs: React.FC = () => {
                       </span>
                     </td>
 
-                    {/* Entity */}
                     <td className="py-3.5 px-4 font-mono font-bold text-[#162E28]">
                       {log.entity}
                     </td>
 
-                    {/* Details */}
                     <td className="py-3.5 px-4 text-[#7B8379] font-sans text-xs">
                       {log.details}
                     </td>
@@ -122,5 +115,3 @@ export const AdminActivityLogs: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

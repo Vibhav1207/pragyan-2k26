@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Menu, X, ArrowUpRight, User, LogIn } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { AnnouncementTicker } from '../AnnouncementTicker';
+import { RedesignedAnnouncementTicker } from './RedesignedAnnouncementTicker';
 
 interface RedesignedNavbarProps {
   onRegisterClick?: () => void;
@@ -78,7 +78,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
     >
       <div className={`max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2.5' : 'py-3.5'}`}>
 
-        {/* Brand Logo & Institution Info */}
         <div className="flex items-center gap-3 text-left">
           <Link to="/" className="flex items-center group">
             <img
@@ -102,7 +101,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
           </div>
         </div>
 
-        {/* Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => (
             <a
@@ -116,7 +114,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
           ))}
         </nav>
 
-        {/* Right Action CTAs */}
         <div className="hidden lg:flex items-center gap-3">
           {participant ? (
             <div className="flex items-center gap-2.5">
@@ -160,7 +157,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
           )}
         </div>
 
-        {/* Mobile Hamburger Toggle */}
         <div className="lg:hidden flex items-center gap-2">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -173,7 +169,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
 
       </div>
 
-      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-[65px] bg-[#162E28] border-b border-[#A77A1C]/30 p-6 space-y-4 shadow-2xl animate-fade-in">
           <div className="grid grid-cols-2 gap-2">
@@ -241,8 +236,7 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
         </div>
       )}
 
-      {/* Announcement Marquee Ticker */}
-      <AnnouncementTicker />
+      <RedesignedAnnouncementTicker />
     </header>
   );
 };

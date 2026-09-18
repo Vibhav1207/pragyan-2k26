@@ -48,8 +48,7 @@ export const AdminAnnouncements: React.FC = () => {
       title="ANNOUNCEMENT MANAGEMENT"
       subtitle="Broadcast notifications, deadline updates & schedule alerts to participants and public visitors"
     >
-      
-      {/* HEADER ACTION */}
+
       <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
         <div>
           <h3 className="font-serif font-bold text-xl text-[#162E28] uppercase flex items-center gap-2">
@@ -67,7 +66,6 @@ export const AdminAnnouncements: React.FC = () => {
         </button>
       </div>
 
-      {/* ANNOUNCEMENTS LIST */}
       <div className="space-y-4 text-left">
         {announcements.length === 0 ? (
           <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-8 rounded-3xl text-center text-[#7B8379] font-mono text-xs">
@@ -115,7 +113,6 @@ export const AdminAnnouncements: React.FC = () => {
         )}
       </div>
 
-      {/* CREATE ANNOUNCEMENT MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-[#162E28]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-6 max-w-md w-full space-y-4 text-left shadow-2xl text-[#162E28]">
@@ -197,5 +194,3 @@ export const AdminAnnouncements: React.FC = () => {
     </AdminLayout>
   );
 };
-
-

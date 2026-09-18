@@ -50,8 +50,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
 
   return (
     <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] font-sans flex flex-col lg:flex-row overflow-x-hidden selection:bg-[#162E28] selection:text-[#E5BE61]">
-      
-      {/* Mobile Drawer Backdrop */}
+
       {mobileOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
@@ -59,13 +58,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
         />
       )}
 
-      {/* SIDEBAR NAVIGATION (DEEP FOREST GREEN #162E28) */}
       <aside
         className={`fixed top-0 left-0 h-screen w-72 bg-[#162E28] text-[#F9F4EA] border-r border-[#A77A1C]/40 flex flex-col justify-between z-50 transition-transform duration-300 ease-in-out ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Sidebar Header / Branding */}
+
         <div className="p-6 border-b border-[#A77A1C]/30 flex items-center justify-between">
           <Link to="/admin/dashboard" className="flex items-center gap-3 group">
             <div className="p-2 bg-[#F9F4EA] rounded-xl shadow-md group-hover:scale-105 transition border border-[#A77A1C]/40">
@@ -89,7 +87,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
           </button>
         </div>
 
-        {/* Sidebar Navigation Links */}
         <div className="px-3 py-4 flex-1 overflow-y-auto space-y-1 custom-scrollbar text-left">
           <div className="px-3 py-1 text-[10px] font-mono font-bold text-[#E5BE61]/80 uppercase tracking-widest">
             MANAGEMENT MODULES
@@ -119,7 +116,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
           })}
         </div>
 
-        {/* Sidebar Footer / Admin Profile */}
         <div className="p-4 border-t border-[#A77A1C]/30 bg-[#0F211D] space-y-3">
           <div className="flex items-center gap-3 px-2.5 py-2 rounded-xl bg-[#2B3E35] border border-[#A77A1C]/30 text-left">
             <img
@@ -143,7 +139,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
         </div>
       </aside>
 
-      {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0 lg:pl-72">
         <AdminHeader
           title={title}
