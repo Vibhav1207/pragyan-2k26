@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  Users, 
-  ClipboardList, 
   UserCheck, 
   FileText, 
   Layers, 
@@ -39,8 +37,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
 
   const navItems = [
     { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'Teams', path: '/admin/teams', icon: Users },
-    { label: 'Registrations', path: '/admin/registrations', icon: ClipboardList },
     { label: 'Participants', path: '/admin/participants', icon: UserCheck },
     { label: 'Submissions', path: '/admin/submissions', icon: FileText },
     { label: 'Tracks', path: '/admin/tracks', icon: Layers },

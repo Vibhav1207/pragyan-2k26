@@ -5,8 +5,6 @@ interface AuthContextType {
   // Participant State
   participant: UserProfile | null;
   loginParticipantGoogle: (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string }) => Promise<void>;
-  updateParticipantTeam: (teamId?: string | null) => void;
-  updateParticipantGroupCode: (groupCode: string) => void;
   logoutParticipant: () => void;
 
   // Admin State
@@ -56,11 +54,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       name: googleUser.name,
       email: googleUser.email,
       avatar: googleUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      role: googleUser.role || 'PARTICIPANT',
-      teamId: participant?.email === googleUser.email ? participant.teamId : undefined
+      role: googleUser.role || 'PARTICIPANT'
     };
 
-    // Persist Google User Data to MongoDB Backend & fetch team details
+    // Persist Google User Data to MongoDB Backend
     try {
       const payload = {
         email: googleUser.email,
@@ -89,9 +86,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           localStorage.setItem('pragyan_participant_token', data.token);
         }
         if (data.user) {
-          if (data.user.teamId) {
-            user.teamId = data.user.teamId;
-          }
           if (data.user.role) {
             user.role = data.user.role;
           }
@@ -106,52 +100,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setParticipant(user);
     localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(user));
-  };
-
-  const updateParticipantTeam = (teamId?: string | null) => {
-    if (!participant) return;
-    const updated: UserProfile = { ...participant };
-    if (teamId) {
-      updated.teamId = teamId;
-    } else {
-      delete updated.teamId;
-    }
-    setParticipant(updated);
-    localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(updated));
-
-    // Send team update to MongoDB backend
-    fetch('/api/users/team', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: participant.email, teamId: teamId || null })
-    }).catch(() => {
-      fetch('http://localhost:5000/api/users/team', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: participant.email, teamId: teamId || null })
-      }).catch(err => console.warn('Failed to update team in MongoDB:', err));
-    });
-  };
-
-  const updateParticipantGroupCode = (groupCode: string) => {
-    if (!participant) return;
-    const updated: UserProfile = { ...participant, groupCode };
-    setParticipant(updated);
-    localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(updated));
-    localStorage.setItem('pragyan_group_code', groupCode);
-
-    // Persist to backend
-    fetch('/api/users/group-code', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: participant.email, groupCode })
-    }).catch(() => {
-      fetch('http://localhost:5000/api/users/group-code', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: participant.email, groupCode })
-      }).catch(err => console.warn('Failed to update group code in MongoDB:', err));
-    });
   };
 
   const logoutParticipant = () => {
@@ -186,8 +134,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         participant,
         loginParticipantGoogle,
-        updateParticipantTeam,
-        updateParticipantGroupCode,
         logoutParticipant,
         admin,
         adminToken,

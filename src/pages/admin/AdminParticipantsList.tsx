@@ -1,72 +1,115 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Search, 
-  Crown, 
   Download,
-  Eye
+  Eye,
+  Shield,
+  User,
+  Trash2,
+  CheckCircle2,
+  RefreshCw
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
+import type { UserProfile } from '../../types/admin';
 
 export const AdminParticipantsList: React.FC = () => {
-  const participants = apiService.getParticipants();
+  const [users, setUsers] = useState<UserProfile[]>(() => apiService.getRegisteredUsers());
   const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState<'ALL' | 'LEADER' | 'MEMBER'>('ALL');
-  const [collegeFilter, setCollegeFilter] = useState('ALL');
-  const [selectedParticipant, setSelectedParticipant] = useState<any | null>(null);
+  const [roleFilter, setRoleFilter] = useState<'ALL' | 'ADMIN' | 'PARTICIPANT'>('ALL');
+  const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const colleges = Array.from(new Set(participants.map(p => p.college)));
+  const loadData = async () => {
+    setIsLoading(true);
+    const fresh = await apiService.fetchUsersAsync();
+    setUsers(fresh);
+    setIsLoading(false);
+  };
 
-  const filteredParticipants = participants.filter(p => {
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const filteredUsers = users.filter(u => {
     const matchesSearch = 
-      p.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.phone.includes(searchTerm) ||
-      p.teamName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.college.toLowerCase().includes(searchTerm.toLowerCase());
+      u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.email.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesRole = 
-      roleFilter === 'ALL' || 
-      (roleFilter === 'LEADER' && p.isLeader) || 
-      (roleFilter === 'MEMBER' && !p.isLeader);
+    const matchesRole = roleFilter === 'ALL' || u.role === roleFilter;
 
-    const matchesCollege = collegeFilter === 'ALL' || p.college === collegeFilter;
-
-    return matchesSearch && matchesRole && matchesCollege;
+    return matchesSearch && matchesRole;
   });
 
   const handleExportCSV = () => {
     const csvContent = "data:text/csv;charset=utf-8," 
-      + ["Name,Email,Phone,Team ID,Team Name,Role,College,Course,Year,Status"]
-      .concat(filteredParticipants.map(p => `"${p.fullName}","${p.email}","${p.phone}","${p.teamId}","${p.teamName}","${p.isLeader ? 'Leader' : 'Member'}","${p.college}","${p.course}","${p.year}","${p.status}"`))
+      + ["Name,Email,Role,Registered Date"]
+      .concat(filteredUsers.map(u => `"${u.name}","${u.email}","${u.role}","${u.createdAt || ''}"`))
       .join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `pragyan_participants_${Date.now()}.csv`);
+    link.setAttribute("download", `pragyan_delegates_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+  const handleDeleteUser = async (user: UserProfile) => {
+    if (window.confirm(`Are you sure you want to remove delegate account "${user.email}"?`)) {
+      await apiService.deleteUser(user.id || user.email);
+      setUsers(apiService.getRegisteredUsers());
+    }
+  };
+
+  const totalDelegates = users.length;
+  const participantCount = users.filter(u => u.role !== 'ADMIN').length;
+  const adminCount = users.filter(u => u.role === 'ADMIN').length;
+
   return (
     <AdminLayout
-      title="PARTICIPANT MANAGEMENT"
-      subtitle="Comprehensive roster of all registered hackathon student participants across teams"
+      title="PARTICIPANT & DELEGATE DIRECTORY"
+      subtitle="Comprehensive roster of all registered hackathon delegates and Google logins"
     >
       
+      {/* SUMMARY STATS */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-4 rounded-2xl shadow-sm text-left">
+          <div className="text-[10px] font-mono text-[#7B8379] uppercase font-bold">TOTAL DELEGATES</div>
+          <div className="font-serif font-black text-2xl text-[#162E28] mt-1">{totalDelegates}</div>
+        </div>
+        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-4 rounded-2xl shadow-sm text-left">
+          <div className="text-[10px] font-mono text-[#7B8379] uppercase font-bold">GOOGLE VERIFIED</div>
+          <div className="font-serif font-black text-2xl text-emerald-800 mt-1">
+            {totalDelegates}
+          </div>
+        </div>
+        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-4 rounded-2xl shadow-sm text-left">
+          <div className="text-[10px] font-mono text-[#7B8379] uppercase font-bold">PARTICIPANTS</div>
+          <div className="font-serif font-black text-2xl text-[#162E28] mt-1">
+            {participantCount}
+          </div>
+        </div>
+        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-4 rounded-2xl shadow-sm text-left">
+          <div className="text-[10px] font-mono text-[#7B8379] uppercase font-bold">ADMINISTRATORS</div>
+          <div className="font-serif font-black text-2xl text-[#A77A1C] mt-1">
+            {adminCount}
+          </div>
+        </div>
+      </div>
+
       {/* FILTER BAR */}
-      <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-5 rounded-3xl space-y-4 shadow-sm">
+      <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-5 rounded-3xl space-y-4 shadow-sm text-left">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto flex-1">
             <div className="relative">
               <Search className="w-4 h-4 text-[#7B8379] absolute left-3.5 top-3" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search participant name, email, team..."
+                placeholder="Search delegate name, email..."
                 className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C]"
               />
             </div>
@@ -74,31 +117,32 @@ export const AdminParticipantsList: React.FC = () => {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value as any)}
-              className="px-3 py-2 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono"
+              className="px-3 py-2 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C]"
             >
-              <option value="ALL">All Member Roles</option>
-              <option value="LEADER">Team Leaders Only</option>
-              <option value="MEMBER">Team Members Only</option>
-            </select>
-
-            <select
-              value={collegeFilter}
-              onChange={(e) => setCollegeFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono"
-            >
-              <option value="ALL">All Colleges</option>
-              {colleges.map(col => (
-                <option key={col} value={col}>{col}</option>
-              ))}
+              <option value="ALL">All Roles</option>
+              <option value="PARTICIPANT">Participants Only</option>
+              <option value="ADMIN">Administrators Only</option>
             </select>
           </div>
 
-          <button
-            onClick={handleExportCSV}
-            className="px-4 py-2 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] border border-[#A77A1C]/40 font-mono text-xs font-bold flex items-center gap-2 shadow-md transition shrink-0"
-          >
-            <Download className="w-4 h-4 text-[#E5BE61]" /> EXPORT PARTICIPANTS CSV
-          </button>
+          <div className="flex items-center gap-2 w-full md:w-auto justify-end">
+            <button
+              onClick={loadData}
+              disabled={isLoading}
+              className="px-3 py-2 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] hover:border-[#A77A1C] font-mono text-xs flex items-center gap-1.5 transition"
+              title="Refresh roster from database"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[#A77A1C]' : 'text-[#7B8379]'}`} />
+              <span className="hidden sm:inline">Refresh</span>
+            </button>
+
+            <button
+              onClick={handleExportCSV}
+              className="px-4 py-2 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] border border-[#A77A1C]/40 font-mono text-xs font-bold flex items-center gap-2 shadow-md transition shrink-0"
+            >
+              <Download className="w-4 h-4 text-[#E5BE61]" /> EXPORT DELEGATES CSV
+            </button>
+          </div>
 
         </div>
       </div>
@@ -109,78 +153,74 @@ export const AdminParticipantsList: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#162E28] border-b border-[#A77A1C]/30 text-[#F9F4EA] font-mono text-[10px] uppercase font-bold tracking-wider">
-                <th className="py-3.5 px-4">Participant Name</th>
-                <th className="py-3.5 px-4">Contact Info</th>
+                <th className="py-3.5 px-4">Delegate Name</th>
+                <th className="py-3.5 px-4">Google Account (Email)</th>
                 <th className="py-3.5 px-4">Role</th>
-                <th className="py-3.5 px-4">Team</th>
-                <th className="py-3.5 px-4">College</th>
-                <th className="py-3.5 px-4">Course & Year</th>
-                <th className="py-3.5 px-4">Team Status</th>
-                <th className="py-3.5 px-4 text-right">View</th>
+                <th className="py-3.5 px-4">Registered Date</th>
+                <th className="py-3.5 px-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#D2CAB6]/60 text-xs">
-              {filteredParticipants.length === 0 ? (
+              {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-[#7B8379] font-mono">
-                    No participants recorded in database yet.
+                  <td colSpan={5} className="py-12 text-center text-[#7B8379] font-mono">
+                    No delegates found matching current criteria.
                   </td>
                 </tr>
               ) : (
-                filteredParticipants.map((p, idx) => (
-                  <tr key={`${p.email}-${idx}`} className="hover:bg-[#F9F4EA]/60 transition">
-                    <td className="py-3.5 px-4 font-bold text-[#162E28] font-serif">
-                      {p.fullName}
+                filteredUsers.map((u) => (
+                  <tr key={u.id || u.email} className="hover:bg-[#F9F4EA]/60 transition">
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={u.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
+                          alt={u.name}
+                          className="w-8 h-8 rounded-full object-cover border border-[#A77A1C]/40 shadow-xs"
+                        />
+                        <div className="font-bold text-[#162E28] font-serif">{u.name}</div>
+                      </div>
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="text-[#A77A1C] font-mono font-bold">{p.email}</div>
-                      <div className="text-[10px] text-[#7B8379] font-mono">{p.phone}</div>
+                      <div className="text-[#A77A1C] font-mono font-bold">{u.email}</div>
+                      <div className="text-[10px] text-emerald-800 font-mono flex items-center gap-1 mt-0.5">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-700" /> Google Verified
+                      </div>
                     </td>
 
                     <td className="py-3.5 px-4">
-                      {p.isLeader ? (
+                      {u.role === 'ADMIN' ? (
                         <span className="px-2.5 py-0.5 rounded-full bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/40 font-mono text-[10px] font-bold flex items-center gap-1 w-fit">
-                          <Crown className="w-3 h-3 text-[#E5BE61]" /> LEADER
+                          <Shield className="w-3 h-3 text-[#E5BE61]" /> ADMIN
                         </span>
                       ) : (
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6] font-mono text-[10px]">
-                          MEMBER
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F9F4EA] text-[#162E28] border border-[#D2CAB6] font-mono text-[10px] flex items-center gap-1 w-fit">
+                          <User className="w-3 h-3 text-[#7B8379]" /> PARTICIPANT
                         </span>
                       )}
                     </td>
 
-                    <td className="py-3.5 px-4">
-                      <div className="font-bold text-[#162E28]">{p.teamName}</div>
-                      <div className="text-[10px] font-mono text-[#A77A1C]">{p.teamId}</div>
-                    </td>
-
-                    <td className="py-3.5 px-4 text-[#162E28]/80 max-w-[150px] truncate">
-                      {p.college}
-                    </td>
-
-                    <td className="py-3.5 px-4 text-[#162E28]/80 font-mono text-[11px]">
-                      <div>{p.course}</div>
-                      <div className="text-[10px] text-[#7B8379]">{p.year}</div>
-                    </td>
-
-                    <td className="py-3.5 px-4">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
-                        p.status === 'APPROVED' ? 'bg-emerald-900/20 text-emerald-900 border border-emerald-600/30' :
-                        p.status === 'REJECTED' ? 'bg-red-900/20 text-red-900 border border-red-600/30' :
-                        'bg-amber-900/20 text-[#A77A1C] border border-[#A77A1C]/30'
-                      }`}>
-                        {p.status}
-                      </span>
+                    <td className="py-3.5 px-4 text-[#7B8379] font-mono text-[11px]">
+                      {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'Recent'}
                     </td>
 
                     <td className="py-3.5 px-4 text-right">
-                      <button
-                        onClick={() => setSelectedParticipant(p)}
-                        className="p-1.5 rounded-lg bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] hover:text-[#A77A1C] transition"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => setSelectedUser(u)}
+                          className="p-1.5 rounded-lg bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] hover:text-[#A77A1C] hover:border-[#A77A1C] transition cursor-pointer"
+                          title="View Profile Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(u)}
+                          className="p-1.5 rounded-lg bg-red-50 border border-red-200 text-red-700 hover:bg-red-700 hover:text-white transition cursor-pointer"
+                          title="Delete User"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -191,27 +231,55 @@ export const AdminParticipantsList: React.FC = () => {
       </div>
 
       {/* PARTICIPANT DETAIL MODAL */}
-      {selectedParticipant && (
+      {selectedUser && (
         <div className="fixed inset-0 bg-[#162E28]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-6 max-w-md w-full space-y-4 text-left shadow-2xl">
+          <div className="bg-[#E9E1D2] border border-[#A77A1C]/40 rounded-3xl p-6 max-w-md w-full space-y-5 text-left shadow-2xl">
             <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-3">
               <div className="font-serif font-bold text-lg uppercase text-[#162E28]">
-                PARTICIPANT PROFILE
+                DELEGATE PROFILE
               </div>
-              <button onClick={() => setSelectedParticipant(null)} className="text-[#7B8379] hover:text-[#162E28] font-mono font-bold text-xs">
+              <button 
+                onClick={() => setSelectedUser(null)} 
+                className="text-[#7B8379] hover:text-[#162E28] font-mono font-bold text-xs cursor-pointer"
+              >
                 ✕ CLOSE
               </button>
             </div>
 
-            <div className="space-y-3 text-xs text-[#162E28] font-mono">
-              <div><span className="text-[#7B8379] uppercase">Full Name:</span> <span className="text-[#162E28] font-bold">{selectedParticipant.fullName}</span></div>
-              <div><span className="text-[#7B8379] uppercase">Email:</span> <span className="text-[#A77A1C] font-bold">{selectedParticipant.email}</span></div>
-              <div><span className="text-[#7B8379] uppercase">Phone:</span> <span>{selectedParticipant.phone}</span></div>
-              <div><span className="text-[#7B8379] uppercase">Role:</span> <span className="text-[#A77A1C] font-bold">{selectedParticipant.isLeader ? 'Team Leader' : 'Team Member'}</span></div>
-              <div><span className="text-[#7B8379] uppercase">Team:</span> <span>{selectedParticipant.teamName} ({selectedParticipant.teamId})</span></div>
-              <div><span className="text-[#7B8379] uppercase">College:</span> <span>{selectedParticipant.college}</span></div>
-              <div><span className="text-[#7B8379] uppercase">Course:</span> <span>{selectedParticipant.course} ({selectedParticipant.year})</span></div>
+            <div className="flex items-center gap-4 p-3 bg-[#F9F4EA] rounded-2xl border border-[#D2CAB6]">
+              <img
+                src={selectedUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
+                alt={selectedUser.name}
+                className="w-14 h-14 rounded-full object-cover border-2 border-[#A77A1C]"
+              />
+              <div>
+                <div className="font-serif font-black text-base text-[#162E28]">{selectedUser.name}</div>
+                <div className="text-xs font-mono text-[#A77A1C]">{selectedUser.email}</div>
+                <div className="text-[10px] font-mono uppercase text-[#7B8379] mt-0.5">Role: {selectedUser.role}</div>
+              </div>
             </div>
+
+            <div className="space-y-2.5 text-xs text-[#162E28] font-mono bg-[#F9F4EA] p-4 rounded-2xl border border-[#D2CAB6]">
+              <div className="flex justify-between border-b border-[#D2CAB6]/50 pb-1.5">
+                <span className="text-[#7B8379] uppercase">Account Type:</span> 
+                <span className="text-[#162E28] font-bold">Google Authenticated</span>
+              </div>
+              <div className="flex justify-between border-b border-[#D2CAB6]/50 pb-1.5">
+                <span className="text-[#7B8379] uppercase">Institution:</span> 
+                <span className="text-[#162E28]">Sanjivani University</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[#7B8379] uppercase">Registered Date:</span> 
+                <span className="text-[#7B8379]">{selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleString() : 'N/A'}</span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setSelectedUser(null)}
+              className="w-full py-2.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono font-bold text-xs uppercase border border-[#A77A1C]/50 transition cursor-pointer"
+            >
+              DONE
+            </button>
           </div>
         </div>
       )}
@@ -220,3 +288,4 @@ export const AdminParticipantsList: React.FC = () => {
   );
 };
 
+export default AdminParticipantsList;

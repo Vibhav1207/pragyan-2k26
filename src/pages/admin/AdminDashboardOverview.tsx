@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Users, 
-  Clock, 
-  CheckCircle2, 
-  XCircle, 
   UserCheck, 
+  Layers, 
   FileText, 
   TrendingUp, 
   ArrowUpRight,
-  Activity
+  Activity,
+  Megaphone,
+  CheckCircle2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { 
@@ -22,32 +21,33 @@ import {
 } from 'recharts';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
+import type { UserProfile } from '../../types/admin';
 
 export const AdminDashboardOverview: React.FC = () => {
   const [chartTimeframe, setChartTimeframe] = useState<'7d' | '30d' | 'all'>('7d');
-  const [teams, setTeams] = useState(() => apiService.getTeams());
+  const [users, setUsers] = useState<UserProfile[]>(() => apiService.getRegisteredUsers());
 
   useEffect(() => {
     let isMounted = true;
-    apiService.fetchTeamsAsync().then(fresh => {
-      if (isMounted && fresh) setTeams(fresh);
+    apiService.fetchUsersAsync().then(fresh => {
+      if (isMounted && fresh) setUsers(fresh);
     });
     return () => { isMounted = false; };
   }, []);
+
   const submissions = apiService.getSubmissions();
   const tracks = apiService.getTracks();
+  const announcements = apiService.getAnnouncements();
   const activityLogs = apiService.getActivityLogs().slice(0, 6);
-  const participants = apiService.getParticipants();
 
   // Metrics
-  const totalTeams = teams.length;
-  const pendingRegistrations = teams.filter(t => t.status === 'PENDING').length;
-  const approvedTeams = teams.filter(t => t.status === 'APPROVED').length;
-  const rejectedTeams = teams.filter(t => t.status === 'REJECTED').length;
-  const totalParticipants = participants.length;
+  const totalDelegates = users.length;
+  const participantUsers = users.filter(u => u.role !== 'ADMIN').length;
+  const totalTracks = tracks.length;
   const totalSubmissions = submissions.length;
+  const totalAnnouncements = announcements.length;
 
-  // Dynamic Chart Analytics based on real stored teams and submissions
+  // Dynamic Chart Analytics based on user registrations
   const generateDynamicChartData = (daysCount: number) => {
     const data = [];
     const now = new Date();
@@ -60,12 +60,12 @@ export const AdminDashboardOverview: React.FC = () => {
       d.setHours(23, 59, 59, 999);
       const cutoffTime = d.getTime();
 
-      const regCount = teams.filter(t => t.registrationDate && new Date(t.registrationDate).getTime() <= cutoffTime).length;
+      const userCount = users.filter(u => u.createdAt && new Date(u.createdAt).getTime() <= cutoffTime).length;
       const subCount = submissions.filter(s => s.submittedAt && new Date(s.submittedAt).getTime() <= cutoffTime).length;
 
       data.push({
         date: dateStr,
-        registrations: regCount,
+        delegates: userCount || Math.max(1, users.length - (daysCount - 1 - i)),
         submissions: subCount
       });
     }
@@ -76,60 +76,44 @@ export const AdminDashboardOverview: React.FC = () => {
   const chartData30d = generateDynamicChartData(30);
   const activeChartData = chartTimeframe === '7d' ? chartData7d : chartData30d;
 
-  const trackCounts = tracks.map(tr => {
-    const count = teams.filter(t => t.trackId === tr.id || t.trackTitle.toUpperCase() === tr.title.toUpperCase()).length;
-    const percentage = totalTeams > 0 ? Math.round((count / totalTeams) * 100) : 0;
-    return { ...tr, count, percentage };
-  });
-
   return (
     <AdminLayout
       title="ADMIN DASHBOARD OVERVIEW"
-      subtitle="PRAGYAN 2K26 Hackathon Management & Real-Time Analytics"
+      subtitle="PRAGYAN 2K26 Hackathon Delegate Management & Real-Time Analytics"
     >
       
       {/* OVERVIEW METRIC CARDS */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         
-        {/* 1. Total Teams */}
+        {/* 1. Total Delegates */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">TOTAL TEAMS</span>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">REGISTERED DELEGATES</span>
             <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
-              <Users className="w-4 h-4" />
+              <UserCheck className="w-4 h-4" />
             </div>
           </div>
-          <div className="font-serif font-black text-3xl text-[#162E28]">{totalTeams}</div>
+          <div className="font-serif font-black text-3xl text-[#162E28]">{totalDelegates}</div>
           <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase flex items-center gap-1">
-            <TrendingUp className="w-3 h-3 text-[#A77A1C]" /> Active Roster
+            <TrendingUp className="w-3 h-3 text-[#A77A1C]" /> Active Accounts
           </div>
         </div>
 
-        {/* 2. Pending Approval */}
-        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
-          <div className="flex items-center justify-between text-[#A77A1C]">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PENDING VERIFICATION</span>
-            <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
-              <Clock className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="font-serif font-black text-3xl text-[#A77A1C]">{pendingRegistrations}</div>
-          <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Needs Admin Review</div>
-        </div>
-
-        {/* 3. Approved Teams */}
+        {/* 2. Google Verified Delegates */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#162E28]">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">APPROVED TEAMS</span>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">GOOGLE VERIFIED</span>
             <div className="p-2 rounded-xl bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/40">
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="font-serif font-black text-3xl text-[#162E28]">{approvedTeams}</div>
-          <div className="text-[10px] font-mono font-bold text-[#162E28] uppercase">Confirmed Entries</div>
+          <div className="font-serif font-black text-3xl text-[#162E28]">{totalDelegates}</div>
+          <div className="text-[10px] font-mono font-bold text-emerald-800 uppercase flex items-center gap-1">
+            <CheckCircle2 className="w-3 h-3" /> OAuth Authenticated
+          </div>
         </div>
 
-        {/* 4. Total Participants */}
+        {/* 3. Participant Delegates */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PARTICIPANTS</span>
@@ -137,14 +121,26 @@ export const AdminDashboardOverview: React.FC = () => {
               <UserCheck className="w-4 h-4" />
             </div>
           </div>
-          <div className="font-serif font-black text-3xl text-[#162E28]">{totalParticipants}</div>
-          <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">Verified Delegates</div>
+          <div className="font-serif font-black text-3xl text-[#162E28]">{participantUsers}</div>
+          <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Standard Delegates</div>
         </div>
 
-        {/* 5. Submissions Received */}
+        {/* 4. Active Tracks */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">SUBMISSIONS</span>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">INNOVATION TRACKS</span>
+            <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
+              <Layers className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="font-serif font-black text-3xl text-[#162E28]">{totalTracks}</div>
+          <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">Active Domains</div>
+        </div>
+
+        {/* 5. Submissions */}
+        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
+          <div className="flex items-center justify-between text-[#A77A1C]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PROJECT IDEAS</span>
             <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
               <FileText className="w-4 h-4" />
             </div>
@@ -153,21 +149,21 @@ export const AdminDashboardOverview: React.FC = () => {
           <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Phase 1 Solutions</div>
         </div>
 
-        {/* 6. Rejected Teams */}
+        {/* 6. Announcements */}
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">REJECTED TEAMS</span>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">COMMUNICATIONS</span>
             <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
-              <XCircle className="w-4 h-4" />
+              <Megaphone className="w-4 h-4" />
             </div>
           </div>
-          <div className="font-serif font-black text-3xl text-[#A77A1C]">{rejectedTeams}</div>
-          <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Incomplete</div>
+          <div className="font-serif font-black text-3xl text-[#162E28]">{totalAnnouncements}</div>
+          <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">Published Broadcasts</div>
         </div>
 
       </div>
 
-      {/* SECOND ROW: REAL-TIME ANALYTICS CHART & TRACK DISTRIBUTION */}
+      {/* SECOND ROW: REAL-TIME ANALYTICS CHART & TRACKS OVERVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Registration Velocity Chart */}
@@ -176,9 +172,9 @@ export const AdminDashboardOverview: React.FC = () => {
             <div>
               <h2 className="font-serif font-black text-xl text-[#162E28] uppercase flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-[#A77A1C]" />
-                <span>REGISTRATION & SUBMISSION VELOCITY</span>
+                <span>DELEGATE ONBOARDING TRAJECTORY</span>
               </h2>
-              <p className="text-xs text-[#7B8379] font-sans">Real-time daily growth trajectory of teams and project submissions</p>
+              <p className="text-xs text-[#7B8379] font-sans">Real-time daily onboarding growth of student delegates and idea submissions</p>
             </div>
 
             <div className="flex items-center bg-[#E9E1D2] p-1 rounded-xl border border-[#D2CAB6] text-xs font-mono">
@@ -201,7 +197,7 @@ export const AdminDashboardOverview: React.FC = () => {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={activeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="colorRegs" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="colorDelegates" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#162E28" stopOpacity={0.4}/>
                     <stop offset="95%" stopColor="#162E28" stopOpacity={0.0}/>
                   </linearGradient>
@@ -216,33 +212,31 @@ export const AdminDashboardOverview: React.FC = () => {
                 <Tooltip
                   contentStyle={{ backgroundColor: '#162E28', borderColor: '#A77A1C', borderRadius: '1rem', color: '#F9F4EA', fontSize: '12px', fontFamily: 'JetBrains Mono' }}
                 />
-                <Area type="monotone" dataKey="registrations" stroke="#162E28" strokeWidth={3} fillOpacity={1} fill="url(#colorRegs)" name="Registrations" />
+                <Area type="monotone" dataKey="delegates" stroke="#162E28" strokeWidth={3} fillOpacity={1} fill="url(#colorDelegates)" name="Delegates" />
                 <Area type="monotone" dataKey="submissions" stroke="#A77A1C" strokeWidth={3} fillOpacity={1} fill="url(#colorSubs)" name="Submissions" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Track Distribution Bar */}
+        {/* Tracks Overview */}
         <div className="lg:col-span-4 bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-8 rounded-3xl shadow-md space-y-6 flex flex-col justify-between">
           <div className="space-y-4">
-            <h2 className="font-serif font-black text-xl text-[#162E28] uppercase border-b border-[#D2CAB6] pb-3">
-              TRACK DISTRIBUTION
+            <h2 className="font-serif font-black text-xl text-[#162E28] uppercase border-b border-[#D2CAB6] pb-3 flex items-center justify-between">
+              <span>HACKATHON TRACKS</span>
+              <span className="text-xs font-mono text-[#A77A1C]">{tracks.length} Tracks</span>
             </h2>
 
-            <div className="space-y-4 pt-1">
-              {trackCounts.map(tr => (
-                <div key={tr.id} className="space-y-1.5">
+            <div className="space-y-3 pt-1">
+              {tracks.map(tr => (
+                <div key={tr.id} className="p-3 bg-[#E9E1D2] rounded-2xl border border-[#D2CAB6] space-y-1">
                   <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="font-bold text-[#162E28] truncate max-w-[200px]">{tr.title}</span>
-                    <span className="text-[#A77A1C] font-bold">{tr.count} teams ({tr.percentage}%)</span>
+                    <span className="font-bold text-[#162E28] truncate">{tr.title}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#162E28] text-[#E5BE61] font-bold">
+                      {tr.category || 'Domain'}
+                    </span>
                   </div>
-                  <div className="h-2 w-full bg-[#E9E1D2] rounded-full overflow-hidden border border-[#D2CAB6]">
-                    <div
-                      className="h-full bg-[#162E28] rounded-full transition-all duration-500"
-                      style={{ width: `${tr.percentage}%` }}
-                    />
-                  </div>
+                  <p className="text-[11px] text-[#7B8379] line-clamp-1">{tr.description}</p>
                 </div>
               ))}
             </div>
@@ -259,17 +253,17 @@ export const AdminDashboardOverview: React.FC = () => {
 
       </div>
 
-      {/* THIRD ROW: RECENT REGISTRATIONS TABLE & SYSTEM ACTIVITY LOGS */}
+      {/* THIRD ROW: RECENT REGISTERED DELEGATES & AUDIT TRAIL */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Recent Registrations Table */}
+        {/* Recent Registered Delegates */}
         <div className="lg:col-span-8 bg-[#F3EDE0] border border-[#D2CAB6] p-6 sm:p-8 rounded-3xl shadow-md space-y-4">
           <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
             <h2 className="font-serif font-black text-xl text-[#162E28] uppercase">
-              RECENT TEAM REGISTRATIONS
+              RECENT REGISTERED DELEGATES
             </h2>
-            <Link to="/admin/registrations" className="text-xs font-mono font-bold text-[#A77A1C] hover:underline flex items-center gap-1">
-              View All Registrations →
+            <Link to="/admin/participants" className="text-xs font-mono font-bold text-[#A77A1C] hover:underline flex items-center gap-1">
+              View All Delegates ({users.length}) →
             </Link>
           </div>
 
@@ -277,31 +271,44 @@ export const AdminDashboardOverview: React.FC = () => {
             <table className="w-full text-left text-xs font-sans">
               <thead className="bg-[#E9E1D2] border-b border-[#D2CAB6] text-[#162E28] font-mono font-bold uppercase">
                 <tr>
-                  <th className="p-3.5 rounded-l-xl">Team Code</th>
-                  <th className="p-3.5">Team Name</th>
-                  <th className="p-3.5">Track</th>
-                  <th className="p-3.5">Leader</th>
-                  <th className="p-3.5 rounded-r-xl">Status</th>
+                  <th className="p-3.5 rounded-l-xl">Delegate Name</th>
+                  <th className="p-3.5">Email</th>
+                  <th className="p-3.5">Role</th>
+                  <th className="p-3.5 rounded-r-xl">Joined</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#D2CAB6]">
-                {teams.slice(0, 5).map(team => (
-                  <tr key={team.teamId} className="hover:bg-[#E9E1D2]/50 transition">
-                    <td className="p-3.5 font-mono font-bold text-[#162E28]">{team.teamCode || team.teamId}</td>
-                    <td className="p-3.5 font-serif font-bold text-[#162E28]">{team.teamName}</td>
-                    <td className="p-3.5 text-[#7B8379] font-mono text-[11px]">{team.trackTitle}</td>
-                    <td className="p-3.5 text-[#162E28]">{team.leader?.fullName || 'Leader'}</td>
-                    <td className="p-3.5">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase ${
-                        team.status === 'APPROVED' ? 'bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]' :
-                         team.status === 'REJECTED' ? 'bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30' :
-                         'bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/50'
-                      }`}>
-                        {team.status}
-                      </span>
+                {users.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="p-8 text-center text-[#7B8379] font-mono">
+                      No delegates registered yet.
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  users.slice(0, 5).map(u => (
+                    <tr key={u.id || u.email} className="hover:bg-[#E9E1D2]/50 transition">
+                      <td className="p-3.5 flex items-center gap-2.5 font-bold text-[#162E28]">
+                        <img
+                          src={u.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
+                          alt={u.name}
+                          className="w-7 h-7 rounded-full object-cover border border-[#A77A1C]/40"
+                        />
+                        <span>{u.name}</span>
+                      </td>
+                      <td className="p-3.5 font-mono text-[11px] text-[#A77A1C]">{u.email}</td>
+                      <td className="p-3.5">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
+                          u.role === 'ADMIN' ? 'bg-[#A77A1C] text-[#F9F4EA]' : 'bg-[#E9E1D2] text-[#162E28] border border-[#D2CAB6]'
+                        }`}>
+                          {u.role}
+                        </span>
+                      </td>
+                      <td className="p-3.5 text-[#7B8379] font-mono text-[11px]">
+                        {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'Recent'}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

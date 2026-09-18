@@ -14,13 +14,11 @@ import { RedesignedOrganizersSection } from './components/sections/redesign/Rede
 import { RedesignedKopargaonSection } from './components/sections/redesign/RedesignedKopargaonSection';
 import { RedesignedFAQ } from './components/sections/redesign/RedesignedFAQ';
 import { RedesignedContactSection, RedesignedFooter } from './components/sections/redesign/RedesignedFooter';
-import { apiService } from './services/api';
 
 export function App() {
   const location = useLocation();
 
   useEffect(() => {
-    apiService.fetchTeamsAsync();
 
     const lenis = new Lenis({
       duration: 1.2,

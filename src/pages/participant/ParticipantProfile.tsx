@@ -3,64 +3,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   User, 
   Mail, 
-  Key, 
-  Hash, 
-  Save, 
-  Users, 
   ShieldCheck, 
-  Crown, 
-  Copy, 
-  Check, 
   ArrowLeft, 
   LogOut,
-  ExternalLink
+  ExternalLink,
+  CheckCircle2,
+  GraduationCap
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { apiService } from '../../services/api';
-import type { Team } from '../../types/admin';
-
 import { RedesignedNavbar } from '../../components/sections/redesign/RedesignedNavbar';
 
 export const ParticipantProfile: React.FC = () => {
-  const { participant, logoutParticipant, updateParticipantGroupCode } = useAuth();
+  const { participant, logoutParticipant } = useAuth();
   const navigate = useNavigate();
-  const [copied, setCopied] = React.useState(false);
-
-  const [groupCodeInput, setGroupCodeInput] = React.useState(
-    participant?.groupCode || localStorage.getItem('pragyan_group_code') || ''
-  );
-  const [savedGroupCode, setSavedGroupCode] = React.useState(
-    participant?.groupCode || localStorage.getItem('pragyan_group_code') || ''
-  );
-  const [saveFeedback, setSaveFeedback] = React.useState('');
-
-  const teams = apiService.getTeams();
-  const userTeam: Team | undefined = teams.find(t => t.teamId === participant?.teamId);
 
   const handleLogout = () => {
     logoutParticipant();
     navigate('/login');
   };
-
-  const handleCopyCode = (code: string) => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleSaveGroupCode = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = groupCodeInput.trim().toUpperCase();
-    if (!trimmed) return;
-    updateParticipantGroupCode(trimmed);
-    setSavedGroupCode(trimmed);
-    setSaveFeedback(`Group Code "${trimmed}" successfully saved!`);
-    setTimeout(() => setSaveFeedback(''), 3500);
-  };
-
-  const currentMember = userTeam?.members.find(
-    m => m.email.toLowerCase() === participant?.email?.toLowerCase()
-  ) || userTeam?.leader;
 
   return (
     <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] font-sans selection:bg-[#162E28] selection:text-[#E5BE61] pt-32 pb-16">
@@ -102,7 +62,7 @@ export const ParticipantProfile: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h1 className="font-serif font-black text-2xl sm:text-3xl text-[#162E28]">
-                    {participant?.name || currentMember?.fullName || 'Participant'}
+                    {participant?.name || 'Participant Delegate'}
                   </h1>
                   <span className="bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/40 px-3 py-1 rounded-full text-[10px] font-mono font-bold flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-[#A77A1C]" /> GOOGLE AUTH VERIFIED
@@ -115,23 +75,13 @@ export const ParticipantProfile: React.FC = () => {
               </div>
             </div>
 
-            {userTeam && (
-              <div className="bg-[#F9F4EA] p-4 rounded-2xl border border-[#D2CAB6] space-y-1 text-center shrink-0">
-                <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">TEAM CODE</div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono font-extrabold text-base text-[#162E28] bg-[#E9E1D2] px-3 py-1 rounded-xl border border-[#A77A1C]/40">
-                    {userTeam.teamCode || 'PRG-7X9K2'}
-                  </span>
-                  <button
-                    onClick={() => handleCopyCode(userTeam.teamCode || 'PRG-7X9K2')}
-                    className="p-2 rounded-xl bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/40 hover:bg-[#2B3E35] shadow-sm transition"
-                    title="Copy Code"
-                  >
-                    {copied ? <Check className="w-4 h-4 text-[#E5BE61]" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
+            <div className="bg-[#162E28] text-[#F9F4EA] p-4 rounded-2xl border border-[#A77A1C]/50 space-y-1 text-center shrink-0">
+              <div className="text-[10px] font-mono font-bold text-[#E5BE61] uppercase">ACCOUNT STATUS</div>
+              <div className="font-mono font-bold text-xs text-[#F9F4EA] flex items-center gap-1.5 justify-center">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span>ACTIVE DELEGATE</span>
               </div>
-            )}
+            </div>
           </div>
 
           {/* PERSONAL INFORMATION */}
@@ -143,154 +93,57 @@ export const ParticipantProfile: React.FC = () => {
             <div className="bg-[#F9F4EA] p-5 rounded-2xl border border-[#D2CAB6] space-y-3 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-[#7B8379] flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-[#A77A1C]" /> Full Name:</span>
-                <span className="font-serif font-bold text-[#162E28]">{currentMember?.fullName || participant?.name}</span>
+                <span className="font-serif font-bold text-[#162E28]">{participant?.name || 'Participant'}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[#7B8379] flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-[#A77A1C]" /> Email Address:</span>
                 <span className="font-mono font-bold text-[#A77A1C]">{participant?.email}</span>
               </div>
               <div className="flex items-center justify-between pt-1 border-t border-[#D2CAB6]/60">
-                <span className="text-[#7B8379] flex items-center gap-1.5 font-bold"><Hash className="w-3.5 h-3.5 text-[#A77A1C]" /> Group Code:</span>
-                <span className="font-mono font-black text-[#162E28] bg-[#E9E1D2] px-2.5 py-0.5 rounded-lg border border-[#A77A1C]/40">
-                  {savedGroupCode || participant?.groupCode || 'NOT SET'}
+                <span className="text-[#7B8379] flex items-center gap-1.5 font-bold"><ShieldCheck className="w-3.5 h-3.5 text-[#A77A1C]" /> Role:</span>
+                <span className="font-mono font-bold text-[#162E28] bg-[#E9E1D2] px-2.5 py-0.5 rounded-lg border border-[#A77A1C]/40">
+                  {participant?.role || 'PARTICIPANT'}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* GROUP CODE SETTING & STORAGE CARD */}
+          {/* OFFICIAL UMS REGISTRATION INSTRUCTIONS */}
           <div className="p-5 sm:p-6 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/50 space-y-4 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#A77A1C]/30 pb-3">
               <div className="space-y-0.5">
                 <div className="text-xs font-mono font-extrabold text-[#162E28] uppercase tracking-wider flex items-center gap-2">
-                  <Key className="w-4 h-4 text-[#A77A1C]" />
-                  <span>GROUP CODE</span>
+                  <GraduationCap className="w-4 h-4 text-[#A77A1C]" />
+                  <span>SANJIVANI UNIVERSITY OFFICIAL EVENT REGISTRATION</span>
                 </div>
                 <p className="text-xs text-[#7B8379]">
-                  Add or store your assigned group code for this account.
+                  Official event registrations and delegate passes are processed through Sanjivani UMS Portal.
                 </p>
               </div>
-              {(savedGroupCode || participant?.groupCode) && (
-                <span className="px-3 py-1 rounded-full bg-[#162E28] text-[#E5BE61] border border-[#A77A1C] text-[11px] font-mono font-bold w-fit">
-                  STORED: {savedGroupCode || participant?.groupCode}
-                </span>
-              )}
             </div>
 
-            <form onSubmit={handleSaveGroupCode} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <input
-                type="text"
-                value={groupCodeInput}
-                onChange={(e) => setGroupCodeInput(e.target.value)}
-                placeholder="Enter Group Code (e.g. GRP-2K26-01)"
-                className="flex-1 px-4 py-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] focus:border-[#A77A1C] focus:outline-none font-mono text-xs sm:text-sm uppercase text-[#162E28] placeholder:text-[#7B8379]/60 font-bold"
-              />
-              <button
-                type="submit"
-                className="px-6 py-2.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono font-bold text-xs uppercase border border-[#A77A1C] transition shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-2"
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-1">
+              <p className="text-xs text-[#162E28] font-sans">
+                If you haven't completed your event registration, please complete it on the official University portal.
+              </p>
+              <a
+                href="https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-2.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono font-bold text-xs uppercase border border-[#A77A1C] transition shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-2 shrink-0"
               >
-                <Save className="w-4 h-4" />
-                <span>Save Group Code</span>
-              </button>
-            </form>
-
-            {saveFeedback && (
-              <div className="text-xs font-mono font-bold text-[#162E28] flex items-center gap-1.5 bg-[#F9F4EA] px-3 py-1.5 rounded-lg border border-[#A77A1C]/30 w-fit">
-                <Check className="w-3.5 h-3.5 text-green-700" />
-                <span>{saveFeedback}</span>
-              </div>
-            )}
+                <span>OPEN REGISTRATION</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
         </div>
 
-        {/* TEAM & REGISTRATION PROFILE CARD */}
-        {userTeam && (
-          <div className="bg-[#F3EDE0] border border-[#D2CAB6] rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
-            <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
-              <h2 className="font-serif font-black text-xl text-[#162E28] uppercase flex items-center gap-2">
-                <Users className="w-6 h-6 text-[#A77A1C]" />
-                <span>MY HACKATHON TEAM DETAILS</span>
-              </h2>
-
-              <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
-                userTeam.status === 'APPROVED' ? 'bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]' :
-                userTeam.status === 'REJECTED' ? 'bg-red-100 text-red-800 border border-red-300' :
-                'bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/50'
-              }`}>
-                REGISTRATION: {userTeam.status}
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
-              <div className="bg-[#F9F4EA] p-4 rounded-2xl border border-[#D2CAB6] space-y-1">
-                <div className="text-[#7B8379] font-bold uppercase text-[10px]">TEAM NAME</div>
-                <div className="font-serif font-extrabold text-base text-[#162E28]">{userTeam.teamName}</div>
-              </div>
-
-              <div className="bg-[#F9F4EA] p-4 rounded-2xl border border-[#D2CAB6] space-y-1">
-                <div className="text-[#7B8379] font-bold uppercase text-[10px]">REGISTERED TRACK</div>
-                <div className="font-serif font-bold text-[#A77A1C] truncate">{userTeam.trackTitle}</div>
-              </div>
-
-              <div className="bg-[#F9F4EA] p-4 rounded-2xl border border-[#D2CAB6] space-y-1">
-                <div className="text-[#7B8379] font-bold uppercase text-[10px]">SUBMISSION STATUS</div>
-                <div className={`font-bold ${
-                  userTeam.submission?.status === 'SHORTLISTED' ? 'text-[#162E28]' :
-                  userTeam.submission?.status === 'REVIEWED' ? 'text-[#A77A1C]' :
-                  userTeam.submission ? 'text-[#162E28]' : 'text-[#7B8379]'
-                }`}>
-                  {userTeam.submission ? userTeam.submission.status.replace('_', ' ') : 'PENDING UPLOAD'}
-                </div>
-              </div>
-            </div>
-
-            {/* JUDGING EVALUATION REMARKS */}
-            {userTeam.submission?.adminNotes && (
-              <div className="bg-[#E9E1D2] border border-[#A77A1C]/50 p-4 rounded-2xl space-y-2 text-left">
-                <div className="text-xs font-mono font-bold text-[#162E28] uppercase">
-                  OFFICIAL JUDGING REMARKS & FEEDBACK
-                </div>
-                <p className="text-xs text-[#7B8379] bg-[#F9F4EA] p-3 rounded-xl border border-[#D2CAB6] font-medium">
-                  "{userTeam.submission.adminNotes}"
-                </p>
-              </div>
-            )}
-
-            {/* TEAM ROSTER */}
-            <div className="space-y-3 pt-2">
-              <div className="text-xs font-mono font-extrabold text-[#A77A1C] uppercase tracking-widest">
-                TEAM ROSTER ({userTeam.members.length} MEMBERS)
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {userTeam.members.map((mem, idx) => (
-                  <div key={mem.id} className="p-4 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] flex items-center justify-between text-xs">
-                    <div className="space-y-0.5">
-                      <div className="flex items-center gap-2">
-                        <span className="font-serif font-bold text-[#162E28] text-sm">{mem.fullName}</span>
-                        {mem.isLeader && (
-                          <span className="bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/40 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold flex items-center gap-0.5">
-                            <Crown className="w-3 h-3 text-[#A77A1C]" /> LEADER
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[11px] text-[#A77A1C] font-mono">{mem.email}</div>
-                      <div className="text-[10px] text-[#7B8379]">{mem.course} • {mem.college}</div>
-                    </div>
-                    <div className="text-[10px] font-mono text-[#A77A1C]/60 font-bold">MEM {idx + 1}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        )}
-
         <div className="pt-4 border-t border-[#D2CAB6] flex justify-end">
           <button
             onClick={handleLogout}
-            className="px-6 py-3 rounded-2xl bg-red-50 border border-red-200 text-red-700 hover:bg-red-700 hover:text-white font-mono font-bold text-xs flex items-center gap-2 transition shadow-sm"
+            className="px-6 py-3 rounded-2xl bg-red-50 border border-red-200 text-red-700 hover:bg-red-700 hover:text-white font-mono font-bold text-xs flex items-center gap-2 transition shadow-sm cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>SIGN OUT ACCOUNT</span>

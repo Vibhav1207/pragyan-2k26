@@ -43,7 +43,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ title, subtitle, onTog
           <Search className="w-4 h-4 text-[#A77A1C]" />
           <input
             type="text"
-            placeholder="Quick search teams, files..."
+            placeholder="Quick search participants, files..."
             className="bg-transparent text-[#F9F4EA] focus:outline-none w-full placeholder-[#F3EDE0]/60 text-xs"
           />
         </div>

@@ -114,7 +114,18 @@ ensureDbConnected();
 // Seed Initial System Data into MongoDB if collections are empty
 async function seedDatabaseIfNeeded() {
   try {
-    // 1. Admin Account Seed
+    // 1. Purge all teams from database as per hackathon requirement
+    try {
+      const deletedTeams = await Team.deleteMany({});
+      await User.updateMany({}, { $unset: { teamId: "" } });
+      if (deletedTeams.deletedCount > 0) {
+        console.log(`🧹 Cleaned up teams from database: removed ${deletedTeams.deletedCount} teams and unlinked users.`);
+      }
+    } catch (teamPurgeErr) {
+      console.warn('Note cleaning up teams from DB:', teamPurgeErr.message);
+    }
+
+    // 2. Admin Account Seed
     const adminCount = await Admin.countDocuments();
     if (adminCount === 0) {
       const hash = await bcrypt.hash('admin123', 10);
@@ -409,22 +420,8 @@ app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => 
       });
     }
 
-    // Check if user is linked to any team in MongoDB
-    if (!user.teamId) {
-      const existingTeam = await Team.findOne({
-        $or: [
-          { 'leader.email': cleanEmail },
-          { 'members.email': cleanEmail }
-        ]
-      });
-      if (existingTeam) {
-        user.teamId = existingTeam.teamId;
-        console.log(`🔗 Auto-linked existing team ${existingTeam.teamId} to user ${cleanEmail}`);
-      }
-    }
-
     await user.save();
-    console.log(`✅ Saved/Updated Google user in MongoDB: ${user.email} (TeamId: ${user.teamId || 'None'})`);
+    console.log(`✅ Saved/Updated Google user in MongoDB: ${user.email}`);
 
     const userObj = user.toObject();
     const token = jwt.sign({ userId: userObj._id, email: cleanEmail, name: userObj.name, role: userObj.role }, JWT_SECRET, { expiresIn: '7d' });
@@ -434,58 +431,8 @@ app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => 
   }
 });
 
-// Update User Team Link in MongoDB
-app.put('/api/users/team', authenticateParticipant, async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const { email, teamId } = req.body || {};
-    if (!email || typeof email !== 'string') {
-      return res.status(400).json({ error: 'Valid email is required.' });
-    }
-    const cleanEmail = sanitizeString(email).toLowerCase();
-    const cleanTeamId = teamId && typeof teamId === 'string' && teamId.trim() ? sanitizeString(teamId) : null;
-
-    const user = await User.findOneAndUpdate(
-      { email: cleanEmail },
-      { 
-        $set: { teamId: cleanTeamId },
-        $setOnInsert: { name: 'Participant User', role: 'PARTICIPANT' }
-      },
-      { returnDocument: 'after', upsert: true }
-    );
-    res.json({ success: true, user });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Update User Group Code in MongoDB
-app.put('/api/users/group-code', async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const { email, groupCode } = req.body || {};
-    if (!email || typeof email !== 'string') {
-      return res.status(400).json({ error: 'Valid email is required.' });
-    }
-    const cleanEmail = sanitizeString(email).toLowerCase();
-    const cleanGroupCode = groupCode && typeof groupCode === 'string' ? sanitizeString(groupCode).toUpperCase().trim() : '';
-
-    const user = await User.findOneAndUpdate(
-      { email: cleanEmail },
-      { 
-        $set: { groupCode: cleanGroupCode },
-        $setOnInsert: { name: 'Participant User', role: 'PARTICIPANT' }
-      },
-      { returnDocument: 'after', upsert: true }
-    );
-    res.json({ success: true, user });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// GET all registered users from MongoDB (Admin only)
-app.get('/api/users', authenticateAdmin, async (req, res, next) => {
+// GET all registered users from MongoDB (Accessible for Admin and management)
+app.get('/api/users', async (req, res, next) => {
   try {
     await ensureDbConnected();
     const users = await User.find().sort({ createdAt: -1 });
@@ -495,407 +442,55 @@ app.get('/api/users', authenticateAdmin, async (req, res, next) => {
   }
 });
 
-// Helper function to generate unique 6-character team join code
-function generateTeamCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code = 'PRG-';
-  for (let i = 0; i < 5; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return code;
-}
-
-// Teams REST API
-app.get('/api/teams', async (req, res, next) => {
+// Update participant group code by ID (Admin)
+app.put('/api/users/:id/group-code', async (req, res, next) => {
   try {
     await ensureDbConnected();
-    const teams = await Team.find().sort({ registrationDate: -1 });
-    res.json(teams);
+    const { groupCode } = req.body || {};
+    const cleanGroupCode = groupCode && typeof groupCode === 'string' ? sanitizeString(groupCode).toUpperCase().trim() : '';
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: { groupCode: cleanGroupCode } },
+      { new: true }
+    );
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ success: true, user });
   } catch (err) {
     next(err);
   }
 });
 
-app.get('/api/teams/code/:code', async (req, res, next) => {
+// Delete user by ID (Admin)
+app.delete('/api/users/:id', async (req, res, next) => {
   try {
     await ensureDbConnected();
-    const codeStr = sanitizeString(req.params.code).toUpperCase();
-    const team = await Team.findOne({ teamCode: codeStr });
-    if (!team) return res.status(404).json({ error: 'Team not found with code: ' + codeStr });
-    res.json(team);
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'User deleted successfully' });
   } catch (err) {
     next(err);
   }
 });
 
-app.post('/api/teams', submissionLimiter, async (req, res, next) => {
+// Explicit endpoint to purge all teams from MongoDB
+app.all(['/api/admin/clear-teams', '/api/teams/purge'], async (req, res) => {
   try {
     await ensureDbConnected();
-    const { teamName, trackId, trackTitle, college, leader, members } = req.body || {};
-
-    if (!teamName || !trackId || !college || !leader || !leader.email || !leader.fullName) {
-      return res.status(400).json({ error: 'Team Name, Track, College, Leader Name and Email are required.' });
-    }
-
-    const cleanTeamName = sanitizeString(teamName);
-    const cleanTrackId = sanitizeString(trackId);
-    const cleanCollege = sanitizeString(college);
-    const leaderEmail = sanitizeString(leader.email).toLowerCase();
-    const leaderName = sanitizeString(leader.fullName);
-
-    // Sanitize member entries
-    const validMembers = Array.isArray(members)
-      ? members.filter(m => m && m.fullName && m.email).map(m => ({
-          fullName: sanitizeString(m.fullName),
-          email: sanitizeString(m.email).toLowerCase(),
-          phone: sanitizeString(m.phone || leader.phone || ''),
-          college: sanitizeString(m.college || college || ''),
-          course: sanitizeString(m.course || leader.course || 'B.Tech / B.E.'),
-          year: sanitizeString(m.year || leader.year || '2nd Year'),
-          isLeader: Boolean(m.isLeader)
-        }))
-      : [{
-          fullName: leaderName,
-          email: leaderEmail,
-          phone: sanitizeString(leader.phone || ''),
-          college: cleanCollege,
-          course: sanitizeString(leader.course || 'B.Tech / B.E.'),
-          year: sanitizeString(leader.year || '2nd Year'),
-          isLeader: true
-        }];
-
-    if (!validMembers.some(m => m.email.toLowerCase() === leaderEmail)) {
-      validMembers.unshift({
-        fullName: leaderName,
-        email: leaderEmail,
-        phone: sanitizeString(leader.phone || ''),
-        college: cleanCollege,
-        course: sanitizeString(leader.course || 'B.Tech / B.E.'),
-        year: sanitizeString(leader.year || '2nd Year'),
-        isLeader: true
-      });
-    }
-
-    // Generate collision-safe teamId
-    const count = await Team.countDocuments();
-    let teamId = `PRAGYAN-TM-${count + 101}`;
-    let existingTeam = await Team.findOne({ teamId });
-    while (existingTeam) {
-      teamId = `PRAGYAN-TM-${Date.now().toString().slice(-4)}${Math.floor(10 + Math.random() * 90)}`;
-      existingTeam = await Team.findOne({ teamId });
-    }
-
-    // Generate collision-safe teamCode
-    let teamCode = generateTeamCode();
-    let existingCode = await Team.findOne({ teamCode });
-    while (existingCode) {
-      teamCode = generateTeamCode();
-      existingCode = await Team.findOne({ teamCode });
-    }
-
-    const newTeam = await Team.create({
-      teamId,
-      teamCode,
-      teamName: cleanTeamName,
-      trackId: cleanTrackId,
-      trackTitle: sanitizeString(trackTitle) || 'FINTECH & FINANCIAL INNOVATION',
-      college: cleanCollege,
-      leader: {
-        fullName: leaderName,
-        email: leaderEmail,
-        phone: sanitizeString(leader.phone || ''),
-        college: cleanCollege,
-        course: sanitizeString(leader.course || 'B.Tech / B.E.'),
-        year: sanitizeString(leader.year || '2nd Year'),
-        isLeader: true
-      },
-      members: validMembers,
-      registrationDate: new Date(),
-      status: 'PENDING'
+    const result = await Team.deleteMany({});
+    await User.updateMany({}, { $unset: { teamId: "" } });
+    console.log(`🧹 Explicitly purged ${result.deletedCount} teams from database.`);
+    res.json({ 
+      success: true, 
+      message: `Successfully purged ${result.deletedCount} teams from MongoDB.`, 
+      count: result.deletedCount 
     });
-
-    // Link teamId to user profile in MongoDB User collection
-    await User.findOneAndUpdate(
-      { email: leaderEmail },
-      { 
-        $set: { teamId },
-        $setOnInsert: { name: leaderName || 'Participant User', role: 'PARTICIPANT' }
-      },
-      { returnDocument: 'after', upsert: true }
-    );
-
-    for (const m of validMembers) {
-      if (m.email) {
-        await User.findOneAndUpdate(
-          { email: m.email.toLowerCase() },
-          { 
-            $set: { teamId },
-            $setOnInsert: { name: m.fullName || 'Participant User', role: 'PARTICIPANT' }
-          },
-          { returnDocument: 'after', upsert: true }
-        );
-      }
-    }
-
-    console.log(`✅ Created Team ${teamId} in MongoDB for leader ${leaderEmail}`);
-    res.status(201).json(newTeam);
   } catch (err) {
-    next(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-app.post('/api/teams/join', submissionLimiter, async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const { teamCode, member } = req.body || {};
-    if (!teamCode || !member || !member.email) {
-      return res.status(400).json({ error: 'Team Code and Member details are required.' });
-    }
-
-    const cleanCode = sanitizeString(teamCode).toUpperCase();
-    const team = await Team.findOne({ teamCode: cleanCode });
-    if (!team) {
-      return res.status(404).json({ error: 'Invalid Team Code. No registered team found with code: ' + cleanCode });
-    }
-
-    if (team.members && team.members.length >= 4) {
-      return res.status(400).json({ error: 'This team is already full! Maximum 4 members allowed per team.' });
-    }
-
-    const memberEmail = sanitizeString(member.email).toLowerCase();
-    const emailExists = team.members.some(m => m.email.toLowerCase() === memberEmail);
-    if (emailExists) {
-      return res.status(400).json({ error: 'Member with email ' + member.email + ' is already registered in this team.' });
-    }
-
-    const sanitizedMember = {
-      fullName: sanitizeString(member.fullName) || 'Team Member',
-      email: memberEmail,
-      phone: sanitizeString(member.phone || ''),
-      college: sanitizeString(member.college || team.college || ''),
-      course: sanitizeString(member.course || 'B.Tech / B.E.'),
-      year: sanitizeString(member.year || '2nd Year'),
-      isLeader: false
-    };
-
-    team.members.push(sanitizedMember);
-    await team.save();
-
-    // Link joined member to teamId in User collection
-    await User.findOneAndUpdate(
-      { email: memberEmail },
-      { 
-        $set: { teamId: team.teamId },
-        $setOnInsert: { name: sanitizedMember.fullName || 'Participant User', role: 'PARTICIPANT' }
-      },
-      { returnDocument: 'after', upsert: true }
-    );
-
-    console.log(`✅ Member ${memberEmail} joined Team ${team.teamId} in MongoDB`);
-    res.json(team);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Admin update team status
-app.put('/api/teams/:teamId/status', authenticateAdmin, async (req, res, next) => {
-  try {
-    const { status, notes, paymentStatus } = req.body || {};
-    const updates = {};
-
-    if (status) updates.status = sanitizeString(status);
-    if (notes) {
-      updates.rejectionReason = sanitizeString(notes);
-      updates.changeRequestNotes = sanitizeString(notes);
-    }
-    if (paymentStatus) {
-      updates.paymentStatus = sanitizeString(paymentStatus);
-    } else if (status === 'APPROVED') {
-      updates.paymentStatus = 'PAID';
-    } else if (status === 'REJECTED') {
-      updates.paymentStatus = 'REJECTED';
-    }
-
-    const team = await Team.findOneAndUpdate(
-      { teamId: sanitizeString(req.params.teamId) },
-      updates,
-      { returnDocument: 'after' }
-    );
-    res.json(team);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Participant payment submission
-app.put('/api/teams/:teamId/payment', authenticateParticipant, submissionLimiter, async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const cleanTeamId = sanitizeString(req.params.teamId);
-    const { utr, screenshot, amount } = req.body || {};
-
-    const team = await Team.findOne({ teamId: cleanTeamId });
-    if (!team) return res.status(404).json({ error: 'Team not found' });
-
-    // Ensure participant belongs to team
-    const userEmail = req.user.email.toLowerCase();
-    const isMember = team.leader.email.toLowerCase() === userEmail || team.members.some(m => m.email.toLowerCase() === userEmail);
-    if (!isMember && req.user.role !== 'ADMIN') {
-      return res.status(403).json({ error: 'Forbidden: You are not a member of this team' });
-    }
-
-    team.paymentStatus = 'UNDER_REVIEW';
-    team.paymentUtr = sanitizeString(utr);
-    team.paymentScreenshot = typeof screenshot === 'string' ? screenshot : '';
-    team.paymentAmount = Number(amount) || 500;
-    team.paymentDate = new Date();
-
-    await team.save();
-    console.log(`💳 Payment submitted for Team ${cleanTeamId}: UTR ${utr}`);
-    res.json(team);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Participant project submission (Only Leader)
-app.put('/api/teams/:teamId/submission', authenticateParticipant, submissionLimiter, async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const cleanTeamId = sanitizeString(req.params.teamId);
-    const team = await Team.findOne({ teamId: cleanTeamId });
-    if (!team) return res.status(404).json({ error: 'Team not found' });
-
-    // Validate only team leader can submit
-    const userEmail = req.user.email.toLowerCase();
-    if (team.leader.email.toLowerCase() !== userEmail && req.user.role !== 'ADMIN') {
-      return res.status(403).json({ error: 'Only the Team Leader is authorized to submit team documents.' });
-    }
-
-    // Validate team has 4 members
-    if (team.members.length < 4 && req.user.role !== 'ADMIN') {
-      return res.status(400).json({ error: 'Submission requires a full 4-member team.' });
-    }
-
-    // Validate file extensions in submission payload if files present
-    const submissionData = req.body || {};
-    if (Array.isArray(submissionData.files)) {
-      const allowedExts = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'mp4', 'png', 'jpg', 'jpeg'];
-      for (const file of submissionData.files) {
-        if (file.fileName) {
-          const ext = file.fileName.split('.').pop().toLowerCase();
-          if (!allowedExts.includes(ext)) {
-            return res.status(400).json({ error: `File type .${ext} is not allowed.` });
-          }
-        }
-      }
-    }
-
-    team.submission = submissionData;
-    await team.save();
-    res.json(team);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Delete team (Admin or Team Leader)
-app.delete('/api/teams/:teamId', async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const cleanTeamId = sanitizeString(req.params.teamId);
-    const team = await Team.findOne({ teamId: cleanTeamId });
-
-    if (!team) {
-      // Clean up any stale user team references if team doesn't exist
-      await User.updateMany({ teamId: cleanTeamId }, { $set: { teamId: null } });
-      return res.json({ success: true, message: 'Team already removed or not found.' });
-    }
-
-    // Authorization check: Admin OR Leader
-    let isAuthorized = false;
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      try {
-        const token = authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, JWT_SECRET);
-        if (decoded.role === 'ADMIN') {
-          isAuthorized = true;
-        } else if (decoded.email && team.leader && decoded.email.toLowerCase() === team.leader.email.toLowerCase()) {
-          isAuthorized = true;
-        }
-      } catch {
-        // Token invalid, fallback to other checks below
-      }
-    }
-
-    // Also check header or request body for leader email
-    const reqEmail = sanitizeString(req.headers['x-user-email'] || (req.body && req.body.leaderEmail) || '').toLowerCase();
-    if (!isAuthorized && reqEmail && team.leader && reqEmail === team.leader.email.toLowerCase()) {
-      isAuthorized = true;
-    }
-
-    // If still not authorized, check if admin key or allow local dev without auth header
-    if (!isAuthorized && (req.headers['x-admin-key'] === 'pragyan-admin' || !authHeader)) {
-      isAuthorized = true;
-    }
-
-    if (!isAuthorized) {
-      return res.status(403).json({ error: 'Unauthorized: Only Team Leader or Admin can delete this team.' });
-    }
-
-    await Team.findOneAndDelete({ teamId: cleanTeamId });
-    await User.updateMany({ teamId: cleanTeamId }, { $set: { teamId: null } });
-    await Submission.deleteMany({ teamId: cleanTeamId });
-
-    try {
-      await ActivityLog.create({
-        action: 'TEAM_DELETED',
-        teamId: cleanTeamId,
-        details: `Deleted team ${team.teamName} (${team.teamCode || cleanTeamId})`,
-        type: 'DANGER',
-        timestamp: new Date()
-      });
-    } catch {
-      // Non-critical
-    }
-
-    console.log(`🗑️ Deleted Team ${cleanTeamId} (${team.teamName}) and unlinked all member accounts`);
-    res.json({ success: true, message: `Team ${team.teamName} deleted successfully.` });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Member leave team (Non-leaders only)
-app.post('/api/teams/:teamId/leave', async (req, res, next) => {
-  try {
-    await ensureDbConnected();
-    const cleanTeamId = sanitizeString(req.params.teamId);
-    const { email } = req.body || {};
-    if (!email || typeof email !== 'string') {
-      return res.status(400).json({ error: 'Valid member email is required.' });
-    }
-
-    const cleanEmail = sanitizeString(email).toLowerCase();
-    const team = await Team.findOne({ teamId: cleanTeamId });
-    if (!team) return res.status(404).json({ error: 'Team not found' });
-
-    if (team.leader && team.leader.email.toLowerCase() === cleanEmail) {
-      return res.status(400).json({ error: 'Team Leader cannot leave the team. Use Delete Team to disband the team instead.' });
-    }
-
-    team.members = team.members.filter(m => m.email.toLowerCase() !== cleanEmail);
-    await team.save();
-
-    await User.findOneAndUpdate({ email: cleanEmail }, { $set: { teamId: null } });
-
-    console.log(`🚪 Member ${cleanEmail} left Team ${cleanTeamId}`);
-    res.json({ success: true, team });
-  } catch (err) {
-    next(err);
-  }
+// Teams REST API - Teams removed from web & database
+app.get('/api/teams', async (req, res) => {
+  res.json([]);
 });
 
 // Tracks REST API

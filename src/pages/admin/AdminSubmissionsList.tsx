@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { 
   Search, 
   ExternalLink, 
@@ -103,9 +102,9 @@ export const AdminSubmissionsList: React.FC = () => {
                   <tr key={sub.id} className="hover:bg-[#F9F4EA]/60 transition">
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-[#162E28] font-serif">{sub.teamName}</div>
-                      <Link to={`/admin/teams/${sub.teamId}`} className="text-[10px] font-mono text-[#A77A1C] hover:underline">
+                      <span className="text-[10px] font-mono text-[#A77A1C]">
                         {sub.teamId}
-                      </Link>
+                      </span>
                     </td>
 
                     <td className="py-3.5 px-4 max-w-[240px]">

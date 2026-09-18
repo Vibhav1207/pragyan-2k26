@@ -4,23 +4,23 @@ import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
 
 export const AdminExportCenter: React.FC = () => {
-  const [dataset, setDataset] = useState<'TEAMS' | 'PARTICIPANTS' | 'REGISTRATIONS' | 'SUBMISSIONS'>('TEAMS');
+  const [dataset, setDataset] = useState<'PARTICIPANTS' | 'SUBMISSIONS' | 'TRACKS' | 'ACTIVITY'>('PARTICIPANTS');
   const [format, setFormat] = useState<'CSV' | 'EXCEL'>('CSV');
   const [trackFilter, setTrackFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
   const [exportHistory, setExportHistory] = useState([
     {
-      file: 'pragyan_teams_approved_2026-09-08.csv',
-      type: 'Teams Data',
-      generatedBy: 'admin@sanjivani.edu.in',
-      date: '2026-09-08 18:30'
-    },
-    {
-      file: 'pragyan_participants_roster.csv',
+      file: 'pragyan_delegates_roster.csv',
       type: 'Participants Data',
       generatedBy: 'admin@sanjivani.edu.in',
-      date: '2026-09-07 14:15'
+      date: '2026-09-17 11:30'
+    },
+    {
+      file: 'pragyan_submissions_summary.csv',
+      type: 'Submissions Data',
+      generatedBy: 'admin@sanjivani.edu.in',
+      date: '2026-09-16 14:15'
     }
   ]);
 
@@ -30,38 +30,38 @@ export const AdminExportCenter: React.FC = () => {
     let data: any[] = [];
     let filename = `pragyan_${dataset.toLowerCase()}_${Date.now()}`;
 
-    if (dataset === 'TEAMS') {
-      const teams = apiService.getTeams();
-      data = teams.map(t => ({
-        TeamID: t.teamId,
-        TeamName: t.teamName,
-        Track: t.trackTitle,
-        College: t.college,
-        LeaderName: t.leader.fullName,
-        LeaderEmail: t.leader.email,
-        Status: t.status,
-        RegDate: t.registrationDate
+    if (dataset === 'PARTICIPANTS') {
+      const users = apiService.getRegisteredUsers();
+      data = users.map(u => ({
+        Name: u.name,
+        Email: u.email,
+        Role: u.role,
+        JoinedDate: u.createdAt || ''
       }));
-    } else if (dataset === 'PARTICIPANTS') {
-      data = apiService.getParticipants();
     } else if (dataset === 'SUBMISSIONS') {
       const subs = apiService.getSubmissions();
       data = subs.map(s => ({
         SubmissionID: s.id,
-        TeamID: s.teamId,
         TeamName: s.teamName,
         ProjectTitle: s.projectTitle,
         Status: s.status,
         GitHubURL: s.githubUrl || '',
         SubmittedAt: s.submittedAt || ''
       }));
+    } else if (dataset === 'TRACKS') {
+      data = tracks.map(tr => ({
+        TrackID: tr.id,
+        Title: tr.title,
+        Category: tr.category,
+        Description: tr.description
+      }));
     } else {
-      data = apiService.getTeams().map(t => ({
-        RegID: t.teamId,
-        Team: t.teamName,
-        College: t.college,
-        Status: t.status,
-        Date: t.registrationDate
+      data = apiService.getActivityLogs().map(l => ({
+        Action: l.action,
+        Admin: l.adminName,
+        Email: l.adminEmail,
+        Details: l.details,
+        Timestamp: l.timestamp
       }));
     }
 
@@ -124,7 +124,7 @@ export const AdminExportCenter: React.FC = () => {
             <div className="space-y-1.5">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Select Target Dataset</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(['TEAMS', 'PARTICIPANTS', 'REGISTRATIONS', 'SUBMISSIONS'] as const).map(d => (
+                {(['PARTICIPANTS', 'SUBMISSIONS', 'TRACKS', 'ACTIVITY'] as const).map(d => (
                   <button
                     key={d}
                     type="button"

@@ -12,9 +12,6 @@ import { ParticipantProfile } from '../pages/participant/ParticipantProfile';
 // Admin Routes
 import { AdminLogin } from '../pages/admin/AdminLogin';
 import { AdminDashboardOverview } from '../pages/admin/AdminDashboardOverview';
-import { AdminTeamsList } from '../pages/admin/AdminTeamsList';
-import { AdminTeamDetail } from '../pages/admin/AdminTeamDetail';
-import { AdminRegistrationsList } from '../pages/admin/AdminRegistrationsList';
 import { AdminParticipantsList } from '../pages/admin/AdminParticipantsList';
 import { AdminSubmissionsList } from '../pages/admin/AdminSubmissionsList';
 import { AdminFilesList } from '../pages/admin/AdminFilesList';
@@ -96,30 +93,7 @@ export const AppRoutes: React.FC = () => {
           </AdminProtectedRoute>
         }
       />
-      <Route
-        path="/admin/teams"
-        element={
-          <AdminProtectedRoute>
-            <AdminTeamsList />
-          </AdminProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/teams/:teamId"
-        element={
-          <AdminProtectedRoute>
-            <AdminTeamDetail />
-          </AdminProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/registrations"
-        element={
-          <AdminProtectedRoute>
-            <AdminRegistrationsList />
-          </AdminProtectedRoute>
-        }
-      />
+
       <Route
         path="/admin/participants"
         element={

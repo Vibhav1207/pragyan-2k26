@@ -25,7 +25,7 @@ export const FLYER_TIMELINE: TimelinePhase[] = [
       },
       {
         name: "Submission Dates",
-        dates: "25th – 30th SEPT 2026",
+        dates: "25th – 3rd OCT 2026",
         description: "Submit initial project proposal deck and solution architecture framework online."
       }
     ]

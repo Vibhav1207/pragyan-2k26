@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, MapPin, ExternalLink, Code2 } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { InstagramIcon } from '../../ui/SocialIcons';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
@@ -173,12 +173,59 @@ export const RedesignedFooter: React.FC = () => {
 
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#F3EDE0]/70 gap-4">
+        {/* Developer Credit Section */}
+        <div className="p-6 rounded-2xl bg-[#0F211D] border border-[#A77A1C]/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4 text-left w-full md:w-auto">
+            <div className="w-12 h-12 rounded-xl bg-[#162E28] border border-[#E5BE61]/40 flex items-center justify-center text-[#E5BE61] shrink-0 shadow-md">
+              <Code2 className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="text-[10px] font-mono tracking-widest text-[#E5BE61] uppercase font-bold">
+                PLATFORM ARCHITECTURE & ENGINEERING
+              </div>
+              <div className="text-base sm:text-lg font-serif font-bold text-[#F9F4EA] flex items-center gap-1.5 flex-wrap">
+                <span>Developed By</span>
+                <a
+                  href="https://vibhavpatel.site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#E5BE61] hover:underline hover:text-[#f7dda0] transition-colors inline-flex items-center gap-1 font-extrabold"
+                >
+                  Vibhav Patel
+                  <ExternalLink className="w-4 h-4 inline" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-start md:justify-end">
+            <a
+              href="mailto:vibhav07patel@gmail.com"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#162E28] border border-[#D2CAB6]/30 text-xs font-mono text-[#F9F4EA] hover:border-[#E5BE61] hover:text-[#E5BE61] transition-all group"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#E5BE61] group-hover:scale-110 transition-transform" />
+              <span>vibhav07patel@gmail.com</span>
+            </a>
+            <a
+              href="https://vibhavpatel.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#A77A1C] hover:bg-[#B8871F] text-[#0F211D] font-mono font-bold text-xs shadow-md transition-all group"
+            >
+              <span>View Portfolio</span>
+              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#F3EDE0]/70 gap-4 pt-4 border-t border-[#D2CAB6]/10">
           <div>
             © 2026 PRAGYAN 2K26. SANJIVANI UNIVERSITY. ALL RIGHTS RESERVED.
           </div>
-          <div className="text-[#E5BE61] font-bold">
-            SDG GOAL 2030 // NATIONAL HACKATHON
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <span className="text-[#E5BE61] font-bold">SDG GOAL 2030 // NATIONAL HACKATHON</span>
+            <span className="text-[#F3EDE0]/40 hidden sm:inline">•</span>
+            <span>Developed by <a href="https://vibhavpatel.site" target="_blank" rel="noopener noreferrer" className="text-[#E5BE61] hover:underline font-bold">Vibhav Patel</a></span>
           </div>
         </div>
 

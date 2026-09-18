@@ -164,4 +164,5 @@ export interface UserProfile {
   teamId?: string;
   token?: string;
   groupCode?: string;
+  createdAt?: string;
 }

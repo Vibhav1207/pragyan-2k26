@@ -6,7 +6,9 @@ import type {
   ActivityLog, 
   SystemSettings, 
   HomepageCMS,
-  SubmissionFile
+  SubmissionFile,
+  UserProfile,
+  Role
 } from '../types/admin';
 
 const STORAGE_KEYS = {
@@ -18,7 +20,17 @@ const STORAGE_KEYS = {
   SETTINGS: 'pragyan_settings_v2',
   CMS: 'pragyan_cms_v2',
   ADMIN_AUTH: 'pragyan_admin_auth_v2',
+  USERS: 'pragyan_registered_users_v2',
 };
+
+// Immediately clear any legacy team caches from localStorage
+try {
+  localStorage.removeItem('pragyan_teams_v2');
+  localStorage.removeItem('pragyan_teams_v1');
+  localStorage.removeItem('pragyan_teams');
+} catch {
+  // Ignore
+}
 
 // Storage Helpers
 function getStored<T>(key: string, defaultValue: T): T {
@@ -184,402 +196,24 @@ const INITIAL_CMS: HomepageCMS = {
 };
 
 class PragyanAPIService {
-  async fetchTeamsAsync(): Promise<Team[]> {
-    try {
-      let res = await fetch('/api/teams');
-      if (!res.ok) {
-        res = await fetch('http://localhost:5000/api/teams');
-      }
-      if (res.ok) {
-        const teams = await res.json();
-        if (Array.isArray(teams)) {
-          setStored(STORAGE_KEYS.TEAMS, teams);
-          return teams;
-        }
-      }
-    } catch (err) {
-      console.warn('Backend teams fetch note:', err);
-    }
-    return this.getTeams();
-  }
-
   getTeams(): Team[] {
-    return getStored<Team[]>(STORAGE_KEYS.TEAMS, []);
-  }
-
-  getTeamById(teamId: string): Team | undefined {
-    const teams = this.getTeams();
-    return teams.find(t => t.teamId === teamId);
-  }
-
-  getTeamByCode(teamCode: string): Team | undefined {
-    const teams = this.getTeams();
-    return teams.find(t => (t.teamCode || '').toUpperCase() === teamCode.trim().toUpperCase());
-  }
-
-  async createTeam(teamData: Omit<Team, 'teamId' | 'registrationDate' | 'status'>): Promise<Team> {
-    const teams = this.getTeams();
-    const count = teams.length + 101;
-    const teamId = `PRAGYAN-TM-${count}`;
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let teamCode = 'PRG-';
-    for (let i = 0; i < 5; i++) {
-      teamCode += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    let newTeam: Team = {
-      ...teamData,
-      teamId,
-      teamCode,
-      registrationDate: new Date().toISOString(),
-      status: 'PENDING'
-    };
-
-    // Push Team to MongoDB Backend
-    try {
-      let res = await fetch('/api/teams', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(teamData)
-      });
-      if (!res.ok) {
-        res = await fetch('http://localhost:5000/api/teams', {
-          method: 'POST',
-          headers: getAuthHeaders(),
-          body: JSON.stringify(teamData)
-        });
-      }
-      if (res.ok) {
-        const mongoTeam = await res.json();
-        if (mongoTeam && mongoTeam.teamId) {
-          newTeam = {
-            ...mongoTeam,
-            registrationDate: typeof mongoTeam.registrationDate === 'string' ? mongoTeam.registrationDate : new Date(mongoTeam.registrationDate).toISOString()
-          };
-        }
-      }
-    } catch (err) {
-      console.warn('MongoDB API connection note (Team stored in local state):', err);
-    }
-
-    teams.unshift(newTeam);
-    setStored(STORAGE_KEYS.TEAMS, teams);
-    this.logActivity('TEAM_REGISTERED', newTeam.teamId, `New team registered: ${newTeam.teamName} (Code: ${newTeam.teamCode}) from ${newTeam.college}`, 'INFO');
-    return newTeam;
-  }
-
-  async joinTeamByCode(teamCode: string, member: Team['leader']): Promise<{ success: boolean; team?: Team; error?: string }> {
-    const targetCode = teamCode.trim().toUpperCase();
-    const newMember = { ...member, isLeader: false };
-
-    // 1. Fetch latest teams from backend server first to ensure local cache is up-to-date
-    await this.fetchTeamsAsync();
-
-    // 2. Try pushing join request to MongoDB Backend first
-    try {
-      const payload = { teamCode: targetCode, member: newMember };
-      let res = await fetch('/api/teams/join', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) {
-        res = await fetch('http://localhost:5000/api/teams/join', {
-          method: 'POST',
-          headers: getAuthHeaders(),
-          body: JSON.stringify(payload)
-        });
-      }
-
-      if (res.ok) {
-        const mongoTeam = await res.json();
-        if (mongoTeam && mongoTeam.teamId) {
-          const freshTeams = await this.fetchTeamsAsync();
-          const syncedTeam = freshTeams.find(t => t.teamId === mongoTeam.teamId) || mongoTeam;
-          this.logActivity('MEMBER_JOINED_TEAM', syncedTeam.teamId, `${member.fullName} joined team ${syncedTeam.teamName} via Code ${teamCode}`, 'INFO');
-          return { success: true, team: syncedTeam };
-        }
-      } else {
-        const errData = await res.json().catch(() => ({}));
-        if (errData && errData.error) {
-          return { success: false, error: errData.error };
-        }
-      }
-    } catch (err) {
-      console.warn('MongoDB API connection note (Fallback to local join mode):', err);
-    }
-
-    // 3. Fallback to Local Storage join logic if backend server is unreachable
-    const teams = this.getTeams();
-    const index = teams.findIndex(t => (t.teamCode || '').toUpperCase() === targetCode);
-
-    if (index === -1) {
-      return { success: false, error: `Invalid Team Code "${teamCode}". No registered team found with this code.` };
-    }
-
-    const team = teams[index];
-    if (team.members && team.members.length >= 4) {
-      return { success: false, error: `Team "${team.teamName}" is already full! Maximum 4 members allowed per team.` };
-    }
-
-    const emailExists = team.members.some(m => m.email.toLowerCase() === member.email.toLowerCase());
-    if (emailExists) {
-      return { success: false, error: `Member with email "${member.email}" is already registered in this team.` };
-    }
-
-    team.members.push(newMember);
-
-    setStored(STORAGE_KEYS.TEAMS, teams);
-    this.logActivity('MEMBER_JOINED_TEAM', team.teamId, `${member.fullName} joined team ${team.teamName} via Code ${teamCode}`, 'INFO');
-    return { success: true, team };
-  }
-
-  async submitTeamPayment(teamId: string, utr: string, screenshot: string, amount: number = 500): Promise<Team | undefined> {
-    const teams = this.getTeams();
-    const index = teams.findIndex(t => t.teamId === teamId);
-    if (index === -1) return undefined;
-
-    teams[index].paymentStatus = 'UNDER_REVIEW';
-    teams[index].paymentUtr = utr;
-    teams[index].paymentScreenshot = screenshot;
-    teams[index].paymentAmount = amount;
-    teams[index].paymentDate = new Date().toISOString();
-
-    setStored(STORAGE_KEYS.TEAMS, teams);
-
-    // Push payment update to backend
-    try {
-      const payload = { utr, screenshot, amount };
-      let res = await fetch(`/api/teams/${teamId}/payment`, {
-        method: 'PUT',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) {
-        res = await fetch(`http://localhost:5000/api/teams/${teamId}/payment`, {
-          method: 'PUT',
-          headers: getAuthHeaders(),
-          body: JSON.stringify(payload)
-        });
-      }
-      if (res.ok) {
-        const updatedMongoTeam = await res.json();
-        if (updatedMongoTeam && updatedMongoTeam.teamId) {
-          teams[index] = { ...teams[index], ...updatedMongoTeam };
-          setStored(STORAGE_KEYS.TEAMS, teams);
-        }
-      }
-    } catch (err) {
-      console.warn('MongoDB API connection note (Payment stored locally):', err);
-    }
-
-    this.logActivity('PAYMENT_SUBMITTED', teamId, `₹${amount} Payment submitted with UTR: ${utr}`, 'INFO');
-    return teams[index];
-  }
-
-  updateTeamStatus(teamId: string, status: Team['status'], notes?: string): Team | undefined {
-    const teams = this.getTeams();
-    const index = teams.findIndex(t => t.teamId === teamId);
-    if (index === -1) return undefined;
-
-    teams[index].status = status;
-    if (status === 'APPROVED') {
-      teams[index].paymentStatus = 'PAID';
-    } else if (status === 'REJECTED') {
-      teams[index].paymentStatus = 'REJECTED';
-    }
-
-    if (status === 'REJECTED' && notes) {
-      teams[index].rejectionReason = notes;
-    }
-    if (status === 'CHANGES_REQUESTED' && notes) {
-      teams[index].changeRequestNotes = notes;
-    }
-
-    setStored(STORAGE_KEYS.TEAMS, teams);
-
-    // Sync status change with backend
-    fetch(`/api/teams/${teamId}/status`, {
-      method: 'PUT',
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ status, notes, paymentStatus: teams[index].paymentStatus })
-    }).catch(() => {
-      fetch(`http://localhost:5000/api/teams/${teamId}/status`, {
-        method: 'PUT',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ status, notes, paymentStatus: teams[index].paymentStatus })
-      }).catch(err => console.warn('Failed to sync team status to MongoDB:', err));
-    });
-
-    const actionName = status === 'APPROVED' ? 'TEAM_APPROVED' : status === 'REJECTED' ? 'TEAM_REJECTED' : 'TEAM_CHANGES_REQUESTED';
-    const logType = status === 'APPROVED' ? 'SUCCESS' : status === 'REJECTED' ? 'DANGER' : 'WARNING';
-    this.logActivity(actionName, teamId, `Status changed to ${status}. ${notes || ''}`, logType);
-    return teams[index];
-  }
-
-  async deleteTeam(teamId: string, leaderEmail?: string): Promise<boolean> {
-    let teams = this.getTeams();
-    const target = teams.find(t => t.teamId === teamId);
-
-    // 1. Remove from local storage teams
-    teams = teams.filter(t => t.teamId !== teamId);
-    setStored(STORAGE_KEYS.TEAMS, teams);
-
-    // 2. Remove any associated submissions from local storage
-    const subs = getStored<Submission[]>(STORAGE_KEYS.SUBMISSIONS, []).filter(s => s.teamId !== teamId);
-    setStored(STORAGE_KEYS.SUBMISSIONS, subs);
-
-    // 3. Clear participant local storage if linked to this team
-    try {
-      const participantRaw = localStorage.getItem('pragyan_participant_user');
-      if (participantRaw) {
-        const pObj = JSON.parse(participantRaw);
-        if (pObj && pObj.teamId === teamId) {
-          delete pObj.teamId;
-          localStorage.setItem('pragyan_participant_user', JSON.stringify(pObj));
-        }
-      }
-    } catch {
-      // Ignore
-    }
-
-    // 4. Send DELETE request to MongoDB backend
-    try {
-      const headers = getAuthHeaders();
-      if (leaderEmail) {
-        headers['x-user-email'] = leaderEmail;
-      }
-      let res = await fetch(`/api/teams/${teamId}`, {
-        method: 'DELETE',
-        headers,
-        body: JSON.stringify({ leaderEmail })
-      });
-      if (!res.ok) {
-        res = await fetch(`http://localhost:5000/api/teams/${teamId}`, {
-          method: 'DELETE',
-          headers,
-          body: JSON.stringify({ leaderEmail })
-        });
-      }
-    } catch (err) {
-      console.warn('MongoDB delete API note (Team removed from local storage):', err);
-    }
-
-    this.logActivity('TEAM_DELETED', teamId, `Deleted team ${target?.teamName || teamId}`, 'DANGER');
-    return true;
-  }
-
-  async leaveTeam(teamId: string, memberEmail: string): Promise<{ success: boolean; error?: string }> {
-    const teams = this.getTeams();
-    const team = teams.find(t => t.teamId === teamId);
-    if (!team) return { success: false, error: 'Team not found' };
-
-    const cleanEmail = memberEmail.toLowerCase().trim();
-    if (team.leader?.email?.toLowerCase() === cleanEmail) {
-      return { success: false, error: 'Team Leader cannot leave the team. Disband or delete the team instead.' };
-    }
-
-    team.members = (team.members || []).filter(m => m.email.toLowerCase() !== cleanEmail);
-    setStored(STORAGE_KEYS.TEAMS, teams);
-
-    // Clear participant local storage
-    try {
-      const participantRaw = localStorage.getItem('pragyan_participant_user');
-      if (participantRaw) {
-        const pObj = JSON.parse(participantRaw);
-        if (pObj && pObj.email?.toLowerCase() === cleanEmail) {
-          delete pObj.teamId;
-          localStorage.setItem('pragyan_participant_user', JSON.stringify(pObj));
-        }
-      }
-    } catch {
-      // Ignore
-    }
-
-    // Send leave request to backend
-    try {
-      let res = await fetch(`/api/teams/${teamId}/leave`, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ email: cleanEmail })
-      });
-      if (!res.ok) {
-        res = await fetch(`http://localhost:5000/api/teams/${teamId}/leave`, {
-          method: 'POST',
-          headers: getAuthHeaders(),
-          body: JSON.stringify({ email: cleanEmail })
-        });
-      }
-    } catch (err) {
-      console.warn('MongoDB leave API note:', err);
-    }
-
-    this.logActivity('MEMBER_LEFT_TEAM', teamId, `${memberEmail} left team ${team.teamName}`, 'INFO');
-    return { success: true };
+    return [];
   }
 
   // Submissions
   getSubmissions(): Submission[] {
-    const teams = this.getTeams();
-    const submissions: Submission[] = [];
-    teams.forEach(t => {
-      if (t.submission) {
-        submissions.push(t.submission);
-      }
-    });
-    return submissions;
-  }
-
-  submitProject(teamId: string, submissionData: Omit<Submission, 'id' | 'teamId' | 'teamName' | 'status' | 'submittedAt'>): Submission | undefined {
-    const teams = this.getTeams();
-    const index = teams.findIndex(t => t.teamId === teamId);
-    if (index === -1) return undefined;
-
-    const subId = `SUB-${Math.floor(100 + Math.random() * 900)}`;
-    const newSub: Submission = {
-      ...submissionData,
-      id: subId,
-      teamId: teams[index].teamId,
-      teamName: teams[index].teamName,
-      status: 'SUBMITTED',
-      submittedAt: new Date().toISOString()
-    };
-
-    teams[index].submission = newSub;
-    setStored(STORAGE_KEYS.TEAMS, teams);
-
-    // Sync submission to backend
-    fetch(`/api/teams/${teamId}/submission`, {
-      method: 'PUT',
-      headers: getAuthHeaders(),
-      body: JSON.stringify(newSub)
-    }).catch(() => {
-      fetch(`http://localhost:5000/api/teams/${teamId}/submission`, {
-        method: 'PUT',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(newSub)
-      }).catch(err => console.warn('Failed to sync submission to MongoDB:', err));
-    });
-
-    this.logActivity('PROJECT_SUBMITTED', teamId, `Project submitted: ${newSub.projectTitle}`, 'SUCCESS');
-    return newSub;
+    return getStored<Submission[]>(STORAGE_KEYS.SUBMISSIONS, []);
   }
 
   updateSubmissionStatus(submissionId: string, status: Submission['status'], adminNotes?: string): boolean {
-    const teams = this.getTeams();
-    let updated = false;
-    teams.forEach(t => {
-      if (t.submission && t.submission.id === submissionId) {
-        t.submission.status = status;
-        if (adminNotes) t.submission.adminNotes = adminNotes;
-        updated = true;
-      }
-    });
-    if (updated) {
-      setStored(STORAGE_KEYS.TEAMS, teams);
-      this.logActivity('SUBMISSION_REVIEWED', submissionId, `Status set to ${status}`, 'INFO');
-    }
-    return updated;
+    const submissions = this.getSubmissions();
+    const index = submissions.findIndex(s => s.id === submissionId);
+    if (index === -1) return false;
+    submissions[index].status = status;
+    if (adminNotes) submissions[index].adminNotes = adminNotes;
+    setStored(STORAGE_KEYS.SUBMISSIONS, submissions);
+    this.logActivity('SUBMISSION_REVIEWED', submissionId, `Status set to ${status}`, 'INFO');
+    return true;
   }
 
   // Tracks
@@ -690,52 +324,107 @@ class PragyanAPIService {
     setStored(STORAGE_KEYS.ACTIVITY_LOGS, logs.slice(0, 100));
   }
 
-  // Participants
-  getParticipants() {
-    const teams = this.getTeams();
-    const participants: {
-      id: string;
-      fullName: string;
-      email: string;
-      phone: string;
-      college: string;
-      course: string;
-      year: string;
-      teamId: string;
-      teamName: string;
-      trackTitle: string;
-      isLeader: boolean;
-      status: string;
-    }[] = [];
+  // User and Participant Management
+  async fetchUsersAsync(): Promise<UserProfile[]> {
+    try {
+      let res = await fetch('/api/users');
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/users');
+      }
+      if (res.ok) {
+        const users = await res.json();
+        if (Array.isArray(users)) {
+          const mapped: UserProfile[] = users.map(u => ({
+            id: u._id || u.id || u.googleId || u.email,
+            name: u.name || 'Participant Delegate',
+            email: u.email,
+            avatar: u.avatar,
+            role: (u.role?.toUpperCase() === 'ADMIN' ? 'ADMIN' : 'PARTICIPANT') as Role,
+            createdAt: u.createdAt || new Date().toISOString()
+          }));
+          setStored(STORAGE_KEYS.USERS, mapped);
+          return mapped;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend users fetch note:', err);
+    }
+    return this.getRegisteredUsers();
+  }
 
-    teams.forEach(t => {
-      t.members.forEach(m => {
-        participants.push({
-          ...m,
-          teamId: t.teamId,
-          teamName: t.teamName,
-          trackTitle: t.trackTitle,
-          status: t.status
-        });
+  getRegisteredUsers(): UserProfile[] {
+    const list = getStored<UserProfile[]>(STORAGE_KEYS.USERS, []);
+    // Include current logged in participant if exists and not yet in list
+    try {
+      const current = localStorage.getItem('pragyan_participant_user');
+      if (current) {
+        const user = JSON.parse(current);
+        if (user && user.email) {
+          const exists = list.some(u => u.email.toLowerCase() === user.email.toLowerCase());
+          if (!exists) {
+            list.unshift({
+              id: user.id || `usr-${Date.now()}`,
+              name: user.name || 'Participant Delegate',
+              email: user.email,
+              avatar: user.avatar,
+              role: user.role || 'PARTICIPANT',
+              createdAt: new Date().toISOString()
+            });
+          }
+        }
+      }
+    } catch {}
+    return list;
+  }
+
+  async deleteUser(userId: string): Promise<boolean> {
+    try {
+      await fetch(`/api/users/${userId}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
       });
-    });
+    } catch {}
 
-    return participants;
+    const users = this.getRegisteredUsers().filter(u => u.id !== userId && u.email !== userId);
+    setStored(STORAGE_KEYS.USERS, users);
+    this.logActivity('USER_DELETED', userId, `Deleted user account from system`, 'DANGER');
+    return true;
+  }
+
+  // Participants (Unified with Registered Users)
+  getParticipants() {
+    const users = this.getRegisteredUsers();
+    return users.map(u => ({
+      id: u.id,
+      fullName: u.name,
+      email: u.email,
+      phone: '',
+      college: 'Sanjivani University',
+      course: 'UG / PG Program',
+      year: '2026',
+      teamId: 'DELEGATE',
+      teamName: 'Individual Delegate',
+      trackTitle: 'NATIONAL INNOVATION TRACK',
+      isLeader: u.role === 'ADMIN',
+      status: 'REGISTERED',
+      role: u.role,
+      createdAt: u.createdAt
+    }));
   }
 
   // Files
   getFiles(): (SubmissionFile & { teamId: string; teamName: string; trackTitle: string })[] {
-    const teams = this.getTeams();
+    const submissions = this.getSubmissions();
     const filesList: (SubmissionFile & { teamId: string; teamName: string; trackTitle: string })[] = [];
 
-    teams.forEach(t => {
-      if (t.submission && t.submission.files) {
-        t.submission.files.forEach(f => {
+    submissions.forEach(s => {
+      if (s.files) {
+        s.files.forEach(f => {
           filesList.push({
             ...f,
-            teamId: t.teamId,
-            teamName: t.teamName,
-            trackTitle: t.trackTitle
+            teamId: s.teamId || 'DELEGATE',
+            teamName: s.teamName || 'Individual Delegate',
+            trackTitle: s.trackTitle || 'National Track'
           });
         });
       }
@@ -745,19 +434,19 @@ class PragyanAPIService {
   }
 
   deleteFile(fileId: string): boolean {
-    const teams = this.getTeams();
+    const submissions = this.getSubmissions();
     let fileDeleted = false;
 
-    teams.forEach(t => {
-      if (t.submission && t.submission.files) {
-        const origLen = t.submission.files.length;
-        t.submission.files = t.submission.files.filter(f => f.id !== fileId);
-        if (t.submission.files.length < origLen) fileDeleted = true;
+    submissions.forEach(s => {
+      if (s.files) {
+        const origLen = s.files.length;
+        s.files = s.files.filter(f => f.id !== fileId);
+        if (s.files.length < origLen) fileDeleted = true;
       }
     });
 
     if (fileDeleted) {
-      setStored(STORAGE_KEYS.TEAMS, teams);
+      setStored(STORAGE_KEYS.SUBMISSIONS, submissions);
       this.logActivity('FILE_DELETED', fileId, `Deleted file ID ${fileId} from GridFS`, 'DANGER');
     }
     return fileDeleted;
