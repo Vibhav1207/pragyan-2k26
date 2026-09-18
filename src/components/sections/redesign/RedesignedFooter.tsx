@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, MapPin, ExternalLink, Code2 } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { InstagramIcon } from '../../ui/SocialIcons';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
@@ -169,81 +169,47 @@ export const RedesignedFooter: React.FC = () => {
         </div>
 
         {/* Developer Credit Section */}
-        <div className="relative w-full rounded-2xl sm:rounded-3xl border border-blue-500/30 bg-[#070A10] shadow-[0_0_40px_rgba(37,99,235,0.2)] overflow-hidden">
-          <div className="absolute -left-20 -top-20 w-72 h-72 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/dev-banner.jpg"
-              alt="Anime Cyberpunk Artwork"
-              className="w-full h-full object-cover object-right sm:object-center opacity-40 md:opacity-60 mix-blend-screen"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070A10] via-[#070A10]/85 md:via-[#070A10]/70 to-transparent z-1" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070A10]/90 via-transparent to-[#070A10]/60 z-1" />
-          </div>
-
-          <div className="absolute top-3 right-4 sm:top-4 sm:right-6 z-10 hidden sm:flex items-center gap-2">
-            <span className="text-white/40 font-mono text-[11px] tracking-widest uppercase">進み続ける</span>
-          </div>
-
-          <div className="relative z-10 p-5 sm:p-7 md:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="flex items-center gap-4 sm:gap-5 text-left">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#0C121D] border border-blue-500/40 flex items-center justify-center text-[#38BDF8] shrink-0 shadow-[0_0_15px_rgba(56,189,248,0.25)]">
-                <span className="font-mono font-black text-lg sm:text-xl tracking-tighter select-none">&lt;/&gt;</span>
-              </div>
-
-              <div>
-                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-blue-300/70 uppercase font-semibold">
-                  PLATFORM ARCHITECTURE &amp; ENGINEERING
-                </div>
-                <div className="text-lg sm:text-xl md:text-2xl font-serif font-bold text-white flex items-center gap-2 flex-wrap mt-0.5">
-                  <span className="font-normal text-white/90">Developed By</span>
-                  <a
-                    href="https://vibhavpatel.site"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#38BDF8] hover:text-[#60A5FA] transition-colors inline-flex items-center gap-1 font-extrabold hover:underline drop-shadow-[0_0_10px_rgba(56,189,248,0.5)]"
-                  >
-                    Vibhav Patel
-                    <ExternalLink className="w-4 h-4 inline" />
-                  </a>
-                </div>
-
-                <div className="w-12 h-0.5 bg-blue-500/40 rounded-full my-1.5" />
-
-                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-white/50 uppercase font-semibold">
-                  BUILD / LEARN / COMPETE / REPEAT
-                </div>
-              </div>
+        <div className="p-6 rounded-2xl bg-[#0F211D] border border-[#A77A1C]/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4 text-left w-full md:w-auto">
+            <div className="w-12 h-12 rounded-xl bg-[#162E28] border border-[#E5BE61]/40 flex items-center justify-center text-[#E5BE61] shrink-0 shadow-md">
+              <Code2 className="w-6 h-6" />
             </div>
-
-            <div className="flex flex-col items-start lg:items-end gap-2.5 w-full lg:w-auto">
-              <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-                <a
-                  href="mailto:vibhav07patel@gmail.com"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black/60 backdrop-blur-md border border-blue-500/30 text-xs font-mono text-white/90 hover:border-[#38BDF8] hover:text-white transition-all shadow-md group"
-                >
-                  <Mail className="w-3.5 h-3.5 text-[#38BDF8] group-hover:scale-110 transition-transform" />
-                  <span>vibhav07patel@gmail.com</span>
-                </a>
-
+            <div>
+              <div className="text-[10px] font-mono tracking-widest text-[#E5BE61] uppercase font-bold">
+                PLATFORM ARCHITECTURE & ENGINEERING
+              </div>
+              <div className="text-base sm:text-lg font-serif font-bold text-[#F9F4EA] flex items-center gap-1.5 flex-wrap">
+                <span>Developed By</span>
                 <a
                   href="https://vibhavpatel.site"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white font-mono font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_28px_rgba(59,130,246,0.65)] transition-all group"
+                  className="text-[#E5BE61] hover:underline hover:text-[#f7dda0] transition-colors inline-flex items-center gap-1 font-extrabold"
                 >
-                  <span>View Portfolio</span>
-                  <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  Vibhav Patel
+                  <ExternalLink className="w-4 h-4 inline" />
                 </a>
               </div>
-
-              <div className="flex items-center gap-2 self-start lg:self-end text-[9px] font-mono tracking-widest text-blue-400/60 uppercase">
-                <span className="w-10 h-px bg-blue-500/30 inline-block" />
-                <span>JUJUTSU KAISEN</span>
-              </div>
             </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-start md:justify-end">
+            <a
+              href="mailto:vibhav07patel@gmail.com"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#162E28] border border-[#D2CAB6]/30 text-xs font-mono text-[#F9F4EA] hover:border-[#E5BE61] hover:text-[#E5BE61] transition-all group"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#E5BE61] group-hover:scale-110 transition-transform" />
+              <span>vibhav07patel@gmail.com</span>
+            </a>
+            <a
+              href="https://vibhavpatel.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#A77A1C] hover:bg-[#B8871F] text-[#0F211D] font-mono font-bold text-xs shadow-md transition-all group"
+            >
+              <span>View Portfolio</span>
+              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
           </div>
         </div>
 
