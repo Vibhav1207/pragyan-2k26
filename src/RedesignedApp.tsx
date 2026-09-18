@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 import { CustomCursor } from './components/ui/CustomCursor';
+import { DailyIntroLoader } from './components/ui/DailyIntroLoader';
 import { RedesignedNavbar } from './components/sections/redesign/RedesignedNavbar';
 import { RedesignedHero } from './components/sections/redesign/RedesignedHero';
 import { RedesignedMissionSection } from './components/sections/redesign/RedesignedMissionSection';
@@ -71,6 +72,7 @@ export function RedesignedApp() {
         </Link>
       </div>
 
+      <DailyIntroLoader />
       <CustomCursor />
       <RedesignedNavbar onRegisterClick={handleRegisterClick} />
 
