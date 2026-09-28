@@ -169,7 +169,7 @@ export const RedesignedFooter: React.FC = () => {
         </div>
 
         {/* Developer Credit Line */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-[#D2CAB6]/15">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm font-mono text-[#F3EDE0]/90">
             <span className="text-[#F3EDE0]/70">Developed by</span>
             <a
@@ -193,7 +193,7 @@ export const RedesignedFooter: React.FC = () => {
           </a>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#F3EDE0]/70 gap-4 pt-4 border-t border-[#D2CAB6]/10">
+        <div className="flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#F3EDE0]/70 gap-4 pt-2">
           <div>
             © 2026 PRAGYAN 2K26. SANJIVANI UNIVERSITY. ALL RIGHTS RESERVED.
           </div>
