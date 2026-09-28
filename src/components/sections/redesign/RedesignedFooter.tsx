@@ -170,53 +170,55 @@ export const RedesignedFooter: React.FC = () => {
         </div>
 
         {/* Developer Credit Section */}
-        <div className="relative w-full rounded-2xl sm:rounded-3xl border border-red-500/30 bg-[#070709] shadow-[0_0_35px_rgba(220,38,38,0.2)] overflow-hidden">
-          <div className="absolute -left-20 -top-20 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative w-full rounded-2xl sm:rounded-3xl border border-[#A77A1C]/35 hover:border-[#E5BE61]/60 bg-[#0B1A16] shadow-[0_0_35px_rgba(167,122,28,0.15)] overflow-hidden transition-colors duration-300">
+          <div className="absolute -left-20 -top-20 w-72 h-72 bg-[#E5BE61]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-[#162E28]/80 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-40 bg-[#E5BE61]/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src={devBannerImg}
               alt="Developer Card Banner"
-              className="w-full h-full object-cover object-center select-none"
+              className="w-full h-full object-cover object-center select-none opacity-20 filter grayscale contrast-125"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070709]/90 via-[#070709]/35 to-[#070709]/85 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070709]/90 via-transparent to-[#070709]/50 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0B1A16]/95 via-[#0E231E]/80 to-[#0B1A16]/95 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A16]/95 via-transparent to-[#0B1A16]/60 pointer-events-none" />
           </div>
 
           <div className="absolute top-3 right-4 sm:top-4 sm:right-6 z-10 hidden sm:flex items-center gap-2">
-            <span className="text-white/50 font-mono text-[11px] tracking-widest uppercase select-none drop-shadow">
-              進み続ける
+            <span className="text-[#E5BE61]/75 font-mono text-[11px] tracking-widest uppercase select-none drop-shadow flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E5BE61] animate-pulse" />
+              PRAGYAN 2K26 LEAD ARCHITECT
             </span>
           </div>
 
           <div className="relative z-10 p-5 sm:p-7 md:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="flex items-center gap-4 sm:gap-5 text-left">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-black/70 backdrop-blur-md border border-red-500/40 flex items-center justify-center text-[#EF4444] shrink-0 shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#071310]/80 backdrop-blur-md border border-[#A77A1C]/50 flex items-center justify-center text-[#E5BE61] shrink-0 shadow-[0_0_18px_rgba(229,190,97,0.2)]">
                 <span className="font-mono font-black text-lg sm:text-xl tracking-tighter select-none">&lt;/&gt;</span>
               </div>
 
               <div>
-                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-red-200/80 uppercase font-semibold">
+                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[#E5BE61] uppercase font-bold">
                   PLATFORM ARCHITECTURE &amp; ENGINEERING
                 </div>
 
                 <div className="text-lg sm:text-xl md:text-2xl font-serif font-bold text-white flex items-center gap-2 flex-wrap mt-0.5">
-                  <span className="font-normal text-white/90">Developed By</span>
+                  <span className="font-normal text-[#F3EDE0]/90">Developed By</span>
                   <a
                     href="https://vibhavpatel.site"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#EF4444] hover:text-[#F87171] transition-colors inline-flex items-center gap-1.5 font-extrabold hover:underline drop-shadow-[0_0_12px_rgba(239,68,68,0.5)]"
+                    className="text-[#E5BE61] hover:text-[#FBE49D] transition-colors inline-flex items-center gap-1.5 font-extrabold hover:underline drop-shadow-[0_0_12px_rgba(229,190,97,0.4)]"
                   >
                     Vibhav Patel
                     <ExternalLink className="w-4 h-4 inline" />
                   </a>
                 </div>
 
-                <div className="w-12 h-0.5 bg-red-500/50 rounded-full my-1.5" />
+                <div className="w-12 h-0.5 bg-[#E5BE61]/50 rounded-full my-1.5" />
 
-                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-white/60 uppercase font-semibold">
+                <div className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[#F3EDE0]/60 uppercase font-semibold">
                   BUILD / LEARN / COMPETE / REPEAT
                 </div>
               </div>
@@ -226,9 +228,9 @@ export const RedesignedFooter: React.FC = () => {
               <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                 <a
                   href="mailto:vibhav07patel@gmail.com"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black/75 backdrop-blur-md border border-red-500/30 text-xs font-mono text-white/90 hover:border-[#EF4444] hover:text-white transition-all shadow-md group"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#081512]/80 backdrop-blur-md border border-[#A77A1C]/40 text-xs font-mono text-[#F3EDE0]/90 hover:border-[#E5BE61] hover:text-[#E5BE61] transition-all shadow-md group"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#EF4444] group-hover:scale-110 transition-transform" />
+                  <Mail className="w-3.5 h-3.5 text-[#E5BE61] group-hover:scale-110 transition-transform" />
                   <span>vibhav07patel@gmail.com</span>
                 </a>
 
@@ -236,16 +238,16 @@ export const RedesignedFooter: React.FC = () => {
                   href="https://vibhavpatel.site"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#DC2626] to-[#991B1B] hover:from-[#EF4444] hover:to-[#DC2626] text-white font-mono font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_28px_rgba(239,68,68,0.65)] transition-all group"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#A77A1C] to-[#E5BE61] hover:from-[#B8871F] hover:to-[#F0CE7A] text-[#050C0C] font-mono font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(229,190,97,0.3)] hover:shadow-[0_0_28px_rgba(229,190,97,0.55)] transition-all group"
                 >
                   <span>View Portfolio</span>
                   <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
               </div>
 
-              <div className="flex items-center gap-2 self-start lg:self-end text-[9px] font-mono tracking-widest text-red-500/70 uppercase">
-                <span className="w-10 h-px bg-red-500/40 inline-block" />
-                <span>JUJUTSU KAISEN</span>
+              <div className="flex items-center gap-2 self-start lg:self-end text-[9px] font-mono tracking-widest text-[#E5BE61]/75 uppercase">
+                <span className="w-10 h-px bg-[#E5BE61]/40 inline-block" />
+                <span>SANJIVANI UNIVERSITY</span>
               </div>
             </div>
           </div>
