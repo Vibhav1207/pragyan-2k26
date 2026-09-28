@@ -113,7 +113,11 @@ export const DailyIntroLoader: React.FC<DailyIntroLoaderProps> = ({ onFinish, fo
       role="dialog"
       aria-label="Welcome Loading Video"
     >
-      <div className="absolute inset-0 w-full h-full bg-black">
+      <div className="absolute inset-0 w-full h-full bg-[#050C0C] flex items-center justify-center overflow-hidden">
+        {/* Ambient atmospheric backdrop */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(22,46,40,0.6)_0%,_rgba(11,26,22,0.85)_50%,_#050C0C_100%)] pointer-events-none" />
+        <div className="absolute w-[90vw] max-w-xl h-[45vh] rounded-full bg-[#E5BE61]/12 blur-3xl pointer-events-none animate-pulse" />
+
         <video
           ref={videoRef}
           src={loadingVideoSrc}
@@ -124,31 +128,31 @@ export const DailyIntroLoader: React.FC<DailyIntroLoaderProps> = ({ onFinish, fo
           onEnded={handleComplete}
           onError={handleComplete}
           onTimeUpdate={handleTimeUpdate}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-contain object-center relative z-10 drop-shadow-[0_12px_45px_rgba(0,0,0,0.9)]"
         >
           <source src="/loading-video.mp4" type="video/mp4" />
           Your browser does not support HTML5 video.
         </video>
       </div>
 
-      <div className="absolute top-0 left-0 right-0 p-4 sm:p-6 flex items-center justify-between z-20 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
-        <div className="flex items-center gap-3">
+      <div className="absolute top-0 left-0 right-0 p-4 sm:p-6 flex items-center justify-between z-20 bg-gradient-to-b from-black/85 via-black/45 to-transparent">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <img
             src="/pragyan-logo.png"
             alt="PRAGYAN 2K26"
-            className="h-8 sm:h-9 w-auto object-contain bg-white/90 px-2 py-0.5 rounded-md shadow-md border border-[#A77A1C]/50"
+            className="h-8 sm:h-9 w-auto object-contain bg-white/95 px-2 py-0.5 rounded-md shadow-md border border-[#A77A1C]/50"
           />
-          <span className="font-mono text-xs tracking-widest text-[#E5BE61] font-bold uppercase hidden sm:inline drop-shadow">
-            PRAGYAN 2K26 
+          <span className="font-mono text-[11px] sm:text-xs tracking-widest text-[#E5BE61] font-bold uppercase drop-shadow">
+            PRAGYAN 2K26
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <button
             type="button"
             onClick={toggleMute}
             aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
-            className="w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[#E5BE61] flex items-center justify-center hover:bg-black/80 hover:border-[#E5BE61] transition-all shadow-lg"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[#E5BE61] flex items-center justify-center hover:bg-black/80 hover:border-[#E5BE61] transition-all shadow-lg active:scale-95"
           >
             {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
@@ -156,7 +160,7 @@ export const DailyIntroLoader: React.FC<DailyIntroLoaderProps> = ({ onFinish, fo
           <button
             type="button"
             onClick={handleComplete}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#E5BE61]/60 hover:bg-[#E5BE61] hover:text-black text-white font-mono text-xs font-bold transition-all shadow-lg group"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-black/60 backdrop-blur-md border border-[#E5BE61]/60 hover:bg-[#E5BE61] hover:text-black text-white font-mono text-xs font-bold transition-all shadow-lg active:scale-95 group"
           >
             <span>Skip</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -164,14 +168,14 @@ export const DailyIntroLoader: React.FC<DailyIntroLoaderProps> = ({ onFinish, fo
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 flex flex-col items-center gap-3 z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-        <div className="w-full max-w-md bg-white/20 backdrop-blur-sm h-1 sm:h-1.5 rounded-full overflow-hidden border border-white/10 shadow-inner">
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 flex flex-col items-center gap-2.5 sm:gap-3 z-20 bg-gradient-to-t from-black/90 via-black/45 to-transparent">
+        <div className="w-full max-w-md bg-white/20 backdrop-blur-sm h-1.5 rounded-full overflow-hidden border border-white/10 shadow-inner">
           <div
             className="h-full bg-gradient-to-r from-[#A77A1C] to-[#E5BE61] transition-all duration-150 ease-out shadow-[0_0_8px_rgba(229,190,97,0.6)]"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="font-mono text-[11px] text-white/80 flex items-center gap-2 drop-shadow">
+        <div className="font-mono text-[10px] sm:text-[11px] text-white/80 flex items-center gap-2 drop-shadow">
           <span className="inline-block w-2 h-2 rounded-full bg-[#E5BE61] animate-pulse shadow-[0_0_6px_#E5BE61]" />
           <span>INITIALIZING HACKATHON ENVIRONMENT</span>
         </div>
