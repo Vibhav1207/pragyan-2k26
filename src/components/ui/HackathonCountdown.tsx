@@ -1,25 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, ArrowRight, CheckCircle2, Trophy, Clock } from 'lucide-react';
 
+import { FINAL_HACKATHON_TARGET_ISO } from '../../data/event';
+
+// Storage key used only for optional runtime developer preview overrides
 const STORAGE_KEY = 'pragyan_hackathon_target_time';
 
 /**
- * Returns null if set to TBD, or timestamp if configured.
- * Default is null (TBD).
+ * Returns the hackathon commencement timestamp, or null if TBD.
+ * 
+ * DESIGNED TO NEVER RESET ON DEPLOYMENTS:
+ * 1. If FINAL_HACKATHON_TARGET_ISO is null, it permanently stays TBD. Pushing updates will never restart a timer.
+ * 2. When FINAL_HACKATHON_TARGET_ISO is set to an ISO datetime (e.g. '2026-03-25T09:00:00+05:30'),
+ *    all participants count down to that exact, unchanging moment in time.
+ *    Pushing code or reloading never resets the timer because the target date is fixed and absolute.
  */
 export function getHackathonTargetTime(): number | null {
-  if (typeof window === 'undefined') return null;
-  
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved || saved === 'TBD') return null;
-    const parsed = parseInt(saved, 10);
-    if (!isNaN(parsed) && parsed > Date.now()) {
-      return parsed;
+  // If schedule is TBD in official event configuration, strictly enforce TBD and clear stale browser cache
+  if (!FINAL_HACKATHON_TARGET_ISO) {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
     }
-  } catch (e) {
-    // ignore
+    return null;
   }
+
+  // If a fixed ISO date is configured, use it as the definitive absolute target
+  const configuredTime = new Date(FINAL_HACKATHON_TARGET_ISO).getTime();
+  if (!isNaN(configuredTime)) {
+    return configuredTime;
+  }
+
+  // Fallback to local storage only if developer explicitly tested in console
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && saved !== 'TBD' && saved !== 'tbd') {
+        const parsed = parseInt(saved, 10);
+        if (!isNaN(parsed) && parsed > Date.now()) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+  }
+
   return null;
 }
 

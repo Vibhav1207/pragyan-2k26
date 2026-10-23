@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, ArrowDown, Sparkles, Award } from 'lucide-react';
+import { ArrowDown, Sparkles, Award, Lock } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { RedesignedEventAtAGlance } from './RedesignedEventAtAGlance';
@@ -10,16 +10,7 @@ interface RedesignedHeroProps {
   onExploreChallenges?: () => void;
 }
 
-const REGISTRATION_URL = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
-
-export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick, onExploreChallenges }) => {
-  const handleRegister = () => {
-    if (onRegisterClick) {
-      onRegisterClick();
-    } else {
-      window.location.href = REGISTRATION_URL;
-    }
-  };
+export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onExploreChallenges }) => {
 
   return (
     <section id="home" className="w-full pt-32 pb-20 lg:pt-40 lg:pb-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] relative overflow-hidden text-left border-b border-[#D2CAB6]">
@@ -128,11 +119,12 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
             <ScrollReveal delay={350} duration={600}>
               <div className="flex flex-wrap items-center gap-4 pt-1">
                 <button
-                  onClick={handleRegister}
-                  className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl font-mono font-black text-xs sm:text-sm uppercase text-[#F9F4EA] bg-[#162E28] hover:bg-[#2B3E35] border border-[#A77A1C]/60 flex items-center gap-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                  disabled
+                  aria-disabled="true"
+                  className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl font-mono font-black text-xs sm:text-sm uppercase text-[#7B8379] bg-[#E9E1D2] border border-[#D2CAB6] flex items-center gap-2 cursor-not-allowed select-none opacity-85 shadow-none"
                 >
-                  <span>REGISTER NOW</span>
-                  <ArrowUpRight className="w-5 h-5 text-[#E5BE61]" />
+                  <Lock className="w-4 h-4 text-[#7B8379]" />
+                  <span>REGISTRATIONS CLOSED</span>
                 </button>
 
                 <a

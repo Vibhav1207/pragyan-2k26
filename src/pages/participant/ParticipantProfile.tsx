@@ -5,10 +5,7 @@ import {
   Mail, 
   ShieldCheck, 
   ArrowLeft, 
-  LogOut,
-  ExternalLink,
-  CheckCircle2,
-  GraduationCap
+  LogOut
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { RedesignedNavbar } from '../../components/sections/redesign/RedesignedNavbar';
@@ -19,32 +16,23 @@ export const ParticipantProfile: React.FC = () => {
 
   const handleLogout = () => {
     logoutParticipant();
-    navigate('/login');
+    navigate('/');
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] font-sans selection:bg-[#162E28] selection:text-[#E5BE61] pt-32 pb-16">
+    <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] font-sans">
       <RedesignedNavbar />
 
-      <main className="max-w-4xl mx-auto p-4 sm:p-8 space-y-8 text-left">
-
-        <div className="flex items-center justify-between gap-4 flex-wrap">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-36 sm:pt-44 pb-20 space-y-8 text-left">
+        
+        <div className="flex items-center justify-between">
           <Link
             to="/"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F3EDE0] border border-[#D2CAB6] text-xs font-mono font-bold text-[#162E28] hover:border-[#A77A1C] shadow-sm transition"
           >
-            <ArrowLeft className="w-4 h-4 text-[#A77A1C]" /> ← Back to Home
+            <ArrowLeft className="w-4 h-4 text-[#A77A1C]" />
+            <span>BACK TO HOME</span>
           </Link>
-
-          <a
-            href="https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#A77A1C] hover:bg-[#8F6716] text-[#F9F4EA] text-xs font-mono font-extrabold uppercase shadow-md hover:shadow-lg transition"
-          >
-            <span>REGISTER ON SANJIVANI UMS</span>
-            <ExternalLink className="w-4 h-4" />
-          </a>
         </div>
 
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 relative overflow-hidden">
@@ -69,14 +57,6 @@ export const ParticipantProfile: React.FC = () => {
                 <div className="text-[11px] text-[#7B8379] font-mono">
                   Participant Account ID: <span className="font-bold text-[#162E28]">{participant?.id || 'PARTICIPANT-MEMBER'}</span>
                 </div>
-              </div>
-            </div>
-
-            <div className="bg-[#162E28] text-[#F9F4EA] p-4 rounded-2xl border border-[#A77A1C]/50 space-y-1 text-center shrink-0">
-              <div className="text-[10px] font-mono font-bold text-[#E5BE61] uppercase">ACCOUNT STATUS</div>
-              <div className="font-mono font-bold text-xs text-[#F9F4EA] flex items-center gap-1.5 justify-center">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>ACTIVE DELEGATE</span>
               </div>
             </div>
           </div>
@@ -104,35 +84,6 @@ export const ParticipantProfile: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/50 space-y-4 shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#A77A1C]/30 pb-3">
-              <div className="space-y-0.5">
-                <div className="text-xs font-mono font-extrabold text-[#162E28] uppercase tracking-wider flex items-center gap-2">
-                  <GraduationCap className="w-4 h-4 text-[#A77A1C]" />
-                  <span>SANJIVANI UNIVERSITY OFFICIAL EVENT REGISTRATION</span>
-                </div>
-                <p className="text-xs text-[#7B8379]">
-                  Official event registrations and delegate passes are processed through Sanjivani UMS Portal.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-1">
-              <p className="text-xs text-[#162E28] font-sans">
-                If you haven't completed your event registration, please complete it on the official University portal.
-              </p>
-              <a
-                href="https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono font-bold text-xs uppercase border border-[#A77A1C] transition shadow-sm hover:shadow-md cursor-pointer flex items-center justify-center gap-2 shrink-0"
-              >
-                <span>OPEN REGISTRATION</span>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
         </div>
 
         <div className="pt-4 border-t border-[#D2CAB6] flex justify-end">
@@ -144,10 +95,8 @@ export const ParticipantProfile: React.FC = () => {
             <span>SIGN OUT ACCOUNT</span>
           </button>
         </div>
-      </main>
 
+      </div>
     </div>
   );
 };
-
-export default ParticipantProfile;

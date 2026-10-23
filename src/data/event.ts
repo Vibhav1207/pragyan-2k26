@@ -27,6 +27,16 @@ export interface EventInfo {
 }
 
 export const REGISTRATION_URL = "https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8";
+export const REGISTRATIONS_OPEN = false;
+
+/**
+ * Final Hackathon Schedule Configuration:
+ * - Keep as `null` while schedule is To Be Declared (TBD).
+ * - When ready to set an exact commencement date, assign an absolute ISO 8601 string,
+ *   e.g. "2026-03-25T09:00:00+05:30".
+ * Using an absolute calendar datetime ensures pushing new code/updates will NEVER reset the timer!
+ */
+export const FINAL_HACKATHON_TARGET_ISO: string | null = null;
 
 export const EVENT_DATA: EventInfo = {
   name: "PRAGYAN 2K26",

@@ -45,10 +45,7 @@ const ParticipantProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ ch
 };
 
 const ExternalRegisterRedirect: React.FC = () => {
-  React.useEffect(() => {
-    window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
-  }, []);
-  return null;
+  return <Navigate to="/#registration" replace />;
 };
 
 export const AppRoutes: React.FC = () => {

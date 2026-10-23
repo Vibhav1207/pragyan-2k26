@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wallet, BarChart2, Truck, Briefcase, ArrowUpRight } from 'lucide-react';
+import { Wallet, BarChart2, Truck, Briefcase, Lock, ArrowUpRight } from 'lucide-react';
 import { HACKATHON_TRACKS, type Track } from '../../../data/challenges';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 
@@ -10,7 +10,7 @@ interface RedesignedFeaturedChallengesProps {
 }
 
 export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallengesProps> = ({
-  onRegisterClick,
+  onRegisterClick: _onRegisterClick,
   onOpenFullChallenges,
   onSelectChallenge,
 }) => {
@@ -88,19 +88,18 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
           })}
         </div>
 
-        {onRegisterClick && (
-          <ScrollReveal delay={550}>
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={onRegisterClick}
-                className="px-8 py-4 rounded-xl font-mono font-black text-sm uppercase text-[#F9F4EA] bg-[#162E28] hover:bg-[#2B3E35] border border-[#A77A1C]/60 flex items-center gap-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-              >
-                <span>REGISTER FOR YOUR CHOSEN TRACK</span>
-                <ArrowUpRight className="w-5 h-5 text-[#E5BE61]" />
-              </button>
-            </div>
-          </ScrollReveal>
-        )}
+        <ScrollReveal delay={550}>
+          <div className="pt-4 flex justify-center">
+            <button
+              disabled
+              aria-disabled="true"
+              className="px-8 py-4 rounded-xl font-mono font-black text-sm uppercase text-[#7B8379] bg-[#E9E1D2] border-2 border-[#D2CAB6] flex items-center gap-2 cursor-not-allowed opacity-85 select-none shadow-none"
+            >
+              <Lock className="w-5 h-5 text-[#7B8379]" />
+              <span>REGISTRATIONS CLOSED</span>
+            </button>
+          </div>
+        </ScrollReveal>
 
       </div>
     </section>

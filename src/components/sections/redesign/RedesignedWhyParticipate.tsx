@@ -1,12 +1,12 @@
 import React from 'react';
-import { Award, FileCheck, Briefcase, Rocket, Compass, MapPin } from 'lucide-react';
+import { Award, FileCheck, Briefcase, Rocket, Compass, MapPin, Lock } from 'lucide-react';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 
 interface PrizesSectionProps {
   onRegisterClick?: () => void;
 }
 
-export const RedesignedWhyParticipate: React.FC<PrizesSectionProps> = ({ onRegisterClick }) => {
+export const RedesignedWhyParticipate: React.FC<PrizesSectionProps> = ({ onRegisterClick: _onRegisterClick }) => {
   const prizes = [
     {
       icon: Award,
@@ -117,14 +117,14 @@ export const RedesignedWhyParticipate: React.FC<PrizesSectionProps> = ({ onRegis
                   </p>
                 </div>
 
-                {onRegisterClick && (
-                  <button
-                    onClick={onRegisterClick}
-                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-mono font-black text-xs uppercase text-[#F9F4EA] bg-[#A77A1C] hover:bg-[#8F6716] border border-[#E5BE61]/60 transition-all shadow-md"
-                  >
-                    <span>REGISTER FOR PRAGYAN 2K26</span>
-                  </button>
-                )}
+                <button
+                  disabled
+                  aria-disabled="true"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-mono font-bold text-xs uppercase text-[#7B8379] bg-[#1A2F2A] border border-[#7B8379]/40 flex items-center justify-center gap-2 cursor-not-allowed opacity-80"
+                >
+                  <Lock className="w-4 h-4 text-[#7B8379]" />
+                  <span>REGISTRATIONS CLOSED</span>
+                </button>
               </div>
 
             </div>

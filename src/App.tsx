@@ -59,7 +59,10 @@ export function App() {
   }, [location.pathname, location.hash]);
 
   const handleRegisterClick = () => {
-    window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
+    const regElem = document.getElementById('registration');
+    if (regElem) {
+      regElem.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleExploreTracks = () => {

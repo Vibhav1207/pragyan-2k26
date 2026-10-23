@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, CreditCard, AlertCircle, ArrowUpRight, GraduationCap } from 'lucide-react';
+import { Users, CreditCard, AlertCircle, GraduationCap, Lock } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { AnimatedCounter } from '../../ui/AnimatedCounter';
@@ -8,16 +8,7 @@ interface RedesignedRegistrationSectionProps {
   onRegisterClick?: () => void;
 }
 
-const REGISTRATION_URL = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
-
-export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSectionProps> = ({ onRegisterClick }) => {
-  const handleRegister = () => {
-    if (onRegisterClick) {
-      onRegisterClick();
-    } else {
-      window.location.href = REGISTRATION_URL;
-    }
-  };
+export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSectionProps> = () => {
   return (
     <section id="registration" className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6]">
       <div className="max-w-[1500px] mx-auto w-full space-y-12">
@@ -121,14 +112,18 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
         </div>
 
         <ScrollReveal delay={550}>
-          <div className="pt-4 flex justify-center">
+          <div className="pt-4 flex flex-col items-center justify-center gap-3">
             <button
-              onClick={handleRegister}
-              className="px-10 py-5 rounded-xl font-mono font-black text-base uppercase text-[#F9F4EA] bg-[#162E28] hover:bg-[#2B3E35] border border-[#A77A1C]/60 flex items-center gap-2 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5 cursor-pointer"
+              disabled
+              aria-disabled="true"
+              className="px-10 py-5 rounded-xl font-mono font-black text-base uppercase text-[#7B8379] bg-[#E9E1D2] border-2 border-[#D2CAB6] flex items-center gap-2.5 cursor-not-allowed select-none opacity-85 shadow-none"
             >
-              <span>REGISTER NOW FOR PRAGYAN 2K26</span>
-              <ArrowUpRight className="w-6 h-6 text-[#E5BE61]" />
+              <Lock className="w-5 h-5 text-[#7B8379]" />
+              <span>REGISTRATIONS CLOSED</span>
             </button>
+            <p className="text-xs font-mono text-[#7B8379] font-bold text-center">
+              Official event registrations are officially closed. Round 1 and Round 2 are completed.
+            </p>
           </div>
         </ScrollReveal>
 

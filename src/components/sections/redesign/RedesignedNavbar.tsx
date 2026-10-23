@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, ArrowUpRight, User, LogIn } from 'lucide-react';
+import { Menu, X, User, LogIn, Lock } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { RedesignedAnnouncementTicker } from './RedesignedAnnouncementTicker';
@@ -9,7 +9,7 @@ interface RedesignedNavbarProps {
   onRegisterClick?: () => void;
 }
 
-export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterClick }) => {
+export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterClick: _onRegisterClick }) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const { participant } = useAuth();
@@ -61,14 +61,6 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleRegisterCta = () => {
-    if (onRegisterClick) {
-      onRegisterClick();
-    } else {
-      window.location.href = 'https://ums.sanjivani.edu.in//EventRegistration/4DE84D28-1D8';
-    }
-  };
 
   return (
     <header
@@ -132,11 +124,12 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
               </button>
 
               <button
-                onClick={handleRegisterCta}
-                className="px-5 py-2.5 rounded-xl text-xs font-mono font-black uppercase text-[#F9F4EA] bg-[#A77A1C] hover:bg-[#8F6716] border border-[#E5BE61]/60 flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+                disabled
+                aria-disabled="true"
+                className="px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase text-[#7B8379] bg-[#1A2F2A] border border-[#7B8379]/40 flex items-center gap-1.5 cursor-not-allowed select-none opacity-80"
               >
-                <span>REGISTER NOW</span>
-                <ArrowUpRight className="w-4 h-4 text-[#F9F4EA]" />
+                <Lock className="w-3.5 h-3.5 text-[#7B8379]" />
+                <span>REGISTRATIONS CLOSED</span>
               </button>
             </div>
           ) : (
@@ -150,11 +143,12 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
               </button>
 
               <button
-                onClick={handleRegisterCta}
-                className="px-5 py-2.5 rounded-xl text-xs font-mono font-black uppercase text-[#F9F4EA] bg-[#A77A1C] hover:bg-[#8F6716] border border-[#E5BE61]/60 flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+                disabled
+                aria-disabled="true"
+                className="px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase text-[#7B8379] bg-[#1A2F2A] border border-[#7B8379]/40 flex items-center gap-1.5 cursor-not-allowed select-none opacity-80"
               >
-                <span>REGISTER NOW</span>
-                <ArrowUpRight className="w-4 h-4 text-[#F9F4EA]" />
+                <Lock className="w-3.5 h-3.5 text-[#7B8379]" />
+                <span>REGISTRATIONS CLOSED</span>
               </button>
             </div>
           )}
@@ -201,14 +195,12 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
                   <span>MY PROFILE</span>
                 </button>
                 <button
-                  onClick={() => {
-                    handleRegisterCta();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full py-3 rounded-xl bg-[#A77A1C] text-[#F9F4EA] font-mono font-black text-xs uppercase flex items-center justify-center gap-2 border border-[#E5BE61]/60"
+                  disabled
+                  aria-disabled="true"
+                  className="w-full py-3 rounded-xl bg-[#1A2F2A] text-[#7B8379] font-mono font-bold text-xs uppercase flex items-center justify-center gap-2 border border-[#7B8379]/40 cursor-not-allowed opacity-80"
                 >
-                  <span>REGISTER NOW</span>
-                  <ArrowUpRight className="w-4 h-4" />
+                  <Lock className="w-4 h-4 text-[#7B8379]" />
+                  <span>REGISTRATIONS CLOSED</span>
                 </button>
               </>
             ) : (
@@ -224,14 +216,12 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
                   <span>LOGIN</span>
                 </button>
                 <button
-                  onClick={() => {
-                    handleRegisterCta();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full py-3 rounded-xl bg-[#A77A1C] text-[#F9F4EA] font-mono font-black text-xs uppercase flex items-center justify-center gap-2 border border-[#E5BE61]/60"
+                  disabled
+                  aria-disabled="true"
+                  className="w-full py-3 rounded-xl bg-[#1A2F2A] text-[#7B8379] font-mono font-bold text-xs uppercase flex items-center justify-center gap-2 border border-[#7B8379]/40 cursor-not-allowed opacity-80"
                 >
-                  <span>REGISTER NOW</span>
-                  <ArrowUpRight className="w-4 h-4" />
+                  <Lock className="w-4 h-4 text-[#7B8379]" />
+                  <span>REGISTRATIONS CLOSED</span>
                 </button>
               </>
             )}
