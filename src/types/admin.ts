@@ -120,6 +120,7 @@ export interface AdminProblemStatement {
   id: string;
   trackId: string;
   trackTitle: string;
+  subTrack?: string;
   title: string;
   description?: string;
   context?: string;
@@ -195,6 +196,8 @@ export interface HackathonChallenge {
   id: string;
   challengeId: string;
   challengeNumber: number;
+  trackId?: string;
+  subTrack?: string;
   title: string;
   subtitle?: string;
   description: string;

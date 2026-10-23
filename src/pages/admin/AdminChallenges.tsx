@@ -23,6 +23,8 @@ export const AdminChallenges: React.FC = () => {
     description: '',
     timeframe: '',
     deliverablesText: '',
+    trackId: 'all',
+    subTrack: '',
     isEnabled: false
   });
 
@@ -67,6 +69,8 @@ export const AdminChallenges: React.FC = () => {
       description: c.description || '',
       timeframe: c.timeframe || '',
       deliverablesText: (c.deliverables || []).join('\n'),
+      trackId: c.trackId || 'all',
+      subTrack: c.subTrack || '',
       isEnabled: c.isEnabled
     });
   };
@@ -86,6 +90,8 @@ export const AdminChallenges: React.FC = () => {
       description: formData.description,
       timeframe: formData.timeframe,
       deliverables,
+      trackId: formData.trackId,
+      subTrack: formData.subTrack.trim(),
       isEnabled: formData.isEnabled
     });
 
@@ -326,6 +332,33 @@ export const AdminChallenges: React.FC = () => {
               </div>
 
               <form onSubmit={handleSaveEdit} className="space-y-4 text-xs font-mono">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="font-bold text-[#162E28] uppercase">Assigned Track</label>
+                    <select
+                      value={formData.trackId}
+                      onChange={(e) => setFormData(prev => ({ ...prev, trackId: e.target.value }))}
+                      className="w-full p-2.5 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] font-bold focus:outline-none focus:border-[#A77A1C]"
+                    >
+                      <option value="all">ALL TRACKS (UNIVERSAL)</option>
+                      <option value="TRK-01">TRACK 1: FINTECH</option>
+                      <option value="TRK-02">TRACK 2: MARKETING & ADTECH</option>
+                      <option value="TRK-03">TRACK 3: SMART OPERATIONS</option>
+                      <option value="TRK-04">TRACK 4: MANAGEMENT & STRATEGY</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-[#162E28] uppercase">Subtrack (Optional)</label>
+                    <input
+                      type="text"
+                      value={formData.subTrack}
+                      onChange={(e) => setFormData(prev => ({ ...prev, subTrack: e.target.value }))}
+                      placeholder="e.g. Subtrack 1, Micro-Finance, etc."
+                      className="w-full p-2.5 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] focus:outline-none focus:border-[#A77A1C]"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-1">
                   <label className="font-bold text-[#162E28] uppercase">Challenge Title *</label>
                   <input

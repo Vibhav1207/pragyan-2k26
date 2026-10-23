@@ -138,6 +138,7 @@ const ProblemStatementSchema = new mongoose.Schema({
   psId: { type: String, required: true, unique: true, index: true },
   trackId: { type: String, required: true, index: true },
   trackTitle: { type: String, required: true },
+  subTrack: { type: String, default: '', trim: true, index: true },
   title: { type: String, required: true },
   description: { type: String, default: '' },
   context: { type: String, default: '' },
@@ -165,6 +166,8 @@ const HomepageCMSContentSchema = new mongoose.Schema({
 const HackathonChallengeSchema = new mongoose.Schema({
   challengeId: { type: String, required: true, unique: true, index: true },
   challengeNumber: { type: Number, required: true, index: true },
+  trackId: { type: String, default: 'all', trim: true, index: true },
+  subTrack: { type: String, default: '', trim: true, index: true },
   title: { type: String, required: true },
   subtitle: { type: String, default: '' },
   description: { type: String, default: '' },

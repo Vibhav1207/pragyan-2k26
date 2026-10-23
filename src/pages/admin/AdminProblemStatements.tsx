@@ -31,6 +31,7 @@ export const AdminProblemStatements: React.FC = () => {
   );
   const [tracks, setTracks] = useState<Track[]>(() => apiService.getTracks());
   const [selectedTrackFilter, setSelectedTrackFilter] = useState<string>('ALL');
+  const [selectedSubTrackFilter, setSelectedSubTrackFilter] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
   // Modal states
@@ -42,6 +43,7 @@ export const AdminProblemStatements: React.FC = () => {
   const [formData, setFormData] = useState({
     trackId: 'TRK-01',
     trackTitle: 'FINTECH & FINANCIAL INNOVATION',
+    subTrack: '',
     title: '',
     description: '',
     context: '',
@@ -86,6 +88,7 @@ export const AdminProblemStatements: React.FC = () => {
     setFormData({
       trackId: defaultTrack.id,
       trackTitle: defaultTrack.title,
+      subTrack: '',
       title: '',
       description: '',
       context: '',
@@ -107,6 +110,7 @@ export const AdminProblemStatements: React.FC = () => {
     setFormData({
       trackId: ps.trackId,
       trackTitle: ps.trackTitle,
+      subTrack: ps.subTrack || '',
       title: ps.title,
       description: ps.description || '',
       context: ps.context || '',
@@ -165,6 +169,7 @@ export const AdminProblemStatements: React.FC = () => {
       await apiService.updateProblemStatement(editingPs.id, {
         ...formData,
         trackTitle: finalTrackTitle,
+        subTrack: formData.subTrack.trim(),
         documentName: docName,
         documentSize: docSize,
         releaseAt: formData.releaseAt ? new Date(formData.releaseAt).toISOString() : undefined
@@ -174,6 +179,7 @@ export const AdminProblemStatements: React.FC = () => {
       await apiService.createProblemStatement({
         ...formData,
         trackTitle: finalTrackTitle,
+        subTrack: formData.subTrack.trim(),
         documentName: docName,
         documentSize: docSize,
         order: problemStatements.filter(p => p.trackId === formData.trackId).length + 1,
@@ -188,6 +194,15 @@ export const AdminProblemStatements: React.FC = () => {
 
   const handleToggleVisibility = async (ps: AdminProblemStatement) => {
     const nextState = !ps.isVisible;
+    // Optimistic UI update immediately
+    const norm = (s?: string) => (s || '').trim().toLowerCase().replace(/^ps-/, '');
+    const targetNorm = norm(ps.id);
+
+    setProblemStatements(prev => prev.map(p => {
+      const isMatch = norm(p.id) === targetNorm || norm((p as any).psId) === targetNorm || norm((p as any)._id) === targetNorm;
+      return isMatch ? { ...p, isVisible: nextState } : p;
+    }));
+
     await apiService.toggleProblemStatementVisibility(ps.id, nextState);
     await reloadData();
     showNotification(
@@ -197,6 +212,14 @@ export const AdminProblemStatements: React.FC = () => {
   };
 
   const handleBulkTrackVisibility = async (trackId: string, isVisible: boolean) => {
+    // Optimistic UI update
+    setProblemStatements(prev => prev.map(p => {
+      if (p.trackId === trackId) {
+        return { ...p, isVisible };
+      }
+      return p;
+    }));
+
     await apiService.bulkUpdateProblemStatementVisibility(isVisible, trackId);
     await reloadData();
     showNotification(
@@ -207,6 +230,9 @@ export const AdminProblemStatements: React.FC = () => {
 
   const handleMasterToggleAll = async (isVisible: boolean) => {
     if (window.confirm(`Are you sure you want to set ALL problem statements to ${isVisible ? 'VISIBLE' : 'HIDDEN'} for participants?`)) {
+      // Optimistic UI update
+      setProblemStatements(prev => prev.map(p => ({ ...p, isVisible })));
+
       await apiService.bulkUpdateProblemStatementVisibility(isVisible);
       await reloadData();
       showNotification(
@@ -225,14 +251,23 @@ export const AdminProblemStatements: React.FC = () => {
   };
 
   // Filtered list
+  const availableSubTracks = Array.from(new Set(
+    problemStatements
+      .filter(ps => selectedTrackFilter === 'ALL' || ps.trackId === selectedTrackFilter)
+      .map(ps => ps.subTrack)
+      .filter((s): s is string => Boolean(s && s.trim()))
+  ));
+
   const filteredList = problemStatements.filter(ps => {
     const matchesTrack = selectedTrackFilter === 'ALL' || ps.trackId === selectedTrackFilter;
+    const matchesSubTrack = selectedSubTrackFilter === 'ALL' || ps.subTrack === selectedSubTrackFilter;
     const matchesSearch = 
       ps.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ps.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (ps.description && ps.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (ps.subTrack && ps.subTrack.toLowerCase().includes(searchQuery.toLowerCase())) ||
       ps.trackTitle.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesTrack && matchesSearch;
+    return matchesTrack && matchesSubTrack && matchesSearch;
   });
 
   const totalCount = problemStatements.length;
@@ -400,16 +435,34 @@ export const AdminProblemStatements: React.FC = () => {
           })}
         </div>
 
-        {/* Search Input */}
-        <div className="relative min-w-[260px]">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7B8379]" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search problem statements or ID..."
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-xs font-mono text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C] transition"
-          />
+        <div className="flex flex-wrap items-center gap-2">
+          {availableSubTracks.length > 0 && (
+            <div className="flex items-center gap-1.5 bg-[#E9E1D2] px-3 py-1.5 rounded-xl border border-[#D2CAB6]">
+              <span className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">SUBTRACK:</span>
+              <select
+                value={selectedSubTrackFilter}
+                onChange={(e) => setSelectedSubTrackFilter(e.target.value)}
+                className="bg-transparent text-xs font-mono font-bold text-[#162E28] focus:outline-none cursor-pointer"
+              >
+                <option value="ALL">ALL ({availableSubTracks.length})</option>
+                {availableSubTracks.map(st => (
+                  <option key={st} value={st}>{st}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Search Input */}
+          <div className="relative min-w-[240px]">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7B8379]" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search problem statements or ID..."
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-xs font-mono text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C] transition"
+            />
+          </div>
         </div>
       </div>
 
@@ -483,6 +536,11 @@ export const AdminProblemStatements: React.FC = () => {
                       <span className="px-2.5 py-0.5 rounded-full bg-[#F9F4EA] text-[#A77A1C] border border-[#D2CAB6] uppercase">
                         {trackDisplayName}
                       </span>
+                      {ps.subTrack && (
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#162E28]/10 text-[#162E28] border border-[#162E28]/25 uppercase font-bold">
+                          {ps.subTrack}
+                        </span>
+                      )}
                       <span className="px-2 py-0.5 rounded-md bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6]">
                         {ps.difficulty || 'Intermediate'}
                       </span>
@@ -643,6 +701,21 @@ export const AdminProblemStatements: React.FC = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Subtrack / Domain */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-[#162E28] uppercase flex items-center justify-between">
+                  <span>Subtrack / Domain (Optional)</span>
+                  <span className="text-[10px] text-[#7B8379] font-normal">e.g. Subtrack 1, Rural Banking, Agentic AI</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.subTrack}
+                  onChange={(e) => setFormData(prev => ({ ...prev, subTrack: e.target.value }))}
+                  placeholder="e.g. Subtrack 1: Digital Micro-Financing & Inclusion"
+                  className="w-full p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C]"
+                />
               </div>
 
               {/* Title */}
