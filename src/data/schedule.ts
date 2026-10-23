@@ -15,38 +15,38 @@ export interface TimelinePhase {
 
 export const FLYER_TIMELINE: TimelinePhase[] = [
   {
-    phase: "ROUND 1",
+    phase: "ROUND 1 & 2",
     type: "ONLINE",
-    title: "ROUND 1 — ONLINE EVALUATION",
-    badge: "ROUND 1 — OVER",
-    statusBadge: "COMPLETED",
+    title: "ROUND 1 & 2 — ONLINE SELECTION",
+    badge: "ROUND 1 & 2 OVER",
+    statusBadge: "SUBMISSIONS DONE",
     events: [
       {
-        name: "Team Registration",
+        name: "Round 1: Team Registration",
         status: "COMPLETED",
         description: "Online team registration (4 members per team) and track selection concluded."
       },
       {
-        name: "Solution Proposal Submission",
-        status: "EVALUATION OVER",
-        description: "Initial project proposal deck and solution architecture evaluation completed."
+        name: "Round 2: Solution Submissions",
+        status: "SUBMISSIONS DONE",
+        description: "Project proposal deck, problem statement framework, and architecture submission completed."
       }
     ],
-    footerNotice: "ROUND 1 CONCLUDED • SHORTLISTED TEAMS ADVANCED"
+    footerNotice: "ROUND 1 & 2 CONCLUDED • SHORTLISTED FINALISTS ANNOUNCED"
   },
   {
-    phase: "ROUND 2",
+    phase: "FINAL HACKATHON",
     type: "ON-GROUND",
-    title: "ROUND 2 — ON-GROUND GRAND FINALE",
-    badge: "ROUND 2 — COMMENCING SOON",
-    statusBadge: "STARTING SOON",
+    title: "FINAL HACKATHON — GRAND FINALE",
+    badge: "FINAL HACKATHON",
+    statusBadge: "TBD",
     events: [
       {
-        name: "24-Hour Live Hackathon",
-        status: "STARTS IN 12 HOURS",
-        description: "24-Hour live innovation sprint on-ground at Sanjivani University, Kopargaon."
+        name: "24-Hour Final Hackathon",
+        status: "TBD",
+        description: "24-Hour non-stop innovation sprint on-ground at Sanjivani University, Kopargaon. Exact commencement schedule to be declared."
       }
     ],
-    footerNotice: "FINALIST TEAMS REPORT ON-GROUND AT SANJIVANI CAMPUS"
+    footerNotice: "FINALIST TEAMS ASSEMBLE ON-GROUND AT SANJIVANI CAMPUS"
   }
 ];

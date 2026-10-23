@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, MapPin, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { MapPin, ArrowRight, CheckCircle2, Trophy, Clock } from 'lucide-react';
 
 const STORAGE_KEY = 'pragyan_hackathon_target_time';
-const DEFAULT_COUNTDOWN_HOURS = 12;
 
 /**
- * Retrieves or initializes the target timestamp for hackathon start.
- * Defaults to 12 hours from current time if not explicitly configured.
+ * Returns null if set to TBD, or timestamp if configured.
+ * Default is null (TBD).
  */
-export function getHackathonTargetTime(): number {
-  if (typeof window === 'undefined') return Date.now() + DEFAULT_COUNTDOWN_HOURS * 3600 * 1000;
+export function getHackathonTargetTime(): number | null {
+  if (typeof window === 'undefined') return null;
   
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = parseInt(saved, 10);
-      if (!isNaN(parsed) && parsed > Date.now()) {
-        return parsed;
-      }
+    if (!saved || saved === 'TBD') return null;
+    const parsed = parseInt(saved, 10);
+    if (!isNaN(parsed) && parsed > Date.now()) {
+      return parsed;
     }
   } catch (e) {
     // ignore
   }
-
-  const target = Date.now() + DEFAULT_COUNTDOWN_HOURS * 3600 * 1000;
-  try {
-    localStorage.setItem(STORAGE_KEY, target.toString());
-  } catch (e) {
-    // ignore
-  }
-  return target;
+  return null;
 }
 
-export function setCustomHackathonTargetTime(timestampOrIso: number | string) {
-  const target = typeof timestampOrIso === 'string' ? new Date(timestampOrIso).getTime() : timestampOrIso;
+export function setCustomHackathonTargetTime(timestampOrIsoOrTbd: number | string | null) {
+  if (timestampOrIsoOrTbd === null || timestampOrIsoOrTbd === 'TBD' || timestampOrIsoOrTbd === 'tbd') {
+    try {
+      localStorage.setItem(STORAGE_KEY, 'TBD');
+      window.dispatchEvent(new Event('pragyan_target_time_changed'));
+    } catch (e) {
+      // ignore
+    }
+    return;
+  }
+
+  const target = typeof timestampOrIsoOrTbd === 'string' ? new Date(timestampOrIsoOrTbd).getTime() : timestampOrIsoOrTbd;
   if (!isNaN(target)) {
     try {
       localStorage.setItem(STORAGE_KEY, target.toString());
@@ -50,19 +51,17 @@ if (typeof window !== 'undefined') {
 }
 
 export function useHackathonCountdown() {
-  const [targetTime, setTargetTime] = useState<number>(() => getHackathonTargetTime());
+  const [targetTime, setTargetTime] = useState<number | null>(() => getHackathonTargetTime());
   const [timeLeft, setTimeLeft] = useState<{
     hours: number;
     minutes: number;
     seconds: number;
-    totalSeconds: number;
-    isLive: boolean;
+    isTbd: boolean;
   }>({
-    hours: 12,
+    hours: 0,
     minutes: 0,
     seconds: 0,
-    totalSeconds: 12 * 3600,
-    isLive: false,
+    isTbd: true,
   });
 
   useEffect(() => {
@@ -74,6 +73,16 @@ export function useHackathonCountdown() {
   }, []);
 
   useEffect(() => {
+    if (targetTime === null) {
+      setTimeLeft({
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        isTbd: true,
+      });
+      return;
+    }
+
     const calculateTime = () => {
       const diff = targetTime - Date.now();
       if (diff <= 0) {
@@ -81,8 +90,7 @@ export function useHackathonCountdown() {
           hours: 0,
           minutes: 0,
           seconds: 0,
-          totalSeconds: 0,
-          isLive: true,
+          isTbd: false,
         });
         return;
       }
@@ -96,8 +104,7 @@ export function useHackathonCountdown() {
         hours,
         minutes,
         seconds,
-        totalSeconds: totalSec,
-        isLive: false,
+        isTbd: false,
       });
     };
 
@@ -113,7 +120,7 @@ export function useHackathonCountdown() {
  * Top Countdown Ribbon placed at the very top of the header / page
  */
 export const HackathonTopCountdownBar: React.FC = () => {
-  const { hours, minutes, seconds, isLive } = useHackathonCountdown();
+  const { hours, minutes, seconds, isTbd } = useHackathonCountdown();
 
   const pad = (n: number) => String(n).padStart(2, '0');
 
@@ -129,48 +136,54 @@ export const HackathonTopCountdownBar: React.FC = () => {
     <div className="bg-[#10221E] text-[#F9F4EA] border-b border-[#A77A1C]/35 relative z-50 select-none overflow-hidden text-xs">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
         
-        {/* Left Badge: Round 1 Over & Round 2 Announcement */}
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-2.5 w-2.5 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E5BE61] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#E5BE61]" />
+        {/* Left Status Badges: Round 1 Over, Round 2 Submissions Done, Final Hackathon */}
+        <div className="flex items-center gap-2 font-mono flex-wrap">
+          <span className="bg-[#E9E1D2] text-[#162E28] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded uppercase tracking-wider">
+            ROUND 1 OVER
           </span>
-          
-          <div className="flex items-center gap-2 font-mono">
-            <span className="bg-[#E9E1D2] text-[#162E28] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded uppercase tracking-wider">
-              ROUND 1 OVER
-            </span>
-            <span className="hidden sm:inline text-[#D2CAB6]/80 text-[11px]">|</span>
-            <span className="text-[#E5BE61] font-bold text-[11px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5 text-[#E5BE61]" />
-              ROUND 2 GRAND FINALE
-            </span>
-          </div>
+          <span className="bg-[#E9E1D2] text-[#162E28] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded uppercase tracking-wider">
+            ROUND 2 (₹1,000 PAID) DONE
+          </span>
+          <span className="hidden sm:inline text-[#D2CAB6]/60 text-[11px]">|</span>
+          <span className="text-[#E5BE61] font-bold text-[11px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5">
+            <Trophy className="w-3.5 h-3.5 text-[#E5BE61]" />
+            FINAL HACKATHON
+          </span>
         </div>
 
-        {/* Center: Countdown Display */}
+        {/* Center: Countdown or TBD Display */}
         <div className="flex items-center gap-3">
-          <span className="hidden md:inline font-serif uppercase tracking-wider text-[#F3EDE0] text-xs font-bold">
-            {isLive ? 'HACKATHON IS LIVE NOW' : 'HACKATHON STARTS IN:'}
+          <span className="font-serif uppercase tracking-wider text-[#F3EDE0] text-xs font-bold">
+            FINAL HACKATHON COMMENCES:
           </span>
 
-          <div className="flex items-center gap-1.5 font-mono">
-            <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
-              {pad(hours)}
+          {isTbd ? (
+            <div className="flex items-center gap-2 font-mono">
+              <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-3.5 py-0.5 rounded shadow-inner text-center tracking-widest">
+                TBD
+              </div>
+              <span className="hidden md:inline text-[10px] font-mono text-[#D2CAB6]/80 tracking-widest uppercase">
+                (TO BE DECLARED)
+              </span>
             </div>
-            <span className="text-[#A77A1C] font-black text-xs sm:text-sm">:</span>
-            <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
-              {pad(minutes)}
+          ) : (
+            <div className="flex items-center gap-1.5 font-mono">
+              <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
+                {pad(hours)}
+              </div>
+              <span className="text-[#A77A1C] font-black text-xs sm:text-sm">:</span>
+              <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
+                {pad(minutes)}
+              </div>
+              <span className="text-[#A77A1C] font-black text-xs sm:text-sm">:</span>
+              <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
+                {pad(seconds)}
+              </div>
+              <div className="hidden lg:flex items-center gap-1 text-[10px] font-mono text-[#D2CAB6]/80 tracking-widest uppercase ml-1">
+                <span>(HRS : MIN : SEC)</span>
+              </div>
             </div>
-            <span className="text-[#A77A1C] font-black text-xs sm:text-sm">:</span>
-            <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
-              {pad(seconds)}
-            </div>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-1 text-[10px] font-mono text-[#D2CAB6]/80 tracking-widest uppercase">
-            <span>(HRS : MIN : SEC)</span>
-          </div>
+          )}
         </div>
 
         {/* Right Action */}
@@ -189,10 +202,10 @@ export const HackathonTopCountdownBar: React.FC = () => {
 };
 
 /**
- * Large, beautiful Hero Countdown Card to showcase the 12-hour countdown prominently
+ * Large Hero Countdown Card showcasing Final Hackathon TBD timer with Round 1 & Round 2 status
  */
 export const HackathonHeroCountdown: React.FC = () => {
-  const { hours, minutes, seconds, isLive } = useHackathonCountdown();
+  const { hours, minutes, seconds, isTbd } = useHackathonCountdown();
   const pad = (n: number) => String(n).padStart(2, '0');
 
   return (
@@ -205,16 +218,21 @@ export const HackathonHeroCountdown: React.FC = () => {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
         
         {/* Left Info: Status & Round Details */}
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="space-y-2.5">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
             <span className="inline-flex items-center gap-1.5 bg-[#162E28] text-[#E5BE61] text-[10px] sm:text-xs font-mono font-black uppercase px-3 py-1 rounded-full border border-[#A77A1C]/50 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#E5BE61] animate-ping" />
-              LIVE COUNTDOWN
+              <Trophy className="w-3.5 h-3.5 text-[#E5BE61]" />
+              FINAL HACKATHON
             </span>
 
             <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
               <span>ROUND 1 OVER</span>
+            </span>
+
+            <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+              <span>ROUND 2 (₹1,000 PAID) DONE</span>
             </span>
 
             <span className="inline-flex items-center gap-1 text-[#A77A1C] text-[10px] sm:text-xs font-mono font-bold uppercase">
@@ -224,55 +242,65 @@ export const HackathonHeroCountdown: React.FC = () => {
           </div>
 
           <h3 className="font-serif font-black text-2xl sm:text-3xl text-[#162E28] uppercase tracking-tight">
-            ROUND 2 <span className="italic font-normal text-[#A77A1C]">{isLive ? 'HACKATHON IS LIVE NOW' : 'HACKATHON COMMENCES IN'}</span>
+            FINAL HACKATHON <span className="italic font-normal text-[#A77A1C]">{isTbd ? 'COMMENCEMENT SCHEDULE' : 'COMMENCES IN'}</span>
           </h3>
 
           <p className="text-xs sm:text-sm font-sans text-[#7B8379] max-w-xl">
-            Round 1 online evaluations have officially concluded. Finalist teams prepare for the 24-hour on-ground innovation sprint.
+            Round 1 and Round 2 are completed (Round 2 fee was ₹1,000 where selected teams have already paid). Qualified finalist teams prepare for the 24-hour on-ground innovation sprint at Sanjivani University.
           </p>
         </div>
 
-        {/* Right: The 12-Hour Digits Display */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
-              <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
-                {pad(hours)}
-              </span>
-            </div>
-            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
-              HOURS
+        {/* Right: TBD display or Digits Display */}
+        {isTbd ? (
+          <div className="flex flex-col items-center justify-center px-8 sm:px-12 py-3.5 sm:py-5 bg-[#162E28] rounded-2xl border-2 border-[#A77A1C] shadow-md shrink-0">
+            <span className="font-mono font-black text-3xl sm:text-5xl text-[#E5BE61] tracking-widest leading-none">
+              TBD
+            </span>
+            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#D2CAB6] tracking-widest mt-2 flex items-center gap-1 text-center">
+              <Clock className="w-3 h-3 text-[#A77A1C]" />
+              SCHEDULE TO BE DECLARED
             </span>
           </div>
-
-          <span className="font-mono font-black text-2xl sm:text-3xl text-[#A77A1C] -mt-5">:</span>
-
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
-              <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
-                {pad(minutes)}
+        ) : (
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
+                <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
+                  {pad(hours)}
+                </span>
+              </div>
+              <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
+                HOURS
               </span>
             </div>
-            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
-              MINUTES
-            </span>
-          </div>
 
-          <span className="font-mono font-black text-2xl sm:text-3xl text-[#A77A1C] -mt-5">:</span>
+            <span className="font-mono font-black text-2xl sm:text-3xl text-[#A77A1C] -mt-5">:</span>
 
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
-              <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
-                {pad(seconds)}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
+                <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
+                  {pad(minutes)}
+                </span>
+              </div>
+              <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
+                MINUTES
               </span>
             </div>
-            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
-              SECONDS
-            </span>
-          </div>
 
-        </div>
+            <span className="font-mono font-black text-2xl sm:text-3xl text-[#A77A1C] -mt-5">:</span>
+
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
+                <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
+                  {pad(seconds)}
+                </span>
+              </div>
+              <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
+                SECONDS
+              </span>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

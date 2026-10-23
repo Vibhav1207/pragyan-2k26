@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, MapPin, CheckCircle2, Flame } from 'lucide-react';
+import { Trophy, MapPin, CheckCircle2 } from 'lucide-react';
 import { FLYER_TIMELINE } from '../../../data/schedule';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 
@@ -19,31 +19,31 @@ export const RedesignedSchedulePreview: React.FC = () => {
               </h2>
             </div>
             <div className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#E5BE61] animate-pulse" />
-              <span>ROUND 1 OVER • ROUND 2 COMMENCING</span>
+              <Trophy className="w-3.5 h-3.5 text-[#A77A1C]" />
+              <span>ROUND 1 & 2 SUBMISSIONS DONE • FINAL HACKATHON</span>
             </div>
           </div>
         </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
           {FLYER_TIMELINE.map((phaseData, idx) => {
-            const isRound2 = phaseData.phase.includes('2');
+            const isFinal = phaseData.phase.includes('FINAL');
 
             return (
               <ScrollReveal key={idx} delay={150 + idx * 200} duration={700}>
                 <div className={`bg-[#F9F4EA] text-[#050C0C] border rounded-3xl p-7 sm:p-9 space-y-6 flex flex-col justify-between shadow-md hover:shadow-xl transition-all duration-300 h-full ${
-                  isRound2 ? 'border-2 border-[#A77A1C]' : 'border-[#D2CAB6]'
+                  isFinal ? 'border-2 border-[#A77A1C]' : 'border-[#D2CAB6]'
                 }`}>
                   <div className="space-y-6">
 
                     <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#D2CAB6]">
                       <span className={`font-mono text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm border flex items-center gap-1.5 ${
-                        isRound2
+                        isFinal
                           ? 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/40'
                           : 'bg-[#E9E1D2] text-[#162E28] border-[#A77A1C]/30'
                       }`}>
-                        {isRound2 ? (
-                          <Flame className="w-3.5 h-3.5 text-[#E5BE61]" />
+                        {isFinal ? (
+                          <Trophy className="w-3.5 h-3.5 text-[#E5BE61]" />
                         ) : (
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                         )}
@@ -51,7 +51,7 @@ export const RedesignedSchedulePreview: React.FC = () => {
                       </span>
 
                       <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#A77A1C] flex items-center gap-1.5">
-                        {isRound2 ? (
+                        {isFinal ? (
                           <>
                             <MapPin className="w-3.5 h-3.5 text-[#A77A1C]" />
                             <span>SANJIVANI CAMPUS • ON-GROUND</span>
@@ -59,7 +59,7 @@ export const RedesignedSchedulePreview: React.FC = () => {
                         ) : (
                           <>
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-                            <span>ONLINE SELECTION (OVER)</span>
+                            <span>ONLINE SELECTION (DONE)</span>
                           </>
                         )}
                       </span>
@@ -78,9 +78,9 @@ export const RedesignedSchedulePreview: React.FC = () => {
                                 {evt.name}
                               </span>
                               <span className={`font-mono font-extrabold text-xs px-3.5 py-1.5 rounded-lg shadow-sm border ${
-                                evt.status.includes('OVER') || evt.status.includes('COMPLETED')
-                                  ? 'bg-[#E9E1D2] text-[#7B8379] border-[#D2CAB6]'
-                                  : 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/40 animate-pulse'
+                                evt.status.includes('STARTS') || evt.status === 'TBD'
+                                  ? 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/60'
+                                  : 'bg-[#E9E1D2] text-[#7B8379] border-[#D2CAB6]'
                               }`}>
                                 {evt.status}
                               </span>
@@ -97,11 +97,11 @@ export const RedesignedSchedulePreview: React.FC = () => {
                   {phaseData.footerNotice && (
                     <ScrollReveal delay={450 + idx * 150}>
                       <div className={`mt-6 p-4 rounded-2xl border text-xs font-mono font-bold uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 text-center ${
-                        isRound2
+                        isFinal
                           ? 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/60'
                           : 'bg-[#E9E1D2] text-[#162E28] border-[#A77A1C]/50'
                       }`}>
-                        <Trophy className={`w-4 h-4 flex-none ${isRound2 ? 'text-[#E5BE61]' : 'text-[#A77A1C]'}`} />
+                        <Trophy className={`w-4 h-4 flex-none ${isFinal ? 'text-[#E5BE61]' : 'text-[#A77A1C]'}`} />
                         <span>{phaseData.footerNotice}</span>
                       </div>
                     </ScrollReveal>

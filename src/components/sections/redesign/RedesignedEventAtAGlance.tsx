@@ -79,17 +79,17 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
             </div>
 
             <div className="font-mono text-[10px] font-bold text-[#E5BE61]/80 tracking-widest uppercase mb-1 truncate">
-              FIRST ROUND FEE
+              ROUND 2 FEE (PAID)
             </div>
 
             <div className="flex flex-wrap items-baseline gap-x-0.5 mb-1">
               <span className="font-serif font-black text-2xl xl:text-3xl text-[#E5BE61] tracking-tight leading-none">
-                <AnimatedCounter value={500} prefix="₹" />
+                <AnimatedCounter value={1000} prefix="₹" />
               </span>
             </div>
 
             <div className="font-sans text-[10px] sm:text-[9.5px] md:text-[10.5px] xl:text-[11px] font-semibold text-[#F9F4EA]/90 uppercase tracking-wider">
-              REGISTRATION PER TEAM
+              PAID BY SELECTED TEAMS
             </div>
           </div>
 

@@ -22,8 +22,8 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     id: "faq-04",
-    question: "How does payment work for the Second Round?",
-    answer: "SELECTED MEMBERS WILL HAVE TO PAY THE FEE FOR 2ND ROUND LATER upon advancing to Phase 2 On-Ground Finale."
+    question: "What was the fee for the Second Round?",
+    answer: "The Round 2 fee was ₹1,000 per team, which shortlisted teams have already paid to confirm their spot in the Final Hackathon Grand Finale."
   },
   {
     id: "faq-05",
@@ -33,7 +33,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     id: "faq-06",
     question: "What is the status of the hackathon rounds?",
-    answer: "Round 1 (Online Registration & Solution Deck Submission) is now officially OVER and evaluated. Round 2 (24-Hour Live On-Ground Hackathon) is commencing on-ground at Sanjivani University, Kopargaon."
+    answer: "Round 1 (Registration) and Round 2 (Solution Submissions) are now officially OVER and submissions are done. The Final Hackathon (24-Hour On-Ground Grand Finale) is commencing at Sanjivani University, Kopargaon."
   },
   {
     id: "faq-07",

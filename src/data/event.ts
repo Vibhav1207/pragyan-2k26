@@ -43,7 +43,7 @@ export const EVENT_DATA: EventInfo = {
   sprint: "24 HRS HACKATHON",
   teamSize: "4 MEMBERS PER TEAM",
   firstRoundFee: "₹500 REGISTRATION FEE (PER TEAM)",
-  secondRoundFeeNotice: "SELECTED MEMBERS WILL HAVE TO PAY THE FEE FOR 2ND ROUND LATER",
+  secondRoundFeeNotice: "ROUND 2 FEE: ₹1,000 PER TEAM (ALREADY PAID BY SELECTED TEAMS)",
   eligibility: "OPEN FOR ALL DOMAIN STUDENTS ACROSS UG, PG AND PhD",
   email: "pragyan2k26su@gmail.com",
   instagram: "@pragyan_2k26",

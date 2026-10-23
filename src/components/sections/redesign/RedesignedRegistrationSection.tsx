@@ -105,13 +105,13 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
                   <AlertCircle className="w-6 h-6" />
                 </div>
                 <div className="font-mono text-xs font-bold text-[#7B8379] uppercase tracking-wider">
-                  ROUND 2 NOTICE
+                  ROUND 2 FEE (PAID)
                 </div>
-                <h4 className="font-serif font-black text-xl text-[#162E28] uppercase leading-tight">
-                  {EVENT_DATA.secondRoundFeeNotice}
+                <h4 className="font-serif font-black text-2xl text-[#162E28] uppercase">
+                  <AnimatedCounter value={1000} prefix="₹" /> for Round 2 (PAID)
                 </h4>
                 <p className="text-xs sm:text-sm text-[#7B8379] font-sans leading-relaxed">
-                  Top teams selected from Round 1 for the Round 2 On-Ground Grand Finale will receive instructions regarding second round details.
+                  Round 2 fee was ₹1,000 per team, which selected teams have already paid. All qualified finalist teams advance directly to the 24-Hour Final Hackathon On-Ground Grand Finale!
                 </p>
               </div>
               <div className="w-8 h-0.5 bg-[#A77A1C] rounded-full mt-4" />

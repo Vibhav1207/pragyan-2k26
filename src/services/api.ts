@@ -112,8 +112,8 @@ const INITIAL_TRACKS: Track[] = [
 const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
-    title: 'ROUND 1 OVER',
-    content: 'Round 1 online evaluations have officially concluded. Shortlisted teams are advancing to Round 2 On-Ground Grand Finale.',
+    title: 'ROUND 1 & 2 OVER',
+    content: 'Round 1 registration and Round 2 submissions are officially done. Shortlisted teams are advancing to the Final Hackathon Grand Finale.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -121,8 +121,8 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'ANN-02',
-    title: 'ROUND 2 SPRINT',
-    content: '24-Hour live innovation sprint commences shortly at Sanjivani University, Kopargaon.',
+    title: 'FINAL HACKATHON',
+    content: '24-Hour on-ground grand finale sprint commences shortly at Sanjivani University, Kopargaon.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -149,7 +149,7 @@ const INITIAL_CMS: HomepageCMS = {
     eventTitle: 'PRAGYAN 2K26',
     mainHeading: 'NATIONAL LEVEL HACKATHON 2026',
     subHeading: 'INNOVATION & ENTREPRENEURSHIP FOR SUSTAINABLE DEVELOPMENT',
-    datesText: 'ROUND 1 OVER • ROUND 2 COMMENCING',
+    datesText: 'ROUND 1 & 2 SUBMISSIONS DONE • FINAL HACKATHON COMMENCING',
     venueText: 'SANJIVANI UNIVERSITY, KOPARGAON, MAHARASHTRA',
     ctaPrimaryText: 'REGISTER NOW',
     ctaSecondaryText: 'EXPLORE TRACKS'
@@ -158,8 +158,8 @@ const INITIAL_CMS: HomepageCMS = {
     teamSizeText: '4 Members per Team',
     feeText: 'First Round ₹500 / Team',
     regDatesText: 'Round 1 Completed',
-    subDatesText: 'Evaluations Concluded',
-    finalDatesText: 'Round 2 Starting Soon'
+    subDatesText: 'Round 2 Submissions Done',
+    finalDatesText: 'Final Hackathon Schedule: TBD'
   },
   about: {
     title: 'ABOUT PRAGYAN 2K26',
