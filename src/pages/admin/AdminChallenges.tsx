@@ -125,8 +125,6 @@ export const AdminChallenges: React.FC = () => {
     }
   };
 
-  const liveCount = challenges.filter(c => c.isEnabled).length;
-
   return (
     <AdminLayout
       title="5 UNIVERSAL HACKATHON CHALLENGES"
@@ -163,22 +161,39 @@ export const AdminChallenges: React.FC = () => {
             <p className="text-xs text-[#7B8379]">
               The 5 milestone challenges are universal for all tracks and problem statements. Release them progressively as the 24-hour hackathon advances.
             </p>
-            <div className="pt-2 flex items-center gap-3">
+            <div className="pt-2 flex flex-wrap items-center gap-2">
               <div className="text-xs font-mono font-bold text-[#162E28]">
-                CURRENT STATUS: <span className="text-[#A77A1C]">{liveCount} of {challenges.length} Challenges Live</span>
+                RELEASE / HIDE FOR ALL SUBTRACKS &amp; PS:
               </div>
-              <div className="flex gap-1.5">
-                {challenges.map(c => (
-                  <span 
-                    key={c.challengeId}
-                    className={`w-6 h-6 rounded-md flex items-center justify-center font-mono text-[10px] font-black ${
-                      c.isEnabled ? 'bg-emerald-700 text-white shadow-sm' : 'bg-[#D2CAB6] text-[#7B8379]'
-                    }`}
-                    title={`Challenge ${c.challengeNumber}: ${c.isEnabled ? 'Live' : 'Locked'}`}
-                  >
-                    #{c.challengeNumber}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-2">
+                {[1, 2, 3, 4, 5].map((num) => {
+                  const matchingChals = challenges.filter(c => c.challengeNumber === num);
+                  const isAnyLive = matchingChals.some(c => c.isEnabled);
+
+                  return (
+                    <button
+                      key={num}
+                      onClick={async () => {
+                        const nextState = !isAnyLive;
+                        await apiService.bulkToggleChallengeNumber(num, nextState);
+                        await loadChallenges();
+                        showNotification(
+                          `Challenge 0${num} has been ${nextState ? 'RELEASED' : 'HIDDEN'} across all PS and subtracks!`,
+                          nextState ? 'success' : 'info'
+                        );
+                      }}
+                      className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold border transition flex items-center gap-1.5 shadow-sm ${
+                        isAnyLive
+                          ? 'bg-emerald-800 text-white border-emerald-600 hover:bg-emerald-900'
+                          : 'bg-[#F9F4EA] text-[#162E28] border-[#D2CAB6] hover:bg-[#D2CAB6]'
+                      }`}
+                      title={`Click to ${isAnyLive ? 'Hide' : 'Release'} Challenge ${num} for all problem statements`}
+                    >
+                      {isAnyLive ? <Unlock className="w-3.5 h-3.5 text-emerald-300" /> : <Lock className="w-3.5 h-3.5 text-[#7B8379]" />}
+                      <span>CHALLENGE {num}: {isAnyLive ? 'RELEASED' : 'LOCKED'}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -189,7 +204,7 @@ export const AdminChallenges: React.FC = () => {
               className="flex-1 md:flex-none px-4 py-2.5 rounded-xl bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/50 text-xs font-mono font-bold hover:bg-[#2B3E35] transition shadow flex items-center justify-center gap-2"
             >
               <Unlock className="w-4 h-4" />
-              <span>RELEASE NEXT CHALLENGE</span>
+              <span>RELEASE NEXT IN SEQUENCE</span>
             </button>
             <button
               onClick={handleLockAll}

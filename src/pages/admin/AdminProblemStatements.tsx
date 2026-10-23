@@ -646,7 +646,7 @@ export const AdminProblemStatements: React.FC = () => {
                   </div>
 
                   <span className="text-[10px] text-[#7B8379]">
-                    Added: {new Date(ps.createdAt).toLocaleDateString()}
+                    Added: {ps.createdAt ? new Date(ps.createdAt).toLocaleDateString() : 'Active'}
                   </span>
                 </div>
               </div>

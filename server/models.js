@@ -168,6 +168,7 @@ const HackathonChallengeSchema = new mongoose.Schema({
   challengeNumber: { type: Number, required: true, index: true },
   trackId: { type: String, default: 'all', trim: true, index: true },
   subTrack: { type: String, default: '', trim: true, index: true },
+  psId: { type: String, default: '', trim: true, index: true },
   title: { type: String, required: true },
   subtitle: { type: String, default: '' },
   description: { type: String, default: '' },

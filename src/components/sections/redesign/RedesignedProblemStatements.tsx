@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Lock, 
-  Unlock, 
   Search, 
   CheckCircle2, 
   Copy, 
@@ -14,8 +13,7 @@ import {
   BarChart2, 
   Truck,
   FileText,
-  Layers,
-  Tag
+  Layers
 } from 'lucide-react';
 import { HACKATHON_LAUNCH_TARGET_ISO } from '../../../data/problemStatements';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
@@ -321,7 +319,11 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
         {isUnlocked && (
           <div className="space-y-10">
             {/* Universal Milestone Challenges Section (Shared across all tracks & PS) */}
-            <UniversalChallengesSection challenges={challenges} />
+            <UniversalChallengesSection 
+              challenges={challenges} 
+              selectedTrack={selectedTrack}
+              selectedSubTrack={selectedSubTrack}
+            />
 
             {/* Filter Tabs & Search Bar */}
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">

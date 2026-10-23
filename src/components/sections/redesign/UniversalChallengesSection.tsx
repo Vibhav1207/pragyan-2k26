@@ -10,10 +10,31 @@ import type { HackathonChallenge } from '../../../types/admin';
 
 interface UniversalChallengesSectionProps {
   challenges: HackathonChallenge[];
+  selectedTrack?: string;
+  selectedSubTrack?: string;
 }
 
-export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProps> = ({ challenges }) => {
-  const liveChallenges = challenges.filter(c => c.isEnabled);
+export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProps> = ({ 
+  challenges,
+  selectedTrack = 'all',
+  selectedSubTrack = 'all'
+}) => {
+  // Filter challenges:
+  // 1. Must be enabled by Admin (c.isEnabled === true)
+  // 2. Must match selectedTrack if challenge is track-specific, or be universal ('all')
+  // 3. Must match selectedSubTrack if challenge is subtrack-specific
+  const filteredChallenges = challenges.filter(c => {
+    if (!c.isEnabled) return false;
+    if (c.trackId && c.trackId !== 'all' && selectedTrack !== 'all' && c.trackId !== selectedTrack) {
+      return false;
+    }
+    if (c.subTrack && selectedSubTrack !== 'all' && c.subTrack.toLowerCase() !== selectedSubTrack.toLowerCase()) {
+      return false;
+    }
+    return true;
+  });
+
+  const liveChallenges = filteredChallenges;
   const totalChallenges = 5;
 
   return (

@@ -129,6 +129,7 @@ async function seedDatabaseIfNeeded() {
 
     const defaultAdmins = [
       { email: 'vibhav07patel@gmail.com', name: 'Vibhav Patel' },
+      { email: 'dhirajpatil7170@gmail.com', name: 'Dhiraj Patil' },
       { email: 'shirajpatil7170@gmail.com', name: 'Shiraj Patil' },
       { email: 'admin@sanjivani.edu.in', name: 'PRAGYAN Super Admin' }
     ];
@@ -154,7 +155,7 @@ async function seedDatabaseIfNeeded() {
         }
       ).catch(() => {});
     }
-    console.log('🌱 Verified and seeded Admin accounts for vibhav07patel@gmail.com & shirajpatil7170@gmail.com');
+    console.log('🌱 Verified and seeded Admin accounts for vibhav07patel@gmail.com, dhirajpatil7170@gmail.com & shirajpatil7170@gmail.com');
 
     const tracksCount = await Track.countDocuments();
     if (tracksCount === 0) {
@@ -456,7 +457,7 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
     const userAccount = await User.findOne({ email: cleanEmail });
     const isUserAdmin = userAccount && typeof userAccount.role === 'string' && userAccount.role.toUpperCase() === 'ADMIN';
 
-    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'vibhav07patel@gmail.com,shirajpatil7170@gmail.com,admin@sanjivani.edu.in')
+    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'vibhav07patel@gmail.com,dhirajpatil7170@gmail.com,shirajpatil7170@gmail.com,admin@sanjivani.edu.in')
       .split(',')
       .map(e => e.trim().toLowerCase());
 
@@ -991,6 +992,26 @@ app.patch('/api/challenges/:id/toggle', authenticateAdmin, async (req, res, next
     challenge.updatedAt = new Date();
     await challenge.save();
     res.json(challenge);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Admin bulk toggle: release/hide Challenge 1, 2, 3, 4, or 5 across all PS / subtracks with one click
+app.post('/api/challenges/bulk-number-toggle', authenticateAdmin, async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const { challengeNumber, isEnabled } = req.body;
+    const num = Number(challengeNumber);
+    if (!num) {
+      return res.status(400).json({ error: 'Valid challengeNumber is required' });
+    }
+    const boolVal = Boolean(isEnabled === true || isEnabled === 'true');
+    const result = await HackathonChallenge.updateMany(
+      { challengeNumber: num },
+      { $set: { isEnabled: boolVal, updatedAt: new Date() } }
+    );
+    res.json({ success: true, challengeNumber: num, isEnabled: boolVal, modifiedCount: result.modifiedCount });
   } catch (err) {
     next(err);
   }

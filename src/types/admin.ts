@@ -132,7 +132,7 @@ export interface AdminProblemStatement {
   releaseAt?: string; // scheduled release time (ISO string)
   order?: number;
   difficulty?: 'Intermediate' | 'Advanced';
-  createdAt: string;
+  createdAt?: string;
   updatedAt?: string;
 }
 
@@ -198,6 +198,7 @@ export interface HackathonChallenge {
   challengeNumber: number;
   trackId?: string;
   subTrack?: string;
+  psId?: string;
   title: string;
   subtitle?: string;
   description: string;

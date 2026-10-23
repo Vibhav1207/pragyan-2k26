@@ -894,6 +894,9 @@ class PragyanAPIService {
             id: c.challengeId || c._id || `CHAL-${c.challengeNumber}`,
             challengeId: c.challengeId || `CHAL-${c.challengeNumber}`,
             challengeNumber: Number(c.challengeNumber) || 1,
+            trackId: c.trackId || 'all',
+            subTrack: c.subTrack || '',
+            psId: c.psId || '',
             title: c.title || `Challenge ${c.challengeNumber}`,
             subtitle: c.subtitle || '',
             description: c.description || '',
@@ -915,6 +918,38 @@ class PragyanAPIService {
       console.warn('Backend challenges fetch note:', err);
     }
     return this.getChallenges(includeDisabled);
+  }
+
+  async bulkToggleChallengeNumber(challengeNumber: number, isEnabled: boolean): Promise<boolean> {
+    try {
+      let res = await fetch('/api/challenges/bulk-number-toggle', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ challengeNumber, isEnabled })
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/challenges/bulk-number-toggle', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ challengeNumber, isEnabled })
+        });
+      }
+      if (res.ok) {
+        this.logActivity(
+          'CHALLENGES_BULK_TOGGLED',
+          `Challenge ${challengeNumber}`,
+          `All Challenge ${challengeNumber} across tracks are now ${isEnabled ? 'RELEASED' : 'HIDDEN'}`,
+          isEnabled ? 'SUCCESS' : 'WARNING'
+        );
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('pragyan_challenges_updated'));
+        }
+        return true;
+      }
+    } catch (err) {
+      console.warn('Bulk challenge toggle note:', err);
+    }
+    return false;
   }
 
   async toggleChallenge(challengeId: string, isEnabled?: boolean): Promise<HackathonChallenge | null> {
