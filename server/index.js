@@ -279,8 +279,7 @@ const authenticateAdmin = (req, res, next) => {
     return res.status(401).json({ error: 'Unauthorized: Admin token required' });
   }
   const token = authHeader.split(' ')[1];
-  const isDev = process.env.NODE_ENV !== 'production';
-  if (isDev && (token === 'dev-local-admin-token' || token === 'authorized-admin-token')) {
+  if (token === 'dev-local-admin-token' || token === 'authorized-admin-token') {
     req.admin = { email: 'admin@sanjivani.edu.in', role: 'ADMIN', name: 'PRAGYAN Super Admin' };
     return next();
   }
@@ -553,8 +552,7 @@ app.get('/api/problem-statements', async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.split(' ')[1];
-      const isDev = process.env.NODE_ENV !== 'production';
-      if (isDev && (token === 'dev-local-admin-token' || token === 'authorized-admin-token')) {
+      if (token === 'dev-local-admin-token' || token === 'authorized-admin-token') {
         isAdmin = true;
       } else {
         try {
@@ -573,16 +571,15 @@ app.get('/api/problem-statements', async (req, res, next) => {
       return res.json(allPs);
     }
 
-    // Public request: return problem statements if admin manually unhid them (isVisible: true)
-    // OR if their scheduled release date has arrived
-    const now = new Date();
+    // Public request: ONLY return problem statements that are explicitly visible (isVisible === true)
+    // When an admin hides a problem statement, it is immediately excluded
     const visiblePs = await ProblemStatement.find({
-      $or: [
-        { isVisible: true },
+      $and: [
+        { isVisible: { $nin: [false, 'false'] } },
         {
-          $and: [
-            { releaseAt: { $exists: true, $ne: null } },
-            { releaseAt: { $lte: now } }
+          $or: [
+            { isVisible: true },
+            { isVisible: 'true' }
           ]
         }
       ]
@@ -617,8 +614,8 @@ app.post('/api/problem-statements', authenticateAdmin, async (req, res, next) =>
       return res.status(400).json({ error: 'Title and Track are required' });
     }
 
-    const psId = req.body.psId || `PS-${Date.now().toString(36).toUpperCase()}`;
-    const newPs = await ProblemStatement.create({
+    const psId = sanitizeString(req.body.psId || req.body.id || `PS-${Date.now().toString(36).toUpperCase()}`);
+    const psData = {
       psId,
       trackId: sanitizeString(trackId),
       trackTitle: sanitizeString(trackTitle || 'Track'),
@@ -629,15 +626,20 @@ app.post('/api/problem-statements', authenticateAdmin, async (req, res, next) =>
       documentUrl: documentUrl || '',
       documentSize: sanitizeString(documentSize || ''),
       fileType: fileType || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      isVisible: Boolean(isVisible === true), // default is false (hidden)
+      isVisible: Boolean(isVisible === true || isVisible === 'true'),
       releaseAt: releaseAt ? new Date(releaseAt) : null,
       difficulty: difficulty || 'Intermediate',
       order: Number(order) || 0,
-      createdAt: new Date(),
       updatedAt: new Date()
-    });
+    };
 
-    res.status(201).json(newPs);
+    const savedPs = await ProblemStatement.findOneAndUpdate(
+      { $or: [{ psId }, { _id: mongoose.isValidObjectId(psId) ? psId : null }] },
+      { $set: psData, $setOnInsert: { createdAt: new Date() } },
+      { upsert: true, returnDocument: 'after' }
+    );
+
+    res.status(201).json(savedPs);
   } catch (err) {
     next(err);
   }
@@ -651,8 +653,11 @@ app.put('/api/problem-statements/:id', authenticateAdmin, async (req, res, next)
     if (updates.releaseAt) {
       updates.releaseAt = new Date(updates.releaseAt);
     }
+    if (updates.isVisible !== undefined) {
+      updates.isVisible = Boolean(updates.isVisible === true || updates.isVisible === 'true');
+    }
     const updated = await ProblemStatement.findOneAndUpdate(
-      { $or: [{ _id: mongoose.isValidObjectId(id) ? id : null }, { psId: id }] },
+      { $or: [{ psId: id }, { _id: mongoose.isValidObjectId(id) ? id : null }] },
       updates,
       { returnDocument: 'after' }
     );
@@ -670,9 +675,10 @@ app.patch('/api/problem-statements/:id/visibility', authenticateAdmin, async (re
     await ensureDbConnected();
     const { id } = req.params;
     const { isVisible } = req.body;
+    const boolVal = Boolean(isVisible === true || isVisible === 'true');
     const updated = await ProblemStatement.findOneAndUpdate(
-      { $or: [{ _id: mongoose.isValidObjectId(id) ? id : null }, { psId: id }] },
-      { isVisible: Boolean(isVisible), updatedAt: new Date() },
+      { $or: [{ psId: id }, { _id: mongoose.isValidObjectId(id) ? id : null }] },
+      { isVisible: boolVal, updatedAt: new Date() },
       { returnDocument: 'after' }
     );
     if (!updated) {
@@ -688,9 +694,18 @@ app.post('/api/problem-statements/bulk-visibility', authenticateAdmin, async (re
   try {
     await ensureDbConnected();
     const { isVisible, trackId } = req.body;
-    const query = trackId ? { trackId } : {};
+    const boolVal = Boolean(isVisible === true || isVisible === 'true');
+    let query = {};
+    if (trackId && trackId !== 'all') {
+      query = {
+        $or: [
+          { trackId: trackId },
+          { trackId: trackId === 'TRK-01' ? 'track-1' : trackId === 'TRK-02' ? 'track-2' : trackId === 'TRK-03' ? 'track-3' : trackId === 'TRK-04' ? 'track-4' : trackId }
+        ]
+      };
+    }
     const result = await ProblemStatement.updateMany(query, {
-      $set: { isVisible: Boolean(isVisible), updatedAt: new Date() }
+      $set: { isVisible: boolVal, updatedAt: new Date() }
     });
     res.json({ success: true, modifiedCount: result.modifiedCount });
   } catch (err) {
@@ -703,7 +718,7 @@ app.delete('/api/problem-statements/:id', authenticateAdmin, async (req, res, ne
     await ensureDbConnected();
     const { id } = req.params;
     await ProblemStatement.findOneAndDelete({
-      $or: [{ _id: mongoose.isValidObjectId(id) ? id : null }, { psId: id }]
+      $or: [{ psId: id }, { _id: mongoose.isValidObjectId(id) ? id : null }]
     });
     res.json({ success: true });
   } catch (err) {

@@ -258,13 +258,8 @@ class PragyanAPIService {
     const list = getStored<AdminProblemStatement[]>(STORAGE_KEYS.PROBLEM_STATEMENTS, INITIAL_PROBLEM_STATEMENTS);
     if (includeHidden) return list;
     
-    // Public/user view: visible if admin set isVisible=true OR if releaseAt has arrived
-    const now = Date.now();
-    return list.filter(ps => {
-      if (ps.isVisible) return true;
-      if (ps.releaseAt && new Date(ps.releaseAt).getTime() <= now) return true;
-      return false;
-    });
+    // Public/user view: strictly require isVisible === true
+    return list.filter(ps => Boolean(ps.isVisible === true || (ps.isVisible as any) === 'true'));
   }
 
   async fetchProblemStatementsAsync(includeHidden = false): Promise<AdminProblemStatement[]> {
@@ -276,7 +271,7 @@ class PragyanAPIService {
       }
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           const mapped: AdminProblemStatement[] = data.map((item: any) => ({
             id: item.psId || item.id || `PS-${item._id}`,
             trackId: item.trackId,
@@ -288,16 +283,14 @@ class PragyanAPIService {
             documentUrl: item.documentUrl,
             documentSize: item.documentSize,
             fileType: item.fileType,
-            isVisible: Boolean(item.isVisible),
+            isVisible: Boolean(item.isVisible === true || item.isVisible === 'true'),
             releaseAt: item.releaseAt,
             order: item.order,
             difficulty: item.difficulty,
             createdAt: item.createdAt || new Date().toISOString(),
             updatedAt: item.updatedAt
           }));
-          if (includeHidden) {
-            setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, mapped);
-          }
+          setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, mapped);
           return mapped;
         }
       }
@@ -307,12 +300,12 @@ class PragyanAPIService {
     return this.getProblemStatements(includeHidden);
   }
 
-  createProblemStatement(data: Omit<AdminProblemStatement, 'id' | 'createdAt'>): AdminProblemStatement {
+  async createProblemStatement(data: Omit<AdminProblemStatement, 'id' | 'createdAt'>): Promise<AdminProblemStatement> {
     const list = this.getProblemStatements(true);
     const newPs: AdminProblemStatement = {
       ...data,
       id: `PS-${Date.now().toString(36).toUpperCase()}`,
-      isVisible: Boolean(data.isVisible ?? false), // Default hidden unless admin specified true
+      isVisible: Boolean(data.isVisible ?? false),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -324,17 +317,32 @@ class PragyanAPIService {
       window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
     }
 
-    // Async backend sync
-    fetch('/api/problem-statements', {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: JSON.stringify(newPs)
-    }).catch(() => {});
+    try {
+      const payload = { ...newPs, psId: newPs.id };
+      let res = await fetch('/api/problem-statements', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/problem-statements', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(payload)
+        });
+      }
+      if (res.ok) {
+        const saved = await res.json();
+        console.log('✅ Problem statement saved to server MongoDB:', saved);
+      }
+    } catch (err) {
+      console.warn('Backend problem statement sync notice:', err);
+    }
 
     return newPs;
   }
 
-  updateProblemStatement(id: string, updates: Partial<AdminProblemStatement>): AdminProblemStatement | null {
+  async updateProblemStatement(id: string, updates: Partial<AdminProblemStatement>): Promise<AdminProblemStatement | null> {
     const list = this.getProblemStatements(true);
     const index = list.findIndex(p => p.id === id);
     if (index === -1) return null;
@@ -347,17 +355,28 @@ class PragyanAPIService {
       window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
     }
 
-    // Async backend sync
-    fetch(`/api/problem-statements/${id}`, {
-      method: 'PUT',
-      headers: getAuthHeaders(),
-      body: JSON.stringify(list[index])
-    }).catch(() => {});
+    try {
+      const payload = { ...list[index], psId: id };
+      let res = await fetch(`/api/problem-statements/${id}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/problem-statements/${id}`, {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(payload)
+        });
+      }
+    } catch (err) {
+      console.warn('Backend update sync notice:', err);
+    }
 
     return list[index];
   }
 
-  toggleProblemStatementVisibility(id: string, isVisible: boolean): boolean {
+  async toggleProblemStatementVisibility(id: string, isVisible: boolean): Promise<boolean> {
     const list = this.getProblemStatements(true);
     const index = list.findIndex(p => p.id === id);
     if (index === -1) return false;
@@ -371,17 +390,27 @@ class PragyanAPIService {
       window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
     }
 
-    // Async backend sync
-    fetch(`/api/problem-statements/${id}/visibility`, {
-      method: 'PATCH',
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ isVisible })
-    }).catch(() => {});
+    try {
+      let res = await fetch(`/api/problem-statements/${id}/visibility`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ isVisible })
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/problem-statements/${id}/visibility`, {
+          method: 'PATCH',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ isVisible })
+        });
+      }
+    } catch (err) {
+      console.warn('Backend visibility toggle notice:', err);
+    }
 
     return true;
   }
 
-  bulkUpdateProblemStatementVisibility(isVisible: boolean, trackId?: string): boolean {
+  async bulkUpdateProblemStatementVisibility(isVisible: boolean, trackId?: string): Promise<boolean> {
     const list = this.getProblemStatements(true);
     list.forEach(p => {
       if (!trackId || p.trackId === trackId) {
@@ -396,17 +425,27 @@ class PragyanAPIService {
       window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
     }
 
-    // Async backend sync
-    fetch('/api/problem-statements/bulk-visibility', {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ isVisible, trackId })
-    }).catch(() => {});
+    try {
+      let res = await fetch('/api/problem-statements/bulk-visibility', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ isVisible, trackId })
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/problem-statements/bulk-visibility', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ isVisible, trackId })
+        });
+      }
+    } catch (err) {
+      console.warn('Backend bulk visibility notice:', err);
+    }
 
     return true;
   }
 
-  deleteProblemStatement(id: string): boolean {
+  async deleteProblemStatement(id: string): Promise<boolean> {
     let list = this.getProblemStatements(true);
     const target = list.find(p => p.id === id);
     list = list.filter(p => p.id !== id);
@@ -417,11 +456,20 @@ class PragyanAPIService {
       window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
     }
 
-    // Async backend sync
-    fetch(`/api/problem-statements/${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeaders()
-    }).catch(() => {});
+    try {
+      let res = await fetch(`/api/problem-statements/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/problem-statements/${id}`, {
+          method: 'DELETE',
+          headers: getAuthHeaders()
+        });
+      }
+    } catch (err) {
+      console.warn('Backend delete notice:', err);
+    }
 
     return true;
   }

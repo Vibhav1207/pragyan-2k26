@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Wallet, BarChart2, Truck, Briefcase, ArrowRight, FileText, Sparkles } from 'lucide-react';
+import { Wallet, BarChart2, Truck, Briefcase, ArrowRight, FileText } from 'lucide-react';
 import { HACKATHON_TRACKS, type Track } from '../../../data/challenges';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 
@@ -35,7 +35,6 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
               <span className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest bg-[#E9E1D2] px-3.5 py-1.5 rounded-full border border-[#A77A1C]/30 flex items-center gap-1.5 w-fit">
-                <Sparkles className="w-3.5 h-3.5 text-[#A77A1C]" />
                 OFFICIAL HACKATHON TRACKS
               </span>
               <h2 className="font-serif font-black text-4xl sm:text-6xl text-[#162E28] uppercase tracking-tight">

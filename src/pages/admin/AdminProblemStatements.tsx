@@ -70,8 +70,12 @@ export const AdminProblemStatements: React.FC = () => {
     setTimeout(() => setFeedbackMessage(null), 3500);
   };
 
-  const reloadData = () => {
+  const reloadData = async () => {
     setProblemStatements(apiService.getProblemStatements(true));
+    try {
+      const fresh = await apiService.fetchProblemStatementsAsync(true);
+      if (fresh) setProblemStatements(fresh);
+    } catch {}
   };
 
   const handleOpenCreate = () => {
@@ -87,7 +91,7 @@ export const AdminProblemStatements: React.FC = () => {
       documentUrl: '',
       documentSize: '',
       fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      isVisible: false, // Hidden by default
+      isVisible: true, // Set to visible so participants can see it
       releaseAt: '2026-10-24T12:00:00',
       difficulty: 'Intermediate'
     });
@@ -142,7 +146,7 @@ export const AdminProblemStatements: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmitForm = (e: React.FormEvent) => {
+  const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title.trim()) {
       alert('Please enter a Problem Statement title');
@@ -156,7 +160,7 @@ export const AdminProblemStatements: React.FC = () => {
     const docSize = formData.documentSize || '150 KB';
 
     if (editingPs) {
-      apiService.updateProblemStatement(editingPs.id, {
+      await apiService.updateProblemStatement(editingPs.id, {
         ...formData,
         trackTitle: finalTrackTitle,
         documentName: docName,
@@ -165,7 +169,7 @@ export const AdminProblemStatements: React.FC = () => {
       });
       showNotification(`Updated problem statement: "${formData.title}"`, 'success');
     } else {
-      apiService.createProblemStatement({
+      await apiService.createProblemStatement({
         ...formData,
         trackTitle: finalTrackTitle,
         documentName: docName,
@@ -173,36 +177,36 @@ export const AdminProblemStatements: React.FC = () => {
         order: problemStatements.filter(p => p.trackId === formData.trackId).length + 1,
         releaseAt: formData.releaseAt ? new Date(formData.releaseAt).toISOString() : undefined
       });
-      showNotification(`Created new problem statement: "${formData.title}" (Hidden by default)`, 'success');
+      showNotification(`Saved and published problem statement: "${formData.title}"`, 'success');
     }
 
-    reloadData();
+    await reloadData();
     setIsModalOpen(false);
   };
 
-  const handleToggleVisibility = (ps: AdminProblemStatement) => {
+  const handleToggleVisibility = async (ps: AdminProblemStatement) => {
     const nextState = !ps.isVisible;
-    apiService.toggleProblemStatementVisibility(ps.id, nextState);
-    reloadData();
+    await apiService.toggleProblemStatementVisibility(ps.id, nextState);
+    await reloadData();
     showNotification(
       `Problem Statement "${ps.title.slice(0, 35)}..." is now ${nextState ? 'VISIBLE to participants' : 'HIDDEN from participants'}`,
       nextState ? 'success' : 'info'
     );
   };
 
-  const handleBulkTrackVisibility = (trackId: string, isVisible: boolean) => {
-    apiService.bulkUpdateProblemStatementVisibility(isVisible, trackId);
-    reloadData();
+  const handleBulkTrackVisibility = async (trackId: string, isVisible: boolean) => {
+    await apiService.bulkUpdateProblemStatementVisibility(isVisible, trackId);
+    await reloadData();
     showNotification(
       `All Problem Statements in Track ${trackId} are now ${isVisible ? 'VISIBLE' : 'HIDDEN'}`,
       isVisible ? 'success' : 'info'
     );
   };
 
-  const handleMasterToggleAll = (isVisible: boolean) => {
+  const handleMasterToggleAll = async (isVisible: boolean) => {
     if (window.confirm(`Are you sure you want to set ALL problem statements to ${isVisible ? 'VISIBLE' : 'HIDDEN'} for participants?`)) {
-      apiService.bulkUpdateProblemStatementVisibility(isVisible);
-      reloadData();
+      await apiService.bulkUpdateProblemStatementVisibility(isVisible);
+      await reloadData();
       showNotification(
         `All problem statements across all tracks are now ${isVisible ? 'UNLOCKED & VISIBLE' : 'LOCKED & HIDDEN'}`,
         isVisible ? 'success' : 'info'
@@ -210,10 +214,10 @@ export const AdminProblemStatements: React.FC = () => {
     }
   };
 
-  const handleDelete = (ps: AdminProblemStatement) => {
+  const handleDelete = async (ps: AdminProblemStatement) => {
     if (window.confirm(`Delete Problem Statement "${ps.title}"?`)) {
-      apiService.deleteProblemStatement(ps.id);
-      reloadData();
+      await apiService.deleteProblemStatement(ps.id);
+      await reloadData();
       showNotification(`Deleted problem statement "${ps.title}"`, 'error');
     }
   };

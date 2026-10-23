@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, Sparkles, Award, Lock } from 'lucide-react';
+import { ArrowDown, Award, Lock } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { RedesignedEventAtAGlance } from './RedesignedEventAtAGlance';
@@ -101,7 +101,7 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onExploreChallen
                   <div className="w-1 bg-[#A77A1C] absolute top-0 bottom-0 left-0" />
 
                   <div className="flex items-center gap-2 font-mono text-xs text-[#A77A1C] font-black uppercase tracking-widest pl-1">
-                    <Sparkles className="w-4 h-4 text-[#A77A1C]" />
+                    <Award className="w-4 h-4 text-[#A77A1C]" />
                     <span>OFFICIAL HACKATHON THEME</span>
                   </div>
 

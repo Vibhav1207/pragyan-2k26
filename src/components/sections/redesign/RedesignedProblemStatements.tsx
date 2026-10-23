@@ -6,7 +6,7 @@ import {
   CheckCircle2, 
   Copy, 
   ExternalLink, 
-  Sparkles, 
+  LayoutGrid, 
   Download, 
   ShieldCheck, 
   Briefcase, 
@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { HACKATHON_LAUNCH_TARGET_ISO } from '../../../data/problemStatements';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
-import { useAuth } from '../../../context/AuthContext';
 import { apiService } from '../../../services/api';
 import type { AdminProblemStatement } from '../../../types/admin';
 import { downloadProblemStatementWordDoc } from '../../../utils/wordDocHelper';
@@ -27,39 +26,47 @@ interface RedesignedProblemStatementsProps {
   initialTrackFilter?: string;
 }
 
-const normalizeTrackId = (t: string) => {
-  if (t === 'track-1') return 'TRK-01';
-  if (t === 'track-2') return 'TRK-02';
-  if (t === 'track-3') return 'TRK-03';
-  if (t === 'track-4') return 'TRK-04';
-  return t;
+export const normalizeTrack = (raw: string = ''): string => {
+  if (!raw) return 'all';
+  const clean = raw.toLowerCase().trim();
+  if (clean === 'all') return 'all';
+  if (clean.includes('track-1') || clean.includes('trk-01') || clean.includes('track 1') || clean.includes('fintech') || clean.includes('finance')) return 'TRK-01';
+  if (clean.includes('track-2') || clean.includes('trk-02') || clean.includes('track 2') || clean.includes('marketing') || clean.includes('consumer')) return 'TRK-02';
+  if (clean.includes('track-3') || clean.includes('trk-03') || clean.includes('track 3') || clean.includes('operations') || clean.includes('supply') || clean.includes('ops') || clean.includes('smart ops')) return 'TRK-03';
+  if (clean.includes('track-4') || clean.includes('trk-04') || clean.includes('track 4') || clean.includes('management') || clean.includes('entrepreneur')) return 'TRK-04';
+  return raw;
+};
+
+export const isMatchingTrack = (filterTrack: string, psTrackId?: string, psTrackTitle?: string): boolean => {
+  const normFilter = normalizeTrack(filterTrack);
+  if (normFilter === 'all') return true;
+
+  const normPsId = normalizeTrack(psTrackId);
+  if (normFilter === normPsId) return true;
+
+  if (psTrackTitle) {
+    const normTitle = normalizeTrack(psTrackTitle);
+    if (normFilter === normTitle) return true;
+  }
+
+  return false;
 };
 
 export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsProps> = ({ 
   id = 'problem-statements',
   initialTrackFilter = 'all' 
 }) => {
-  const { admin } = useAuth();
   const [problemStatements, setProblemStatements] = useState<AdminProblemStatement[]>(() => 
-    apiService.getProblemStatements(!!admin)
+    apiService.getProblemStatements(false)
   );
-  const [selectedTrack, setSelectedTrack] = useState<string>(() => normalizeTrackId(initialTrackFilter));
+  const [selectedTrack, setSelectedTrack] = useState<string>(() => normalizeTrack(initialTrackFilter));
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalPS, setActiveModalPS] = useState<AdminProblemStatement | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
-    setSelectedTrack(normalizeTrackId(initialTrackFilter));
+    setSelectedTrack(normalizeTrack(initialTrackFilter));
   }, [initialTrackFilter]);
-
-  // Preview override state
-  const [previewUnlocked, setPreviewUnlocked] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('pragyan_ps_preview_unlocked') === 'true';
-    } catch {
-      return false;
-    }
-  });
 
   // Countdown time state
   const [timeRemaining, setTimeRemaining] = useState<{
@@ -77,15 +84,17 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
   useEffect(() => {
     let isMounted = true;
 
-    const refreshData = () => {
-      const currentLocal = apiService.getProblemStatements(!!admin);
-      if (isMounted) setProblemStatements(currentLocal);
-
-      apiService.fetchProblemStatementsAsync(!!admin).then(fresh => {
-        if (isMounted && fresh && fresh.length > 0) {
-          setProblemStatements(fresh);
+    const refreshData = async () => {
+      try {
+        const fresh = await apiService.fetchProblemStatementsAsync(false);
+        if (isMounted) {
+          setProblemStatements(fresh || []);
         }
-      });
+      } catch (e) {
+        if (isMounted) {
+          setProblemStatements(apiService.getProblemStatements(false));
+        }
+      }
     };
 
     refreshData();
@@ -144,25 +153,10 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
       window.removeEventListener('pragyan_ps_updated', handleCustomUpdate);
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [admin]);
+  }, []);
 
-  // If there are visible problem statements published by admin, or if preview is unlocked, or if user is admin
-  const hasVisibleStatements = problemStatements.length > 0;
-  const isUnlocked = hasVisibleStatements || timeRemaining.isPast || previewUnlocked || !!admin;
-
-  const togglePreview = () => {
-    const nextState = !previewUnlocked;
-    setPreviewUnlocked(nextState);
-    try {
-      if (nextState) {
-        localStorage.setItem('pragyan_ps_preview_unlocked', 'true');
-        setProblemStatements(apiService.getProblemStatements(true));
-      } else {
-        localStorage.removeItem('pragyan_ps_preview_unlocked');
-        setProblemStatements(apiService.getProblemStatements(!!admin));
-      }
-    } catch {}
-  };
+  // Unlocked if visible problem statements are published by organizers, or schedule is past
+  const isUnlocked = problemStatements.length > 0 || timeRemaining.isPast;
 
   const handleCopySummary = (ps: AdminProblemStatement) => {
     const text = `[PRAGYAN 2K26 - ${ps.id}] ${ps.title}\nTrack: ${ps.trackTitle}\nOverview: ${ps.description || ''}\nContext: ${ps.context || ''}`;
@@ -172,7 +166,7 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
   };
 
   const trackTabs = [
-    { id: 'all', label: 'All Tracks', icon: Sparkles },
+    { id: 'all', label: 'All Tracks', icon: LayoutGrid },
     { id: 'TRK-01', label: 'Track 1: Fintech', icon: Wallet },
     { id: 'TRK-02', label: 'Track 2: Marketing', icon: BarChart2 },
     { id: 'TRK-03', label: 'Track 3: Smart Ops', icon: Truck },
@@ -180,13 +174,13 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
   ];
 
   const filteredStatements = problemStatements.filter((ps) => {
-    const matchesTrack = selectedTrack === 'all' || ps.trackId === selectedTrack || (selectedTrack === 'TRK-01' && ps.trackId === 'track-1') || (selectedTrack === 'TRK-02' && ps.trackId === 'track-2') || (selectedTrack === 'TRK-03' && ps.trackId === 'track-3') || (selectedTrack === 'TRK-04' && ps.trackId === 'track-4');
+    const matchesTrack = isMatchingTrack(selectedTrack, ps.trackId, ps.trackTitle);
     const matchesSearch = 
       searchQuery.trim() === '' ||
       ps.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ps.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (ps.description && ps.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      ps.trackTitle.toLowerCase().includes(searchQuery.toLowerCase());
+      (ps.trackTitle && ps.trackTitle.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesTrack && matchesSearch;
   });
 
@@ -202,14 +196,9 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest bg-[#E9E1D2] px-3.5 py-1.5 rounded-full border border-[#A77A1C]/30 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#A77A1C]" />
+                  <FileText className="w-3.5 h-3.5 text-[#A77A1C]" />
                   <span>NATIONAL HACKATHON REPOSITORY</span>
                 </span>
-                {admin && (
-                  <span className="font-mono text-[10px] font-bold text-amber-800 bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-full uppercase">
-                    Admin Preview Mode
-                  </span>
-                )}
               </div>
               <h2 className="font-serif font-black text-4xl sm:text-6xl text-[#162E28] uppercase tracking-tight">
                 PROBLEM <span className="italic font-normal text-[#A77A1C]">STATEMENTS</span>
@@ -302,13 +291,6 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
                   <span>Verified 24-Hr Hackathon Regulation</span>
                 </div>
-                <span>•</span>
-                <button
-                  onClick={togglePreview}
-                  className="text-[#E5BE61] hover:underline font-bold"
-                >
-                  Click here to preview as Evaluator / Admin
-                </button>
               </div>
             </div>
           </ScrollReveal>
@@ -319,19 +301,19 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
           <div className="space-y-8">
             {/* Filter Tabs & Search Bar */}
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none w-full flex-nowrap sm:flex-wrap">
                 {trackTabs.map((tab) => {
                   const Icon = tab.icon;
                   const isSelected = selectedTrack === tab.id;
                   const count = tab.id === 'all' 
                     ? problemStatements.length 
-                    : problemStatements.filter(p => p.trackId === tab.id || (tab.id === 'TRK-01' && p.trackId === 'track-1') || (tab.id === 'TRK-02' && p.trackId === 'track-2') || (tab.id === 'TRK-03' && p.trackId === 'track-3') || (tab.id === 'TRK-04' && p.trackId === 'track-4')).length;
+                    : problemStatements.filter(p => isMatchingTrack(tab.id, p.trackId, p.trackTitle)).length;
 
                   return (
                     <button
                       key={tab.id}
                       onClick={() => setSelectedTrack(tab.id)}
-                      className={`px-4 py-2.5 rounded-xl font-mono text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all duration-200 ${
+                      className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-mono text-xs font-black uppercase tracking-wider flex items-center gap-1.5 sm:gap-2 transition-all duration-200 shrink-0 whitespace-nowrap ${
                         isSelected
                           ? 'bg-[#162E28] text-[#E5BE61] shadow-md border border-[#A77A1C]/50'
                           : 'bg-[#E9E1D2] text-[#7B8379] hover:text-[#162E28] hover:bg-[#D2CAB6]/50 border border-[#D2CAB6]'
@@ -358,98 +340,119 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
             </div>
 
             {/* Statements Count Info */}
-            <div className="flex items-center justify-between text-xs font-mono text-[#7B8379] px-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-[#7B8379] px-1">
               <span>Showing <strong>{filteredStatements.length}</strong> problem statements</span>
               <span className="text-[#A77A1C] font-bold">Teams may view or download the complete Word Document specification</span>
             </div>
 
-            {/* Problem Statements Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredStatements.map((ps, idx) => {
-                return (
-                  <ScrollReveal key={ps.id} delay={idx * 50}>
-                    <div className="p-6 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] hover:border-[#A77A1C] group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between h-full space-y-6">
-                      
-                      <div className="space-y-4">
-                        {/* Header: PS ID & Track Number */}
-                        <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-3">
-                          <span className="font-mono font-black text-xs px-3 py-1 rounded-md bg-[#162E28] text-[#E5BE61] tracking-wider">
-                            {ps.id}
-                          </span>
-                          <span className="font-mono text-[11px] font-extrabold text-[#A77A1C] uppercase truncate max-w-[200px]">
-                            {ps.trackTitle}
-                          </span>
-                        </div>
-
-                        {/* Title & Short Summary */}
-                        <div className="space-y-2">
-                          <h4 className="font-serif font-bold text-xl text-[#162E28] group-hover:text-[#A77A1C] transition-colors leading-snug">
-                            {ps.title}
-                          </h4>
-                          <p className="text-xs text-[#7B8379] font-sans leading-relaxed line-clamp-3">
-                            {ps.description || ps.context || 'Comprehensive problem statement brief approved by the PRAGYAN 2K26 Academic & Industry Jury Committee.'}
-                          </p>
-                        </div>
-
-                        {/* Document File Badge */}
-                        <div className="p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] flex items-center justify-between text-xs font-mono">
-                          <div className="flex items-center gap-2 truncate">
-                            <FileText className="w-4 h-4 text-[#A77A1C] shrink-0" />
-                            <span className="font-bold text-[#162E28] truncate">{ps.documentName || `${ps.id}_Brief.docx`}</span>
+            {/* Empty State when no statements found in this filter */}
+            {filteredStatements.length === 0 ? (
+              <div className="p-12 text-center rounded-3xl bg-[#E9E1D2]/40 border border-[#D2CAB6] space-y-4">
+                <FileText className="w-10 h-10 text-[#A77A1C] mx-auto opacity-70" />
+                <h4 className="font-serif font-black text-xl text-[#162E28] uppercase">
+                  No Problem Statements Found in this Track
+                </h4>
+                <p className="font-sans text-xs sm:text-sm text-[#7B8379] max-w-md mx-auto">
+                  {searchQuery 
+                    ? `No statements match your search "${searchQuery}". Try selecting "All Tracks" or clearing your query.` 
+                    : 'The organizing committee has not published problem statements for this track yet, or they are temporarily hidden.'}
+                </p>
+                <button
+                  onClick={() => { setSelectedTrack('all'); setSearchQuery(''); }}
+                  className="px-4 py-2 rounded-xl bg-[#162E28] text-[#E5BE61] font-mono text-xs font-bold uppercase transition"
+                >
+                  View All Tracks
+                </button>
+              </div>
+            ) : (
+              /* Problem Statements Cards Grid */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredStatements.map((ps, idx) => {
+                  return (
+                    <ScrollReveal key={ps.id} delay={idx * 50}>
+                      <div className="p-6 rounded-2xl bg-[#F9F4EA] border border-[#D2CAB6] hover:border-[#A77A1C] group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between h-full space-y-6">
+                        
+                        <div className="space-y-4">
+                          {/* Header: PS ID & Track Number */}
+                          <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-3">
+                            <span className="font-mono font-black text-xs px-3 py-1 rounded-md bg-[#162E28] text-[#E5BE61] tracking-wider">
+                              {ps.id}
+                            </span>
+                            <span className="font-mono text-[11px] font-extrabold text-[#A77A1C] uppercase truncate max-w-[200px]">
+                              {ps.trackTitle}
+                            </span>
                           </div>
-                          <span className="text-[10px] text-[#7B8379] shrink-0 ml-2">
-                            {ps.documentSize || 'Word Doc'}
-                          </span>
+
+                          {/* Title & Short Summary */}
+                          <div className="space-y-2">
+                            <h4 className="font-serif font-bold text-xl text-[#162E28] group-hover:text-[#A77A1C] transition-colors leading-snug">
+                              {ps.title}
+                            </h4>
+                            <p className="text-xs text-[#7B8379] font-sans leading-relaxed line-clamp-3">
+                              {ps.description || ps.context || 'Comprehensive problem statement brief approved by the PRAGYAN 2K26 Academic & Industry Jury Committee.'}
+                            </p>
+                          </div>
+
+                          {/* Document File Badge */}
+                          <div className="p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] flex items-center justify-between text-xs font-mono">
+                            <div className="flex items-center gap-2 truncate">
+                              <FileText className="w-4 h-4 text-[#A77A1C] shrink-0" />
+                              <span className="font-bold text-[#162E28] truncate">{ps.documentName || `${ps.id}_Brief.docx`}</span>
+                            </div>
+                            <span className="text-[10px] text-[#7B8379] shrink-0 ml-2">
+                              {ps.documentSize || 'Word Doc'}
+                            </span>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Card Action Buttons */}
-                      <div className="pt-4 border-t border-[#D2CAB6] space-y-2.5">
-                        <button
-                          type="button"
-                          onClick={() => downloadProblemStatementWordDoc(ps)}
-                          className="w-full py-2.5 px-4 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm border border-[#A77A1C]/50"
-                        >
-                          <Download className="w-4 h-4 text-[#E5BE61]" />
-                          <span>DOWNLOAD WORD DOC (.DOCX)</span>
-                        </button>
-
-                        <div className="flex items-center justify-between gap-2 pt-1">
+                        {/* Card Action Buttons */}
+                        <div className="pt-4 border-t border-[#D2CAB6] space-y-2.5">
                           <button
                             type="button"
-                            onClick={() => handleCopySummary(ps)}
-                            className="px-3 py-1.5 rounded-lg bg-[#E9E1D2] hover:bg-[#D2CAB6] text-[#162E28] font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors"
-                            title="Copy Summary"
+                            onClick={() => downloadProblemStatementWordDoc(ps)}
+                            className="w-full py-2.5 px-4 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] font-mono text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm border border-[#A77A1C]/50 touch-manipulation"
                           >
-                            {copiedId === ps.id ? (
-                              <>
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                                <span className="text-emerald-700">Copied</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3.5 h-3.5 text-[#7B8379]" />
-                                <span>Copy Brief</span>
-                              </>
-                            )}
+                            <Download className="w-4 h-4 text-[#E5BE61]" />
+                            <span>DOWNLOAD WORD DOC (.DOCX)</span>
                           </button>
 
-                          <button
-                            type="button"
-                            onClick={() => setActiveModalPS(ps)}
-                            className="px-3.5 py-1.5 rounded-lg bg-[#F9F4EA] hover:bg-[#E9E1D2] text-[#162E28] font-mono text-[11px] font-bold border border-[#D2CAB6] flex items-center gap-1.5 transition"
-                          >
-                            <span>View Details</span>
-                            <ExternalLink className="w-3.5 h-3.5 text-[#A77A1C]" />
-                          </button>
+                          <div className="flex items-center justify-between gap-2 pt-1">
+                            <button
+                              type="button"
+                              onClick={() => handleCopySummary(ps)}
+                              className="px-3 py-1.5 rounded-lg bg-[#E9E1D2] hover:bg-[#D2CAB6] text-[#162E28] font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors"
+                              title="Copy Summary"
+                            >
+                              {copiedId === ps.id ? (
+                                <>
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span className="text-emerald-700">Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3.5 h-3.5 text-[#7B8379]" />
+                                  <span>Copy Brief</span>
+                                </>
+                              )}
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setActiveModalPS(ps)}
+                              className="px-3.5 py-1.5 rounded-lg bg-[#F9F4EA] hover:bg-[#E9E1D2] text-[#162E28] font-mono text-[11px] font-bold border border-[#D2CAB6] flex items-center gap-1.5 transition"
+                            >
+                              <span>View Details</span>
+                              <ExternalLink className="w-3.5 h-3.5 text-[#A77A1C]" />
+                            </button>
+                          </div>
                         </div>
-                      </div>
 
-                    </div>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
+                      </div>
+                    </ScrollReveal>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
