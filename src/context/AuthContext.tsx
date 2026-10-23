@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { UserProfile } from '../types/admin';
+import { auth } from '../config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 interface AuthContextType {
-
   participant: UserProfile | null;
   loginParticipantGoogle: (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string }) => Promise<void>;
   logoutParticipant: () => void;
@@ -18,6 +19,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const PARTICIPANT_KEY = 'pragyan_participant_user';
 const ADMIN_KEY = 'pragyan_admin_user';
 const ADMIN_TOKEN_KEY = 'pragyan_admin_token';
+
+const ALLOWED_ADMIN_EMAILS = [
+  'vibhav07patel@gmail.com',
+  'shirajpatil7170@gmail.com',
+  'admin@sanjivani.edu.in'
+];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [participant, setParticipant] = useState<UserProfile | null>(() => {
@@ -46,18 +53,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   });
 
+  const loginAdmin = (email: string, token: string, name: string = 'PRAGYAN Super Admin') => {
+    const adminUser: UserProfile = {
+      id: 'ADM-001',
+      name,
+      email,
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
+      role: 'ADMIN'
+    };
+    setAdmin(adminUser);
+    setAdminToken(token);
+    localStorage.setItem(ADMIN_KEY, JSON.stringify(adminUser));
+    localStorage.setItem(ADMIN_TOKEN_KEY, token);
+  };
+
+  const logoutAdmin = () => {
+    setAdmin(null);
+    setAdminToken(null);
+    localStorage.removeItem(ADMIN_KEY);
+    localStorage.removeItem(ADMIN_TOKEN_KEY);
+  };
+
   const loginParticipantGoogle = async (googleUser: { name: string; email: string; avatar?: string; uid?: string; googleId?: string; role?: 'PARTICIPANT' | 'ADMIN' }) => {
+    const cleanEmail = (googleUser.email || '').toLowerCase().trim();
+    const isAdminEmail = ALLOWED_ADMIN_EMAILS.includes(cleanEmail);
+    const resolvedRole = isAdminEmail ? 'ADMIN' : (googleUser.role || 'PARTICIPANT');
+
     let user: UserProfile = {
       id: googleUser.uid || googleUser.googleId || `USR-${Date.now()}`,
       name: googleUser.name,
-      email: googleUser.email,
+      email: cleanEmail,
       avatar: googleUser.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      role: googleUser.role || 'PARTICIPANT'
+      role: resolvedRole
     };
+
+    if (isAdminEmail) {
+      loginAdmin(cleanEmail, 'authorized-admin-token', googleUser.name || 'PRAGYAN Admin');
+    }
 
     try {
       const payload = {
-        email: googleUser.email,
+        email: cleanEmail,
         name: googleUser.name,
         avatar: user.avatar,
         googleId: googleUser.googleId || googleUser.uid || user.id,
@@ -86,7 +122,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (data.user.role) {
             user.role = data.user.role;
           }
-          if (data.user.role === 'ADMIN') {
+          if (data.user.role === 'ADMIN' || isAdminEmail) {
             loginAdmin(user.email, data.token || 'google-admin-token', user.name);
           }
         }
@@ -104,26 +140,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(PARTICIPANT_KEY);
   };
 
-  const loginAdmin = (email: string, token: string, name: string = 'PRAGYAN Super Admin') => {
-    const adminUser: UserProfile = {
-      id: 'ADM-001',
-      name,
-      email,
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-      role: 'ADMIN'
-    };
-    setAdmin(adminUser);
-    setAdminToken(token);
-    localStorage.setItem(ADMIN_KEY, JSON.stringify(adminUser));
-    localStorage.setItem(ADMIN_TOKEN_KEY, token);
-  };
+  // Sync any active Firebase user automatically to MongoDB backend on mount
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser && firebaseUser.email) {
+        const email = firebaseUser.email.toLowerCase().trim();
+        const payload = {
+          name: firebaseUser.displayName || 'Participant Delegate',
+          email,
+          avatar: firebaseUser.photoURL || undefined,
+          uid: firebaseUser.uid,
+          googleId: firebaseUser.uid
+        };
+        // Background sync to ensure user is in MongoDB
+        try {
+          fetch('/api/auth/participant/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }).catch(() => {});
+        } catch {}
 
-  const logoutAdmin = () => {
-    setAdmin(null);
-    setAdminToken(null);
-    localStorage.removeItem(ADMIN_KEY);
-    localStorage.removeItem(ADMIN_TOKEN_KEY);
-  };
+        if (ALLOWED_ADMIN_EMAILS.includes(email)) {
+          loginAdmin(email, 'authorized-admin-token', firebaseUser.displayName || 'PRAGYAN Super Admin');
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <AuthContext.Provider

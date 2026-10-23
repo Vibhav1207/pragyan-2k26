@@ -39,7 +39,7 @@ export const ParticipantLogin: React.FC = () => {
         setLoading(true);
         const user = await checkRedirectResult();
         if (user) {
-          loginParticipantGoogle(user);
+          await loginParticipantGoogle(user);
           navigate('/profile');
         }
       } catch (err: any) {

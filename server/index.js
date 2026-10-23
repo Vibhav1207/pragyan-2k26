@@ -28,7 +28,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'pragyan-2k26-admin-super-secret-key-2026';
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pragyan2k26';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://vibhavpateltechfest_db_user:TechfestPass2026@task1web.qqdtxkg.mongodb.net/pragyan?retryWrites=true&w=majority&appName=task1web';
 
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -85,9 +85,9 @@ function createRateLimiter(windowMs, maxRequests, message) {
   };
 }
 
-const authLimiter = createRateLimiter(15 * 60 * 1000, 10, 'Too many login attempts. Please try again later.');
-const apiLimiter = createRateLimiter(15 * 60 * 1000, 300, 'Rate limit exceeded. Please slow down.');
-const submissionLimiter = createRateLimiter(15 * 60 * 1000, 15, 'Too many submission requests. Please try again later.');
+const authLimiter = createRateLimiter(15 * 60 * 1000, 1000, 'Too many login attempts. Please try again later.');
+const apiLimiter = createRateLimiter(15 * 60 * 1000, 1000, 'Rate limit exceeded. Please slow down.');
+const submissionLimiter = createRateLimiter(15 * 60 * 1000, 100, 'Too many submission requests. Please try again later.');
 
 app.use('/api/', apiLimiter);
 
@@ -115,7 +115,6 @@ ensureDbConnected();
 
 async function seedDatabaseIfNeeded() {
   try {
-
     try {
       const deletedTeams = await Team.deleteMany({});
       await User.updateMany({}, { $unset: { teamId: "" } });
@@ -126,17 +125,34 @@ async function seedDatabaseIfNeeded() {
       console.warn('Note cleaning up teams from DB:', teamPurgeErr.message);
     }
 
-    const adminCount = await Admin.countDocuments();
-    if (adminCount === 0) {
-      const hash = await bcrypt.hash('admin123', 10);
-      await Admin.create({
-        email: 'admin@sanjivani.edu.in',
-        passwordHash: hash,
-        name: 'PRAGYAN Super Admin',
-        role: 'ADMIN'
-      });
-      console.log('🌱 Seeded default Admin user in MongoDB (admin@sanjivani.edu.in / admin123)');
+    const defaultAdmins = [
+      { email: 'vibhav07patel@gmail.com', name: 'Vibhav Patel' },
+      { email: 'shirajpatil7170@gmail.com', name: 'Shiraj Patil' },
+      { email: 'admin@sanjivani.edu.in', name: 'PRAGYAN Super Admin' }
+    ];
+
+    for (const adm of defaultAdmins) {
+      await Admin.findOneAndUpdate(
+        { email: adm.email },
+        { 
+          $setOnInsert: { 
+            email: adm.email, 
+            name: adm.name, 
+            role: 'ADMIN', 
+            passwordHash: 'oauth-google-managed' 
+          } 
+        },
+        { upsert: true }
+      ).catch(() => {});
+
+      await User.findOneAndUpdate(
+        { email: adm.email },
+        { 
+          $set: { role: 'ADMIN', name: adm.name } 
+        }
+      ).catch(() => {});
     }
+    console.log('🌱 Verified and seeded Admin accounts for vibhav07patel@gmail.com & shirajpatil7170@gmail.com');
 
     const tracksCount = await Track.countDocuments();
     if (tracksCount === 0) {
@@ -339,7 +355,7 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
     const userAccount = await User.findOne({ email: cleanEmail });
     const isUserAdmin = userAccount && typeof userAccount.role === 'string' && userAccount.role.toUpperCase() === 'ADMIN';
 
-    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'admin@sanjivani.edu.in,vibhav07patel@gmail.com')
+    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'vibhav07patel@gmail.com,shirajpatil7170@gmail.com,admin@sanjivani.edu.in')
       .split(',')
       .map(e => e.trim().toLowerCase());
 
@@ -391,19 +407,23 @@ app.post('/api/auth/participant/google', authLimiter, async (req, res, next) => 
 
     let user = await User.findOne({ email: cleanEmail });
     const adminAccount = await Admin.findOne({ email: cleanEmail });
+    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'vibhav07patel@gmail.com,shirajpatil7170@gmail.com,admin@sanjivani.edu.in')
+      .split(',')
+      .map(e => e.trim().toLowerCase());
+    const isTargetAdmin = Boolean(adminAccount || envAdminList.includes(cleanEmail));
 
     if (user) {
       if (name && typeof name === 'string') user.name = sanitizeString(name);
       if (avatar && typeof avatar === 'string') user.avatar = sanitizeString(avatar);
       if (gId && !user.googleId) user.googleId = gId;
-      if (adminAccount) user.role = 'ADMIN';
+      if (isTargetAdmin) user.role = 'ADMIN';
     } else {
       user = new User({
         googleId: gId,
         email: cleanEmail,
         name: sanitizeString(name) || 'Participant User',
         avatar: sanitizeString(avatar) || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-        role: adminAccount ? 'ADMIN' : 'PARTICIPANT'
+        role: isTargetAdmin ? 'ADMIN' : 'PARTICIPANT'
       });
     }
 

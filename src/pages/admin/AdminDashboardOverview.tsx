@@ -253,7 +253,7 @@ export const AdminDashboardOverview: React.FC = () => {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto max-h-[460px] overflow-y-auto pr-1">
             <table className="w-full text-left text-xs font-sans">
               <thead className="bg-[#E9E1D2] border-b border-[#D2CAB6] text-[#162E28] font-mono font-bold uppercase">
                 <tr>
@@ -271,7 +271,7 @@ export const AdminDashboardOverview: React.FC = () => {
                     </td>
                   </tr>
                 ) : (
-                  users.slice(0, 5).map(u => (
+                  users.map(u => (
                     <tr key={u.id || u.email} className="hover:bg-[#E9E1D2]/50 transition">
                       <td className="p-3.5 flex items-center gap-2.5 font-bold text-[#162E28]">
                         <img

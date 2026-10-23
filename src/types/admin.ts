@@ -36,6 +36,8 @@ export interface Submission {
   trackId: string;
   trackTitle: string;
   status: SubmissionStatus;
+  checkpoint?: string;
+  milestone?: string;
   githubUrl?: string;
   demoUrl?: string;
   files: SubmissionFile[];
