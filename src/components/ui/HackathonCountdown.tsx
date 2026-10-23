@@ -21,7 +21,7 @@ export function getHackathonTargetTime(): number | null {
     if (typeof window !== 'undefined') {
       try {
         localStorage.removeItem(STORAGE_KEY);
-      } catch (e) {}
+      } catch (e) { }
     }
     return null;
   }
@@ -42,7 +42,7 @@ export function getHackathonTargetTime(): number | null {
           return parsed;
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   return null;
@@ -160,7 +160,7 @@ export const HackathonTopCountdownBar: React.FC = () => {
   return (
     <div className="bg-[#10221E] text-[#F9F4EA] border-b border-[#A77A1C]/35 relative z-50 select-none overflow-hidden text-xs">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-        
+
         {/* Left Status: Official Hackathon Finale */}
         <div className="flex items-center gap-2 font-mono flex-wrap">
           <span className="text-[#E5BE61] font-extrabold text-[11px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5">
@@ -238,7 +238,7 @@ export const HackathonHeroCountdown: React.FC = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
-        
+
         {/* Left Info: Status & Round Details */}
         <div className="space-y-2.5">
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
@@ -263,7 +263,7 @@ export const HackathonHeroCountdown: React.FC = () => {
           </h3>
 
           <p className="text-xs sm:text-sm font-sans text-[#7B8379] max-w-xl">
-            Selected national finalist teams assemble for an intensive 24-hour on-ground innovation sprint driving solutions for UN Sustainable Development Goals 2030 at Sanjivani University.
+            Selected national finalist teams assemble for an intensive 24-hour on-ground innovation sprint driving solutions for UN Sustainable Development Goals 2027 at Sanjivani University.
           </p>
         </div>
 

@@ -22,8 +22,8 @@ const ADMIN_TOKEN_KEY = 'pragyan_admin_token';
 
 const ALLOWED_ADMIN_EMAILS = [
   'vibhav07patel@gmail.com',
-  'shirajpatil7170@gmail.com',
-  'admin@sanjivani.edu.in'
+  'dhirajpatil7170@gmail.com',
+  'shriparthwakte@gmail.com'
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -158,8 +158,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
-          }).catch(() => {});
-        } catch {}
+          }).catch(() => { });
+        } catch { }
 
         if (ALLOWED_ADMIN_EMAILS.includes(email)) {
           loginAdmin(email, 'authorized-admin-token', firebaseUser.displayName || 'PRAGYAN Super Admin');

@@ -16,6 +16,11 @@ export const AdminChallenges: React.FC = () => {
   const [challenges, setChallenges] = useState<HackathonChallenge[]>(() => apiService.getChallenges(true));
   const [editingChallenge, setEditingChallenge] = useState<HackathonChallenge | null>(null);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'info' | 'error' } | null>(null);
+  const [selectedPsFilter, setSelectedPsFilter] = useState<string>('ALL');
+
+  const filteredList = selectedPsFilter === 'ALL'
+    ? challenges
+    : challenges.filter(c => c.psId === selectedPsFilter);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -24,7 +29,7 @@ export const AdminChallenges: React.FC = () => {
     timeframe: '',
     deliverablesText: '',
     trackId: 'all',
-    subTrack: '',
+    psId: '',
     isEnabled: false
   });
 
@@ -70,7 +75,7 @@ export const AdminChallenges: React.FC = () => {
       timeframe: c.timeframe || '',
       deliverablesText: (c.deliverables || []).join('\n'),
       trackId: c.trackId || 'all',
-      subTrack: c.subTrack || '',
+      psId: c.psId || '',
       isEnabled: c.isEnabled
     });
   };
@@ -91,7 +96,7 @@ export const AdminChallenges: React.FC = () => {
       timeframe: formData.timeframe,
       deliverables,
       trackId: formData.trackId,
-      subTrack: formData.subTrack.trim(),
+      psId: formData.psId.trim(),
       isEnabled: formData.isEnabled
     });
 
@@ -159,11 +164,11 @@ export const AdminChallenges: React.FC = () => {
               </h2>
             </div>
             <p className="text-xs text-[#7B8379]">
-              The 5 milestone challenges are universal for all tracks and problem statements. Release them progressively as the 24-hour hackathon advances.
+              The 5 milestone challenges are customized for each problem statement. Release them progressively (e.g. Challenge 1, Challenge 2...) as the hackathon unfolds.
             </p>
             <div className="pt-2 flex flex-wrap items-center gap-2">
               <div className="text-xs font-mono font-bold text-[#162E28]">
-                RELEASE / HIDE FOR ALL SUBTRACKS &amp; PS:
+                RELEASE / HIDE FOR ALL PROBLEM STATEMENTS:
               </div>
               <div className="flex flex-wrap gap-2">
                 {[1, 2, 3, 4, 5].map((num) => {
@@ -216,9 +221,29 @@ export const AdminChallenges: React.FC = () => {
           </div>
         </div>
 
-        {/* 5 Challenges List */}
+        {/* Filter bar for PS Selection */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6]">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-[#162E28] uppercase">FILTER BY PS ID:</span>
+            <select
+              value={selectedPsFilter}
+              onChange={(e) => setSelectedPsFilter(e.target.value)}
+              className="px-3 py-1.5 rounded-lg bg-[#F9F4EA] border border-[#D2CAB6] text-xs font-mono font-bold text-[#162E28] outline-none"
+            >
+              <option value="ALL">ALL PROBLEM STATEMENTS ({challenges.length} Challenges)</option>
+              {Array.from(new Set(challenges.map(c => c.psId).filter(Boolean))).map(id => (
+                <option key={id} value={id}>{id}</option>
+              ))}
+            </select>
+          </div>
+          <span className="text-xs font-mono text-[#7B8379]">
+            Showing <strong>{filteredList.length}</strong> of <strong>{challenges.length}</strong> Challenges
+          </span>
+        </div>
+
+        {/* Challenges List */}
         <div className="space-y-4">
-          {challenges.map((c) => {
+          {filteredList.map((c) => {
             const isLive = c.isEnabled;
 
             return (
@@ -247,6 +272,11 @@ export const AdminChallenges: React.FC = () => {
                         <h3 className="font-serif font-bold text-base sm:text-lg text-[#162E28]">
                           {c.title}
                         </h3>
+                        {c.psId && (
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#162E28] text-[#E5BE61]">
+                            {c.psId}
+                          </span>
+                        )}
                         <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-black uppercase tracking-wider ${
                           isLive 
                             ? 'bg-emerald-900/20 text-emerald-800 border border-emerald-600/40' 
@@ -355,7 +385,7 @@ export const AdminChallenges: React.FC = () => {
                       onChange={(e) => setFormData(prev => ({ ...prev, trackId: e.target.value }))}
                       className="w-full p-2.5 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] font-bold focus:outline-none focus:border-[#A77A1C]"
                     >
-                      <option value="all">ALL TRACKS (UNIVERSAL)</option>
+                      <option value="all">ALL TRACKS</option>
                       <option value="TRK-01">TRACK 1: FINTECH</option>
                       <option value="TRK-02">TRACK 2: MARKETING & ADTECH</option>
                       <option value="TRK-03">TRACK 3: SMART OPERATIONS</option>
@@ -363,12 +393,12 @@ export const AdminChallenges: React.FC = () => {
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="font-bold text-[#162E28] uppercase">Subtrack (Optional)</label>
+                    <label className="font-bold text-[#162E28] uppercase">Assigned PS ID</label>
                     <input
                       type="text"
-                      value={formData.subTrack}
-                      onChange={(e) => setFormData(prev => ({ ...prev, subTrack: e.target.value }))}
-                      placeholder="e.g. Subtrack 1, Micro-Finance, etc."
+                      value={formData.psId}
+                      onChange={(e) => setFormData(prev => ({ ...prev, psId: e.target.value }))}
+                      placeholder="e.g. TRACK-3-01, TRACK-4-02"
                       className="w-full p-2.5 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] focus:outline-none focus:border-[#A77A1C]"
                     />
                   </div>

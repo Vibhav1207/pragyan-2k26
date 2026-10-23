@@ -29,8 +29,8 @@ export const AdminLogin: React.FC = () => {
       const cleanEmail = gUser.email.toLowerCase().trim();
       const localAllowedAdmins = [
         'vibhav07patel@gmail.com',
-        'shirajpatil7170@gmail.com',
-        'admin@sanjivani.edu.in'
+        'dhirajpatil7170@gmail.com',
+        'shriparthwakte@gmail.com'
       ];
 
       const payload = {

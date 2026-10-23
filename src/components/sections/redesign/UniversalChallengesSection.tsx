@@ -11,24 +11,24 @@ import type { HackathonChallenge } from '../../../types/admin';
 interface UniversalChallengesSectionProps {
   challenges: HackathonChallenge[];
   selectedTrack?: string;
-  selectedSubTrack?: string;
+  selectedPsId?: string;
 }
 
 export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProps> = ({ 
   challenges,
   selectedTrack = 'all',
-  selectedSubTrack = 'all'
+  selectedPsId
 }) => {
   // Filter challenges:
   // 1. Must be enabled by Admin (c.isEnabled === true)
-  // 2. Must match selectedTrack if challenge is track-specific, or be universal ('all')
-  // 3. Must match selectedSubTrack if challenge is subtrack-specific
+  // 2. If selectedTrack is specified, match trackId or universal
+  // 3. If selectedPsId is provided, filter down to that PS
   const filteredChallenges = challenges.filter(c => {
     if (!c.isEnabled) return false;
-    if (c.trackId && c.trackId !== 'all' && selectedTrack !== 'all' && c.trackId !== selectedTrack) {
+    if (selectedPsId && c.psId && c.psId !== selectedPsId) {
       return false;
     }
-    if (c.subTrack && selectedSubTrack !== 'all' && c.subTrack.toLowerCase() !== selectedSubTrack.toLowerCase()) {
+    if (c.trackId && c.trackId !== 'all' && selectedTrack !== 'all' && c.trackId !== selectedTrack) {
       return false;
     }
     return true;
@@ -45,7 +45,7 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
           <div className="flex items-center gap-2">
             <span className="font-mono text-[10px] font-black uppercase tracking-wider bg-[#162E28] text-[#E5BE61] px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
               <Award className="w-3.5 h-3.5 text-[#E5BE61]" />
-              <span>UNIVERSAL CHALLENGES &bull; ALL TRACKS</span>
+              <span>HACKATHON MILESTONE CHALLENGES</span>
             </span>
             <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full uppercase ${
               liveChallenges.length > 0 
@@ -60,7 +60,7 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
             5 MILESTONE <span className="italic font-normal text-[#A77A1C]">CHALLENGES</span>
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#7B8379] max-w-2xl">
-            These 5 milestone challenges are identical and mandatory across all 4 tracks. Organizers release them sequentially one by one during the 24-hour hackathon.
+            Each problem statement features 5 progressive milestone challenges unlocked by the evaluation committee as the hackathon unfolds.
           </p>
         </div>
 
@@ -119,6 +119,11 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                     <span className="text-[10px] font-mono font-black uppercase tracking-wider text-emerald-800 bg-emerald-900/10 px-2 py-0.5 rounded-md border border-emerald-600/30">
                       LIVE CHALLENGE
                     </span>
+                    {chal.psId && (
+                      <span className="text-[10px] font-mono font-black uppercase tracking-wider bg-[#162E28] text-[#E5BE61] px-2 py-0.5 rounded-md">
+                        {chal.psId}
+                      </span>
+                    )}
                   </div>
                   {chal.timeframe && (
                     <span className="text-[11px] font-mono text-[#A77A1C] font-bold flex items-center gap-1">

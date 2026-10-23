@@ -130,6 +130,7 @@ async function seedDatabaseIfNeeded() {
     const defaultAdmins = [
       { email: 'vibhav07patel@gmail.com', name: 'Vibhav Patel' },
       { email: 'dhirajpatil7170@gmail.com', name: 'Dhiraj Patil' },
+      { email: 'shriparthwakte@gmail.com', name: 'Shriparth Wakte' },
       { email: 'shirajpatil7170@gmail.com', name: 'Shiraj Patil' },
       { email: 'admin@sanjivani.edu.in', name: 'PRAGYAN Super Admin' }
     ];
@@ -269,89 +270,6 @@ async function seedDatabaseIfNeeded() {
       });
       console.log('🌱 Seeded default Homepage CMS in MongoDB');
     }
-
-    const challengesCount = await HackathonChallenge.countDocuments();
-    if (challengesCount === 0) {
-      await HackathonChallenge.insertMany([
-        {
-          challengeId: 'CHAL-01',
-          challengeNumber: 1,
-          title: 'Challenge 1: Problem Definition & Architecture Blueprint',
-          subtitle: 'System Design, Requirements Specification & Data Modeling',
-          description: 'Establish the foundational architecture of your solution. Define data schemas, system components, technology stack, and how your system directly solves the target problem.',
-          deliverables: [
-            'High-Level Architecture & System Flow Diagram',
-            'Entity Relationship / Data Model Document',
-            'Git Repository Setup with README & CI pipeline'
-          ],
-          timeframe: 'Milestone Phase 1',
-          order: 1,
-          isEnabled: false
-        },
-        {
-          challengeId: 'CHAL-02',
-          challengeNumber: 2,
-          title: 'Challenge 2: Core Algorithm & Engine Implementation',
-          subtitle: 'Back-end Logic, Algorithmic Scoring & Business Rules',
-          description: 'Develop and validate the computational core of your innovation. Implement critical algorithms, scoring systems, analytics processing, or AI/ML inference pipelines.',
-          deliverables: [
-            'Working core algorithm module / API service',
-            'Unit test suite covering baseline and edge cases',
-            'API specification or Swagger documentation'
-          ],
-          timeframe: 'Milestone Phase 2',
-          order: 2,
-          isEnabled: false
-        },
-        {
-          challengeId: 'CHAL-03',
-          challengeNumber: 3,
-          title: 'Challenge 3: System Integration & Prototype Demo',
-          subtitle: 'End-to-End User Experience & Interface Connectivity',
-          description: 'Connect your front-end interface with the back-end services. Build responsive user workflows, real-time dashboards, and realistic interactive user journeys.',
-          deliverables: [
-            'Interactive Web/Mobile user interface connected to backend',
-            'Functional user onboarding / primary workflow demo',
-            'Short 90-second screen-recording proof of concept'
-          ],
-          timeframe: 'Milestone Phase 3',
-          order: 3,
-          isEnabled: false
-        },
-        {
-          challengeId: 'CHAL-04',
-          challengeNumber: 4,
-          title: 'Challenge 4: Stress Testing, Security & Resilience',
-          subtitle: 'Scalability Audit, Edge Case Handling & Performance Benchmark',
-          description: 'Harden your solution against production realities. Conduct load simulations, secure all authentication/data storage, and test resilience under peak conditions.',
-          deliverables: [
-            'Performance audit report (latency, throughput)',
-            'Security checklist (OWASP compliance, input sanitization)',
-            'Fault tolerance / error recovery demonstration'
-          ],
-          timeframe: 'Milestone Phase 4',
-          order: 4,
-          isEnabled: false
-        },
-        {
-          challengeId: 'CHAL-05',
-          challengeNumber: 5,
-          title: 'Challenge 5: Production Deployment & Final Pitch Deck',
-          subtitle: 'Live Cloud Hosting, Executive Presentation & Impact Metrics',
-          description: 'Deploy your complete solution to a live environment and prepare the executive pitch. Clearly articulate market viability, social impact, and technical execution.',
-          deliverables: [
-            'Live deployment URL (accessible to jury)',
-            'Executive 10-slide Pitch Deck (PDF/PPT)',
-            'Final Code Freeze GitHub repository tag'
-          ],
-          timeframe: 'Milestone Phase 5',
-          order: 5,
-          isEnabled: false
-        }
-      ]);
-      console.log('🌱 Seeded 5 Hackathon Milestone Challenges in MongoDB');
-    }
-
   } catch (err) {
     console.error('Error seeding database:', err);
   }
@@ -457,7 +375,7 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
     const userAccount = await User.findOne({ email: cleanEmail });
     const isUserAdmin = userAccount && typeof userAccount.role === 'string' && userAccount.role.toUpperCase() === 'ADMIN';
 
-    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'vibhav07patel@gmail.com,dhirajpatil7170@gmail.com,shirajpatil7170@gmail.com,admin@sanjivani.edu.in')
+    const envAdminList = (process.env.ALLOWED_ADMIN_EMAILS || 'vibhav07patel@gmail.com,dhirajpatil7170@gmail.com,shriparthwakte@gmail.com,shirajpatil7170@gmail.com,admin@sanjivani.edu.in')
       .split(',')
       .map(e => e.trim().toLowerCase());
 
@@ -670,8 +588,27 @@ app.get('/api/problem-statements', async (req, res, next) => {
     }
 
     // Public / Participant request (and Main Website view):
-    // STRICT RULE: ONLY return problem statements where isVisible === true.
-    // If an organizer hides a problem statement, it is 100% excluded and will NOT be shown.
+    // Check system unlock schedule (12:00 PM, 24/10/2026) or global unhide switch
+    const settings = await SystemSettings.findOne().lean();
+    const unlockTarget = settings?.psUnlockTime || '2026-10-24T12:00:00+05:30';
+    const isPastUnlockTime = Date.now() >= new Date(unlockTarget).getTime();
+    const isGlobalVisible = Boolean(settings?.psGlobalVisible);
+
+    // If 12:00 PM has arrived OR admin clicked global unhide:
+    // RELEASE all Problem Statements automatically!
+    if (isPastUnlockTime || isGlobalVisible) {
+      const releasedPs = await ProblemStatement.find({
+        $or: [
+          { releaseAt: { $exists: false } },
+          { releaseAt: null },
+          { releaseAt: { $lte: new Date() } }
+        ]
+      }).sort({ order: 1, createdAt: 1 });
+      return res.json(releasedPs);
+    }
+
+    // Before 12:00 PM (and before global release):
+    // ONLY return problem statements where isVisible is explicitly true.
     const visiblePs = await ProblemStatement.find({
       $and: [
         { isVisible: { $nin: [false, 'false', null] } },

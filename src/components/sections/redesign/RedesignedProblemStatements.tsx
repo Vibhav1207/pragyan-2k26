@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Lock, 
   Search, 
   CheckCircle2, 
   Copy, 
   ExternalLink, 
   LayoutGrid, 
   Download, 
-  ShieldCheck, 
   Briefcase, 
   Wallet, 
   BarChart2, 
   Truck,
-  FileText,
-  Layers
+  FileText
 } from 'lucide-react';
 import { HACKATHON_LAUNCH_TARGET_ISO } from '../../../data/problemStatements';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
@@ -65,19 +62,13 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
   );
   const [settings, setSettings] = useState<SystemSettings>(() => apiService.getSettings());
   const [selectedTrack, setSelectedTrack] = useState<string>(() => normalizeTrack(initialTrackFilter));
-  const [selectedSubTrack, setSelectedSubTrack] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalPS, setActiveModalPS] = useState<AdminProblemStatement | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     setSelectedTrack(normalizeTrack(initialTrackFilter));
-    setSelectedSubTrack('all');
   }, [initialTrackFilter]);
-
-  useEffect(() => {
-    setSelectedSubTrack('all');
-  }, [selectedTrack]);
 
   // Countdown time state
   const [timeRemaining, setTimeRemaining] = useState<{
@@ -138,7 +129,7 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     const launchTime = new Date(targetIso).getTime();
 
     const updateTimer = () => {
-      const isMasterUnlocked = Boolean(settings.psGlobalVisible) || challenges.some(c => c.isEnabled);
+      const isMasterUnlocked = Boolean(settings.psGlobalVisible);
       const now = Date.now();
       const diff = launchTime - now;
 
@@ -176,11 +167,13 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
       window.removeEventListener('pragyan_challenges_updated', handleCustomUpdate);
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [settings.psUnlockTime, settings.psGlobalVisible, challenges.length]);
+  }, [settings.psUnlockTime, settings.psGlobalVisible]);
 
-  // Unlocked if master setting is ALL UNHIDDEN, visible problem statements are published, challenges are live, or schedule has elapsed
-  const visiblePsCount = problemStatements.filter(p => Boolean(p.isVisible)).length;
-  const isUnlocked = Boolean(settings.psGlobalVisible) || visiblePsCount > 0 || challenges.some(c => c.isEnabled) || timeRemaining.isPast;
+  // PS Unlocked if master setting is ALL UNHIDDEN, visible problem statements are published, or 12:00 PM schedule has arrived.
+  // CRITICAL RULE: Reaching 12:00 PM ONLY releases Problem Statements, NOT challenges. Challenges must be unlocked individually by organizers.
+  const isAutoUnlocked = Boolean(settings.psGlobalVisible) || timeRemaining.isPast;
+  const visiblePsCount = problemStatements.filter(p => isAutoUnlocked || Boolean(p.isVisible)).length;
+  const isUnlocked = isAutoUnlocked || visiblePsCount > 0;
 
   const handleCopySummary = (ps: AdminProblemStatement) => {
     const text = `[PRAGYAN 2K26 - ${ps.id}] ${ps.title}\nTrack: ${ps.trackTitle}\nOverview: ${ps.description || ''}\nContext: ${ps.context || ''}`;
@@ -197,25 +190,16 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     { id: 'TRK-04', label: 'Track 4: Management', icon: Briefcase },
   ];
 
-  const availableSubTracks = Array.from(new Set(
-    problemStatements
-      .filter(ps => ps.isVisible && (selectedTrack === 'all' || isMatchingTrack(selectedTrack, ps.trackId, ps.trackTitle)))
-      .map(ps => ps.subTrack)
-      .filter((s): s is string => Boolean(s && s.trim()))
-  ));
-
   const filteredStatements = problemStatements.filter((ps) => {
-    if (!ps.isVisible) return false;
+    if (!isAutoUnlocked && !ps.isVisible) return false;
     const matchesTrack = isMatchingTrack(selectedTrack, ps.trackId, ps.trackTitle);
-    const matchesSubTrack = selectedSubTrack === 'all' || ps.subTrack === selectedSubTrack;
     const matchesSearch = 
       searchQuery.trim() === '' ||
       ps.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ps.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (ps.description && ps.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (ps.subTrack && ps.subTrack.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (ps.trackTitle && ps.trackTitle.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesTrack && matchesSubTrack && matchesSearch;
+    return matchesTrack && matchesSearch;
   });
 
   const pad = (n: number) => n.toString().padStart(2, '0');
@@ -238,7 +222,7 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                 PROBLEM <span className="italic font-normal text-[#A77A1C]">STATEMENTS</span>
               </h2>
               <p className="font-mono text-xs sm:text-sm font-bold text-[#A77A1C] uppercase tracking-wider">
-                CHALLENGE BLUEPRINTS FOR 4 INNOVATION TRACKS &bull; WORD DOC SPECIFICATIONS
+                CHALLENGE BLUEPRINTS FOR 4 INNOVATION TRACKS &bull; WORD DOCUMENT BRIEFS
               </p>
             </div>
 
@@ -287,29 +271,8 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                 </div>
               </div>
 
-              {/* Locked Teaser Grid */}
-              <div className="pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
-                {[
-                  { title: 'Track 1: Fintech', count: '5 Specifications Sealed' },
-                  { title: 'Track 2: Marketing', count: '5 Specifications Sealed' },
-                  { title: 'Track 3: Smart Ops', count: '5 Specifications Sealed' },
-                  { title: 'Track 4: Management', count: '5 Specifications Sealed' },
-                ].map((track, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                    <div>
-                      <div className="font-serif font-bold text-sm text-[#F9F4EA]">{track.title}</div>
-                      <div className="font-mono text-xs text-[#E5BE61]">{track.count}</div>
-                    </div>
-                    <Lock className="w-4 h-4 text-[#D2CAB6]" />
-                  </div>
-                ))}
-              </div>
-
-              <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-[#D2CAB6]">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span>Verified 24-Hr Hackathon Regulation</span>
-                </div>
+              <div className="pt-2 text-xs font-mono text-[#D2CAB6]">
+                Scheduled Release at 12:00 PM &bull; 24 October 2026
               </div>
             </div>
           </ScrollReveal>
@@ -318,11 +281,10 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
         {/* UNLOCKED PROBLEM STATEMENTS BROWSER */}
         {isUnlocked && (
           <div className="space-y-10">
-            {/* Universal Milestone Challenges Section (Shared across all tracks & PS) */}
+            {/* Milestone Challenges Section (Scoped to active track & PS) */}
             <UniversalChallengesSection 
               challenges={challenges} 
               selectedTrack={selectedTrack}
-              selectedSubTrack={selectedSubTrack}
             />
 
             {/* Filter Tabs & Search Bar */}
@@ -332,8 +294,8 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                   const Icon = tab.icon;
                   const isSelected = selectedTrack === tab.id;
                   const count = tab.id === 'all' 
-                    ? problemStatements.filter(p => Boolean(p.isVisible)).length 
-                    : problemStatements.filter(p => Boolean(p.isVisible) && isMatchingTrack(tab.id, p.trackId, p.trackTitle)).length;
+                    ? problemStatements.filter(p => isAutoUnlocked || Boolean(p.isVisible)).length 
+                    : problemStatements.filter(p => (isAutoUnlocked || Boolean(p.isVisible)) && isMatchingTrack(tab.id, p.trackId, p.trackTitle)).length;
 
                   return (
                     <button
@@ -365,41 +327,6 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
               </div>
             </div>
 
-            {/* Subtrack Selector Bar */}
-            {availableSubTracks.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2 pt-1 pb-2 border-b border-[#D2CAB6]/60">
-                <span className="text-[11px] font-mono font-bold text-[#A77A1C] uppercase flex items-center gap-1.5 mr-2">
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>FILTER SUBTRACK:</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setSelectedSubTrack('all')}
-                  className={`px-3 py-1.5 rounded-lg font-mono text-[11px] font-bold uppercase transition ${
-                    selectedSubTrack === 'all'
-                      ? 'bg-[#162E28] text-[#E5BE61] shadow-sm'
-                      : 'bg-[#E9E1D2] text-[#7B8379] hover:text-[#162E28]'
-                  }`}
-                >
-                  ALL ({availableSubTracks.length})
-                </button>
-                {availableSubTracks.map(st => (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => setSelectedSubTrack(st)}
-                    className={`px-3 py-1.5 rounded-lg font-mono text-[11px] font-bold uppercase transition ${
-                      selectedSubTrack === st
-                        ? 'bg-[#162E28] text-[#E5BE61] shadow-sm'
-                        : 'bg-[#E9E1D2] text-[#7B8379] hover:text-[#162E28]'
-                    }`}
-                  >
-                    {st}
-                  </button>
-                ))}
-              </div>
-            )}
-
             {/* Statements Count Info */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-[#7B8379] px-1">
               <span>Showing <strong>{filteredStatements.length}</strong> problem statements</span>
@@ -419,7 +346,7 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                     : 'The organizing committee has not published problem statements for this track yet, or they are temporarily hidden.'}
                 </p>
                 <button
-                  onClick={() => { setSelectedTrack('all'); setSelectedSubTrack('all'); setSearchQuery(''); }}
+                  onClick={() => { setSelectedTrack('all'); setSearchQuery(''); }}
                   className="px-4 py-2 rounded-xl bg-[#162E28] text-[#E5BE61] font-mono text-xs font-bold uppercase transition"
                 >
                   View All Tracks
@@ -436,16 +363,9 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                         <div className="space-y-4">
                           {/* Header: PS ID & Track Number */}
                           <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-3 gap-2 flex-wrap">
-                            <div className="flex items-center gap-2">
-                              <span className="font-mono font-black text-xs px-3 py-1 rounded-md bg-[#162E28] text-[#E5BE61] tracking-wider">
-                                {ps.id}
-                              </span>
-                              {ps.subTrack && (
-                                <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#162E28]/10 text-[#162E28] border border-[#162E28]/20 uppercase">
-                                  {ps.subTrack}
-                                </span>
-                              )}
-                            </div>
+                            <span className="font-mono font-black text-xs px-3 py-1 rounded-md bg-[#162E28] text-[#E5BE61] tracking-wider">
+                              {ps.id}
+                            </span>
                             <span className="font-mono text-[11px] font-extrabold text-[#A77A1C] uppercase truncate max-w-[180px]">
                               {ps.trackTitle}
                             </span>

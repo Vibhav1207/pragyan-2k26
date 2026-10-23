@@ -83,7 +83,7 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
 
                   <div className="space-y-4 pt-4 border-t border-[#D2CAB6]">
                     <div className="flex items-center justify-between text-xs font-mono font-extrabold text-[#A77A1C]">
-                      <span>SDG GOAL 2030 DOMAIN</span>
+                      <span>SDG GOAL 2027 DOMAIN</span>
                       <span className="text-[11px] text-[#7B8379]">5 Challenge Blueprints</span>
                     </div>
 

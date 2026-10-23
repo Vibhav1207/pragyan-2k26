@@ -1,10 +1,10 @@
-import type { 
-  Team, 
-  Submission, 
-  Track, 
-  Announcement, 
-  ActivityLog, 
-  SystemSettings, 
+import type {
+  Team,
+  Submission,
+  Track,
+  Announcement,
+  ActivityLog,
+  SystemSettings,
   HomepageCMS,
   SubmissionFile,
   UserProfile,
@@ -122,7 +122,7 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
     title: 'PRAGYAN 2K26 COMMENCING',
-    content: 'Welcome to Pragyan 2K26 National Level Hackathon on SDG Goal 2030 at Sanjivani University, Kopargaon.',
+    content: 'Welcome to Pragyan 2K26 National Level Hackathon on SDG Goal 2027 at Sanjivani University, Kopargaon.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -344,8 +344,17 @@ class PragyanAPIService {
   getProblemStatements(includeHidden = false): AdminProblemStatement[] {
     const list = getStored<AdminProblemStatement[]>(STORAGE_KEYS.PROBLEM_STATEMENTS, INITIAL_PROBLEM_STATEMENTS);
     if (includeHidden) return list;
-    
-    // Public/user view: strictly require isVisible === true
+
+    const settings = this.getSettings();
+    const unlockTime = new Date(settings.psUnlockTime || '2026-10-24T12:00:00+05:30').getTime();
+    const isPast = Date.now() >= unlockTime;
+    const isGlobal = Boolean(settings.psGlobalVisible);
+
+    if (isPast || isGlobal) {
+      return list;
+    }
+
+    // Public/user view before 12: strictly require isVisible === true
     return list.filter(ps => Boolean(ps.isVisible === true || (ps.isVisible as any) === 'true'));
   }
 
@@ -440,9 +449,9 @@ class PragyanAPIService {
     const norm = (s?: string) => (s || '').trim().toLowerCase().replace(/^ps-/, '');
     const targetNorm = norm(id);
 
-    const index = list.findIndex(p => 
-      norm(p.id) === targetNorm || 
-      norm((p as any).psId) === targetNorm || 
+    const index = list.findIndex(p =>
+      norm(p.id) === targetNorm ||
+      norm((p as any).psId) === targetNorm ||
       norm((p as any)._id) === targetNorm ||
       p.id === id
     );
@@ -483,9 +492,9 @@ class PragyanAPIService {
     const norm = (s?: string) => (s || '').trim().toLowerCase().replace(/^ps-/, '');
     const targetNorm = norm(id);
 
-    const index = list.findIndex(p => 
-      norm(p.id) === targetNorm || 
-      norm((p as any).psId) === targetNorm || 
+    const index = list.findIndex(p =>
+      norm(p.id) === targetNorm ||
+      norm((p as any).psId) === targetNorm ||
       norm((p as any)._id) === targetNorm ||
       p.id === id
     );
@@ -495,9 +504,9 @@ class PragyanAPIService {
       list[index].updatedAt = new Date().toISOString();
       setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
       this.logActivity(
-        'PS_VISIBILITY_TOGGLED', 
-        id, 
-        `Set visibility of "${list[index].title}" to ${isVisible ? 'VISIBLE' : 'HIDDEN'}`, 
+        'PS_VISIBILITY_TOGGLED',
+        id,
+        `Set visibility of "${list[index].title}" to ${isVisible ? 'VISIBLE' : 'HIDDEN'}`,
         isVisible ? 'SUCCESS' : 'WARNING'
       );
     }
@@ -522,9 +531,9 @@ class PragyanAPIService {
       if (res.ok) {
         await res.json();
         const freshList = this.getProblemStatements(true);
-        const idx = freshList.findIndex(p => 
-          norm(p.id) === targetNorm || 
-          norm((p as any).psId) === targetNorm || 
+        const idx = freshList.findIndex(p =>
+          norm(p.id) === targetNorm ||
+          norm((p as any).psId) === targetNorm ||
           norm((p as any)._id) === targetNorm
         );
         if (idx !== -1) {
@@ -579,15 +588,15 @@ class PragyanAPIService {
     const norm = (s?: string) => (s || '').trim().toLowerCase().replace(/^ps-/, '');
     const targetNorm = norm(id);
 
-    const target = list.find(p => 
-      norm(p.id) === targetNorm || 
-      norm((p as any).psId) === targetNorm || 
+    const target = list.find(p =>
+      norm(p.id) === targetNorm ||
+      norm((p as any).psId) === targetNorm ||
       norm((p as any)._id) === targetNorm ||
       p.id === id
     );
-    list = list.filter(p => 
-      norm(p.id) !== targetNorm && 
-      norm((p as any).psId) !== targetNorm && 
+    list = list.filter(p =>
+      norm(p.id) !== targetNorm &&
+      norm((p as any).psId) !== targetNorm &&
       norm((p as any)._id) !== targetNorm &&
       p.id !== id
     );
@@ -721,7 +730,7 @@ class PragyanAPIService {
   }
 
   updateSettings(settings: SystemSettings): SystemSettings {
-    this.updateSettingsAsync(settings).catch(() => {});
+    this.updateSettingsAsync(settings).catch(() => { });
     return { ...this.getSettings(), ...settings };
   }
 
@@ -794,7 +803,7 @@ class PragyanAPIService {
           }
         }
       }
-    } catch {}
+    } catch { }
     return list;
   }
 
@@ -804,7 +813,7 @@ class PragyanAPIService {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
-    } catch {}
+    } catch { }
 
     const users = this.getRegisteredUsers().filter(u => u.id !== userId && u.email !== userId);
     setStored(STORAGE_KEYS.USERS, users);
