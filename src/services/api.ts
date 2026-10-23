@@ -257,7 +257,7 @@ const INITIAL_CMS: HomepageCMS = {
   },
   about: {
     title: 'ABOUT PRAGYAN 2K26',
-    description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2927 .',
+    description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2030.',
     fourPillars: {
       ideate: 'Formulate disruptive solutions for modern economic & operational challenges.',
       innovate: 'Build practical prototypes, financial models, and market intelligence systems.',

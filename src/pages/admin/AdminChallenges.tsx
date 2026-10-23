@@ -389,7 +389,7 @@ export const AdminChallenges: React.FC = () => {
                       <option value="TRK-01">TRACK 1: FINTECH</option>
                       <option value="TRK-02">TRACK 2: MARKETING & ADTECH</option>
                       <option value="TRK-03">TRACK 3: SMART OPERATIONS</option>
-                      <option value="TRK-04">TRACK 4: MANAGEMENT & STRATEGY</option>
+                      <option value="TRK-04">TRACK 4: ENTREPRENEURSHIP</option>
                     </select>
                   </div>
                   <div className="space-y-1">

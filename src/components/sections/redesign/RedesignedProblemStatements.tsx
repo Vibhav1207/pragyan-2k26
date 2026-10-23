@@ -10,13 +10,15 @@ import {
   Wallet, 
   BarChart2, 
   Truck,
-  FileText
+  FileText,
+  Clock
 } from 'lucide-react';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { apiService } from '../../../services/api';
 import type { AdminProblemStatement, SystemSettings, HackathonChallenge } from '../../../types/admin';
 import { downloadProblemStatementWordDoc } from '../../../utils/wordDocHelper';
 import { UniversalChallengesSection } from './UniversalChallengesSection';
+import { useHackathonCountdown } from '../../ui/HackathonCountdown';
 
 interface RedesignedProblemStatementsProps {
   id?: string;
@@ -121,6 +123,14 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     };
   }, []);
 
+  const { hours, minutes, seconds, isTbd } = useHackathonCountdown();
+  const isPast = !isTbd && (hours === 0 && minutes === 0 && seconds === 0);
+
+  const visiblePsCount = problemStatements.filter(p => Boolean(p.isVisible)).length;
+  const isUnlocked = Boolean(settings.psGlobalVisible) || visiblePsCount > 0 || isPast;
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
   const handleCopySummary = (ps: AdminProblemStatement) => {
     const text = `[PRAGYAN 2K26 - ${ps.id}] ${ps.title}\nTrack: ${ps.trackTitle}\nOverview: ${ps.description || ''}\nContext: ${ps.context || ''}`;
     navigator.clipboard.writeText(text);
@@ -133,12 +143,11 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     { id: 'TRK-01', label: 'Track 1: Fintech', icon: Wallet },
     { id: 'TRK-02', label: 'Track 2: Marketing', icon: BarChart2 },
     { id: 'TRK-03', label: 'Track 3: Smart Ops', icon: Truck },
-    { id: 'TRK-04', label: 'Track 4: Management', icon: Briefcase },
+    { id: 'TRK-04', label: 'Track 4: Entrepreneurship', icon: Briefcase },
   ];
 
   const filteredStatements = problemStatements.filter((ps) => {
-    // Only show problem statements that are visible (or if admin turned on psGlobalVisible)
-    if (!ps.isVisible && !settings.psGlobalVisible) return false;
+    if (!isPast && !settings.psGlobalVisible && !ps.isVisible) return false;
     const matchesTrack = isMatchingTrack(selectedTrack, ps.trackId, ps.trackTitle);
     const matchesSearch = 
       searchQuery.trim() === '' ||
@@ -175,17 +184,78 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
               <span className="text-xs font-mono font-bold text-[#A77A1C] uppercase tracking-wider">
                 Official Hackathon Problem Statements
               </span>
+              {!isTbd && (
+                <div className="flex items-center gap-2 bg-[#E9E1D2] px-3.5 py-1.5 rounded-full border border-[#A77A1C]/35 font-mono text-xs font-black text-[#162E28] shadow-sm">
+                  <Clock className="w-3.5 h-3.5 text-[#A77A1C]" />
+                  <span>FINAL HACKATHON: {pad(hours)}:{pad(minutes)}:{pad(seconds)}</span>
+                </div>
+              )}
             </div>
           </div>
         </ScrollReveal>
 
-        {/* PROBLEM STATEMENTS BROWSER (Directly live so organizers can test hide / unhide) */}
-        <div className="space-y-10">
-          {/* Milestone Challenges Section (Scoped to active track & PS) */}
-          <UniversalChallengesSection 
-            challenges={challenges} 
-            selectedTrack={selectedTrack}
-          />
+        {/* LOCKED STATE COUNTDOWN BANNER (Synced with navbar main final hackathon timer) */}
+        {!isUnlocked && (
+          <ScrollReveal delay={100}>
+            <div className="p-8 sm:p-12 rounded-3xl bg-[#162E28] text-[#F9F4EA] border-2 border-[#A77A1C] shadow-2xl text-center space-y-8 relative overflow-hidden">
+              <div className="max-w-2xl mx-auto space-y-3">
+                <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#E5BE61] uppercase tracking-widest bg-[#2B3E35] px-3.5 py-1 rounded-full border border-[#A77A1C]/40">
+                  <Clock className="w-3.5 h-3.5 text-[#E5BE61]" />
+                  <span>FINAL HACKATHON COUNTDOWN</span>
+                </div>
+                <h3 className="font-serif font-black text-3xl sm:text-4xl text-[#E5BE61] uppercase tracking-tight">
+                  Problem Statements Unlock In
+                </h3>
+                <p className="text-sm sm:text-base text-[#D2CAB6] font-sans">
+                  The official problem statements are sealed by default to ensure an equitable, competitive hackathon environment. Organizers will unhide them on schedule for all registered teams.
+                </p>
+              </div>
+
+              {/* Countdown Digits synced with navbar main timer */}
+              {isTbd ? (
+                <div className="inline-block bg-[#10221E] border-2 border-[#A77A1C]/60 text-[#E5BE61] font-black text-3xl sm:text-5xl px-8 py-4 rounded-2xl shadow-inner tracking-widest font-mono">
+                  TBD
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-3 sm:gap-6 font-mono">
+                  <div className="flex flex-col items-center">
+                    <div className="w-20 sm:w-28 h-20 sm:h-28 rounded-2xl bg-black/40 border-2 border-[#A77A1C]/50 flex items-center justify-center text-3xl sm:text-5xl font-black text-[#E5BE61] shadow-inner">
+                      {pad(hours)}
+                    </div>
+                    <span className="text-[11px] font-bold text-[#D2CAB6] mt-2 uppercase tracking-widest">HOURS</span>
+                  </div>
+                  <span className="text-3xl sm:text-5xl font-black text-[#A77A1C] mb-6">:</span>
+                  <div className="flex flex-col items-center">
+                    <div className="w-20 sm:w-28 h-20 sm:h-28 rounded-2xl bg-black/40 border-2 border-[#A77A1C]/50 flex items-center justify-center text-3xl sm:text-5xl font-black text-[#E5BE61] shadow-inner">
+                      {pad(minutes)}
+                    </div>
+                    <span className="text-[11px] font-bold text-[#D2CAB6] mt-2 uppercase tracking-widest">MINUTES</span>
+                  </div>
+                  <span className="text-3xl sm:text-5xl font-black text-[#A77A1C] mb-6">:</span>
+                  <div className="flex flex-col items-center">
+                    <div className="w-20 sm:w-28 h-20 sm:h-28 rounded-2xl bg-black/40 border-2 border-[#A77A1C]/50 flex items-center justify-center text-3xl sm:text-5xl font-black text-[#E5BE61] shadow-inner">
+                      {pad(seconds)}
+                    </div>
+                    <span className="text-[11px] font-bold text-[#D2CAB6] mt-2 uppercase tracking-widest">SECONDS</span>
+                  </div>
+                </div>
+              )}
+
+              <div className="pt-2 text-xs font-mono text-[#D2CAB6]">
+                Official Launch Scheduled at 12:00 PM &bull; 24 October 2026
+              </div>
+            </div>
+          </ScrollReveal>
+        )}
+
+        {/* UNLOCKED PROBLEM STATEMENTS BROWSER */}
+        {isUnlocked && (
+          <div className="space-y-10">
+            {/* Milestone Challenges Section (Scoped to active track & PS) */}
+            <UniversalChallengesSection 
+              challenges={challenges} 
+              selectedTrack={selectedTrack}
+            />
 
           {/* Filter Tabs & Search Bar */}
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
@@ -342,7 +412,8 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
               </div>
             )}
           </div>
-        </div>
+        )}
+      </div>
 
       {/* FULL STATEMENT SCOPE MODAL */}
       {activeModalPS && (

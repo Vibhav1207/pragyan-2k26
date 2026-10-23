@@ -28,7 +28,7 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
         <div className="hidden sm:flex items-center gap-3 shrink-0 select-none">
           <div className="font-mono text-[9px] text-[#A77A1C] font-extrabold tracking-widest uppercase text-right leading-snug border-r border-[#D2CAB6] pr-3">
             <div>BBA INNOVATION</div>
-            <div>SDG GOAL 2927 </div>
+            <div>SDG GOAL 2030</div>
             <div>SANJIVANI UNIV</div>
           </div>
           <div className="w-9 h-9 rounded-full bg-[#162E28] text-[#E5BE61] font-serif font-bold text-xs flex items-center justify-center border border-[#A77A1C]/40">

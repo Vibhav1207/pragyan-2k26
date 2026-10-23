@@ -240,7 +240,7 @@ async function seedDatabaseIfNeeded() {
         },
         about: {
           title: 'ABOUT PRAGYAN 2K26',
-          description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2927 .',
+          description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2030.',
           fourPillars: {
             ideate: 'Formulate disruptive solutions for modern economic & operational challenges.',
             innovate: 'Build practical prototypes, financial models, and market intelligence systems.',
@@ -588,9 +588,13 @@ app.get('/api/problem-statements', async (req, res, next) => {
     }
 
     // Public / Participant request (and Main Website view):
-    // If admin enabled global unhide, return all statements
     const settings = await SystemSettings.findOne().lean();
-    if (settings && settings.psGlobalVisible) {
+    const unlockTarget = settings?.psUnlockTime || '2026-10-24T12:00:00+05:30';
+    const isPastUnlockTime = Date.now() >= new Date(unlockTarget).getTime();
+    const isGlobalVisible = Boolean(settings?.psGlobalVisible);
+
+    // If countdown reached 12:00 PM OR admin clicked ALL UNHIDDEN:
+    if (isPastUnlockTime || isGlobalVisible) {
       const allPs = await ProblemStatement.find().sort({ order: 1, createdAt: 1 });
       return res.json(allPs);
     }

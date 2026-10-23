@@ -131,7 +131,7 @@ export const RedesignedFooter: React.FC = () => {
                 NATIONAL LEVEL HACKATHON
               </div>
               <p className="text-xs text-[#F3EDE0]/80 font-sans max-w-md leading-relaxed">
-                Theme: Innovation & Entrepreneurship on SDG Goal 2927 . 24-Hour Innovation Sprint for India's brightest commerce & management minds hosted at <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#E5BE61] hover:underline font-semibold">Sanjivani University, Kopargaon</a>.
+                Theme: Innovation & Entrepreneurship on SDG Goal 2030. 24-Hour Innovation Sprint for India's brightest commerce & management minds hosted at <a href="https://sanjivani.edu.in" target="_blank" rel="noopener noreferrer" className="text-[#E5BE61] hover:underline font-semibold">Sanjivani University, Kopargaon</a>.
               </p>
             </div>
           </div>

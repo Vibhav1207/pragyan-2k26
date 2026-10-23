@@ -31,7 +31,7 @@ export const RedesignedMissionSection: React.FC = () => {
           <div className="lg:col-span-6 xl:col-span-7 space-y-6">
             <ScrollReveal delay={100}>
               <h3 className="font-serif font-black text-2xl sm:text-4xl text-[#162E28] leading-snug uppercase">
-                INNOVATION & ENTREPRENEURSHIP ON <span className="text-[#A77A1C]">SDG GOAL 2927 </span>
+                INNOVATION & ENTREPRENEURSHIP ON <span className="text-[#A77A1C]">SDG GOAL 2030</span>
               </h3>
             </ScrollReveal>
 
@@ -43,7 +43,7 @@ export const RedesignedMissionSection: React.FC = () => {
 
             <ScrollReveal delay={200}>
               <p className="text-sm sm:text-base text-[#7B8379] font-sans leading-relaxed">
-                Grounding every track in United Nations Sustainable Development Goals (SDG Goal 2927 ), Pragyan 2K26 empowers multi-disciplinary student teams to turn creative concepts into viable, deployable business and technological solutions.
+                Grounding every track in United Nations Sustainable Development Goals (SDG Goal 2030), Pragyan 2K26 empowers multi-disciplinary student teams to turn creative concepts into viable, deployable business and technological solutions.
               </p>
             </ScrollReveal>
           </div>
