@@ -108,11 +108,33 @@ export interface SystemSettings {
   submissionOpen: boolean;
   submissionDeadline: string;
   allowedFileTypes: string[];
-  maxFileSizeMb: number;
+  maxFileSizeMb?: number;
   maintenanceMode: boolean;
   homepageVisibility: boolean;
   announcementVisibility: boolean;
+  psUnlockTime?: string;
+  psGlobalVisible?: boolean;
 }
+
+export interface AdminProblemStatement {
+  id: string;
+  trackId: string;
+  trackTitle: string;
+  title: string;
+  description?: string;
+  context?: string;
+  documentName?: string;
+  documentUrl?: string;
+  documentSize?: string;
+  fileType?: string;
+  isVisible: boolean; // default false (hidden)
+  releaseAt?: string; // scheduled release time (ISO string)
+  order?: number;
+  difficulty?: 'Intermediate' | 'Advanced';
+  createdAt: string;
+  updatedAt?: string;
+}
+
 
 export interface HomepageCMS {
   hero: {

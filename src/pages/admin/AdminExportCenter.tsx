@@ -4,7 +4,7 @@ import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
 
 export const AdminExportCenter: React.FC = () => {
-  const [dataset, setDataset] = useState<'PARTICIPANTS' | 'SUBMISSIONS' | 'TRACKS' | 'ACTIVITY'>('PARTICIPANTS');
+  const [dataset, setDataset] = useState<'PARTICIPANTS' | 'PROBLEM_STATEMENTS' | 'TRACKS' | 'ACTIVITY'>('PARTICIPANTS');
   const [format, setFormat] = useState<'CSV' | 'EXCEL'>('CSV');
   const [trackFilter, setTrackFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -17,8 +17,8 @@ export const AdminExportCenter: React.FC = () => {
       date: '2026-09-17 11:30'
     },
     {
-      file: 'pragyan_submissions_summary.csv',
-      type: 'Submissions Data',
+      file: 'pragyan_problem_statements.csv',
+      type: 'Problem Statements Data',
       generatedBy: 'admin@sanjivani.edu.in',
       date: '2026-09-16 14:15'
     }
@@ -38,15 +38,19 @@ export const AdminExportCenter: React.FC = () => {
         Role: u.role,
         JoinedDate: u.createdAt || ''
       }));
-    } else if (dataset === 'SUBMISSIONS') {
-      const subs = apiService.getSubmissions();
-      data = subs.map(s => ({
-        SubmissionID: s.id,
-        TeamName: s.teamName,
-        ProjectTitle: s.projectTitle,
-        Status: s.status,
-        GitHubURL: s.githubUrl || '',
-        SubmittedAt: s.submittedAt || ''
+    } else if (dataset === 'PROBLEM_STATEMENTS') {
+      const pss = apiService.getProblemStatements(true);
+      data = pss.map(p => ({
+        PS_ID: p.id,
+        Track: p.trackTitle,
+        TrackID: p.trackId,
+        Title: p.title,
+        Visibility: p.isVisible ? 'VISIBLE' : 'HIDDEN',
+        DocumentFile: p.documentName || '',
+        DocumentSize: p.documentSize || '',
+        ReleaseTime: p.releaseAt || 'Manual',
+        Difficulty: p.difficulty || 'Intermediate',
+        CreatedDate: p.createdAt || ''
       }));
     } else if (dataset === 'TRACKS') {
       data = tracks.map(tr => ({
@@ -121,7 +125,7 @@ export const AdminExportCenter: React.FC = () => {
             <div className="space-y-1.5">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Select Target Dataset</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(['PARTICIPANTS', 'SUBMISSIONS', 'TRACKS', 'ACTIVITY'] as const).map(d => (
+                {(['PARTICIPANTS', 'PROBLEM_STATEMENTS', 'TRACKS', 'ACTIVITY'] as const).map(d => (
                   <button
                     key={d}
                     type="button"
@@ -132,7 +136,7 @@ export const AdminExportCenter: React.FC = () => {
                         : 'bg-[#F9F4EA] border-[#D2CAB6] text-[#7B8379] hover:bg-[#F3EDE0]'
                     }`}
                   >
-                    {d}
+                    {d === 'PROBLEM_STATEMENTS' ? 'PROBLEM STATEMENTS' : d}
                   </button>
                 ))}
               </div>

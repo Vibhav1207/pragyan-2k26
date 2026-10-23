@@ -159,6 +159,22 @@ export const AdminLogin: React.FC = () => {
             <span>SIGN IN WITH GOOGLE (ADMIN)</span>
           </button>
 
+          {import.meta.env.DEV && (
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  loginAdmin('admin@sanjivani.edu.in', 'dev-local-admin-token', 'PRAGYAN Super Admin');
+                  navigate('/admin/dashboard');
+                }}
+                className="w-full py-3 px-4 rounded-xl bg-[#E9E1D2] hover:bg-[#D2CAB6] text-[#162E28] font-mono text-xs font-bold border border-[#A77A1C]/50 transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              >
+                <ShieldCheck className="w-4 h-4 text-[#A77A1C]" />
+                <span>DIRECT ADMIN ACCESS (LOCAL DEV ONLY)</span>
+              </button>
+            </div>
+          )}
+
           <div className="pt-2 text-center border-t border-[#D2CAB6]/60">
             <Link to="/" className="text-xs text-[#7B8379] hover:text-[#162E28] font-mono font-bold transition">
               ← Return to Main Website

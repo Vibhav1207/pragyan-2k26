@@ -18,21 +18,21 @@ export const FLYER_TIMELINE: TimelinePhase[] = [
     phase: "ROUND 1 & 2",
     type: "ONLINE",
     title: "ROUND 1 & 2 — ONLINE SELECTION",
-    badge: "ROUND 1 & 2 OVER",
-    statusBadge: "SUBMISSIONS DONE",
+    badge: "ONLINE EVALUATION COMPLETED",
+    statusBadge: "EVALUATION DONE",
     events: [
       {
         name: "Round 1: Team Registration",
         status: "COMPLETED",
-        description: "Online team registration (4 members per team) and track selection concluded."
+        description: "Online team registration (4 members per team) and track selection."
       },
       {
         name: "Round 2: Solution Submissions",
-        status: "SUBMISSIONS DONE",
-        description: "Project proposal deck, problem statement framework, and architecture submission completed."
+        status: "COMPLETED",
+        description: "Project proposal deck, problem statement framework, and architecture submission."
       }
     ],
-    footerNotice: "ROUND 1 & 2 CONCLUDED • SHORTLISTED FINALISTS ANNOUNCED"
+    footerNotice: "ONLINE ROUNDS COMPLETED • FINALISTS SHORTLISTED"
   },
   {
     phase: "FINAL HACKATHON",

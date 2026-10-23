@@ -161,18 +161,15 @@ export const HackathonTopCountdownBar: React.FC = () => {
     <div className="bg-[#10221E] text-[#F9F4EA] border-b border-[#A77A1C]/35 relative z-50 select-none overflow-hidden text-xs">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
         
-        {/* Left Status Badges: Round 1 Over, Round 2 Submissions Done, Final Hackathon */}
+        {/* Left Status: Official Hackathon Finale */}
         <div className="flex items-center gap-2 font-mono flex-wrap">
-          <span className="bg-[#E9E1D2] text-[#162E28] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded uppercase tracking-wider">
-            ROUND 1 OVER
-          </span>
-          <span className="bg-[#E9E1D2] text-[#162E28] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded uppercase tracking-wider">
-            ROUND 2 (₹1,000 PAID) DONE
+          <span className="text-[#E5BE61] font-extrabold text-[11px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5">
+            <Trophy className="w-3.5 h-3.5 text-[#E5BE61]" />
+            PRAGYAN 2K26 GRAND FINALE
           </span>
           <span className="hidden sm:inline text-[#D2CAB6]/60 text-[11px]">|</span>
-          <span className="text-[#E5BE61] font-bold text-[11px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5">
-            <Trophy className="w-3.5 h-3.5 text-[#E5BE61]" />
-            FINAL HACKATHON
+          <span className="text-[#D2CAB6] text-[11px] font-sans">
+            Sanjivani University Campus
           </span>
         </div>
 
@@ -245,24 +242,19 @@ export const HackathonHeroCountdown: React.FC = () => {
         {/* Left Info: Status & Round Details */}
         <div className="space-y-2.5">
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-            <span className="inline-flex items-center gap-1.5 bg-[#162E28] text-[#E5BE61] text-[10px] sm:text-xs font-mono font-black uppercase px-3 py-1 rounded-full border border-[#A77A1C]/50 shadow-sm">
+            <span className="inline-flex items-center gap-1.5 bg-[#162E28] text-[#E5BE61] text-[10px] sm:text-xs font-mono font-black uppercase px-3.5 py-1 rounded-full border border-[#A77A1C]/50 shadow-sm">
               <Trophy className="w-3.5 h-3.5 text-[#E5BE61]" />
-              FINAL HACKATHON
+              FINAL HACKATHON GRAND FINALE
             </span>
 
-            <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#162E28] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-              <span>ROUND 1 OVER</span>
-            </span>
-
-            <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-              <span>ROUND 2 (₹1,000 PAID) DONE</span>
+              <span>FINALIST TEAMS ANNOUNCED</span>
             </span>
 
             <span className="inline-flex items-center gap-1 text-[#A77A1C] text-[10px] sm:text-xs font-mono font-bold uppercase">
               <MapPin className="w-3.5 h-3.5" />
-              <span>SANJIVANI CAMPUS</span>
+              <span>SANJIVANI CAMPUS, KOPARGAON</span>
             </span>
           </div>
 
@@ -271,7 +263,7 @@ export const HackathonHeroCountdown: React.FC = () => {
           </h3>
 
           <p className="text-xs sm:text-sm font-sans text-[#7B8379] max-w-xl">
-            Round 1 and Round 2 are completed (Round 2 fee was ₹1,000 where selected teams have already paid). Qualified finalist teams prepare for the 24-hour on-ground innovation sprint at Sanjivani University.
+            Selected national finalist teams assemble for an intensive 24-hour on-ground innovation sprint driving solutions for UN Sustainable Development Goals 2030 at Sanjivani University.
           </p>
         </div>
 

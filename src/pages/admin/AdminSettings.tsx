@@ -122,44 +122,47 @@ export const AdminSettings: React.FC = () => {
         </div>
 
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
-          <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
-            2. PROJECT SUBMISSION CONFIGURATION
+          <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2 flex items-center justify-between">
+            <span>2. PROBLEM STATEMENTS & TIMED VISIBILITY CONFIGURATION</span>
+            <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#162E28] text-[#E5BE61]">
+              PORTAL VISIBILITY
+            </span>
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             <div className="space-y-1">
-              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Submission Upload Status</label>
+              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Public Visibility State</label>
               <button
                 type="button"
-                onClick={() => setSettings({ ...settings, submissionOpen: !settings.submissionOpen })}
+                onClick={() => setSettings({ ...settings, psGlobalVisible: !settings.psGlobalVisible })}
                 className={`w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold border transition ${
-                  settings.submissionOpen
+                  settings.psGlobalVisible
                     ? 'bg-emerald-900/20 text-emerald-900 border-emerald-600/40'
-                    : 'bg-red-900/20 text-red-900 border-red-600/40'
+                    : 'bg-amber-900/20 text-amber-900 border-amber-600/40'
                 }`}
               >
-                {settings.submissionOpen ? '✓ SUBMISSIONS OPEN' : '✕ SUBMISSIONS CLOSED'}
+                {settings.psGlobalVisible ? '✓ ALL UNHIDDEN / LIVE' : '🔒 HIDDEN BY DEFAULT (SECURE)'}
               </button>
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Submission Deadline</label>
+              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Master Release Date & Time</label>
               <input
-                type="text"
-                value={settings.submissionDeadline}
-                onChange={(e) => setSettings({ ...settings, submissionDeadline: e.target.value })}
+                type="datetime-local"
+                value={settings.psUnlockTime ? settings.psUnlockTime.slice(0, 16) : '2026-10-24T12:00'}
+                onChange={(e) => setSettings({ ...settings, psUnlockTime: new Date(e.target.value).toISOString() })}
                 className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Max File Upload Size (MB)</label>
+              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Word Document Attachments</label>
               <input
-                type="number"
-                value={settings.maxFileSizeMb}
-                onChange={(e) => setSettings({ ...settings, maxFileSizeMb: parseInt(e.target.value) || 50 })}
-                className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"
+                type="text"
+                disabled
+                value=".docx, .doc, .pdf (Microsoft Word Briefs)"
+                className="w-full p-2.5 rounded-xl bg-[#F3EDE0] border border-[#D2CAB6] text-[#7B8379] text-xs font-mono"
               />
             </div>
 

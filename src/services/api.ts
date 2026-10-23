@@ -8,13 +8,16 @@ import type {
   HomepageCMS,
   SubmissionFile,
   UserProfile,
-  Role
+  Role,
+  AdminProblemStatement
 } from '../types/admin';
+import { INITIAL_PROBLEM_STATEMENTS } from '../data/initialProblemStatements';
 
 const STORAGE_KEYS = {
   TEAMS: 'pragyan_teams_v2',
   SUBMISSIONS: 'pragyan_submissions_v2',
   TRACKS: 'pragyan_tracks_v2',
+  PROBLEM_STATEMENTS: 'pragyan_problem_statements_v2',
   ANNOUNCEMENTS: 'pragyan_announcements_v2',
   ACTIVITY_LOGS: 'pragyan_activity_v2',
   SETTINGS: 'pragyan_settings_v2',
@@ -27,6 +30,10 @@ try {
   localStorage.removeItem('pragyan_teams_v2');
   localStorage.removeItem('pragyan_teams_v1');
   localStorage.removeItem('pragyan_teams');
+  const storedPs = localStorage.getItem('pragyan_problem_statements_v2');
+  if (storedPs && (storedPs.includes('Hyper-Localized Micro-Credit') || storedPs.includes('PS-TRK1-01'))) {
+    localStorage.removeItem('pragyan_problem_statements_v2');
+  }
 } catch {
 
 }
@@ -112,8 +119,8 @@ const INITIAL_TRACKS: Track[] = [
 const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
-    title: 'ROUND 1 & 2 OVER',
-    content: 'Round 1 registration and Round 2 submissions are officially done. Shortlisted teams are advancing to the Final Hackathon Grand Finale.',
+    title: 'PRAGYAN 2K26 COMMENCING',
+    content: 'Welcome to Pragyan 2K26 National Level Hackathon on SDG Goal 2030 at Sanjivani University, Kopargaon.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -121,8 +128,8 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'ANN-02',
-    title: 'FINAL HACKATHON',
-    content: '24-Hour on-ground grand finale sprint commences shortly at Sanjivani University, Kopargaon.',
+    title: 'PROBLEM STATEMENTS REPOSITORY',
+    content: 'Problem statement blueprints across all 4 innovation tracks with official Word document specifications are managed by track evaluators.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -244,6 +251,178 @@ class PragyanAPIService {
     tracks = tracks.filter(t => t.id !== trackId);
     setStored(STORAGE_KEYS.TRACKS, tracks);
     this.logActivity('TRACK_DELETED', trackId, `Deleted track ID ${trackId}`, 'DANGER');
+    return true;
+  }
+
+  getProblemStatements(includeHidden = false): AdminProblemStatement[] {
+    const list = getStored<AdminProblemStatement[]>(STORAGE_KEYS.PROBLEM_STATEMENTS, INITIAL_PROBLEM_STATEMENTS);
+    if (includeHidden) return list;
+    
+    // Public/user view: visible if admin set isVisible=true OR if releaseAt has arrived
+    const now = Date.now();
+    return list.filter(ps => {
+      if (ps.isVisible) return true;
+      if (ps.releaseAt && new Date(ps.releaseAt).getTime() <= now) return true;
+      return false;
+    });
+  }
+
+  async fetchProblemStatementsAsync(includeHidden = false): Promise<AdminProblemStatement[]> {
+    try {
+      const url = includeHidden ? '/api/problem-statements?admin=true' : '/api/problem-statements';
+      let res = await fetch(url, { headers: getAuthHeaders() });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000${url}`, { headers: getAuthHeaders() });
+      }
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: AdminProblemStatement[] = data.map((item: any) => ({
+            id: item.psId || item.id || `PS-${item._id}`,
+            trackId: item.trackId,
+            trackTitle: item.trackTitle,
+            title: item.title,
+            description: item.description,
+            context: item.context,
+            documentName: item.documentName,
+            documentUrl: item.documentUrl,
+            documentSize: item.documentSize,
+            fileType: item.fileType,
+            isVisible: Boolean(item.isVisible),
+            releaseAt: item.releaseAt,
+            order: item.order,
+            difficulty: item.difficulty,
+            createdAt: item.createdAt || new Date().toISOString(),
+            updatedAt: item.updatedAt
+          }));
+          if (includeHidden) {
+            setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, mapped);
+          }
+          return mapped;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend problem statements fetch note:', err);
+    }
+    return this.getProblemStatements(includeHidden);
+  }
+
+  createProblemStatement(data: Omit<AdminProblemStatement, 'id' | 'createdAt'>): AdminProblemStatement {
+    const list = this.getProblemStatements(true);
+    const newPs: AdminProblemStatement = {
+      ...data,
+      id: `PS-${Date.now().toString(36).toUpperCase()}`,
+      isVisible: Boolean(data.isVisible ?? false), // Default hidden unless admin specified true
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    list.push(newPs);
+    setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
+    this.logActivity('PS_CREATED', newPs.id, `Created problem statement: ${newPs.title} for ${newPs.trackTitle}`, 'SUCCESS');
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
+    }
+
+    // Async backend sync
+    fetch('/api/problem-statements', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(newPs)
+    }).catch(() => {});
+
+    return newPs;
+  }
+
+  updateProblemStatement(id: string, updates: Partial<AdminProblemStatement>): AdminProblemStatement | null {
+    const list = this.getProblemStatements(true);
+    const index = list.findIndex(p => p.id === id);
+    if (index === -1) return null;
+
+    list[index] = { ...list[index], ...updates, updatedAt: new Date().toISOString() };
+    setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
+    this.logActivity('PS_UPDATED', id, `Updated problem statement: ${list[index].title}`, 'INFO');
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
+    }
+
+    // Async backend sync
+    fetch(`/api/problem-statements/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(list[index])
+    }).catch(() => {});
+
+    return list[index];
+  }
+
+  toggleProblemStatementVisibility(id: string, isVisible: boolean): boolean {
+    const list = this.getProblemStatements(true);
+    const index = list.findIndex(p => p.id === id);
+    if (index === -1) return false;
+
+    list[index].isVisible = isVisible;
+    list[index].updatedAt = new Date().toISOString();
+    setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
+    this.logActivity('PS_VISIBILITY_TOGGLED', id, `Set visibility of "${list[index].title}" to ${isVisible ? 'VISIBLE' : 'HIDDEN'}`, isVisible ? 'SUCCESS' : 'WARNING');
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
+    }
+
+    // Async backend sync
+    fetch(`/api/problem-statements/${id}/visibility`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ isVisible })
+    }).catch(() => {});
+
+    return true;
+  }
+
+  bulkUpdateProblemStatementVisibility(isVisible: boolean, trackId?: string): boolean {
+    const list = this.getProblemStatements(true);
+    list.forEach(p => {
+      if (!trackId || p.trackId === trackId) {
+        p.isVisible = isVisible;
+        p.updatedAt = new Date().toISOString();
+      }
+    });
+    setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
+    this.logActivity('PS_BULK_VISIBILITY', trackId || 'ALL_TRACKS', `Set ${isVisible ? 'VISIBLE' : 'HIDDEN'} for ${trackId ? `Track ${trackId}` : 'All Tracks'}`, isVisible ? 'SUCCESS' : 'WARNING');
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
+    }
+
+    // Async backend sync
+    fetch('/api/problem-statements/bulk-visibility', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ isVisible, trackId })
+    }).catch(() => {});
+
+    return true;
+  }
+
+  deleteProblemStatement(id: string): boolean {
+    let list = this.getProblemStatements(true);
+    const target = list.find(p => p.id === id);
+    list = list.filter(p => p.id !== id);
+    setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
+    this.logActivity('PS_DELETED', id, `Deleted problem statement: ${target?.title || id}`, 'DANGER');
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
+    }
+
+    // Async backend sync
+    fetch(`/api/problem-statements/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    }).catch(() => {});
+
     return true;
   }
 

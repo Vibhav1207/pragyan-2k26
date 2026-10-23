@@ -36,7 +36,7 @@ export const REGISTRATIONS_OPEN = false;
  *   e.g. "2026-03-25T09:00:00+05:30".
  * Using an absolute calendar datetime ensures pushing new code/updates will NEVER reset the timer!
  */
-export const FINAL_HACKATHON_TARGET_ISO: string | null = null;
+export const FINAL_HACKATHON_TARGET_ISO: string | null = "2026-10-24T12:00:00+05:30";
 
 export const EVENT_DATA: EventInfo = {
   name: "PRAGYAN 2K26",

@@ -9,7 +9,6 @@ import { RedesignedHero } from './components/sections/redesign/RedesignedHero';
 import { RedesignedMissionSection } from './components/sections/redesign/RedesignedMissionSection';
 import { RedesignedFeaturedChallenges } from './components/sections/redesign/RedesignedFeaturedChallenges';
 import { RedesignedSchedulePreview } from './components/sections/redesign/RedesignedSchedulePreview';
-import { RedesignedRegistrationSection } from './components/sections/redesign/RedesignedRegistrationSection';
 import { RedesignedWhyParticipate } from './components/sections/redesign/RedesignedWhyParticipate';
 import { RedesignedOrganizersSection } from './components/sections/redesign/RedesignedOrganizersSection';
 import { RedesignedKopargaonSection } from './components/sections/redesign/RedesignedKopargaonSection';
@@ -59,9 +58,9 @@ export function App() {
   }, [location.pathname, location.hash]);
 
   const handleRegisterClick = () => {
-    const regElem = document.getElementById('registration');
-    if (regElem) {
-      regElem.scrollIntoView({ behavior: 'smooth' });
+    const psElem = document.getElementById('problem-statements');
+    if (psElem) {
+      psElem.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -84,12 +83,8 @@ export function App() {
           onExploreChallenges={handleExploreTracks}
         />
         <RedesignedMissionSection />
-        <RedesignedFeaturedChallenges
-          onOpenFullChallenges={handleExploreTracks}
-          onSelectChallenge={handleExploreTracks}
-        />
+        <RedesignedFeaturedChallenges />
         <RedesignedSchedulePreview />
-        <RedesignedRegistrationSection onRegisterClick={handleRegisterClick} />
         <RedesignedWhyParticipate onRegisterClick={handleRegisterClick} />
         <RedesignedOrganizersSection />
         <RedesignedKopargaonSection onRegisterClick={handleRegisterClick} />

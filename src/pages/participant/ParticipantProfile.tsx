@@ -84,6 +84,30 @@ export const ParticipantProfile: React.FC = () => {
             </div>
           </div>
 
+          {/* Hackathon Problem Statements Launch Card */}
+          <div className="bg-gradient-to-br from-[#162E28] to-[#0A1613] text-[#F9F4EA] p-6 sm:p-7 rounded-2xl border-2 border-[#A77A1C]/50 space-y-4 shadow-xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <span className="font-mono text-[10px] font-bold text-[#E5BE61] uppercase tracking-widest bg-white/10 px-3 py-1 rounded-full border border-[#E5BE61]/30">
+                  NATIONAL HACKATHON LAUNCH
+                </span>
+                <h3 className="font-serif font-black text-xl sm:text-2xl text-[#E5BE61]">
+                  Official Problem Statements
+                </h3>
+                <p className="text-xs text-[#D2CAB6] font-sans max-w-xl">
+                  12 industry problem statements across 4 tracks are scheduled to unlock tomorrow at 12:00 PM IST (Oct 24, 2026) for all participating teams.
+                </p>
+              </div>
+
+              <Link
+                to="/problem-statements"
+                className="px-5 py-2.5 rounded-xl bg-[#E5BE61] hover:bg-[#FACC15] text-[#162E28] font-mono text-xs font-black uppercase tracking-wider transition-transform hover:scale-105 shrink-0 shadow-lg text-center"
+              >
+                View Problem Statements →
+              </Link>
+            </div>
+          </div>
+
         </div>
 
         <div className="pt-4 border-t border-[#D2CAB6] flex justify-end">

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Wallet, BarChart2, Truck, Briefcase, Lock, ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Wallet, BarChart2, Truck, Briefcase, ArrowRight, FileText, Sparkles } from 'lucide-react';
 import { HACKATHON_TRACKS, type Track } from '../../../data/challenges';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 
@@ -10,15 +11,20 @@ interface RedesignedFeaturedChallengesProps {
 }
 
 export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallengesProps> = ({
-  onRegisterClick: _onRegisterClick,
-  onOpenFullChallenges,
   onSelectChallenge,
 }) => {
+  const navigate = useNavigate();
+
   const iconMap: Record<string, React.ElementType> = {
     Wallet,
     BarChart2,
     Truck,
     Briefcase,
+  };
+
+  const handleOpenTrackPS = (trackId: string) => {
+    if (onSelectChallenge) onSelectChallenge(trackId);
+    navigate(`/problem-statements?track=${trackId}`);
   };
 
   return (
@@ -28,7 +34,8 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
         <ScrollReveal delay={0}>
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#D2CAB6] pb-6 gap-4">
             <div className="space-y-2">
-              <span className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest bg-[#E9E1D2] px-3.5 py-1.5 rounded-full border border-[#A77A1C]/30">
+              <span className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest bg-[#E9E1D2] px-3.5 py-1.5 rounded-full border border-[#A77A1C]/30 flex items-center gap-1.5 w-fit">
+                <Sparkles className="w-3.5 h-3.5 text-[#A77A1C]" />
                 OFFICIAL HACKATHON TRACKS
               </span>
               <h2 className="font-serif font-black text-4xl sm:text-6xl text-[#162E28] uppercase tracking-tight">
@@ -39,7 +46,7 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
               </p>
             </div>
             <div className="font-mono text-xs font-bold text-[#7B8379] uppercase">
-              4 COMPETITIVE DOMAINS
+              4 COMPETITIVE DOMAINS &bull; 5 PROBLEM STATEMENTS EACH
             </div>
           </div>
         </ScrollReveal>
@@ -51,13 +58,10 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
             return (
               <ScrollReveal key={t.id} delay={150 + idx * 120} duration={650}>
                 <div
-                  onClick={() => {
-                    if (onSelectChallenge) onSelectChallenge(t.id);
-                    if (onOpenFullChallenges) onOpenFullChallenges();
-                  }}
+                  onClick={() => handleOpenTrackPS(t.id)}
                   className="p-8 rounded-2xl bg-[#F3EDE0] border border-[#D2CAB6] hover:border-[#A77A1C] hover:bg-[#E9E1D2] group cursor-pointer h-full flex flex-col justify-between space-y-6 transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg"
                 >
-                  <div className="space-y-4">
+                  <div className="space-y-5">
 
                     <div className="flex items-center justify-between border-b border-[#D2CAB6] pb-4">
                       <span className="font-mono font-black text-xs px-4 py-1.5 rounded-lg bg-[#162E28] text-[#E5BE61] uppercase tracking-wider shadow-sm border border-[#A77A1C]/40">
@@ -78,9 +82,24 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-[#D2CAB6] flex items-center justify-between text-xs font-mono font-extrabold text-[#A77A1C]">
-                    <span>SDG GOAL 2030 TRACK</span>
-                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 text-[#162E28]" />
+                  <div className="space-y-4 pt-4 border-t border-[#D2CAB6]">
+                    <div className="flex items-center justify-between text-xs font-mono font-extrabold text-[#A77A1C]">
+                      <span>SDG GOAL 2030 DOMAIN</span>
+                      <span className="text-[11px] text-[#7B8379]">5 Challenge Blueprints</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenTrackPS(t.id);
+                      }}
+                      className="w-full py-3 px-4 rounded-xl bg-[#162E28] group-hover:bg-[#2B3E35] text-[#E5BE61] font-mono text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 border border-[#A77A1C]/50 transition-all shadow-sm hover:shadow-md cursor-pointer"
+                    >
+                      <FileText className="w-4 h-4 text-[#E5BE61]" />
+                      <span>SHOW PROBLEM STATEMENTS (PS)</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
                   </div>
                 </div>
               </ScrollReveal>
@@ -89,14 +108,15 @@ export const RedesignedFeaturedChallenges: React.FC<RedesignedFeaturedChallenges
         </div>
 
         <ScrollReveal delay={550}>
-          <div className="pt-4 flex justify-center">
+          <div className="pt-6 flex flex-wrap items-center justify-center gap-4">
             <button
-              disabled
-              aria-disabled="true"
-              className="px-8 py-4 rounded-xl font-mono font-black text-sm uppercase text-[#7B8379] bg-[#E9E1D2] border-2 border-[#D2CAB6] flex items-center gap-2 cursor-not-allowed opacity-85 select-none shadow-none"
+              type="button"
+              onClick={() => navigate('/problem-statements')}
+              className="px-8 py-4 rounded-xl font-mono font-black text-xs sm:text-sm uppercase text-[#162E28] bg-[#E5BE61] hover:bg-[#d4ad51] border-2 border-[#162E28] flex items-center gap-2.5 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
             >
-              <Lock className="w-5 h-5 text-[#7B8379]" />
-              <span>REGISTRATIONS CLOSED</span>
+              <FileText className="w-4.5 h-4.5" />
+              <span>EXPLORE ALL PROBLEM STATEMENTS REPOSITORY</span>
+              <ArrowRight className="w-4.5 h-4.5" />
             </button>
           </div>
         </ScrollReveal>

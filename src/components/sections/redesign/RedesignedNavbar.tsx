@@ -22,9 +22,9 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Tracks', href: '#tracks' },
+    { name: 'Problem Statements', href: '/problem-statements' },
     { name: 'Timeline', href: '#timeline' },
     { name: 'Prizes', href: '#prizes' },
-    { name: 'Registration', href: '#registration' },
     { name: 'FAQ', href: '#faq' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -32,6 +32,11 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
+
+    if (href === '/problem-statements' || href === '#problem-statements') {
+      navigate('/problem-statements');
+      return;
+    }
 
     const targetId = href.replace('#', '');
 

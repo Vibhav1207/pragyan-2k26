@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Clock, MapPin, ArrowRight } from 'lucide-react';
+import { Users, Clock, MapPin, ArrowRight, Trophy } from 'lucide-react';
 import { AnimatedCounter } from '../../ui/AnimatedCounter';
 
 interface RedesignedEventAtAGlanceProps {
@@ -69,27 +69,21 @@ export const RedesignedEventAtAGlance: React.FC<RedesignedEventAtAGlanceProps> =
         <div className="bg-[#162E28] border border-[#A77A1C] rounded-2xl p-4 sm:p-3.5 md:p-4 xl:p-5 flex flex-col justify-between relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
           <div>
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#2B3E35] border border-[#E5BE61]/40 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-105 transition-transform duration-300">
-              <svg className="w-5 h-5 text-[#E5BE61]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <ellipse cx="14" cy="7" rx="6" ry="3.5" fill="#162E28" />
-                <path d="M8 7v4c0 1.93 2.69 3.5 6 3.5s6-1.57 6-3.5V7" />
-                <path d="M8 11v4c0 1.93 2.69 3.5 6 3.5s6-1.57 6-3.5v-4" />
-                <circle cx="9" cy="14" r="5.5" fill="#2B3E35" stroke="currentColor" strokeWidth="1.8" />
-                <text x="6.8" y="16.5" fill="#E5BE61" stroke="none" fontSize="7.5" fontWeight="bold" fontFamily="sans-serif">₹</text>
-              </svg>
+              <Trophy className="w-5 h-5 text-[#E5BE61]" />
             </div>
 
             <div className="font-mono text-[10px] font-bold text-[#E5BE61]/80 tracking-widest uppercase mb-1 truncate">
-              ROUND 2 FEE (PAID)
+              PRIZE POOL
             </div>
 
             <div className="flex flex-wrap items-baseline gap-x-0.5 mb-1">
               <span className="font-serif font-black text-2xl xl:text-3xl text-[#E5BE61] tracking-tight leading-none">
-                <AnimatedCounter value={1000} prefix="₹" />
+                ₹1,00,000+
               </span>
             </div>
 
             <div className="font-sans text-[10px] sm:text-[9.5px] md:text-[10.5px] xl:text-[11px] font-semibold text-[#F9F4EA]/90 uppercase tracking-wider">
-              PAID BY SELECTED TEAMS
+              CASH PRIZES & TROPHIES
             </div>
           </div>
 

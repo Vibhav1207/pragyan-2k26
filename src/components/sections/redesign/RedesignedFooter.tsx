@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, MapPin, ExternalLink } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { InstagramIcon } from '../../ui/SocialIcons';
@@ -149,7 +150,7 @@ export const RedesignedFooter: React.FC = () => {
             <div className="space-y-3">
               <div className="font-bold text-[#E5BE61] uppercase tracking-wider">RESOURCES</div>
               <ul className="space-y-2 text-[#F3EDE0]/80">
-                <li><a href="#registration" className="hover:text-[#E5BE61] transition-colors">Registration</a></li>
+                <li><Link to="/problem-statements" className="hover:text-[#E5BE61] transition-colors">Problem Statements</Link></li>
                 <li><a href="#prizes" className="hover:text-[#E5BE61] transition-colors">Prizes</a></li>
                 <li><a href="#organizers" className="hover:text-[#E5BE61] transition-colors">Organizers</a></li>
                 <li><a href="#faq" className="hover:text-[#E5BE61] transition-colors">FAQ</a></li>

@@ -20,7 +20,7 @@ export const RedesignedSchedulePreview: React.FC = () => {
             </div>
             <div className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest flex items-center gap-2">
               <Trophy className="w-3.5 h-3.5 text-[#A77A1C]" />
-              <span>ROUND 1 & 2 SUBMISSIONS DONE • FINAL HACKATHON</span>
+              <span>ONLINE PHASES COMPLETED • FINAL HACKATHON</span>
             </div>
           </div>
         </ScrollReveal>

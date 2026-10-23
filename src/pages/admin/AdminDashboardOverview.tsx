@@ -35,15 +35,16 @@ export const AdminDashboardOverview: React.FC = () => {
     return () => { isMounted = false; };
   }, []);
 
-  const submissions = apiService.getSubmissions();
   const tracks = apiService.getTracks();
+  const problemStatements = apiService.getProblemStatements(true);
   const announcements = apiService.getAnnouncements();
   const activityLogs = apiService.getActivityLogs().slice(0, 6);
 
   const totalDelegates = users.length;
   const participantUsers = users.filter(u => u.role !== 'ADMIN').length;
   const totalTracks = tracks.length;
-  const totalSubmissions = submissions.length;
+  const totalPS = problemStatements.length;
+  const visiblePS = problemStatements.filter(p => p.isVisible).length;
   const totalAnnouncements = announcements.length;
 
   const generateDynamicChartData = (daysCount: number) => {
@@ -59,12 +60,10 @@ export const AdminDashboardOverview: React.FC = () => {
       const cutoffTime = d.getTime();
 
       const userCount = users.filter(u => u.createdAt && new Date(u.createdAt).getTime() <= cutoffTime).length;
-      const subCount = submissions.filter(s => s.submittedAt && new Date(s.submittedAt).getTime() <= cutoffTime).length;
 
       data.push({
         date: dateStr,
         delegates: userCount || Math.max(1, users.length - (daysCount - 1 - i)),
-        submissions: subCount
       });
     }
     return data;
@@ -130,16 +129,21 @@ export const AdminDashboardOverview: React.FC = () => {
           <div className="text-[10px] font-mono font-bold text-[#7B8379] uppercase">Active Domains</div>
         </div>
 
-        <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
+        <Link to="/admin/problem-statements" className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all block">
           <div className="flex items-center justify-between text-[#A77A1C]">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PROJECT IDEAS</span>
-            <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7B8379]">PROBLEM STATEMENTS</span>
+            <div className="p-2 rounded-xl bg-[#E9E1D2] text-[#A77A1C] border border-[#A77A1C]/30 group-hover:bg-[#162E28] group-hover:text-[#E5BE61] transition">
               <FileText className="w-4 h-4" />
             </div>
           </div>
-          <div className="font-serif font-black text-3xl text-[#162E28]">{totalSubmissions}</div>
-          <div className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Phase 1 Solutions</div>
-        </div>
+          <div className="font-serif font-black text-3xl text-[#162E28]">{totalPS}</div>
+          <div className="text-[10px] font-mono font-bold uppercase flex items-center justify-between">
+            <span className={visiblePS > 0 ? "text-emerald-800" : "text-amber-800"}>
+              {visiblePS > 0 ? `✓ ${visiblePS} Live` : '🔒 All Hidden'}
+            </span>
+            <span className="text-[#A77A1C] group-hover:underline">Manage →</span>
+          </div>
+        </Link>
 
         <div className="bg-[#F3EDE0] border border-[#D2CAB6] p-5 rounded-3xl shadow-sm space-y-3 relative overflow-hidden group hover:border-[#A77A1C] transition-all">
           <div className="flex items-center justify-between text-[#A77A1C]">
@@ -163,7 +167,7 @@ export const AdminDashboardOverview: React.FC = () => {
                 <TrendingUp className="w-5 h-5 text-[#A77A1C]" />
                 <span>DELEGATE ONBOARDING TRAJECTORY</span>
               </h2>
-              <p className="text-xs text-[#7B8379] font-sans">Real-time daily onboarding growth of student delegates and idea submissions</p>
+              <p className="text-xs text-[#7B8379] font-sans">Real-time daily onboarding growth of student delegates and innovation participants</p>
             </div>
 
             <div className="flex items-center bg-[#E9E1D2] p-1 rounded-xl border border-[#D2CAB6] text-xs font-mono">
@@ -190,10 +194,6 @@ export const AdminDashboardOverview: React.FC = () => {
                     <stop offset="5%" stopColor="#162E28" stopOpacity={0.4}/>
                     <stop offset="95%" stopColor="#162E28" stopOpacity={0.0}/>
                   </linearGradient>
-                  <linearGradient id="colorSubs" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#A77A1C" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#A77A1C" stopOpacity={0.0}/>
-                  </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#D2CAB6" opacity={0.6} />
                 <XAxis dataKey="date" stroke="#7B8379" fontSize={11} tickLine={false} />
@@ -202,7 +202,6 @@ export const AdminDashboardOverview: React.FC = () => {
                   contentStyle={{ backgroundColor: '#162E28', borderColor: '#A77A1C', borderRadius: '1rem', color: '#F9F4EA', fontSize: '12px', fontFamily: 'JetBrains Mono' }}
                 />
                 <Area type="monotone" dataKey="delegates" stroke="#162E28" strokeWidth={3} fillOpacity={1} fill="url(#colorDelegates)" name="Delegates" />
-                <Area type="monotone" dataKey="submissions" stroke="#A77A1C" strokeWidth={3} fillOpacity={1} fill="url(#colorSubs)" name="Submissions" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

@@ -129,7 +129,28 @@ const SystemSettingsSchema = new mongoose.Schema({
   maxFileSizeMb: { type: Number, default: 50 },
   maintenanceMode: { type: Boolean, default: false },
   homepageVisibility: { type: Boolean, default: true },
-  announcementVisibility: { type: Boolean, default: true }
+  announcementVisibility: { type: Boolean, default: true },
+  psUnlockTime: { type: String, default: '2026-10-24T12:00:00+05:30' },
+  psGlobalVisible: { type: Boolean, default: false }
+});
+
+const ProblemStatementSchema = new mongoose.Schema({
+  psId: { type: String, required: true, unique: true, index: true },
+  trackId: { type: String, required: true, index: true },
+  trackTitle: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, default: '' },
+  context: { type: String, default: '' },
+  documentName: { type: String, default: '' },
+  documentUrl: { type: String, default: '' },
+  documentSize: { type: String, default: '' },
+  fileType: { type: String, default: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+  isVisible: { type: Boolean, default: false, index: true },
+  releaseAt: { type: Date, index: true },
+  order: { type: Number, default: 0 },
+  difficulty: { type: String, default: 'Intermediate' },
+  createdAt: { type: Date, default: Date.now, index: true },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const HomepageCMSContentSchema = new mongoose.Schema({
@@ -146,7 +167,9 @@ export const Admin = mongoose.model('Admin', AdminSchema);
 export const Team = mongoose.model('Team', TeamSchema);
 export const Submission = mongoose.model('Submission', SubmissionSchema);
 export const Track = mongoose.model('Track', TrackSchema);
+export const ProblemStatement = mongoose.model('ProblemStatement', ProblemStatementSchema);
 export const Announcement = mongoose.model('Announcement', AnnouncementSchema);
 export const ActivityLog = mongoose.model('ActivityLog', ActivityLogSchema);
 export const SystemSettings = mongoose.model('SystemSettings', SystemSettingsSchema);
 export const HomepageCMSContent = mongoose.model('HomepageCMSContent', HomepageCMSContentSchema);
+

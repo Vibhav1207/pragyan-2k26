@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Plus, 
   Edit, 
-  Trash2
+  Trash2,
+  FileText
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
@@ -126,8 +128,14 @@ export const AdminTracksList: React.FC = () => {
               <p className="text-xs text-[#7B8379] font-sans leading-relaxed">{tr.description}</p>
             </div>
 
-            <div className="flex items-center justify-between border-t border-[#D2CAB6]/60 pt-4 text-xs font-mono">
-              <span className="text-[#7B8379]">Category: <strong className="text-[#162E28]">{tr.category}</strong></span>
+            <div className="flex flex-wrap items-center justify-between border-t border-[#D2CAB6]/60 pt-4 gap-2 text-xs font-mono">
+              <Link 
+                to="/admin/problem-statements"
+                className="px-3 py-1.5 rounded-lg bg-[#162E28] text-[#E5BE61] border border-[#A77A1C]/50 hover:bg-[#2B3E35] transition flex items-center gap-1.5 font-bold"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Problem Statements ({apiService.getProblemStatements(true).filter(p => p.trackId === tr.id).length})</span>
+              </Link>
 
               <div className="flex items-center gap-2">
                 <button

@@ -6,12 +6,12 @@ import { useAuth } from '../context/AuthContext';
 const ParticipantLogin = lazy(() => import('../pages/participant/ParticipantLogin').then(m => ({ default: m.ParticipantLogin })));
 const ParticipantSignup = lazy(() => import('../pages/participant/ParticipantSignup').then(m => ({ default: m.ParticipantSignup })));
 const ParticipantProfile = lazy(() => import('../pages/participant/ParticipantProfile').then(m => ({ default: m.ParticipantProfile })));
+const ProblemStatementsPage = lazy(() => import('../pages/participant/ProblemStatementsPage').then(m => ({ default: m.ProblemStatementsPage })));
 
 const AdminLogin = lazy(() => import('../pages/admin/AdminLogin').then(m => ({ default: m.AdminLogin })));
 const AdminDashboardOverview = lazy(() => import('../pages/admin/AdminDashboardOverview').then(m => ({ default: m.AdminDashboardOverview })));
 const AdminParticipantsList = lazy(() => import('../pages/admin/AdminParticipantsList').then(m => ({ default: m.AdminParticipantsList })));
-const AdminSubmissionsList = lazy(() => import('../pages/admin/AdminSubmissionsList').then(m => ({ default: m.AdminSubmissionsList })));
-const AdminFilesList = lazy(() => import('../pages/admin/AdminFilesList').then(m => ({ default: m.AdminFilesList })));
+const AdminProblemStatements = lazy(() => import('../pages/admin/AdminProblemStatements').then(m => ({ default: m.AdminProblemStatements })));
 const AdminTracksList = lazy(() => import('../pages/admin/AdminTracksList').then(m => ({ default: m.AdminTracksList })));
 const AdminHomepageCMS = lazy(() => import('../pages/admin/AdminHomepageCMS').then(m => ({ default: m.AdminHomepageCMS })));
 const AdminAnnouncements = lazy(() => import('../pages/admin/AdminAnnouncements').then(m => ({ default: m.AdminAnnouncements })));
@@ -45,7 +45,7 @@ const ParticipantProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ ch
 };
 
 const ExternalRegisterRedirect: React.FC = () => {
-  return <Navigate to="/#registration" replace />;
+  return <Navigate to="/problem-statements" replace />;
 };
 
 export const AppRoutes: React.FC = () => {
@@ -53,6 +53,11 @@ export const AppRoutes: React.FC = () => {
     <Suspense fallback={<RouteLoadingFallback />}>
       <Routes>
         <Route path="/" element={<PublicHomepage />} />
+
+        <Route path="/problem-statements" element={<ProblemStatementsPage />} />
+        <Route path="/problem-statements/:trackId" element={<ProblemStatementsPage />} />
+        <Route path="/tracks/:trackId/problems" element={<ProblemStatementsPage />} />
+        <Route path="/problems" element={<Navigate to="/problem-statements" replace />} />
 
         <Route path="/login" element={<ParticipantLogin />} />
         <Route path="/signup" element={<ParticipantSignup />} />
@@ -95,21 +100,15 @@ export const AppRoutes: React.FC = () => {
           }
         />
         <Route
-          path="/admin/submissions"
+          path="/admin/problem-statements"
           element={
             <AdminProtectedRoute>
-              <AdminSubmissionsList />
+              <AdminProblemStatements />
             </AdminProtectedRoute>
           }
         />
-        <Route
-          path="/admin/files"
-          element={
-            <AdminProtectedRoute>
-              <AdminFilesList />
-            </AdminProtectedRoute>
-          }
-        />
+        <Route path="/admin/submissions" element={<Navigate to="/admin/problem-statements" replace />} />
+        <Route path="/admin/files" element={<Navigate to="/admin/problem-statements" replace />} />
         <Route
           path="/admin/tracks"
           element={
