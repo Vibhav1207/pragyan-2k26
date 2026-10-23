@@ -3,6 +3,7 @@ import { ArrowUpRight, ArrowDown, Sparkles, Award } from 'lucide-react';
 import { EVENT_DATA } from '../../../data/event';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { RedesignedEventAtAGlance } from './RedesignedEventAtAGlance';
+import { HackathonHeroCountdown } from '../../ui/HackathonCountdown';
 
 interface RedesignedHeroProps {
   onRegisterClick?: () => void;
@@ -73,6 +74,10 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onRegisterClick,
               <span>OFFICIAL NATIONAL LEVEL HACKATHON</span>
             </div>
           </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={50} duration={600}>
+          <HackathonHeroCountdown />
         </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">

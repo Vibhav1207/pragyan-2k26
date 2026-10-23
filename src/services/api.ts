@@ -112,8 +112,8 @@ const INITIAL_TRACKS: Track[] = [
 const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
-    title: 'REGISTRATION OPEN',
-    content: 'National Registration for PRAGYAN 2K26 is officially OPEN for all UG, PG & PhD student teams across India.',
+    title: 'ROUND 1 OVER',
+    content: 'Round 1 online evaluations have officially concluded. Shortlisted teams are advancing to Round 2 On-Ground Grand Finale.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -121,8 +121,8 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 'ANN-02',
-    title: 'OFFICIAL THEME',
-    content: 'Innovation & Entrepreneurship on UN SDG Goal 2030 hosted at Sanjivani University, Kopargaon.',
+    title: 'ROUND 2 SPRINT',
+    content: '24-Hour live innovation sprint commences shortly at Sanjivani University, Kopargaon.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -131,7 +131,7 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
 ];
 
 const INITIAL_SETTINGS: SystemSettings = {
-  registrationOpen: true,
+  registrationOpen: false,
   registrationDeadline: '2026-03-25T23:59:59Z',
   maxTeamSize: 4,
   registrationFee: 0,
@@ -149,17 +149,17 @@ const INITIAL_CMS: HomepageCMS = {
     eventTitle: 'PRAGYAN 2K26',
     mainHeading: 'NATIONAL LEVEL HACKATHON 2026',
     subHeading: 'INNOVATION & ENTREPRENEURSHIP FOR SUSTAINABLE DEVELOPMENT',
-    datesText: 'APRIL 09 - 10, 2026',
+    datesText: 'ROUND 1 OVER • ROUND 2 COMMENCING',
     venueText: 'SANJIVANI UNIVERSITY, KOPARGAON, MAHARASHTRA',
     ctaPrimaryText: 'REGISTER NOW',
     ctaSecondaryText: 'EXPLORE TRACKS'
   },
   eventDetails: {
     teamSizeText: '4 Members per Team',
-    feeText: 'Free Entry / Zero Fee',
-    regDatesText: 'March 01 - March 25, 2026',
-    subDatesText: 'April 05 - April 10, 2026',
-    finalDatesText: 'April 09 - 10, 2026'
+    feeText: 'First Round ₹500 / Team',
+    regDatesText: 'Round 1 Completed',
+    subDatesText: 'Evaluations Concluded',
+    finalDatesText: 'Round 2 Starting Soon'
   },
   about: {
     title: 'ABOUT PRAGYAN 2K26',

@@ -91,7 +91,7 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
                   <AnimatedCounter value={500} prefix="₹" /> for First Round (PER TEAM)
                 </h4>
                 <p className="text-xs sm:text-sm text-[#7B8379] font-sans leading-relaxed">
-                  One-time first round registration fee covering Phase 1 online evaluation and submission access for all 4 team members.
+                  One-time first round registration fee covering Round 1 online evaluation and submission access for all 4 team members.
                 </p>
               </div>
               <div className="w-8 h-0.5 bg-[#A77A1C] rounded-full mt-4" />
@@ -105,13 +105,13 @@ export const RedesignedRegistrationSection: React.FC<RedesignedRegistrationSecti
                   <AlertCircle className="w-6 h-6" />
                 </div>
                 <div className="font-mono text-xs font-bold text-[#7B8379] uppercase tracking-wider">
-                  PHASE 2 NOTICE
+                  ROUND 2 NOTICE
                 </div>
                 <h4 className="font-serif font-black text-xl text-[#162E28] uppercase leading-tight">
                   {EVENT_DATA.secondRoundFeeNotice}
                 </h4>
                 <p className="text-xs sm:text-sm text-[#7B8379] font-sans leading-relaxed">
-                  Top teams selected for Phase 2 On-Ground Grand Finale will receive instructions regarding second round details.
+                  Top teams selected from Round 1 for the Round 2 On-Ground Grand Finale will receive instructions regarding second round details.
                 </p>
               </div>
               <div className="w-8 h-0.5 bg-[#A77A1C] rounded-full mt-4" />

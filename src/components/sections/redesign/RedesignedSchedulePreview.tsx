@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Calendar, MapPin } from 'lucide-react';
+import { Trophy, MapPin, CheckCircle2, Flame } from 'lucide-react';
 import { FLYER_TIMELINE } from '../../../data/schedule';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 
@@ -18,35 +18,48 @@ export const RedesignedSchedulePreview: React.FC = () => {
                 EVENT <span className="italic font-normal text-[#A77A1C]">TIMELINE</span>
               </h2>
             </div>
-            <div className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest">
-              TWO-PHASE EVALUATION
+            <div className="font-mono text-xs font-bold text-[#A77A1C] uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#E5BE61] animate-pulse" />
+              <span>ROUND 1 OVER • ROUND 2 COMMENCING</span>
             </div>
           </div>
         </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
           {FLYER_TIMELINE.map((phaseData, idx) => {
-            const isPhase2 = phaseData.phase === 'PHASE 2';
+            const isRound2 = phaseData.phase.includes('2');
 
             return (
               <ScrollReveal key={idx} delay={150 + idx * 200} duration={700}>
-                <div className="bg-[#F9F4EA] text-[#050C0C] border border-[#D2CAB6] rounded-3xl p-7 sm:p-9 space-y-6 flex flex-col justify-between shadow-md hover:shadow-xl hover:border-[#A77A1C] transition-all duration-300 h-full">
+                <div className={`bg-[#F9F4EA] text-[#050C0C] border rounded-3xl p-7 sm:p-9 space-y-6 flex flex-col justify-between shadow-md hover:shadow-xl transition-all duration-300 h-full ${
+                  isRound2 ? 'border-2 border-[#A77A1C]' : 'border-[#D2CAB6]'
+                }`}>
                   <div className="space-y-6">
 
                     <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#D2CAB6]">
-                      <span className="bg-[#162E28] text-[#E5BE61] font-mono text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm border border-[#A77A1C]/40">
-                        {phaseData.badge}
+                      <span className={`font-mono text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm border flex items-center gap-1.5 ${
+                        isRound2
+                          ? 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/40'
+                          : 'bg-[#E9E1D2] text-[#162E28] border-[#A77A1C]/30'
+                      }`}>
+                        {isRound2 ? (
+                          <Flame className="w-3.5 h-3.5 text-[#E5BE61]" />
+                        ) : (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                        )}
+                        <span>{phaseData.badge}</span>
                       </span>
+
                       <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#A77A1C] flex items-center gap-1.5">
-                        {isPhase2 ? (
+                        {isRound2 ? (
                           <>
                             <MapPin className="w-3.5 h-3.5 text-[#A77A1C]" />
-                            <span>SANJIVANI CAMPUS</span>
+                            <span>SANJIVANI CAMPUS • ON-GROUND</span>
                           </>
                         ) : (
                           <>
-                            <Calendar className="w-3.5 h-3.5 text-[#A77A1C]" />
-                            <span>ONLINE SELECTION</span>
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                            <span>ONLINE SELECTION (OVER)</span>
                           </>
                         )}
                       </span>
@@ -64,8 +77,12 @@ export const RedesignedSchedulePreview: React.FC = () => {
                               <span className="font-serif font-black text-lg sm:text-xl text-[#162E28] uppercase">
                                 {evt.name}
                               </span>
-                              <span className="bg-[#162E28] text-[#F9F4EA] font-mono font-extrabold text-xs px-3.5 py-1.5 rounded-lg shadow-sm border border-[#A77A1C]/40">
-                                {evt.dates}
+                              <span className={`font-mono font-extrabold text-xs px-3.5 py-1.5 rounded-lg shadow-sm border ${
+                                evt.status.includes('OVER') || evt.status.includes('COMPLETED')
+                                  ? 'bg-[#E9E1D2] text-[#7B8379] border-[#D2CAB6]'
+                                  : 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/40 animate-pulse'
+                              }`}>
+                                {evt.status}
                               </span>
                             </div>
                             <p className="text-xs sm:text-sm font-sans text-[#7B8379] leading-relaxed">
@@ -79,8 +96,12 @@ export const RedesignedSchedulePreview: React.FC = () => {
 
                   {phaseData.footerNotice && (
                     <ScrollReveal delay={450 + idx * 150}>
-                      <div className="mt-6 p-4 rounded-2xl bg-[#E9E1D2] border border-[#A77A1C]/50 text-[#162E28] font-mono text-xs font-bold uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 text-center">
-                        <Trophy className="w-4 h-4 text-[#A77A1C] flex-none" />
+                      <div className={`mt-6 p-4 rounded-2xl border text-xs font-mono font-bold uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 text-center ${
+                        isRound2
+                          ? 'bg-[#162E28] text-[#E5BE61] border-[#A77A1C]/60'
+                          : 'bg-[#E9E1D2] text-[#162E28] border-[#A77A1C]/50'
+                      }`}>
+                        <Trophy className={`w-4 h-4 flex-none ${isRound2 ? 'text-[#E5BE61]' : 'text-[#A77A1C]'}`} />
                         <span>{phaseData.footerNotice}</span>
                       </div>
                     </ScrollReveal>

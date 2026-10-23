@@ -3,9 +3,11 @@ export interface TimelinePhase {
   type: "ONLINE" | "ON-GROUND";
   title: string;
   badge: string;
+  statusBadge?: string;
   events: {
     name: string;
-    dates: string;
+    dates?: string;
+    status: string;
     description: string;
   }[];
   footerNotice?: string;
@@ -13,35 +15,38 @@ export interface TimelinePhase {
 
 export const FLYER_TIMELINE: TimelinePhase[] = [
   {
-    phase: "PHASE 1",
+    phase: "ROUND 1",
     type: "ONLINE",
-    title: "PHASE 1 — ONLINE",
-    badge: "PHASE 1 — ONLINE",
+    title: "ROUND 1 — ONLINE EVALUATION",
+    badge: "ROUND 1 — OVER",
+    statusBadge: "COMPLETED",
     events: [
       {
-        name: "Registration Dates",
-        dates: "10th – 25th SEPT 2026",
-        description: "Submit online team registration (4 members per team) and select your hackathon track."
+        name: "Team Registration",
+        status: "COMPLETED",
+        description: "Online team registration (4 members per team) and track selection concluded."
       },
       {
-        name: "Submission Dates",
-        dates: "25th – 3rd OCT 2026",
-        description: "Submit initial project proposal deck and solution architecture framework online."
+        name: "Solution Proposal Submission",
+        status: "EVALUATION OVER",
+        description: "Initial project proposal deck and solution architecture evaluation completed."
       }
-    ]
+    ],
+    footerNotice: "ROUND 1 CONCLUDED • SHORTLISTED TEAMS ADVANCED"
   },
   {
-    phase: "PHASE 2",
+    phase: "ROUND 2",
     type: "ON-GROUND",
-    title: "PHASE 2 — ON-GROUND",
-    badge: "PHASE 2 — ON-GROUND",
+    title: "ROUND 2 — ON-GROUND GRAND FINALE",
+    badge: "ROUND 2 — COMMENCING SOON",
+    statusBadge: "STARTING SOON",
     events: [
       {
-        name: "FINAL ROUND",
-        dates: "24th & 25th OCT 2026",
+        name: "24-Hour Live Hackathon",
+        status: "STARTS IN 12 HOURS",
         description: "24-Hour live innovation sprint on-ground at Sanjivani University, Kopargaon."
       }
     ],
-    footerNotice: "TOP TEAMS WILL BE INVITED TO THE ON-GROUND ROUND"
+    footerNotice: "FINALIST TEAMS REPORT ON-GROUND AT SANJIVANI CAMPUS"
   }
 ];

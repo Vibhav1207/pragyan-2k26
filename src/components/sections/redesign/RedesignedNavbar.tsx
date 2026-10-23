@@ -3,6 +3,7 @@ import { Menu, X, ArrowUpRight, User, LogIn } from 'lucide-react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { RedesignedAnnouncementTicker } from './RedesignedAnnouncementTicker';
+import { HackathonTopCountdownBar } from '../../ui/HackathonCountdown';
 
 interface RedesignedNavbarProps {
   onRegisterClick?: () => void;
@@ -76,7 +77,9 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
           : 'bg-[#162E28]/90 backdrop-blur-sm border-b border-[#D2CAB6]/15'
         }`}
     >
-      <div className={`max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2.5' : 'py-3.5'}`}>
+      <HackathonTopCountdownBar />
+
+      <div className={`max-w-[1500px] mx-auto w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2' : 'py-3'}`}>
 
         <div className="flex items-center gap-3 text-left">
           <Link to="/" className="flex items-center group">
@@ -170,7 +173,7 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
       </div>
 
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[65px] bg-[#162E28] border-b border-[#A77A1C]/30 p-6 space-y-4 shadow-2xl animate-fade-in">
+        <div className="lg:hidden fixed inset-x-0 top-[96px] sm:top-[104px] bg-[#162E28] border-b border-[#A77A1C]/30 p-6 space-y-4 shadow-2xl animate-fade-in max-h-[85vh] overflow-y-auto">
           <div className="grid grid-cols-2 gap-2">
             {navLinks.map((link) => (
               <a

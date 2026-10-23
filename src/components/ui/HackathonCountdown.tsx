@@ -1,0 +1,280 @@
+import React, { useState, useEffect } from 'react';
+import { Flame, MapPin, ArrowRight, CheckCircle2 } from 'lucide-react';
+
+const STORAGE_KEY = 'pragyan_hackathon_target_time';
+const DEFAULT_COUNTDOWN_HOURS = 12;
+
+/**
+ * Retrieves or initializes the target timestamp for hackathon start.
+ * Defaults to 12 hours from current time if not explicitly configured.
+ */
+export function getHackathonTargetTime(): number {
+  if (typeof window === 'undefined') return Date.now() + DEFAULT_COUNTDOWN_HOURS * 3600 * 1000;
+  
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = parseInt(saved, 10);
+      if (!isNaN(parsed) && parsed > Date.now()) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  const target = Date.now() + DEFAULT_COUNTDOWN_HOURS * 3600 * 1000;
+  try {
+    localStorage.setItem(STORAGE_KEY, target.toString());
+  } catch (e) {
+    // ignore
+  }
+  return target;
+}
+
+export function setCustomHackathonTargetTime(timestampOrIso: number | string) {
+  const target = typeof timestampOrIso === 'string' ? new Date(timestampOrIso).getTime() : timestampOrIso;
+  if (!isNaN(target)) {
+    try {
+      localStorage.setItem(STORAGE_KEY, target.toString());
+      window.dispatchEvent(new Event('pragyan_target_time_changed'));
+    } catch (e) {
+      // ignore
+    }
+  }
+}
+
+// Expose on window for easy developer/admin console access
+if (typeof window !== 'undefined') {
+  (window as unknown as { setHackathonTargetTime: typeof setCustomHackathonTargetTime }).setHackathonTargetTime = setCustomHackathonTargetTime;
+}
+
+export function useHackathonCountdown() {
+  const [targetTime, setTargetTime] = useState<number>(() => getHackathonTargetTime());
+  const [timeLeft, setTimeLeft] = useState<{
+    hours: number;
+    minutes: number;
+    seconds: number;
+    totalSeconds: number;
+    isLive: boolean;
+  }>({
+    hours: 12,
+    minutes: 0,
+    seconds: 0,
+    totalSeconds: 12 * 3600,
+    isLive: false,
+  });
+
+  useEffect(() => {
+    const handleTargetChange = () => {
+      setTargetTime(getHackathonTargetTime());
+    };
+    window.addEventListener('pragyan_target_time_changed', handleTargetChange);
+    return () => window.removeEventListener('pragyan_target_time_changed', handleTargetChange);
+  }, []);
+
+  useEffect(() => {
+    const calculateTime = () => {
+      const diff = targetTime - Date.now();
+      if (diff <= 0) {
+        setTimeLeft({
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          totalSeconds: 0,
+          isLive: true,
+        });
+        return;
+      }
+
+      const totalSec = Math.floor(diff / 1000);
+      const hours = Math.floor(totalSec / 3600);
+      const minutes = Math.floor((totalSec % 3600) / 60);
+      const seconds = totalSec % 60;
+
+      setTimeLeft({
+        hours,
+        minutes,
+        seconds,
+        totalSeconds: totalSec,
+        isLive: false,
+      });
+    };
+
+    calculateTime();
+    const timer = setInterval(calculateTime, 1000);
+    return () => clearInterval(timer);
+  }, [targetTime]);
+
+  return timeLeft;
+}
+
+/**
+ * Top Countdown Ribbon placed at the very top of the header / page
+ */
+export const HackathonTopCountdownBar: React.FC = () => {
+  const { hours, minutes, seconds, isLive } = useHackathonCountdown();
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  const scrollToTimeline = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const elem = document.getElementById('timeline');
+    if (elem) {
+      elem.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className="bg-[#10221E] text-[#F9F4EA] border-b border-[#A77A1C]/35 relative z-50 select-none overflow-hidden text-xs">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-8 py-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+        
+        {/* Left Badge: Round 1 Over & Round 2 Announcement */}
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-2.5 w-2.5 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E5BE61] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#E5BE61]" />
+          </span>
+          
+          <div className="flex items-center gap-2 font-mono">
+            <span className="bg-[#E9E1D2] text-[#162E28] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded uppercase tracking-wider">
+              ROUND 1 OVER
+            </span>
+            <span className="hidden sm:inline text-[#D2CAB6]/80 text-[11px]">|</span>
+            <span className="text-[#E5BE61] font-bold text-[11px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5 text-[#E5BE61]" />
+              ROUND 2 GRAND FINALE
+            </span>
+          </div>
+        </div>
+
+        {/* Center: Countdown Display */}
+        <div className="flex items-center gap-3">
+          <span className="hidden md:inline font-serif uppercase tracking-wider text-[#F3EDE0] text-xs font-bold">
+            {isLive ? 'HACKATHON IS LIVE NOW' : 'HACKATHON STARTS IN:'}
+          </span>
+
+          <div className="flex items-center gap-1.5 font-mono">
+            <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
+              {pad(hours)}
+            </div>
+            <span className="text-[#A77A1C] font-black text-xs sm:text-sm">:</span>
+            <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
+              {pad(minutes)}
+            </div>
+            <span className="text-[#A77A1C] font-black text-xs sm:text-sm">:</span>
+            <div className="bg-[#162E28] border border-[#A77A1C]/60 text-[#E5BE61] font-black text-xs sm:text-sm px-2 py-0.5 rounded shadow-inner min-w-[28px] text-center">
+              {pad(seconds)}
+            </div>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-1 text-[10px] font-mono text-[#D2CAB6]/80 tracking-widest uppercase">
+            <span>(HRS : MIN : SEC)</span>
+          </div>
+        </div>
+
+        {/* Right Action */}
+        <a
+          href="#timeline"
+          onClick={scrollToTimeline}
+          className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] font-bold text-[#E5BE61] hover:text-white uppercase tracking-wider transition hover:underline"
+        >
+          <span>VIEW SCHEDULE</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </a>
+
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Large, beautiful Hero Countdown Card to showcase the 12-hour countdown prominently
+ */
+export const HackathonHeroCountdown: React.FC = () => {
+  const { hours, minutes, seconds, isLive } = useHackathonCountdown();
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  return (
+    <div className="w-full bg-[#E9E1D2] border-2 border-[#A77A1C]/50 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-lg relative overflow-hidden text-left">
+      {/* Decorative background watermark */}
+      <div className="absolute right-0 bottom-0 translate-x-8 translate-y-4 pointer-events-none opacity-[0.04] font-serif font-black text-8xl sm:text-9xl text-[#162E28] select-none">
+        24H
+      </div>
+
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+        
+        {/* Left Info: Status & Round Details */}
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <span className="inline-flex items-center gap-1.5 bg-[#162E28] text-[#E5BE61] text-[10px] sm:text-xs font-mono font-black uppercase px-3 py-1 rounded-full border border-[#A77A1C]/50 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#E5BE61] animate-ping" />
+              LIVE COUNTDOWN
+            </span>
+
+            <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#7B8379] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+              <span>ROUND 1 OVER</span>
+            </span>
+
+            <span className="inline-flex items-center gap-1 text-[#A77A1C] text-[10px] sm:text-xs font-mono font-bold uppercase">
+              <MapPin className="w-3.5 h-3.5" />
+              <span>SANJIVANI CAMPUS</span>
+            </span>
+          </div>
+
+          <h3 className="font-serif font-black text-2xl sm:text-3xl text-[#162E28] uppercase tracking-tight">
+            ROUND 2 <span className="italic font-normal text-[#A77A1C]">{isLive ? 'HACKATHON IS LIVE NOW' : 'HACKATHON COMMENCES IN'}</span>
+          </h3>
+
+          <p className="text-xs sm:text-sm font-sans text-[#7B8379] max-w-xl">
+            Round 1 online evaluations have officially concluded. Finalist teams prepare for the 24-hour on-ground innovation sprint.
+          </p>
+        </div>
+
+        {/* Right: The 12-Hour Digits Display */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
+              <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
+                {pad(hours)}
+              </span>
+            </div>
+            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
+              HOURS
+            </span>
+          </div>
+
+          <span className="font-mono font-black text-2xl sm:text-3xl text-[#A77A1C] -mt-5">:</span>
+
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
+              <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
+                {pad(minutes)}
+              </span>
+            </div>
+            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
+              MINUTES
+            </span>
+          </div>
+
+          <span className="font-mono font-black text-2xl sm:text-3xl text-[#A77A1C] -mt-5">:</span>
+
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#162E28] rounded-xl sm:rounded-2xl border-2 border-[#A77A1C] flex items-center justify-center shadow-md">
+              <span className="font-mono font-black text-2xl sm:text-4xl text-[#E5BE61]">
+                {pad(seconds)}
+              </span>
+            </div>
+            <span className="font-mono text-[9px] sm:text-[10px] font-extrabold uppercase text-[#162E28] tracking-widest mt-1.5">
+              SECONDS
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+};

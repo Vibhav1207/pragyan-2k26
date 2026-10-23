@@ -32,8 +32,8 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     id: "faq-06",
-    question: "What are the important event dates?",
-    answer: "Phase 1 Online Registration runs from 10th – 25th SEPT 2026, with Submissions from 25th – 30th SEPT 2026. Phase 2 On-Ground Final Round takes place on 24th & 25th OCT 2026."
+    question: "What is the status of the hackathon rounds?",
+    answer: "Round 1 (Online Registration & Solution Deck Submission) is now officially OVER and evaluated. Round 2 (24-Hour Live On-Ground Hackathon) is commencing on-ground at Sanjivani University, Kopargaon."
   },
   {
     id: "faq-07",
