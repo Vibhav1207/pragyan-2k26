@@ -47,7 +47,7 @@ export const RedesignedOrganizersSection: React.FC = () => {
                     SANJIVANI UNIVERSITY
                   </h3>
                   <p className="text-[#F3EDE0]/90 font-sans text-sm sm:text-base max-w-3xl leading-relaxed">
-                    Host of PRAGYAN 2K26 — Premier National Level Hackathon driving innovation, entrepreneurship, and sustainable growth aligned with SDG Goal 2030.
+                    Host of PRAGYAN 2K26 — Premier National Level Hackathon driving innovation, entrepreneurship, and sustainable growth aligned with SDG Goal 2927 .
                   </p>
                 </div>
 

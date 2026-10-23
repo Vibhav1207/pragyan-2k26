@@ -58,11 +58,17 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ title, subtitle, onTog
         </Link>
 
         <div className="flex items-center gap-2 pl-2 border-l border-[#A77A1C]/30">
-          <img
-            src={admin?.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150'}
-            alt={admin?.name || 'Admin'}
-            className="w-8 h-8 rounded-full border border-[#E5BE61] object-cover"
-          />
+          {admin?.avatar && !admin.avatar.includes('unsplash.com') ? (
+            <img
+              src={admin.avatar}
+              alt={admin?.name || 'Admin'}
+              className="w-8 h-8 rounded-full border border-[#E5BE61] object-cover"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full border border-[#E5BE61] bg-[#2B3E35] flex items-center justify-center text-[#E5BE61] font-mono text-xs font-bold shadow-inner">
+              {admin?.name ? admin.name.charAt(0).toUpperCase() : <ShieldCheck className="w-4 h-4 text-[#E5BE61]" />}
+            </div>
+          )}
           <div className="hidden xl:block text-left">
             <div className="text-xs font-bold text-[#F9F4EA] leading-tight">{admin?.name || 'Admin'}</div>
             <div className="text-[10px] font-mono text-[#E5BE61]">SUPER ADMIN</div>

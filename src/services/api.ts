@@ -257,7 +257,7 @@ const INITIAL_CMS: HomepageCMS = {
   },
   about: {
     title: 'ABOUT PRAGYAN 2K26',
-    description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2030.',
+    description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2927 .',
     fourPillars: {
       ideate: 'Formulate disruptive solutions for modern economic & operational challenges.',
       innovate: 'Build practical prototypes, financial models, and market intelligence systems.',
@@ -346,15 +346,11 @@ class PragyanAPIService {
     if (includeHidden) return list;
 
     const settings = this.getSettings();
-    const unlockTime = new Date(settings.psUnlockTime || '2026-10-24T12:00:00+05:30').getTime();
-    const isPast = Date.now() >= unlockTime;
-    const isGlobal = Boolean(settings.psGlobalVisible);
-
-    if (isPast || isGlobal) {
+    if (settings.psGlobalVisible) {
       return list;
     }
 
-    // Public/user view before 12: strictly require isVisible === true
+    // Public/user view: strictly require isVisible === true
     return list.filter(ps => Boolean(ps.isVisible === true || (ps.isVisible as any) === 'true'));
   }
 

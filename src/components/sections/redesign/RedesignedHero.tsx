@@ -92,7 +92,7 @@ export const RedesignedHero: React.FC<RedesignedHeroProps> = ({ onExploreChallen
                 </div>
 
                 <h1 className="font-serif font-bold text-xl sm:text-3xl xl:text-4xl tracking-tight text-[#2B3E35] uppercase leading-tight mt-2">
-                  NATIONAL LEVEL HACKATHON ON SDG GOAL 2030
+                  NATIONAL LEVEL HACKATHON ON SDG GOAL 2927
                 </h1>
               </ScrollReveal>
 

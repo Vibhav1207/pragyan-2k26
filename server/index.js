@@ -5,18 +5,18 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import dns from 'dns';
-import { 
-  User, 
-  Admin, 
-  Team, 
-  Submission, 
-  Track, 
+import {
+  User,
+  Admin,
+  Team,
+  Submission,
+  Track,
   ProblemStatement,
   HackathonChallenge,
-  Announcement, 
-  ActivityLog, 
-  SystemSettings, 
-  HomepageCMSContent 
+  Announcement,
+  ActivityLog,
+  SystemSettings,
+  HomepageCMSContent
 } from './models.js';
 
 try {
@@ -43,16 +43,16 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim())
   : [
-      'http://localhost:5173', 
-      'http://localhost:3000', 
-      'http://127.0.0.1:5173',
-      'https://pragyan.live',
-      'https://www.pragyan.live',
-      'https://pragyan-2k26.vercel.app'
-    ];
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+    'https://pragyan.live',
+    'https://www.pragyan.live',
+    'https://pragyan-2k26.vercel.app'
+  ];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -138,23 +138,23 @@ async function seedDatabaseIfNeeded() {
     for (const adm of defaultAdmins) {
       await Admin.findOneAndUpdate(
         { email: adm.email },
-        { 
-          $setOnInsert: { 
-            email: adm.email, 
-            name: adm.name, 
-            role: 'ADMIN', 
-            passwordHash: 'oauth-google-managed' 
-          } 
+        {
+          $setOnInsert: {
+            email: adm.email,
+            name: adm.name,
+            role: 'ADMIN',
+            passwordHash: 'oauth-google-managed'
+          }
         },
         { upsert: true }
-      ).catch(() => {});
+      ).catch(() => { });
 
       await User.findOneAndUpdate(
         { email: adm.email },
-        { 
-          $set: { role: 'ADMIN', name: adm.name } 
+        {
+          $set: { role: 'ADMIN', name: adm.name }
         }
-      ).catch(() => {});
+      ).catch(() => { });
     }
     console.log('🌱 Verified and seeded Admin accounts for vibhav07patel@gmail.com, dhirajpatil7170@gmail.com & shirajpatil7170@gmail.com');
 
@@ -240,7 +240,7 @@ async function seedDatabaseIfNeeded() {
         },
         about: {
           title: 'ABOUT PRAGYAN 2K26',
-          description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2030.',
+          description: 'Organized by Sanjivani University in association with Institution\'s Innovation Council (IIC) and Entrepreneurship Development Cell (EDC), PRAGYAN 2K26 is India\'s premier commerce and management hackathon driving SDG Goal 2927 .',
           fourPillars: {
             ideate: 'Formulate disruptive solutions for modern economic & operational challenges.',
             innovate: 'Build practical prototypes, financial models, and market intelligence systems.',
@@ -382,8 +382,8 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
     const isAuthorized = Boolean(adminAccount || isUserAdmin || envAdminList.includes(cleanEmail));
 
     if (!isAuthorized) {
-      return res.status(403).json({ 
-        error: `Access Denied: Google account (${cleanEmail}) does not have administrative access.` 
+      return res.status(403).json({
+        error: `Access Denied: Google account (${cleanEmail}) does not have administrative access.`
       });
     }
 
@@ -392,7 +392,7 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
 
     if (userAccount && userAccount.role !== 'ADMIN') {
       userAccount.role = 'ADMIN';
-      await userAccount.save().catch(() => {});
+      await userAccount.save().catch(() => { });
     }
 
     if (!adminAccount) {
@@ -400,7 +400,7 @@ app.post('/api/auth/admin/google', authLimiter, async (req, res, next) => {
         { email: cleanEmail },
         { $setOnInsert: { email: cleanEmail, name: adminName, role: 'ADMIN', passwordHash: 'oauth-google-managed' } },
         { upsert: true }
-      ).catch(() => {});
+      ).catch(() => { });
     }
 
     const token = jwt.sign({ id: adminId, email: cleanEmail, name: adminName, role: 'ADMIN' }, JWT_SECRET, { expiresIn: '24h' });
@@ -501,10 +501,10 @@ app.all(['/api/admin/clear-teams', '/api/teams/purge'], async (req, res) => {
     const result = await Team.deleteMany({});
     await User.updateMany({}, { $unset: { teamId: "" } });
     console.log(`🧹 Explicitly purged ${result.deletedCount} teams from database.`);
-    res.json({ 
-      success: true, 
-      message: `Successfully purged ${result.deletedCount} teams from MongoDB.`, 
-      count: result.deletedCount 
+    res.json({
+      success: true,
+      message: `Successfully purged ${result.deletedCount} teams from MongoDB.`,
+      count: result.deletedCount
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -588,27 +588,15 @@ app.get('/api/problem-statements', async (req, res, next) => {
     }
 
     // Public / Participant request (and Main Website view):
-    // Check system unlock schedule (12:00 PM, 24/10/2026) or global unhide switch
+    // If admin enabled global unhide, return all statements
     const settings = await SystemSettings.findOne().lean();
-    const unlockTarget = settings?.psUnlockTime || '2026-10-24T12:00:00+05:30';
-    const isPastUnlockTime = Date.now() >= new Date(unlockTarget).getTime();
-    const isGlobalVisible = Boolean(settings?.psGlobalVisible);
-
-    // If 12:00 PM has arrived OR admin clicked global unhide:
-    // RELEASE all Problem Statements automatically!
-    if (isPastUnlockTime || isGlobalVisible) {
-      const releasedPs = await ProblemStatement.find({
-        $or: [
-          { releaseAt: { $exists: false } },
-          { releaseAt: null },
-          { releaseAt: { $lte: new Date() } }
-        ]
-      }).sort({ order: 1, createdAt: 1 });
-      return res.json(releasedPs);
+    if (settings && settings.psGlobalVisible) {
+      const allPs = await ProblemStatement.find().sort({ order: 1, createdAt: 1 });
+      return res.json(allPs);
     }
 
-    // Before 12:00 PM (and before global release):
-    // ONLY return problem statements where isVisible is explicitly true.
+    // Strictly return ONLY the problem statements where isVisible === true.
+    // If an organizer hides a problem statement, it is 100% excluded so hide/unhide can be tested live.
     const visiblePs = await ProblemStatement.find({
       $and: [
         { isVisible: { $nin: [false, 'false', null] } },
@@ -630,20 +618,20 @@ app.get('/api/problem-statements', async (req, res, next) => {
 app.post('/api/problem-statements', authenticateAdmin, async (req, res, next) => {
   try {
     await ensureDbConnected();
-    const { 
-      trackId, 
-      trackTitle, 
-      title, 
-      description, 
-      context, 
-      documentName, 
-      documentUrl, 
-      documentSize, 
-      fileType, 
-      isVisible, 
-      releaseAt, 
+    const {
+      trackId,
+      trackTitle,
+      title,
+      description,
+      context,
+      documentName,
+      documentUrl,
+      documentSize,
+      fileType,
+      isVisible,
+      releaseAt,
       difficulty,
-      order 
+      order
     } = req.body || {};
 
     if (!title || !trackId) {
@@ -968,12 +956,12 @@ app.put('/api/settings', authenticateAdmin, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const updated = await SystemSettings.findOneAndUpdate({}, req.body, { upsert: true, returnDocument: 'after' });
-    
+
     // If master public visibility state was enabled, propagate to all problem statements
     if (req.body.psGlobalVisible === true || req.body.psGlobalVisible === 'true') {
       await ProblemStatement.updateMany({}, { $set: { isVisible: true, updatedAt: new Date() } });
     }
-    
+
     res.json(updated);
   } catch (err) {
     next(err);

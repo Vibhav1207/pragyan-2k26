@@ -13,7 +13,8 @@ import {
   Settings, 
   LogOut, 
   X,
-  ChevronRight
+  ChevronRight,
+  ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { AdminHeader } from './AdminHeader';
@@ -118,11 +119,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
 
         <div className="p-4 border-t border-[#A77A1C]/30 bg-[#0F211D] space-y-3">
           <div className="flex items-center gap-3 px-2.5 py-2 rounded-xl bg-[#2B3E35] border border-[#A77A1C]/30 text-left">
-            <img
-              src={admin?.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150'}
-              alt={admin?.name || 'Admin'}
-              className="w-9 h-9 rounded-full object-cover border border-[#E5BE61]"
-            />
+            {admin?.avatar && !admin.avatar.includes('unsplash.com') ? (
+              <img
+                src={admin.avatar}
+                alt={admin?.name || 'Admin'}
+                className="w-9 h-9 rounded-full object-cover border border-[#E5BE61]"
+              />
+            ) : (
+              <div className="w-9 h-9 rounded-full border border-[#E5BE61] bg-[#162E28] flex items-center justify-center text-[#E5BE61] font-mono text-sm font-bold shrink-0 shadow-inner">
+                {admin?.name ? admin.name.charAt(0).toUpperCase() : <ShieldCheck className="w-4.5 h-4.5 text-[#E5BE61]" />}
+              </div>
+            )}
             <div className="flex-1 min-w-0">
               <div className="text-xs font-bold text-[#F9F4EA] truncate">{admin?.name || 'PRAGYAN Admin'}</div>
               <div className="text-[10px] font-mono text-[#E5BE61] truncate">{admin?.email || 'admin@sanjivani.edu.in'}</div>

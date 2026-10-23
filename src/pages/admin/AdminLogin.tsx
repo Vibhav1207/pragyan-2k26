@@ -70,7 +70,7 @@ export const AdminLogin: React.FC = () => {
       }
 
       if (authSuccess && adminData) {
-        loginAdmin(adminData.admin.email, adminData.token, adminData.admin.name);
+        loginAdmin(adminData.admin.email, adminData.token, adminData.admin.name, adminData.admin.avatar);
         navigate('/admin/dashboard');
         return;
       }
@@ -80,7 +80,7 @@ export const AdminLogin: React.FC = () => {
       const isRoleAdmin = parsed && parsed.role && typeof parsed.role === 'string' && parsed.role.toUpperCase() === 'ADMIN';
 
       if (localAllowedAdmins.includes(cleanEmail) || isRoleAdmin) {
-        loginAdmin(cleanEmail, 'authorized-admin-token', gUser.name || 'PRAGYAN Super Admin');
+        loginAdmin(cleanEmail, 'authorized-admin-token', gUser.name || 'PRAGYAN Super Admin', gUser.avatar);
         navigate('/admin/dashboard');
       } else {
         setError(`Access Denied: Google account (${cleanEmail}) is not authorized for administrative access.`);

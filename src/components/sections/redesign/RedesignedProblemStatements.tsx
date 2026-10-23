@@ -12,7 +12,6 @@ import {
   Truck,
   FileText
 } from 'lucide-react';
-import { HACKATHON_LAUNCH_TARGET_ISO } from '../../../data/problemStatements';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { apiService } from '../../../services/api';
 import type { AdminProblemStatement, SystemSettings, HackathonChallenge } from '../../../types/admin';
@@ -70,19 +69,6 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     setSelectedTrack(normalizeTrack(initialTrackFilter));
   }, [initialTrackFilter]);
 
-  // Countdown time state
-  const [timeRemaining, setTimeRemaining] = useState<{
-    hours: number;
-    minutes: number;
-    seconds: number;
-    isPast: boolean;
-  }>({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    isPast: false
-  });
-
   useEffect(() => {
     let isMounted = true;
 
@@ -123,57 +109,17 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     };
     window.addEventListener('storage', handleStorageChange);
 
-    const pollInterval = setInterval(refreshData, 3000);
+    const pollInterval = setInterval(refreshData, 2500);
 
-    const targetIso = settings.psUnlockTime || HACKATHON_LAUNCH_TARGET_ISO;
-    const launchTime = new Date(targetIso).getTime();
-
-    const updateTimer = () => {
-      const isMasterUnlocked = Boolean(settings.psGlobalVisible);
-      const now = Date.now();
-      const diff = launchTime - now;
-
-      if (isMasterUnlocked || diff <= 0) {
-        setTimeRemaining({
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-          isPast: true
-        });
-        return;
-      }
-
-      const totalSeconds = Math.floor(diff / 1000);
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-
-      setTimeRemaining({
-        hours,
-        minutes,
-        seconds,
-        isPast: false
-      });
-    };
-
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
     return () => {
       isMounted = false;
-      clearInterval(interval);
       clearInterval(pollInterval);
       window.removeEventListener('pragyan_ps_updated', handleCustomUpdate);
       window.removeEventListener('pragyan_settings_updated', handleCustomUpdate);
       window.removeEventListener('pragyan_challenges_updated', handleCustomUpdate);
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [settings.psUnlockTime, settings.psGlobalVisible]);
-
-  // PS Unlocked if master setting is ALL UNHIDDEN, visible problem statements are published, or 12:00 PM schedule has arrived.
-  // CRITICAL RULE: Reaching 12:00 PM ONLY releases Problem Statements, NOT challenges. Challenges must be unlocked individually by organizers.
-  const isAutoUnlocked = Boolean(settings.psGlobalVisible) || timeRemaining.isPast;
-  const visiblePsCount = problemStatements.filter(p => isAutoUnlocked || Boolean(p.isVisible)).length;
-  const isUnlocked = isAutoUnlocked || visiblePsCount > 0;
+  }, []);
 
   const handleCopySummary = (ps: AdminProblemStatement) => {
     const text = `[PRAGYAN 2K26 - ${ps.id}] ${ps.title}\nTrack: ${ps.trackTitle}\nOverview: ${ps.description || ''}\nContext: ${ps.context || ''}`;
@@ -191,7 +137,8 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
   ];
 
   const filteredStatements = problemStatements.filter((ps) => {
-    if (!isAutoUnlocked && !ps.isVisible) return false;
+    // Only show problem statements that are visible (or if admin turned on psGlobalVisible)
+    if (!ps.isVisible && !settings.psGlobalVisible) return false;
     const matchesTrack = isMatchingTrack(selectedTrack, ps.trackId, ps.trackTitle);
     const matchesSearch = 
       searchQuery.trim() === '' ||
@@ -201,8 +148,6 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
       (ps.trackTitle && ps.trackTitle.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesTrack && matchesSearch;
   });
-
-  const pad = (n: number) => n.toString().padStart(2, '0');
 
   return (
     <section id={id} className="w-full py-20 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 bg-[#F9F4EA] text-[#050C0C] text-left border-b border-[#D2CAB6] relative">
@@ -234,68 +179,23 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
           </div>
         </ScrollReveal>
 
-        {/* LOCKED STATE COUNTDOWN BANNER (Shown when hidden by default) */}
-        {!isUnlocked && (
-          <ScrollReveal delay={100}>
-            <div className="p-8 sm:p-12 rounded-3xl bg-[#162E28] text-[#F9F4EA] border-2 border-[#A77A1C] shadow-2xl text-center space-y-8 relative overflow-hidden">
-              <div className="max-w-2xl mx-auto space-y-3">
-                <h3 className="font-serif font-black text-3xl sm:text-4xl text-[#E5BE61] uppercase tracking-tight">
-                  Problem Statements Unlock In
-                </h3>
-                <p className="text-sm sm:text-base text-[#D2CAB6] font-sans">
-                  The official problem statements are sealed by default to ensure an equitable, competitive hackathon environment. Organizers will unhide them on schedule for all registered teams.
-                </p>
-              </div>
+        {/* PROBLEM STATEMENTS BROWSER (Directly live so organizers can test hide / unhide) */}
+        <div className="space-y-10">
+          {/* Milestone Challenges Section (Scoped to active track & PS) */}
+          <UniversalChallengesSection 
+            challenges={challenges} 
+            selectedTrack={selectedTrack}
+          />
 
-              {/* Countdown Digits */}
-              <div className="flex items-center justify-center gap-3 sm:gap-6 font-mono">
-                <div className="flex flex-col items-center">
-                  <div className="w-20 sm:w-28 h-20 sm:h-28 rounded-2xl bg-black/40 border-2 border-[#A77A1C]/50 flex items-center justify-center text-3xl sm:text-5xl font-black text-[#E5BE61] shadow-inner">
-                    {pad(timeRemaining.hours)}
-                  </div>
-                  <span className="text-[11px] font-bold text-[#D2CAB6] mt-2 uppercase tracking-widest">HOURS</span>
-                </div>
-                <span className="text-3xl sm:text-5xl font-black text-[#A77A1C] mb-6">:</span>
-                <div className="flex flex-col items-center">
-                  <div className="w-20 sm:w-28 h-20 sm:h-28 rounded-2xl bg-black/40 border-2 border-[#A77A1C]/50 flex items-center justify-center text-3xl sm:text-5xl font-black text-[#E5BE61] shadow-inner">
-                    {pad(timeRemaining.minutes)}
-                  </div>
-                  <span className="text-[11px] font-bold text-[#D2CAB6] mt-2 uppercase tracking-widest">MINUTES</span>
-                </div>
-                <span className="text-3xl sm:text-5xl font-black text-[#A77A1C] mb-6">:</span>
-                <div className="flex flex-col items-center">
-                  <div className="w-20 sm:w-28 h-20 sm:h-28 rounded-2xl bg-black/40 border-2 border-[#A77A1C]/50 flex items-center justify-center text-3xl sm:text-5xl font-black text-[#E5BE61] shadow-inner">
-                    {pad(timeRemaining.seconds)}
-                  </div>
-                  <span className="text-[11px] font-bold text-[#D2CAB6] mt-2 uppercase tracking-widest">SECONDS</span>
-                </div>
-              </div>
-
-              <div className="pt-2 text-xs font-mono text-[#D2CAB6]">
-                Scheduled Release at 12:00 PM &bull; 24 October 2026
-              </div>
-            </div>
-          </ScrollReveal>
-        )}
-
-        {/* UNLOCKED PROBLEM STATEMENTS BROWSER */}
-        {isUnlocked && (
-          <div className="space-y-10">
-            {/* Milestone Challenges Section (Scoped to active track & PS) */}
-            <UniversalChallengesSection 
-              challenges={challenges} 
-              selectedTrack={selectedTrack}
-            />
-
-            {/* Filter Tabs & Search Bar */}
-            <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none w-full flex-nowrap sm:flex-wrap">
-                {trackTabs.map((tab) => {
-                  const Icon = tab.icon;
-                  const isSelected = selectedTrack === tab.id;
-                  const count = tab.id === 'all' 
-                    ? problemStatements.filter(p => isAutoUnlocked || Boolean(p.isVisible)).length 
-                    : problemStatements.filter(p => (isAutoUnlocked || Boolean(p.isVisible)) && isMatchingTrack(tab.id, p.trackId, p.trackTitle)).length;
+          {/* Filter Tabs & Search Bar */}
+          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none w-full flex-nowrap sm:flex-wrap">
+              {trackTabs.map((tab) => {
+                const Icon = tab.icon;
+                const isSelected = selectedTrack === tab.id;
+                const count = tab.id === 'all' 
+                  ? problemStatements.filter(p => Boolean(p.isVisible) || settings.psGlobalVisible).length 
+                  : problemStatements.filter(p => (Boolean(p.isVisible) || settings.psGlobalVisible) && isMatchingTrack(tab.id, p.trackId, p.trackTitle)).length;
 
                   return (
                     <button
@@ -338,12 +238,12 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
               <div className="p-12 text-center rounded-3xl bg-[#E9E1D2]/40 border border-[#D2CAB6] space-y-4">
                 <FileText className="w-10 h-10 text-[#A77A1C] mx-auto opacity-70" />
                 <h4 className="font-serif font-black text-xl text-[#162E28] uppercase">
-                  No Problem Statements Found in this Track
+                  {searchQuery ? 'No Matching Problem Statements' : 'Problem Statements Currently Hidden'}
                 </h4>
                 <p className="font-sans text-xs sm:text-sm text-[#7B8379] max-w-md mx-auto">
                   {searchQuery 
                     ? `No statements match your search "${searchQuery}". Try selecting "All Tracks" or clearing your query.` 
-                    : 'The organizing committee has not published problem statements for this track yet, or they are temporarily hidden.'}
+                    : 'All problem statements are currently sealed by organizers. You can unhide them individually or by track in the Admin Panel to test.'}
                 </p>
                 <button
                   onClick={() => { setSelectedTrack('all'); setSearchQuery(''); }}
@@ -442,9 +342,7 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
               </div>
             )}
           </div>
-        )}
-
-      </div>
+        </div>
 
       {/* FULL STATEMENT SCOPE MODAL */}
       {activeModalPS && (

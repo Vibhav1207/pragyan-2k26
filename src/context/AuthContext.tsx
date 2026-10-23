@@ -10,7 +10,7 @@ interface AuthContextType {
 
   admin: UserProfile | null;
   adminToken: string | null;
-  loginAdmin: (email: string, token: string, name?: string) => void;
+  loginAdmin: (email: string, token: string, name?: string, avatar?: string) => void;
   logoutAdmin: () => void;
 }
 
@@ -39,7 +39,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [admin, setAdmin] = useState<UserProfile | null>(() => {
     try {
       const saved = localStorage.getItem(ADMIN_KEY);
-      return saved ? JSON.parse(saved) : null;
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.avatar && parsed.avatar.includes('unsplash.com')) {
+        parsed.avatar = '';
+        localStorage.setItem(ADMIN_KEY, JSON.stringify(parsed));
+      }
+      return parsed;
     } catch {
       return null;
     }
@@ -53,12 +59,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   });
 
-  const loginAdmin = (email: string, token: string, name: string = 'PRAGYAN Super Admin') => {
+  const loginAdmin = (email: string, token: string, name: string = 'PRAGYAN Super Admin', avatar?: string) => {
+    const cleanAvatar = (avatar && !avatar.includes('unsplash.com')) ? avatar : '';
     const adminUser: UserProfile = {
       id: 'ADM-001',
       name,
       email,
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
+      avatar: cleanAvatar,
       role: 'ADMIN'
     };
     setAdmin(adminUser);
@@ -88,7 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     if (isAdminEmail) {
-      loginAdmin(cleanEmail, 'authorized-admin-token', googleUser.name || 'PRAGYAN Admin');
+      loginAdmin(cleanEmail, 'authorized-admin-token', googleUser.name || 'PRAGYAN Admin', googleUser.avatar);
     }
 
     try {
@@ -162,7 +169,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch { }
 
         if (ALLOWED_ADMIN_EMAILS.includes(email)) {
-          loginAdmin(email, 'authorized-admin-token', firebaseUser.displayName || 'PRAGYAN Super Admin');
+          loginAdmin(email, 'authorized-admin-token', firebaseUser.displayName || 'PRAGYAN Super Admin', firebaseUser.photoURL || undefined);
         }
       }
     });

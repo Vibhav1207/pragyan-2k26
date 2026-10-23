@@ -41,7 +41,7 @@ export const FINAL_HACKATHON_TARGET_ISO: string | null = "2026-10-24T12:00:00+05
 export const EVENT_DATA: EventInfo = {
   name: "PRAGYAN 2K26",
   tagline: "NATIONAL LEVEL HACKATHON",
-  headline: "INNOVATION & ENTREPRENEURSHIP ON SDG GOAL 2030",
+  headline: "INNOVATION & ENTREPRENEURSHIP ON SDG GOAL 2927 ",
   supportingLine: "24 HRS INNOVATION SPRINT FOR INDIA'S BRIGHTEST COMMERCE AND MANAGEMENT MINDS",
   institution: "SANJIVANI UNIVERSITY",
   venueName: "Sanjivani University Campus",
@@ -49,7 +49,7 @@ export const EVENT_DATA: EventInfo = {
   city: "Kopargaon",
   state: "Maharashtra",
   pincode: "423601",
-  theme: "INNOVATION & ENTREPRENEURSHIP ON SDG GOAL 2030",
+  theme: "INNOVATION & ENTREPRENEURSHIP ON SDG GOAL 2927 ",
   sprint: "24 HRS HACKATHON",
   teamSize: "4 MEMBERS PER TEAM",
   firstRoundFee: "₹500 REGISTRATION FEE (PER TEAM)",
