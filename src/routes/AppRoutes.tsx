@@ -12,6 +12,7 @@ const AdminLogin = lazy(() => import('../pages/admin/AdminLogin').then(m => ({ d
 const AdminDashboardOverview = lazy(() => import('../pages/admin/AdminDashboardOverview').then(m => ({ default: m.AdminDashboardOverview })));
 const AdminParticipantsList = lazy(() => import('../pages/admin/AdminParticipantsList').then(m => ({ default: m.AdminParticipantsList })));
 const AdminProblemStatements = lazy(() => import('../pages/admin/AdminProblemStatements').then(m => ({ default: m.AdminProblemStatements })));
+const AdminChallenges = lazy(() => import('../pages/admin/AdminChallenges').then(m => ({ default: m.AdminChallenges })));
 const AdminTracksList = lazy(() => import('../pages/admin/AdminTracksList').then(m => ({ default: m.AdminTracksList })));
 const AdminHomepageCMS = lazy(() => import('../pages/admin/AdminHomepageCMS').then(m => ({ default: m.AdminHomepageCMS })));
 const AdminAnnouncements = lazy(() => import('../pages/admin/AdminAnnouncements').then(m => ({ default: m.AdminAnnouncements })));
@@ -104,6 +105,14 @@ export const AppRoutes: React.FC = () => {
           element={
             <AdminProtectedRoute>
               <AdminProblemStatements />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/challenges"
+          element={
+            <AdminProtectedRoute>
+              <AdminChallenges />
             </AdminProtectedRoute>
           }
         />

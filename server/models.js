@@ -162,14 +162,33 @@ const HomepageCMSContentSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+const HackathonChallengeSchema = new mongoose.Schema({
+  challengeId: { type: String, required: true, unique: true, index: true },
+  challengeNumber: { type: Number, required: true, index: true },
+  title: { type: String, required: true },
+  subtitle: { type: String, default: '' },
+  description: { type: String, default: '' },
+  deliverables: [{ type: String }],
+  timeframe: { type: String, default: '' },
+  documentName: { type: String, default: '' },
+  documentUrl: { type: String, default: '' },
+  documentSize: { type: String, default: '' },
+  isEnabled: { type: Boolean, default: false, index: true },
+  order: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
 export const User = mongoose.model('User', UserSchema);
 export const Admin = mongoose.model('Admin', AdminSchema);
 export const Team = mongoose.model('Team', TeamSchema);
 export const Submission = mongoose.model('Submission', SubmissionSchema);
 export const Track = mongoose.model('Track', TrackSchema);
 export const ProblemStatement = mongoose.model('ProblemStatement', ProblemStatementSchema);
+export const HackathonChallenge = mongoose.model('HackathonChallenge', HackathonChallengeSchema);
 export const Announcement = mongoose.model('Announcement', AnnouncementSchema);
 export const ActivityLog = mongoose.model('ActivityLog', ActivityLogSchema);
 export const SystemSettings = mongoose.model('SystemSettings', SystemSettingsSchema);
 export const HomepageCMSContent = mongoose.model('HomepageCMSContent', HomepageCMSContentSchema);
+
 

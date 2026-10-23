@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Settings, Save, CheckCircle2 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
@@ -8,6 +8,16 @@ export const AdminSettings: React.FC = () => {
   const [settings, setSettings] = useState<SystemSettings>(() => apiService.getSettings());
   const [savedSuccess, setSavedSuccess] = useState(false);
 
+  useEffect(() => {
+    let isMounted = true;
+    apiService.fetchSettingsAsync().then((fresh) => {
+      if (isMounted && fresh) {
+        setSettings(fresh);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
     newPassword: '',
@@ -15,9 +25,9 @@ export const AdminSettings: React.FC = () => {
   });
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
-  const handleSaveSettings = () => {
+  const handleSaveSettings = async () => {
     if (window.confirm('Save system configuration changes? Important changes will take effect immediately.')) {
-      apiService.updateSettings(settings);
+      await apiService.updateSettingsAsync(settings);
       setSavedSuccess(true);
       setTimeout(() => setSavedSuccess(false), 3000);
     }

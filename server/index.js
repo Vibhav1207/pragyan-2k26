@@ -12,6 +12,7 @@ import {
   Submission, 
   Track, 
   ProblemStatement,
+  HackathonChallenge,
   Announcement, 
   ActivityLog, 
   SystemSettings, 
@@ -266,6 +267,88 @@ async function seedDatabaseIfNeeded() {
         }
       });
       console.log('🌱 Seeded default Homepage CMS in MongoDB');
+    }
+
+    const challengesCount = await HackathonChallenge.countDocuments();
+    if (challengesCount === 0) {
+      await HackathonChallenge.insertMany([
+        {
+          challengeId: 'CHAL-01',
+          challengeNumber: 1,
+          title: 'Challenge 1: Problem Definition & Architecture Blueprint',
+          subtitle: 'System Design, Requirements Specification & Data Modeling',
+          description: 'Establish the foundational architecture of your solution. Define data schemas, system components, technology stack, and how your system directly solves the target problem.',
+          deliverables: [
+            'High-Level Architecture & System Flow Diagram',
+            'Entity Relationship / Data Model Document',
+            'Git Repository Setup with README & CI pipeline'
+          ],
+          timeframe: 'Milestone Phase 1',
+          order: 1,
+          isEnabled: false
+        },
+        {
+          challengeId: 'CHAL-02',
+          challengeNumber: 2,
+          title: 'Challenge 2: Core Algorithm & Engine Implementation',
+          subtitle: 'Back-end Logic, Algorithmic Scoring & Business Rules',
+          description: 'Develop and validate the computational core of your innovation. Implement critical algorithms, scoring systems, analytics processing, or AI/ML inference pipelines.',
+          deliverables: [
+            'Working core algorithm module / API service',
+            'Unit test suite covering baseline and edge cases',
+            'API specification or Swagger documentation'
+          ],
+          timeframe: 'Milestone Phase 2',
+          order: 2,
+          isEnabled: false
+        },
+        {
+          challengeId: 'CHAL-03',
+          challengeNumber: 3,
+          title: 'Challenge 3: System Integration & Prototype Demo',
+          subtitle: 'End-to-End User Experience & Interface Connectivity',
+          description: 'Connect your front-end interface with the back-end services. Build responsive user workflows, real-time dashboards, and realistic interactive user journeys.',
+          deliverables: [
+            'Interactive Web/Mobile user interface connected to backend',
+            'Functional user onboarding / primary workflow demo',
+            'Short 90-second screen-recording proof of concept'
+          ],
+          timeframe: 'Milestone Phase 3',
+          order: 3,
+          isEnabled: false
+        },
+        {
+          challengeId: 'CHAL-04',
+          challengeNumber: 4,
+          title: 'Challenge 4: Stress Testing, Security & Resilience',
+          subtitle: 'Scalability Audit, Edge Case Handling & Performance Benchmark',
+          description: 'Harden your solution against production realities. Conduct load simulations, secure all authentication/data storage, and test resilience under peak conditions.',
+          deliverables: [
+            'Performance audit report (latency, throughput)',
+            'Security checklist (OWASP compliance, input sanitization)',
+            'Fault tolerance / error recovery demonstration'
+          ],
+          timeframe: 'Milestone Phase 4',
+          order: 4,
+          isEnabled: false
+        },
+        {
+          challengeId: 'CHAL-05',
+          challengeNumber: 5,
+          title: 'Challenge 5: Production Deployment & Final Pitch Deck',
+          subtitle: 'Live Cloud Hosting, Executive Presentation & Impact Metrics',
+          description: 'Deploy your complete solution to a live environment and prepare the executive pitch. Clearly articulate market viability, social impact, and technical execution.',
+          deliverables: [
+            'Live deployment URL (accessible to jury)',
+            'Executive 10-slide Pitch Deck (PDF/PPT)',
+            'Final Code Freeze GitHub repository tag'
+          ],
+          timeframe: 'Milestone Phase 5',
+          order: 5,
+          isEnabled: false
+        }
+      ]);
+      console.log('🌱 Seeded 5 Hackathon Milestone Challenges in MongoDB');
     }
 
   } catch (err) {
@@ -571,7 +654,18 @@ app.get('/api/problem-statements', async (req, res, next) => {
       return res.json(allPs);
     }
 
-    // Public request: ONLY return problem statements that are explicitly visible (isVisible === true)
+    // Check system settings for master visibility / unlock state
+    const settings = await SystemSettings.findOne();
+    const isMasterLive = Boolean(settings?.psGlobalVisible) || 
+      (settings?.psUnlockTime && new Date(settings.psUnlockTime).getTime() <= Date.now());
+
+    if (isMasterLive) {
+      // Master state is LIVE / UNHIDDEN: return all problem statements to participants!
+      const allPs = await ProblemStatement.find().sort({ order: 1, createdAt: 1 });
+      return res.json(allPs);
+    }
+
+    // Public request and not globally unhidden: ONLY return problem statements that are explicitly visible (isVisible === true)
     // When an admin hides a problem statement, it is immediately excluded
     const visiblePs = await ProblemStatement.find({
       $and: [
@@ -776,6 +870,83 @@ app.put('/api/homepage', authenticateAdmin, async (req, res, next) => {
   }
 });
 
+// --- 5 UNIVERSAL HACKATHON CHALLENGES API ---
+app.get('/api/challenges', async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+
+    let isAdmin = false;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      if (token === 'dev-local-admin-token' || token === 'authorized-admin-token') {
+        isAdmin = true;
+      } else {
+        try {
+          const decoded = jwt.verify(token, JWT_SECRET);
+          if (decoded && decoded.role === 'ADMIN') {
+            isAdmin = true;
+          }
+        } catch {
+          // public
+        }
+      }
+    }
+
+    if (isAdmin) {
+      const allChallenges = await HackathonChallenge.find().sort({ challengeNumber: 1, order: 1 });
+      return res.json(allChallenges);
+    }
+
+    // Public / Participant: ONLY return challenges that are explicitly enabled by the admin
+    const liveChallenges = await HackathonChallenge.find({ isEnabled: true }).sort({ challengeNumber: 1, order: 1 });
+    return res.json(liveChallenges);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.put('/api/challenges/:id', authenticateAdmin, async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const { id } = req.params;
+    const updateData = {
+      ...req.body,
+      updatedAt: new Date()
+    };
+    const updated = await HackathonChallenge.findOneAndUpdate(
+      { $or: [{ challengeId: id }, { _id: mongoose.isValidObjectId(id) ? id : null }] },
+      { $set: updateData },
+      { returnDocument: 'after' }
+    );
+    if (!updated) {
+      return res.status(404).json({ error: 'Challenge not found' });
+    }
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.patch('/api/challenges/:id/toggle', authenticateAdmin, async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+    const { id } = req.params;
+    const challenge = await HackathonChallenge.findOne({
+      $or: [{ challengeId: id }, { _id: mongoose.isValidObjectId(id) ? id : null }]
+    });
+    if (!challenge) {
+      return res.status(404).json({ error: 'Challenge not found' });
+    }
+    challenge.isEnabled = typeof req.body.isEnabled === 'boolean' ? req.body.isEnabled : !challenge.isEnabled;
+    challenge.updatedAt = new Date();
+    await challenge.save();
+    res.json(challenge);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/api/settings', async (req, res, next) => {
   try {
     await ensureDbConnected();
@@ -790,6 +961,12 @@ app.put('/api/settings', authenticateAdmin, async (req, res, next) => {
   try {
     await ensureDbConnected();
     const updated = await SystemSettings.findOneAndUpdate({}, req.body, { upsert: true, returnDocument: 'after' });
+    
+    // If master public visibility state was enabled, propagate to all problem statements
+    if (req.body.psGlobalVisible === true || req.body.psGlobalVisible === 'true') {
+      await ProblemStatement.updateMany({}, { $set: { isVisible: true, updatedAt: new Date() } });
+    }
+    
     res.json(updated);
   } catch (err) {
     next(err);

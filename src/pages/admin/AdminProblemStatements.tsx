@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   FileText, 
   Plus, 
@@ -16,7 +17,8 @@ import {
   Layers, 
   Search,
   Calendar, 
-  X
+  X,
+  Award
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
@@ -307,6 +309,14 @@ export const AdminProblemStatements: React.FC = () => {
               <Lock className="w-4 h-4 text-amber-800" />
               <span>HIDE ALL (LOCKDOWN)</span>
             </button>
+
+            <Link
+              to="/admin/challenges"
+              className="px-4 py-2.5 rounded-xl bg-[#E5BE61] hover:bg-[#D9B255] text-[#162E28] font-mono font-bold text-xs flex items-center gap-2 shadow-sm transition"
+            >
+              <Award className="w-4 h-4 text-[#162E28]" />
+              <span>MANAGE 5 CHALLENGES</span>
+            </Link>
 
             <button
               onClick={handleOpenCreate}
@@ -649,34 +659,6 @@ export const AdminProblemStatements: React.FC = () => {
                   className="w-full p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C]"
                 >
                 </input>
-              </div>
-
-              {/* Description / Summary */}
-              <div className="space-y-1.5">
-                <label className="font-bold text-[#162E28] uppercase">
-                  Short Executive Summary
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Brief 1-2 sentence overview of the problem..."
-                  className="w-full p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C]"
-                />
-              </div>
-
-              {/* Context / Objectives */}
-              <div className="space-y-1.5">
-                <label className="font-bold text-[#162E28] uppercase">
-                  Background Context & Deliverables
-                </label>
-                <textarea
-                  rows={3}
-                  value={formData.context}
-                  onChange={(e) => setFormData(prev => ({ ...prev, context: e.target.value }))}
-                  placeholder="Detailed constraints, objectives, and deliverables..."
-                  className="w-full p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C]"
-                />
               </div>
 
               {/* Word Document Upload Field */}

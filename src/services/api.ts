@@ -9,7 +9,8 @@ import type {
   SubmissionFile,
   UserProfile,
   Role,
-  AdminProblemStatement
+  AdminProblemStatement,
+  HackathonChallenge
 } from '../types/admin';
 import { INITIAL_PROBLEM_STATEMENTS } from '../data/initialProblemStatements';
 
@@ -18,6 +19,7 @@ const STORAGE_KEYS = {
   SUBMISSIONS: 'pragyan_submissions_v2',
   TRACKS: 'pragyan_tracks_v2',
   PROBLEM_STATEMENTS: 'pragyan_problem_statements_v2',
+  CHALLENGES: 'pragyan_challenges_v2',
   ANNOUNCEMENTS: 'pragyan_announcements_v2',
   ACTIVITY_LOGS: 'pragyan_activity_v2',
   SETTINGS: 'pragyan_settings_v2',
@@ -137,6 +139,89 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   }
 ];
 
+const INITIAL_CHALLENGES: HackathonChallenge[] = [
+  {
+    id: 'CHAL-01',
+    challengeId: 'CHAL-01',
+    challengeNumber: 1,
+    title: 'Challenge 1: Problem Definition & Architecture Blueprint',
+    subtitle: 'System Design, Requirements Specification & Data Modeling',
+    description: 'Establish the foundational architecture of your solution. Define data schemas, system components, technology stack, and how your system directly solves the target problem.',
+    deliverables: [
+      'High-Level Architecture & System Flow Diagram',
+      'Entity Relationship / Data Model Document',
+      'Git Repository Setup with README & CI pipeline'
+    ],
+    timeframe: 'Milestone Phase 1',
+    order: 1,
+    isEnabled: false
+  },
+  {
+    id: 'CHAL-02',
+    challengeId: 'CHAL-02',
+    challengeNumber: 2,
+    title: 'Challenge 2: Core Algorithm & Engine Implementation',
+    subtitle: 'Back-end Logic, Algorithmic Scoring & Business Rules',
+    description: 'Develop and validate the computational core of your innovation. Implement critical algorithms, scoring systems, analytics processing, or AI/ML inference pipelines.',
+    deliverables: [
+      'Working core algorithm module / API service',
+      'Unit test suite covering baseline and edge cases',
+      'API specification or Swagger documentation'
+    ],
+    timeframe: 'Milestone Phase 2',
+    order: 2,
+    isEnabled: false
+  },
+  {
+    id: 'CHAL-03',
+    challengeId: 'CHAL-03',
+    challengeNumber: 3,
+    title: 'Challenge 3: System Integration & Prototype Demo',
+    subtitle: 'End-to-End User Experience & Interface Connectivity',
+    description: 'Connect your front-end interface with the back-end services. Build responsive user workflows, real-time dashboards, and realistic interactive user journeys.',
+    deliverables: [
+      'Interactive Web/Mobile user interface connected to backend',
+      'Functional user onboarding / primary workflow demo',
+      'Short 90-second screen-recording proof of concept'
+    ],
+    timeframe: 'Milestone Phase 3',
+    order: 3,
+    isEnabled: false
+  },
+  {
+    id: 'CHAL-04',
+    challengeId: 'CHAL-04',
+    challengeNumber: 4,
+    title: 'Challenge 4: Stress Testing, Security & Resilience',
+    subtitle: 'Scalability Audit, Edge Case Handling & Performance Benchmark',
+    description: 'Harden your solution against production realities. Conduct load simulations, secure all authentication/data storage, and test resilience under peak conditions.',
+    deliverables: [
+      'Performance audit report (latency, throughput)',
+      'Security checklist (OWASP compliance, input sanitization)',
+      'Fault tolerance / error recovery demonstration'
+    ],
+    timeframe: 'Milestone Phase 4',
+    order: 4,
+    isEnabled: false
+  },
+  {
+    id: 'CHAL-05',
+    challengeId: 'CHAL-05',
+    challengeNumber: 5,
+    title: 'Challenge 5: Production Deployment & Final Pitch Deck',
+    subtitle: 'Live Cloud Hosting, Executive Presentation & Impact Metrics',
+    description: 'Deploy your complete solution to a live environment and prepare the executive pitch. Clearly articulate market viability, social impact, and technical execution.',
+    deliverables: [
+      'Live deployment URL (accessible to jury)',
+      'Executive 10-slide Pitch Deck (PDF/PPT)',
+      'Final Code Freeze GitHub repository tag'
+    ],
+    timeframe: 'Milestone Phase 5',
+    order: 5,
+    isEnabled: false
+  }
+];
+
 const INITIAL_SETTINGS: SystemSettings = {
   registrationOpen: false,
   registrationDeadline: '2026-03-25T23:59:59Z',
@@ -148,7 +233,9 @@ const INITIAL_SETTINGS: SystemSettings = {
   maxFileSizeMb: 50,
   maintenanceMode: false,
   homepageVisibility: true,
-  announcementVisibility: true
+  announcementVisibility: true,
+  psUnlockTime: '2026-10-24T12:00:00+05:30',
+  psGlobalVisible: false
 };
 
 const INITIAL_CMS: HomepageCMS = {
@@ -512,13 +599,75 @@ class PragyanAPIService {
   }
 
   getSettings(): SystemSettings {
-    return getStored<SystemSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    const stored = getStored<SystemSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    return { ...INITIAL_SETTINGS, ...stored };
+  }
+
+  async fetchSettingsAsync(): Promise<SystemSettings> {
+    try {
+      let res = await fetch('/api/settings');
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/settings');
+      }
+      if (res.ok) {
+        const serverSettings = await res.json();
+        if (serverSettings && typeof serverSettings === 'object' && Object.keys(serverSettings).length > 0) {
+          const merged: SystemSettings = {
+            ...INITIAL_SETTINGS,
+            ...this.getSettings(),
+            ...serverSettings
+          };
+          setStored(STORAGE_KEYS.SETTINGS, merged);
+          return merged;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend settings fetch notice:', err);
+    }
+    return this.getSettings();
+  }
+
+  async updateSettingsAsync(settings: SystemSettings): Promise<SystemSettings> {
+    const merged = { ...this.getSettings(), ...settings };
+    setStored(STORAGE_KEYS.SETTINGS, merged);
+    this.logActivity('SETTINGS_UPDATED', 'System Settings', 'Updated system configurations', 'WARNING');
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('pragyan_settings_updated', { detail: merged }));
+      window.dispatchEvent(new CustomEvent('pragyan_ps_updated'));
+    }
+
+    try {
+      let res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(merged)
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/settings', {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(merged)
+        });
+      }
+      if (res.ok) {
+        const updated = await res.json();
+        if (updated) {
+          const finalSettings = { ...merged, ...updated };
+          setStored(STORAGE_KEYS.SETTINGS, finalSettings);
+          return finalSettings;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend settings update notice:', err);
+    }
+
+    return merged;
   }
 
   updateSettings(settings: SystemSettings): SystemSettings {
-    setStored(STORAGE_KEYS.SETTINGS, settings);
-    this.logActivity('SETTINGS_UPDATED', 'System Settings', 'Updated system configurations', 'WARNING');
-    return settings;
+    this.updateSettingsAsync(settings).catch(() => {});
+    return { ...this.getSettings(), ...settings };
   }
 
   getActivityLogs(): ActivityLog[] {
@@ -665,6 +814,122 @@ class PragyanAPIService {
       this.logActivity('FILE_DELETED', fileId, `Deleted file ID ${fileId} from GridFS`, 'DANGER');
     }
     return fileDeleted;
+  }
+
+  getChallenges(includeDisabled = false): HackathonChallenge[] {
+    const list = getStored<HackathonChallenge[]>(STORAGE_KEYS.CHALLENGES, INITIAL_CHALLENGES);
+    if (includeDisabled) return list;
+    return list.filter(c => c.isEnabled);
+  }
+
+  async fetchChallengesAsync(includeDisabled = false): Promise<HackathonChallenge[]> {
+    try {
+      let res = await fetch('/api/challenges', {
+        headers: getAuthHeaders()
+      });
+      if (!res.ok) {
+        res = await fetch('http://localhost:5000/api/challenges', {
+          headers: getAuthHeaders()
+        });
+      }
+      if (res.ok) {
+        const serverChallenges = await res.json();
+        if (Array.isArray(serverChallenges) && serverChallenges.length > 0) {
+          const mapped: HackathonChallenge[] = serverChallenges.map((c: any) => ({
+            id: c.challengeId || c._id || `CHAL-${c.challengeNumber}`,
+            challengeId: c.challengeId || `CHAL-${c.challengeNumber}`,
+            challengeNumber: Number(c.challengeNumber) || 1,
+            title: c.title || `Challenge ${c.challengeNumber}`,
+            subtitle: c.subtitle || '',
+            description: c.description || '',
+            deliverables: Array.isArray(c.deliverables) ? c.deliverables : [],
+            timeframe: c.timeframe || '',
+            documentName: c.documentName || '',
+            documentUrl: c.documentUrl || '',
+            documentSize: c.documentSize || '',
+            isEnabled: Boolean(c.isEnabled),
+            order: Number(c.order) || Number(c.challengeNumber) || 1
+          }));
+
+          setStored(STORAGE_KEYS.CHALLENGES, mapped);
+          if (includeDisabled) return mapped;
+          return mapped.filter(c => c.isEnabled);
+        }
+      }
+    } catch (err) {
+      console.warn('Backend challenges fetch note:', err);
+    }
+    return this.getChallenges(includeDisabled);
+  }
+
+  async toggleChallenge(challengeId: string, isEnabled?: boolean): Promise<HackathonChallenge | null> {
+    const list = this.getChallenges(true);
+    const item = list.find(c => c.challengeId === challengeId || c.id === challengeId);
+    if (item) {
+      item.isEnabled = typeof isEnabled === 'boolean' ? isEnabled : !item.isEnabled;
+      setStored(STORAGE_KEYS.CHALLENGES, list);
+      this.logActivity('CHALLENGE_TOGGLED', item.title, `Challenge ${item.challengeNumber} is now ${item.isEnabled ? 'LIVE' : 'LOCKED'}`, item.isEnabled ? 'SUCCESS' : 'WARNING');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('pragyan_challenges_updated'));
+      }
+    }
+
+    try {
+      let res = await fetch(`/api/challenges/${challengeId}/toggle`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(typeof isEnabled === 'boolean' ? { isEnabled } : {})
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/challenges/${challengeId}/toggle`, {
+          method: 'PATCH',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(typeof isEnabled === 'boolean' ? { isEnabled } : {})
+        });
+      }
+      if (res.ok) {
+        const updated = await res.json();
+        return updated;
+      }
+    } catch (err) {
+      console.warn('Backend challenge toggle note:', err);
+    }
+    return item || null;
+  }
+
+  async updateChallenge(challengeId: string, data: Partial<HackathonChallenge>): Promise<HackathonChallenge | null> {
+    const list = this.getChallenges(true);
+    const item = list.find(c => c.challengeId === challengeId || c.id === challengeId);
+    if (item) {
+      Object.assign(item, data);
+      setStored(STORAGE_KEYS.CHALLENGES, list);
+      this.logActivity('CHALLENGE_UPDATED', item.title, `Updated details for Challenge ${item.challengeNumber}`, 'INFO');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('pragyan_challenges_updated'));
+      }
+    }
+
+    try {
+      let res = await fetch(`/api/challenges/${challengeId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) {
+        res = await fetch(`http://localhost:5000/api/challenges/${challengeId}`, {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(data)
+        });
+      }
+      if (res.ok) {
+        const updated = await res.json();
+        return updated;
+      }
+    } catch (err) {
+      console.warn('Backend challenge update note:', err);
+    }
+    return item || null;
   }
 }
 

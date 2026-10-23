@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Search, ShieldCheck, ExternalLink, Menu } from 'lucide-react';
+import { Search, ShieldCheck, ExternalLink, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -56,11 +56,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ title, subtitle, onTog
           <ExternalLink className="w-3.5 h-3.5" />
           <span>VIEW SITE</span>
         </Link>
-
-        <button className="relative p-2 rounded-xl bg-[#2B3E35] border border-[#A77A1C]/30 text-[#F9F4EA] hover:text-[#E5BE61] transition">
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#E5BE61] animate-pulse"></span>
-        </button>
 
         <div className="flex items-center gap-2 pl-2 border-l border-[#A77A1C]/30">
           <img

@@ -190,3 +190,22 @@ export interface UserProfile {
   groupCode?: string;
   createdAt?: string;
 }
+
+export interface HackathonChallenge {
+  id: string;
+  challengeId: string;
+  challengeNumber: number;
+  title: string;
+  subtitle?: string;
+  description: string;
+  deliverables: string[];
+  timeframe?: string;
+  documentName?: string;
+  documentUrl?: string;
+  documentSize?: string;
+  isEnabled: boolean;
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+

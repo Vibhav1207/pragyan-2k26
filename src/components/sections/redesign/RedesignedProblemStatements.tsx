@@ -18,8 +18,9 @@ import {
 import { HACKATHON_LAUNCH_TARGET_ISO } from '../../../data/problemStatements';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { apiService } from '../../../services/api';
-import type { AdminProblemStatement } from '../../../types/admin';
+import type { AdminProblemStatement, SystemSettings, HackathonChallenge } from '../../../types/admin';
 import { downloadProblemStatementWordDoc } from '../../../utils/wordDocHelper';
+import { UniversalChallengesSection } from './UniversalChallengesSection';
 
 interface RedesignedProblemStatementsProps {
   id?: string;
@@ -59,6 +60,10 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
   const [problemStatements, setProblemStatements] = useState<AdminProblemStatement[]>(() => 
     apiService.getProblemStatements(false)
   );
+  const [challenges, setChallenges] = useState<HackathonChallenge[]>(() => 
+    apiService.getChallenges(false)
+  );
+  const [settings, setSettings] = useState<SystemSettings>(() => apiService.getSettings());
   const [selectedTrack, setSelectedTrack] = useState<string>(() => normalizeTrack(initialTrackFilter));
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalPS, setActiveModalPS] = useState<AdminProblemStatement | null>(null);
@@ -86,13 +91,21 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
 
     const refreshData = async () => {
       try {
-        const fresh = await apiService.fetchProblemStatementsAsync(false);
+        const [freshPs, freshSettings, freshChallenges] = await Promise.all([
+          apiService.fetchProblemStatementsAsync(false),
+          apiService.fetchSettingsAsync(),
+          apiService.fetchChallengesAsync(false)
+        ]);
         if (isMounted) {
-          setProblemStatements(fresh || []);
+          if (freshPs) setProblemStatements(freshPs);
+          if (freshSettings) setSettings(freshSettings);
+          if (freshChallenges) setChallenges(freshChallenges);
         }
-      } catch (e) {
+      } catch {
         if (isMounted) {
           setProblemStatements(apiService.getProblemStatements(false));
+          setSettings(apiService.getSettings());
+          setChallenges(apiService.getChallenges(false));
         }
       }
     };
@@ -103,9 +116,11 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
       refreshData();
     };
     window.addEventListener('pragyan_ps_updated', handleCustomUpdate);
+    window.addEventListener('pragyan_settings_updated', handleCustomUpdate);
+    window.addEventListener('pragyan_challenges_updated', handleCustomUpdate);
 
     const handleStorageChange = (e: StorageEvent) => {
-      if (!e.key || e.key === 'pragyan_problem_statements_v2') {
+      if (!e.key || e.key === 'pragyan_problem_statements_v2' || e.key === 'pragyan_settings_v2' || e.key === 'pragyan_challenges_v2') {
         refreshData();
       }
     };
@@ -113,15 +128,15 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
 
     const pollInterval = setInterval(refreshData, 3000);
 
-    const settings = apiService.getSettings();
     const targetIso = settings.psUnlockTime || HACKATHON_LAUNCH_TARGET_ISO;
     const launchTime = new Date(targetIso).getTime();
 
     const updateTimer = () => {
+      const isMasterUnlocked = Boolean(settings.psGlobalVisible) || challenges.some(c => c.isEnabled);
       const now = Date.now();
       const diff = launchTime - now;
 
-      if (diff <= 0) {
+      if (isMasterUnlocked || diff <= 0) {
         setTimeRemaining({
           hours: 0,
           minutes: 0,
@@ -151,12 +166,14 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
       clearInterval(interval);
       clearInterval(pollInterval);
       window.removeEventListener('pragyan_ps_updated', handleCustomUpdate);
+      window.removeEventListener('pragyan_settings_updated', handleCustomUpdate);
+      window.removeEventListener('pragyan_challenges_updated', handleCustomUpdate);
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, []);
+  }, [settings.psUnlockTime, settings.psGlobalVisible, challenges.length]);
 
-  // Unlocked if visible problem statements are published by organizers, or schedule is past
-  const isUnlocked = problemStatements.length > 0 || timeRemaining.isPast;
+  // Unlocked if master setting is ALL UNHIDDEN, visible problem statements are published, challenges are live, or schedule has elapsed
+  const isUnlocked = Boolean(settings.psGlobalVisible) || problemStatements.length > 0 || challenges.some(c => c.isEnabled) || timeRemaining.isPast;
 
   const handleCopySummary = (ps: AdminProblemStatement) => {
     const text = `[PRAGYAN 2K26 - ${ps.id}] ${ps.title}\nTrack: ${ps.trackTitle}\nOverview: ${ps.description || ''}\nContext: ${ps.context || ''}`;
@@ -233,9 +250,6 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
           <ScrollReveal delay={100}>
             <div className="p-8 sm:p-12 rounded-3xl bg-[#162E28] text-[#F9F4EA] border-2 border-[#A77A1C] shadow-2xl text-center space-y-8 relative overflow-hidden">
               <div className="max-w-2xl mx-auto space-y-3">
-                <div className="inline-flex p-4 rounded-2xl bg-[#E5BE61]/10 border border-[#E5BE61]/30 text-[#E5BE61] mb-2">
-                  <Lock className="w-10 h-10 animate-bounce" />
-                </div>
                 <h3 className="font-serif font-black text-3xl sm:text-4xl text-[#E5BE61] uppercase tracking-tight">
                   Problem Statements Unlock In
                 </h3>
@@ -298,7 +312,10 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
 
         {/* UNLOCKED PROBLEM STATEMENTS BROWSER */}
         {isUnlocked && (
-          <div className="space-y-8">
+          <div className="space-y-10">
+            {/* Universal Milestone Challenges Section (Shared across all tracks & PS) */}
+            <UniversalChallengesSection challenges={challenges} />
+
             {/* Filter Tabs & Search Bar */}
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
               <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none w-full flex-nowrap sm:flex-wrap">
