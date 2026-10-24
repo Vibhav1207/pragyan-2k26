@@ -175,8 +175,9 @@ export const HackathonTopCountdownBar: React.FC = () => {
 
         {/* Center: Countdown or TBD Display */}
         <div className="flex items-center gap-3">
-          <span className="font-serif uppercase tracking-wider text-[#F3EDE0] text-xs font-bold">
-            FINAL HACKATHON COMMENCES:
+          <span className="font-serif uppercase tracking-wider text-[#F3EDE0] text-xs font-bold flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5 text-[#E5BE61] animate-pulse" />
+            5TH CHALLENGE GOES LIVE IN:
           </span>
 
           {isTbd ? (
@@ -249,7 +250,7 @@ export const HackathonHeroCountdown: React.FC = () => {
 
             <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#162E28] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-              <span>FINALIST TEAMS ANNOUNCED</span>
+              <span>CHALLENGES 1-4 LIVE</span>
             </span>
 
             <span className="inline-flex items-center gap-1 text-[#A77A1C] text-[10px] sm:text-xs font-mono font-bold uppercase">
@@ -259,7 +260,7 @@ export const HackathonHeroCountdown: React.FC = () => {
           </div>
 
           <h3 className="font-serif font-black text-2xl sm:text-3xl text-[#162E28] uppercase tracking-tight">
-            FINAL HACKATHON <span className="italic font-normal text-[#A77A1C]">{isTbd ? 'COMMENCEMENT SCHEDULE' : 'COMMENCES IN'}</span>
+            5TH MILESTONE CHALLENGE <span className="italic font-normal text-[#A77A1C]">{isTbd ? 'UNLOCK SCHEDULE' : 'GOES LIVE IN'}</span>
           </h3>
 
           <p className="text-xs sm:text-sm font-sans text-[#7B8379] max-w-xl">
