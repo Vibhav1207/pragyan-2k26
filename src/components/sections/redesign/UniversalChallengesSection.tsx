@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  Award, 
-  Lock, 
-  Clock, 
+import {
+  Award,
+  Lock,
+  Clock,
   Download,
   CheckCircle2,
   Filter
@@ -15,7 +15,7 @@ interface UniversalChallengesSectionProps {
   selectedPsId?: string;
 }
 
-export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProps> = ({ 
+export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProps> = ({
   challenges,
   selectedTrack = 'all',
   selectedPsId
@@ -72,11 +72,10 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
               <Award className="w-3.5 h-3.5 text-[#E5BE61]" />
               <span>HACKATHON MILESTONE CHALLENGES</span>
             </span>
-            <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full uppercase ${
-              livePhasesCount > 0 
-                ? 'bg-emerald-900/20 text-emerald-900 border border-emerald-600/40' 
+            <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full uppercase ${livePhasesCount > 0
+                ? 'bg-emerald-900/20 text-emerald-900 border border-emerald-600/40'
                 : 'bg-amber-900/20 text-amber-900 border border-amber-600/40'
-            }`}>
+              }`}>
               {livePhasesCount > 0 ? `${livePhasesCount} of 5 MILESTONES LIVE` : 'ALL LOCKED'}
             </span>
           </div>
@@ -96,11 +95,10 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
             {activeMilestones.map(({ num, isLive }) => (
               <div
                 key={num}
-                className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-black transition-all ${
-                  isLive 
-                    ? 'bg-[#162E28] text-[#E5BE61] shadow-sm border border-[#A77A1C]' 
+                className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-black transition-all ${isLive
+                    ? 'bg-[#162E28] text-[#E5BE61] shadow-sm border border-[#A77A1C]'
                     : 'bg-[#D2CAB6]/60 text-[#7B8379] border border-[#D2CAB6]'
-                }`}
+                  }`}
                 title={`Milestone Challenge ${num}: ${isLive ? 'Live & Unlocked' : 'Pending Release'}`}
               >
                 {isLive ? `#${num}` : <Lock className="w-3 h-3 text-[#7B8379]" />}
@@ -121,11 +119,10 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
             <button
               type="button"
               onClick={() => setInternalPsFilter('all')}
-              className={`px-3 py-1.5 rounded-xl font-mono text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                internalPsFilter === 'all'
+              className={`px-3 py-1.5 rounded-xl font-mono text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer shrink-0 ${internalPsFilter === 'all'
                   ? 'bg-[#162E28] text-[#E5BE61] shadow-sm border border-[#A77A1C]'
                   : 'bg-[#F9F4EA] text-[#7B8379] hover:text-[#162E28] border border-[#D2CAB6]'
-              }`}
+                }`}
             >
               ALL STATEMENTS ({liveChallenges.length})
             </button>
@@ -137,11 +134,10 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                   key={ps}
                   type="button"
                   onClick={() => setInternalPsFilter(ps)}
-                  className={`px-3 py-1.5 rounded-xl font-mono text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-                    isSelected
+                  className={`px-3 py-1.5 rounded-xl font-mono text-[11px] font-black uppercase tracking-wider transition-all cursor-pointer shrink-0 ${isSelected
                       ? 'bg-[#162E28] text-[#E5BE61] shadow-sm border border-[#A77A1C]'
                       : 'bg-[#F9F4EA] text-[#7B8379] hover:text-[#162E28] border border-[#D2CAB6]'
-                  }`}
+                    }`}
                 >
                   {ps} ({psCount})
                 </button>
@@ -253,7 +249,7 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                   Challenge 0{livePhasesCount + 1} Pending Release
                 </div>
                 <p className="text-[11px] font-sans text-[#7B8379] max-w-xs">
-                  Milestone challenges 3, 4 and 5 will be unlocked by the evaluation committee as each phase progresses.
+                  Milestone challenges 4 and 5 will be unlocked by the evaluation committee as each phase progresses.
                 </p>
               </div>
             </div>
