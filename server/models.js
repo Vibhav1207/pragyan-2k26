@@ -5,8 +5,8 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, index: true },
   name: { type: String, default: 'Participant User' },
   avatar: { type: String, default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150' },
-  role: { 
-    type: String, 
+  role: {
+    type: String,
     default: 'PARTICIPANT',
     set: (v) => (typeof v === 'string' ? v.toUpperCase() : v)
   },
@@ -48,9 +48,9 @@ const SubmissionSchema = new mongoose.Schema({
   description: { type: String, required: true },
   trackId: { type: String, required: true, index: true },
   trackTitle: { type: String, required: true },
-  status: { 
-    type: String, 
-    enum: ['NOT_SUBMITTED', 'SUBMITTED', 'UNDER_REVIEW', 'REVIEWED', 'SHORTLISTED', 'DISQUALIFIED'], 
+  status: {
+    type: String,
+    enum: ['NOT_SUBMITTED', 'SUBMITTED', 'UNDER_REVIEW', 'REVIEWED', 'SHORTLISTED', 'DISQUALIFIED'],
     default: 'SUBMITTED',
     index: true
   },
@@ -72,9 +72,9 @@ const TeamSchema = new mongoose.Schema({
   leader: { type: TeamMemberSchema, required: true },
   members: [TeamMemberSchema],
   registrationDate: { type: Date, default: Date.now, index: true },
-  status: { 
-    type: String, 
-    enum: ['PENDING', 'APPROVED', 'REJECTED', 'CHANGES_REQUESTED'], 
+  status: {
+    type: String,
+    enum: ['PENDING', 'APPROVED', 'REJECTED', 'CHANGES_REQUESTED'],
     default: 'PENDING',
     index: true
   },
@@ -130,7 +130,7 @@ const SystemSettingsSchema = new mongoose.Schema({
   maintenanceMode: { type: Boolean, default: false },
   homepageVisibility: { type: Boolean, default: true },
   announcementVisibility: { type: Boolean, default: true },
-  psUnlockTime: { type: String, default: '2026-10-24T13:00:00+05:30' },
+  psUnlockTime: { type: String, default: '2026-10-24T3:00:00+05:30' },
   psGlobalVisible: { type: Boolean, default: false }
 });
 

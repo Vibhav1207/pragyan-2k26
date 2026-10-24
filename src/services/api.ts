@@ -135,7 +135,7 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
     title: 'Vibhav',
-    content: 'The 3rd challenge for the tracks is now live!',
+    content: 'The 4th challenge for the tracks is now live!',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -155,7 +155,7 @@ const INITIAL_SETTINGS: SystemSettings = {
   maintenanceMode: false,
   homepageVisibility: true,
   announcementVisibility: true,
-  psUnlockTime: '2026-10-24T13:00:00+05:30',
+  psUnlockTime: '2026-10-24T3:00:00+05:30',
   psGlobalVisible: true
 };
 
