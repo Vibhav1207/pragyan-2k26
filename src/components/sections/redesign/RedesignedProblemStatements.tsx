@@ -111,11 +111,17 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
     };
     window.addEventListener('storage', handleStorageChange);
 
-    const pollInterval = setInterval(refreshData, 2500);
+    // Refresh on tab focus instead of aggressive 2.5s interval to save bandwidth
+    const handleFocus = () => refreshData();
+    window.addEventListener('focus', handleFocus);
+
+    // Light fallback poll every 60 seconds (instead of 2.5s which burnt 40GB bandwidth)
+    const pollInterval = setInterval(refreshData, 60000);
 
     return () => {
       isMounted = false;
       clearInterval(pollInterval);
+      window.removeEventListener('focus', handleFocus);
       window.removeEventListener('pragyan_ps_updated', handleCustomUpdate);
       window.removeEventListener('pragyan_settings_updated', handleCustomUpdate);
       window.removeEventListener('pragyan_challenges_updated', handleCustomUpdate);

@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { createAnalyticsRouter } from './analytics.js';
 import dns from 'dns';
@@ -82,6 +83,7 @@ const rootDir = path.resolve(__dirname, '..');
 app.use('/pragyan', express.static(path.join(rootDir, 'public', 'pragyan')));
 app.use('/pragyan', express.static(path.join(rootDir, 'pragyan')));
 app.use(express.static(path.join(rootDir, 'public')));
+app.use(express.static(path.join(rootDir, 'dist')));
 
 function createRateLimiter(windowMs, maxRequests, message) {
   const requests = new Map();
@@ -1014,6 +1016,15 @@ app.post('/api/activity', authenticateAdmin, async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  const indexPath = path.join(rootDir, 'dist', 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  next();
 });
 
 app.use((err, req, res, next) => {
