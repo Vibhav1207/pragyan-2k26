@@ -13,6 +13,7 @@ import type {
   HackathonChallenge
 } from '../types/admin';
 import { INITIAL_PROBLEM_STATEMENTS } from '../data/initialProblemStatements';
+import { INITIAL_HACKATHON_CHALLENGES } from '../data/initialChallenges';
 import { normalizeSdgContent } from '../utils/sdgContent';
 
 const STORAGE_KEYS = {
@@ -148,89 +149,6 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
     author: 'PRAGYAN Committee'
-  }
-];
-
-const INITIAL_CHALLENGES: HackathonChallenge[] = [
-  {
-    id: 'CHAL-01',
-    challengeId: 'CHAL-01',
-    challengeNumber: 1,
-    title: 'Challenge 1: Problem Definition & Architecture Blueprint',
-    subtitle: 'System Design, Requirements Specification & Data Modeling',
-    description: 'Establish the foundational architecture of your solution. Define data schemas, system components, technology stack, and how your system directly solves the target problem.',
-    deliverables: [
-      'High-Level Architecture & System Flow Diagram',
-      'Entity Relationship / Data Model Document',
-      'Git Repository Setup with README & CI pipeline'
-    ],
-    timeframe: 'Milestone Phase 1',
-    order: 1,
-    isEnabled: true
-  },
-  {
-    id: 'CHAL-02',
-    challengeId: 'CHAL-02',
-    challengeNumber: 2,
-    title: 'Challenge 2: Core Algorithm & Engine Implementation',
-    subtitle: 'Back-end Logic, Algorithmic Scoring & Business Rules',
-    description: 'Develop and validate the computational core of your innovation. Implement critical algorithms, scoring systems, analytics processing, or AI/ML inference pipelines.',
-    deliverables: [
-      'Working core algorithm module / API service',
-      'Unit test suite covering baseline and edge cases',
-      'API specification or Swagger documentation'
-    ],
-    timeframe: 'Milestone Phase 2',
-    order: 2,
-    isEnabled: true
-  },
-  {
-    id: 'CHAL-03',
-    challengeId: 'CHAL-03',
-    challengeNumber: 3,
-    title: 'Challenge 3: System Integration & Prototype Demo',
-    subtitle: 'End-to-End User Experience & Interface Connectivity',
-    description: 'Connect your front-end interface with the back-end services. Build responsive user workflows, real-time dashboards, and realistic interactive user journeys.',
-    deliverables: [
-      'Interactive Web/Mobile user interface connected to backend',
-      'Functional user onboarding / primary workflow demo',
-      'Short 90-second screen-recording proof of concept'
-    ],
-    timeframe: 'Milestone Phase 3',
-    order: 3,
-    isEnabled: false
-  },
-  {
-    id: 'CHAL-04',
-    challengeId: 'CHAL-04',
-    challengeNumber: 4,
-    title: 'Challenge 4: Stress Testing, Security & Resilience',
-    subtitle: 'Scalability Audit, Edge Case Handling & Performance Benchmark',
-    description: 'Harden your solution against production realities. Conduct load simulations, secure all authentication/data storage, and test resilience under peak conditions.',
-    deliverables: [
-      'Performance audit report (latency, throughput)',
-      'Security checklist (OWASP compliance, input sanitization)',
-      'Fault tolerance / error recovery demonstration'
-    ],
-    timeframe: 'Milestone Phase 4',
-    order: 4,
-    isEnabled: false
-  },
-  {
-    id: 'CHAL-05',
-    challengeId: 'CHAL-05',
-    challengeNumber: 5,
-    title: 'Challenge 5: Production Deployment & Final Pitch Deck',
-    subtitle: 'Live Cloud Hosting, Executive Presentation & Impact Metrics',
-    description: 'Deploy your complete solution to a live environment and prepare the executive pitch. Clearly articulate market viability, social impact, and technical execution.',
-    deliverables: [
-      'Live deployment URL (accessible to jury)',
-      'Executive 10-slide Pitch Deck (PDF/PPT)',
-      'Final Code Freeze GitHub repository tag'
-    ],
-    timeframe: 'Milestone Phase 5',
-    order: 5,
-    isEnabled: false
   }
 ];
 
@@ -930,7 +848,11 @@ class PragyanAPIService {
   }
 
   getChallenges(includeDisabled = false): HackathonChallenge[] {
-    let list = getStored<HackathonChallenge[]>(STORAGE_KEYS.CHALLENGES, INITIAL_CHALLENGES);
+    let list = getStored<HackathonChallenge[]>(STORAGE_KEYS.CHALLENGES, INITIAL_HACKATHON_CHALLENGES);
+    if (!Array.isArray(list) || list.length < 50 || list.some(c => c.challengeId === 'CHAL-01')) {
+      list = INITIAL_HACKATHON_CHALLENGES;
+      setStored(STORAGE_KEYS.CHALLENGES, list);
+    }
     let updated = false;
     list = list.map(c => {
       if ((c.challengeNumber === 1 || c.challengeNumber === 2) && !c.isEnabled) {

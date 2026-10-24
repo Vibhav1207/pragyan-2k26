@@ -11,7 +11,8 @@ import {
   BarChart2, 
   Truck,
   FileText,
-  Clock
+  Clock,
+  Award
 } from 'lucide-react';
 import { ScrollReveal } from '../../transitions/ScrollReveal';
 import { apiService } from '../../../services/api';
@@ -493,6 +494,50 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
                   </p>
                 </div>
               )}
+
+              {/* Problem-Specific Active Milestone Challenges */}
+              {(() => {
+                const psChallenges = challenges.filter(c => c.psId === activeModalPS.id && c.isEnabled);
+                if (psChallenges.length === 0) return null;
+                return (
+                  <div className="space-y-3 pt-2">
+                    <h5 className="font-mono text-xs font-black text-[#A77A1C] uppercase tracking-wider flex items-center gap-1.5">
+                      <Award className="w-4 h-4 text-[#A77A1C]" />
+                      <span>UNLOCKED MILESTONE CHALLENGES ({psChallenges.length} LIVE)</span>
+                    </h5>
+                    <div className="space-y-3">
+                      {psChallenges.map(chal => (
+                        <div key={chal.challengeId} className="p-4 rounded-xl bg-[#F9F4EA] border border-[#A77A1C]/40 space-y-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="w-6 h-6 rounded-md bg-[#162E28] text-[#E5BE61] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                                0{chal.challengeNumber}
+                              </span>
+                              <span className="font-serif font-bold text-sm text-[#162E28]">
+                                {chal.title}
+                              </span>
+                            </div>
+                            {chal.timeframe && (
+                              <span className="text-[10px] font-mono text-[#A77A1C] font-bold shrink-0">
+                                {chal.timeframe}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-[#7B8379] leading-relaxed">
+                            {chal.description}
+                          </p>
+                          {chal.deliverables && chal.deliverables.length > 0 && (
+                            <div className="pt-1.5 border-t border-[#D2CAB6]/40">
+                              <span className="text-[10px] font-mono font-bold text-[#A77A1C] uppercase">Deliverables: </span>
+                              <span className="text-xs text-[#162E28]">{chal.deliverables.join(' • ')}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
 
             </div>
 

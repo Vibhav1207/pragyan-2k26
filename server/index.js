@@ -290,6 +290,53 @@ async function seedDatabaseIfNeeded() {
       });
       console.log('🌱 Seeded default Homepage CMS in MongoDB');
     }
+
+    try {
+      const jsonPath = path.join(rootDir, 'pragyan.hackathonchallenges.json');
+      if (fs.existsSync(jsonPath)) {
+        const raw = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        console.log(`Synchronizing ${raw.length} challenges from pragyan.hackathonchallenges.json in MongoDB...`);
+        await HackathonChallenge.deleteMany({
+          $or: [
+            { challengeId: /^CHAL-0[1-5]$/ },
+            { psId: { $exists: false } },
+            { psId: '' }
+          ]
+        });
+
+        for (const c of raw) {
+          const num = Number(c.challengeNumber) || 1;
+          const isLive = num === 1 || num === 2;
+          await HackathonChallenge.findOneAndUpdate(
+            { challengeId: c.challengeId },
+            {
+              $set: {
+                challengeId: c.challengeId,
+                challengeNumber: num,
+                trackId: c.trackId,
+                subTrack: c.subTrack || '',
+                psId: c.psId || '',
+                title: c.title,
+                subtitle: c.subtitle || '',
+                description: c.description || '',
+                deliverables: Array.isArray(c.deliverables) ? c.deliverables : [],
+                timeframe: c.timeframe || '',
+                documentName: c.documentName || '',
+                documentUrl: c.documentUrl || '',
+                documentSize: c.documentSize || '',
+                isEnabled: isLive,
+                order: Number(c.order) || num,
+                updatedAt: new Date()
+              }
+            },
+            { upsert: true }
+          );
+        }
+        console.log('✅ Synchronized 100 challenges into MongoDB (Challenges 1 & 2 open for each track).');
+      }
+    } catch (chalErr) {
+      console.warn('Note synchronizing challenges from JSON:', chalErr.message);
+    }
   } catch (err) {
     console.error('Error seeding database:', err);
   }
