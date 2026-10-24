@@ -250,7 +250,7 @@ export const HackathonHeroCountdown: React.FC = () => {
 
             <span className="inline-flex items-center gap-1 bg-[#F9F4EA] text-[#162E28] border border-[#D2CAB6] text-[10px] sm:text-xs font-mono font-bold uppercase px-3 py-1 rounded-full">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-              <span>CHALLENGES 1-5 LIVE</span>
+              <span>CHALLENGES 1-4 LIVE</span>
             </span>
 
             <span className="inline-flex items-center gap-1 text-[#A77A1C] text-[10px] sm:text-xs font-mono font-bold uppercase">

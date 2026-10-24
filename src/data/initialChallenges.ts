@@ -97,7 +97,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -196,7 +196,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -295,7 +295,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -394,7 +394,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -493,7 +493,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -592,7 +592,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -691,7 +691,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -790,7 +790,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -889,7 +889,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -988,7 +988,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1087,7 +1087,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1186,7 +1186,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1285,7 +1285,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1384,7 +1384,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1483,7 +1483,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1582,7 +1582,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1681,7 +1681,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1780,7 +1780,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1879,7 +1879,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   },
   {
@@ -1978,7 +1978,7 @@ export const INITIAL_HACKATHON_CHALLENGES: HackathonChallenge[] = [
     "documentName": "",
     "documentUrl": "",
     "documentSize": "",
-    "isEnabled": true,
+    "isEnabled": false,
     "order": 5
   }
 ];
