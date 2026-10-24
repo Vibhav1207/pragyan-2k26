@@ -38,9 +38,15 @@ try {
     storedPs.includes('Hyper-Localized Micro-Credit') ||
     storedPs.includes('PS-TRK1-01') ||
     storedPs.includes('data:application') ||
-    !storedPs.includes('PRAGYAN_2K26_PS_3-01')
+    !storedPs.includes('PRAGYAN_2K26_PS_3-01') ||
+    !storedPs.includes('PRAGYAN_2K26_PS_1-01') ||
+    storedPs.includes('"isVisible":false')
   )) {
     localStorage.removeItem('pragyan_problem_statements_v2');
+  }
+  const storedSettings = localStorage.getItem('pragyan_settings_v2');
+  if (storedSettings && storedSettings.includes('"psGlobalVisible":false')) {
+    localStorage.removeItem('pragyan_settings_v2');
   }
 } catch {
 
@@ -241,7 +247,7 @@ const INITIAL_SETTINGS: SystemSettings = {
   homepageVisibility: true,
   announcementVisibility: true,
   psUnlockTime: '2026-10-24T13:00:00+05:30',
-  psGlobalVisible: false
+  psGlobalVisible: true
 };
 
 const INITIAL_CMS: HomepageCMS = {
