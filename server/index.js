@@ -297,7 +297,7 @@ async function seedDatabaseIfNeeded() {
         await Announcement.deleteMany({});
         await Announcement.create({
           title: 'Vibhav',
-          content: 'The 3rd  challenge for the tracks is now live!',
+          content: 'The 4th  challenge for the tracks is now live!',
           status: 'PUBLISHED',
           publishDate: new Date(),
           createdAt: new Date(),
