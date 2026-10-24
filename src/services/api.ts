@@ -50,7 +50,7 @@ try {
     localStorage.removeItem('pragyan_settings_v2');
   }
   const storedChallenges = localStorage.getItem('pragyan_challenges_v2');
-  if (storedChallenges && (!storedChallenges.includes('Challenge 4.1: Business model, deployment and investment pitch') || !storedChallenges.includes('Pragyan_Hackathon_2k26_Template.pptx'))) {
+  if (storedChallenges && (!storedChallenges.includes('Challenge 4.1: Business model, deployment and investment pitch') || !storedChallenges.includes('Pragyan_Hackathon_2k26_Phase_2_Template.pptx'))) {
     localStorage.removeItem('pragyan_challenges_v2');
   }
 } catch {
@@ -851,8 +851,19 @@ class PragyanAPIService {
       list = INITIAL_HACKATHON_CHALLENGES;
       setStored(STORAGE_KEYS.CHALLENGES, list);
     }
+    const initMap = new Map(INITIAL_HACKATHON_CHALLENGES.map(i => [i.challengeId || i.id, i]));
     let updated = false;
     list = list.map(c => {
+      const init = initMap.get(c.challengeId || c.id);
+      if (init && init.documentUrl && (!c.documentUrl || c.documentUrl.startsWith('data:'))) {
+        updated = true;
+        c = {
+          ...c,
+          documentName: init.documentName,
+          documentUrl: init.documentUrl,
+          documentSize: init.documentSize
+        };
+      }
       if ((c.challengeNumber === 1 || c.challengeNumber === 2 || c.challengeNumber === 3 || c.challengeNumber === 4) && !c.isEnabled) {
         updated = true;
         return { ...c, isEnabled: true };
@@ -879,24 +890,29 @@ class PragyanAPIService {
       if (res.ok) {
         const serverChallenges = await res.json();
         if (Array.isArray(serverChallenges) && serverChallenges.length > 0) {
-          const mapped: HackathonChallenge[] = serverChallenges.map((c: any) => ({
-            id: c.challengeId || c._id || `CHAL-${c.challengeNumber}`,
-            challengeId: c.challengeId || `CHAL-${c.challengeNumber}`,
-            challengeNumber: Number(c.challengeNumber) || 1,
-            trackId: c.trackId || 'all',
-            subTrack: c.subTrack || '',
-            psId: c.psId || '',
-            title: c.title || `Challenge ${c.challengeNumber}`,
-            subtitle: c.subtitle || '',
-            description: c.description || '',
-            deliverables: Array.isArray(c.deliverables) ? c.deliverables : [],
-            timeframe: c.timeframe || '',
-            documentName: c.documentName || '',
-            documentUrl: c.documentUrl || '',
-            documentSize: c.documentSize || '',
-            isEnabled: Boolean(c.isEnabled),
-            order: Number(c.order) || Number(c.challengeNumber) || 1
-          }));
+          const initMap = new Map(INITIAL_HACKATHON_CHALLENGES.map(i => [i.challengeId || i.id, i]));
+          const mapped: HackathonChallenge[] = serverChallenges.map((c: any) => {
+            const rawId = c.challengeId || c._id || `CHAL-${c.challengeNumber}`;
+            const init = initMap.get(rawId);
+            return {
+              id: rawId,
+              challengeId: rawId,
+              challengeNumber: Number(c.challengeNumber) || 1,
+              trackId: c.trackId || 'all',
+              subTrack: c.subTrack || '',
+              psId: c.psId || '',
+              title: c.title || `Challenge ${c.challengeNumber}`,
+              subtitle: c.subtitle || '',
+              description: c.description || '',
+              deliverables: Array.isArray(c.deliverables) ? c.deliverables : [],
+              timeframe: c.timeframe || '',
+              documentName: c.documentName || init?.documentName || '',
+              documentUrl: c.documentUrl || init?.documentUrl || '',
+              documentSize: c.documentSize || init?.documentSize || '',
+              isEnabled: Boolean(c.isEnabled),
+              order: Number(c.order) || Number(c.challengeNumber) || 1
+            };
+          });
 
           setStored(STORAGE_KEYS.CHALLENGES, mapped);
           if (includeDisabled) return mapped;

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Award, 
-  CheckCircle2, 
-  Lock, 
-  Unlock, 
-  Edit3, 
-  X, 
+import {
+  Award,
+  CheckCircle2,
+  Lock,
+  Unlock,
+  Edit3,
+  X,
   Clock
 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
@@ -129,13 +129,12 @@ export const AdminChallenges: React.FC = () => {
     >
       <div className="space-y-6 text-left">
         {notification && (
-          <div className={`p-4 rounded-xl border flex items-center justify-between text-xs font-mono font-bold transition shadow-md ${
-            notification.type === 'success' 
-              ? 'bg-emerald-900/20 border-emerald-600/50 text-emerald-800' 
+          <div className={`p-4 rounded-xl border flex items-center justify-between text-xs font-mono font-bold transition shadow-md ${notification.type === 'success'
+              ? 'bg-emerald-900/20 border-emerald-600/50 text-emerald-800'
               : notification.type === 'error'
-              ? 'bg-rose-900/20 border-rose-600/50 text-rose-800'
-              : 'bg-amber-900/20 border-amber-600/50 text-amber-800'
-          }`}>
+                ? 'bg-rose-900/20 border-rose-600/50 text-rose-800'
+                : 'bg-amber-900/20 border-amber-600/50 text-amber-800'
+            }`}>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4" />
               <span>{notification.message}</span>
@@ -179,11 +178,10 @@ export const AdminChallenges: React.FC = () => {
                           nextState ? 'success' : 'info'
                         );
                       }}
-                      className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold border transition flex items-center gap-1.5 shadow-sm ${
-                        isAnyLive
+                      className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold border transition flex items-center gap-1.5 shadow-sm ${isAnyLive
                           ? 'bg-emerald-800 text-white border-emerald-600 hover:bg-emerald-900'
                           : 'bg-[#F9F4EA] text-[#162E28] border-[#D2CAB6] hover:bg-[#D2CAB6]'
-                      }`}
+                        }`}
                       title={`Click to ${isAnyLive ? 'Hide' : 'Release'} Challenge ${num} for all problem statements`}
                     >
                       {isAnyLive ? <Unlock className="w-3.5 h-3.5 text-emerald-300" /> : <Lock className="w-3.5 h-3.5 text-[#7B8379]" />}
@@ -239,22 +237,20 @@ export const AdminChallenges: React.FC = () => {
             const isLive = c.isEnabled;
 
             return (
-              <div 
+              <div
                 key={c.challengeId}
-                className={`p-5 sm:p-6 rounded-2xl border transition shadow-sm ${
-                  isLive 
-                    ? 'bg-[#F9F4EA] border-[#A77A1C]/50 ring-1 ring-[#A77A1C]/20' 
+                className={`p-5 sm:p-6 rounded-2xl border transition shadow-sm ${isLive
+                    ? 'bg-[#F9F4EA] border-[#A77A1C]/50 ring-1 ring-[#A77A1C]/20'
                     : 'bg-[#E9E1D2]/60 border-[#D2CAB6] opacity-90'
-                }`}
+                  }`}
               >
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                   {/* Left challenge info */}
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center shrink-0 border ${
-                      isLive 
-                        ? 'bg-[#162E28] border-[#A77A1C] text-[#E5BE61]' 
+                    <div className={`w-12 h-12 rounded-xl flex flex-col items-center justify-center shrink-0 border ${isLive
+                        ? 'bg-[#162E28] border-[#A77A1C] text-[#E5BE61]'
                         : 'bg-[#D2CAB6] border-[#7B8379]/40 text-[#7B8379]'
-                    }`}>
+                      }`}>
                       <span className="text-[10px] font-mono uppercase font-bold">CHAL</span>
                       <span className="font-serif font-black text-lg leading-none">{c.challengeNumber === 4 ? '4.1' : c.challengeNumber === 5 ? '4.2' : `0${c.challengeNumber}`}</span>
                     </div>
@@ -269,11 +265,10 @@ export const AdminChallenges: React.FC = () => {
                             {c.psId}
                           </span>
                         )}
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-black uppercase tracking-wider ${
-                          isLive 
-                            ? 'bg-emerald-900/20 text-emerald-800 border border-emerald-600/40' 
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-black uppercase tracking-wider ${isLive
+                            ? 'bg-emerald-900/20 text-emerald-800 border border-emerald-600/40'
                             : 'bg-amber-900/20 text-amber-900 border border-amber-600/40'
-                        }`}>
+                          }`}>
                           {isLive ? '✓ LIVE TO PARTICIPANTS' : '🔒 LOCKED / HIDDEN'}
                         </span>
                         {c.timeframe && (
@@ -294,6 +289,19 @@ export const AdminChallenges: React.FC = () => {
                         {c.description}
                       </p>
 
+                      {c.documentUrl && (
+                        <p className="text-[11px] font-mono text-[#162E28] pt-1.5 flex items-center gap-1.5">
+                          <span className="text-[#A77A1C] font-bold">Attachment:</span>
+                          <a
+                            href={c.documentUrl}
+                            download={c.documentName || `Challenge_${c.challengeNumber}_Brief`}
+                            className="underline text-[#162E28] hover:text-[#A77A1C] font-semibold flex items-center gap-1"
+                          >
+                            📥 {c.documentName || 'Download file'} ({c.documentSize || 'file'})
+                          </a>
+                        </p>
+                      )}
+
                     </div>
                   </div>
 
@@ -309,11 +317,10 @@ export const AdminChallenges: React.FC = () => {
 
                     <button
                       onClick={() => handleToggle(c)}
-                      className={`px-4 py-2 rounded-xl text-xs font-mono font-bold border transition shadow-sm flex items-center gap-1.5 ${
-                        isLive
+                      className={`px-4 py-2 rounded-xl text-xs font-mono font-bold border transition shadow-sm flex items-center gap-1.5 ${isLive
                           ? 'bg-rose-900/10 hover:bg-rose-900/20 text-rose-800 border-rose-600/40'
                           : 'bg-emerald-900/10 hover:bg-emerald-900/20 text-emerald-800 border-emerald-600/40'
-                      }`}
+                        }`}
                     >
                       {isLive ? (
                         <>
@@ -345,7 +352,7 @@ export const AdminChallenges: React.FC = () => {
                     EDIT CHALLENGE #{editingChallenge.challengeNumber}
                   </h3>
                 </div>
-                <button 
+                <button
                   onClick={() => setEditingChallenge(null)}
                   className="p-1 rounded-lg text-[#7B8379] hover:text-[#162E28]"
                 >
@@ -432,11 +439,10 @@ export const AdminChallenges: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, isEnabled: !prev.isEnabled }))}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border ${
-                      formData.isEnabled 
-                        ? 'bg-emerald-900/20 text-emerald-800 border-emerald-600/40' 
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border ${formData.isEnabled
+                        ? 'bg-emerald-900/20 text-emerald-800 border-emerald-600/40'
                         : 'bg-amber-900/20 text-amber-900 border-amber-600/40'
-                    }`}
+                      }`}
                   >
                     {formData.isEnabled ? '✓ LIVE' : '🔒 LOCKED'}
                   </button>
