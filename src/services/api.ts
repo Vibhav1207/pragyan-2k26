@@ -49,8 +49,11 @@ try {
   if (storedSettings && storedSettings.includes('"psGlobalVisible":false')) {
     localStorage.removeItem('pragyan_settings_v2');
   }
+  const storedChallenges = localStorage.getItem('pragyan_challenges_v2');
+  if (storedChallenges && storedChallenges.includes('Challenge 4: Stress test')) {
+    localStorage.removeItem('pragyan_challenges_v2');
+  }
 } catch {
-
 }
 
 function getStored<T>(key: string, defaultValue: T): T {

@@ -100,10 +100,10 @@
       "$date": "2026-10-23T19:38:03.905Z"
     },
     "deliverables": [
-      "Stress test report (drought, spikes, sensor failures)",
-      "Accuracy metrics (forecast error, detection time, avoided loss)"
+      "Cluster deployment blueprint & maintenance budget",
+      "Governance, emergency protocol & SDG 6 outcomes pitch deck"
     ],
-    "description": "Test drought, sudden demand spikes, sensor failure and conflicting stakeholder needs. Measure forecast error, time to detect anomalies, avoided loss estimates and distributional consequences.",
+    "description": "Design a deployable model for campuses, industrial clusters, utilities or local bodies. Include sensor/data costs, maintenance, governance, payment mechanism, emergency protocols and SDG 6 outcomes.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -113,7 +113,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-3-01",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:03.905Z"
@@ -130,10 +130,10 @@
       "$date": "2026-10-23T19:38:03.949Z"
     },
     "deliverables": [
-      "Cluster deployment blueprint & maintenance budget",
-      "Governance, emergency protocol & SDG 6 outcomes pitch deck"
+      "Stress test report (drought, spikes, sensor failures)",
+      "Accuracy metrics (forecast error, detection time, avoided loss)"
     ],
-    "description": "Design a deployable model for campuses, industrial clusters, utilities or local bodies. Include sensor/data costs, maintenance, governance, payment mechanism, emergency protocols and SDG 6 outcomes.",
+    "description": "Test drought, sudden demand spikes, sensor failure and conflicting stakeholder needs. Measure forecast error, time to detect anomalies, avoided loss estimates and distributional consequences.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -143,7 +143,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-3-01",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:03.948Z"
@@ -250,10 +250,10 @@
       "$date": "2026-10-23T19:38:04.100Z"
     },
     "deliverables": [
-      "Outage & delay simulation benchmarks",
-      "Comparative loss reduction & margin analysis vs baseline"
+      "FPO/Aggregator operating financial model",
+      "Farmer value capture strategy & SDG 2/12 metrics pitch"
     ],
-    "description": "Stress-test power outages, delayed vehicles, sensor failure, price shocks and incorrect quality data. Compare estimated loss, margin, energy use and service reliability with a baseline.",
+    "description": "Present a business model for FPOs, aggregators, cold stores, logistics firms or buyers. Include shared asset utilisation, maintenance, financing, farmer value capture and measurable SDG 2/12 outcomes.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -263,7 +263,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-3-02",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.100Z"
@@ -280,10 +280,10 @@
       "$date": "2026-10-23T19:38:04.139Z"
     },
     "deliverables": [
-      "FPO/Aggregator operating financial model",
-      "Farmer value capture strategy & SDG 2/12 metrics pitch"
+      "Outage & delay simulation benchmarks",
+      "Comparative loss reduction & margin analysis vs baseline"
     ],
-    "description": "Present a business model for FPOs, aggregators, cold stores, logistics firms or buyers. Include shared asset utilisation, maintenance, financing, farmer value capture and measurable SDG 2/12 outcomes.",
+    "description": "Stress-test power outages, delayed vehicles, sensor failure, price shocks and incorrect quality data. Compare estimated loss, margin, energy use and service reliability with a baseline.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -293,7 +293,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-3-02",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.139Z"
@@ -400,10 +400,10 @@
       "$date": "2026-10-23T19:38:04.300Z"
     },
     "deliverables": [
-      "Supply volatility & buyer withdrawal sensitivity test",
-      "Net diverted material, emission & cost savings calculation"
+      "Cluster governance charter & fee structure",
+      "Quality assurance liability, dispute resolution & circularity audit"
     ],
-    "description": "Test changes in material quality, irregular supply, transport costs and a buyer withdrawing. Estimate net material diverted, cost savings, additional emissions and contamination/compliance risks.",
+    "description": "Develop a cluster-level revenue and governance model: membership, transaction fee, verification service or shared logistics. Specify quality assurance, liability, confidentiality, dispute resolution and auditable circularity metrics.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -413,7 +413,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-3-03",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.299Z"
@@ -430,10 +430,10 @@
       "$date": "2026-10-23T19:38:04.339Z"
     },
     "deliverables": [
-      "Cluster governance charter & fee structure",
-      "Quality assurance liability, dispute resolution & circularity audit"
+      "Supply volatility & buyer withdrawal sensitivity test",
+      "Net diverted material, emission & cost savings calculation"
     ],
-    "description": "Develop a cluster-level revenue and governance model: membership, transaction fee, verification service or shared logistics. Specify quality assurance, liability, confidentiality, dispute resolution and auditable circularity metrics.",
+    "description": "Test changes in material quality, irregular supply, transport costs and a buyer withdrawing. Estimate net material diverted, cost savings, additional emissions and contamination/compliance risks.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -443,7 +443,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-3-03",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.339Z"
@@ -550,10 +550,10 @@
       "$date": "2026-10-23T19:38:04.499Z"
     },
     "deliverables": [
-      "Sensor noise & edge-case stress test report",
-      "Precision/recall metrics & estimated TCO reduction"
+      "MSME service deployment & calibration roadmap",
+      "Shared-savings / subscription revenue model & liability terms"
     ],
-    "description": "Test on unseen scenarios, noisy sensors, changing workloads and rare failures. Evaluate false alarms, missed events, response usefulness, estimated energy savings and total cost of ownership.",
+    "description": "Design a service model for MSMEs or facility managers, including installation, calibration, maintenance, subscription or shared-savings pricing, liability and verified performance metrics.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -563,7 +563,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-3-04",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.498Z"
@@ -580,10 +580,10 @@
       "$date": "2026-10-23T19:38:04.539Z"
     },
     "deliverables": [
-      "MSME service deployment & calibration roadmap",
-      "Shared-savings / subscription revenue model & liability terms"
+      "Sensor noise & edge-case stress test report",
+      "Precision/recall metrics & estimated TCO reduction"
     ],
-    "description": "Design a service model for MSMEs or facility managers, including installation, calibration, maintenance, subscription or shared-savings pricing, liability and verified performance metrics.",
+    "description": "Test on unseen scenarios, noisy sensors, changing workloads and rare failures. Evaluate false alarms, missed events, response usefulness, estimated energy savings and total cost of ownership.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -593,7 +593,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-3-04",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.539Z"
@@ -700,10 +700,10 @@
       "$date": "2026-10-23T19:38:04.699Z"
     },
     "deliverables": [
-      "Network bottleneck & disruption stress test benchmarks",
-      "Resilience, on-time delivery & small-supplier fairness audit"
+      "B2B logistics platform roll-out blueprint",
+      "Data-sharing incentives, pricing tiers & scale-up pitch"
     ],
-    "description": "Run stress tests for road closures, supplier failure, demand surges and conflicting objectives. Compare cost, delivery reliability, emissions proxy, resilience and fairness to smaller suppliers.",
+    "description": "Propose a B2B operating model for logistics providers, producer groups or regional buyers. Include onboarding, data-sharing incentives, pricing, implementation effort, cybersecurity and scale-up economics.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -713,7 +713,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-3-05",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.698Z"
@@ -730,10 +730,10 @@
       "$date": "2026-10-23T19:38:04.739Z"
     },
     "deliverables": [
-      "B2B logistics platform roll-out blueprint",
-      "Data-sharing incentives, pricing tiers & scale-up pitch"
+      "Network bottleneck & disruption stress test benchmarks",
+      "Resilience, on-time delivery & small-supplier fairness audit"
     ],
-    "description": "Propose a B2B operating model for logistics providers, producer groups or regional buyers. Include onboarding, data-sharing incentives, pricing, implementation effort, cybersecurity and scale-up economics.",
+    "description": "Run stress tests for road closures, supplier failure, demand surges and conflicting objectives. Compare cost, delivery reliability, emissions proxy, resilience and fairness to smaller suppliers.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -743,7 +743,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-3-05",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-03",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.738Z"
@@ -850,10 +850,10 @@
       "$date": "2026-10-23T19:38:04.899Z"
     },
     "deliverables": [
-      "Adversarial input & data leakage stress test",
-      "Time/cost per task benchmarks vs human baseline"
+      "MSME unit economics & customer acquisition strategy",
+      "Inference budget, liability terms & ROI pitch deck"
     ],
-    "description": "Test on unseen and adversarial cases, ambiguous instructions and incomplete documents. Measure task completion time, error rate, correction burden, cost per task and data leakage risks.",
+    "description": "Build a commercially credible offering for a defined MSME segment. Include onboarding, human support, pricing, inference/tool costs, integration, liability, measurable ROI and a roadmap for responsible scale.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -863,7 +863,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-4-01",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.899Z"
@@ -880,10 +880,10 @@
       "$date": "2026-10-23T19:38:04.934Z"
     },
     "deliverables": [
-      "MSME unit economics & customer acquisition strategy",
-      "Inference budget, liability terms & ROI pitch deck"
+      "Adversarial input & data leakage stress test",
+      "Time/cost per task benchmarks vs human baseline"
     ],
-    "description": "Build a commercially credible offering for a defined MSME segment. Include onboarding, human support, pricing, inference/tool costs, integration, liability, measurable ROI and a roadmap for responsible scale.",
+    "description": "Test on unseen and adversarial cases, ambiguous instructions and incomplete documents. Measure task completion time, error rate, correction burden, cost per task and data leakage risks.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -893,7 +893,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-4-01",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:04.934Z"
@@ -1000,10 +1000,10 @@
       "$date": "2026-10-23T19:38:05.094Z"
     },
     "deliverables": [
-      "Feedstock price & supply volatility sensitivity test",
-      "Lifecycle environmental trade-offs & quality variation report"
+      "Bankable financial plan (Capex, Opex, margins, working capital)",
+      "Compliance plan, local job creation & verified green metrics"
     ],
-    "description": "Test demand and technical feasibility with samples or simulations. Conduct sensitivity analysis for feedstock shortages, price changes, quality variation, logistics and lifecycle trade-offs.",
+    "description": "Present an investable business model with supply agreements, customer validation, capex/opex, gross margin, working capital, safety/compliance plan, job creation and verified environmental indicators.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1013,7 +1013,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-4-02",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.093Z"
@@ -1030,10 +1030,10 @@
       "$date": "2026-10-23T19:38:05.139Z"
     },
     "deliverables": [
-      "Bankable financial plan (Capex, Opex, margins, working capital)",
-      "Compliance plan, local job creation & verified green metrics"
+      "Feedstock price & supply volatility sensitivity test",
+      "Lifecycle environmental trade-offs & quality variation report"
     ],
-    "description": "Present an investable business model with supply agreements, customer validation, capex/opex, gross margin, working capital, safety/compliance plan, job creation and verified environmental indicators.",
+    "description": "Test demand and technical feasibility with samples or simulations. Conduct sensitivity analysis for feedstock shortages, price changes, quality variation, logistics and lifecycle trade-offs.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1043,7 +1043,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-4-02",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.139Z"
@@ -1150,10 +1150,10 @@
       "$date": "2026-10-23T19:38:05.299Z"
     },
     "deliverables": [
-      "Fairness & credential-tampering stress test results",
-      "Low-connectivity accessibility & employer usability review"
+      "Institutional / employer partnership revenue model",
+      "Anti-exploitation fee safeguards & long-term retention impact"
     ],
-    "description": "Test matching quality, ranking fairness, employer usability, fraudulent credentials, connectivity constraints and performance across different candidate profiles. Avoid claiming job guarantees.",
+    "description": "Build a sustainable model for employers, training providers, colleges or public programmes. Include verification costs, placement/service fees or institutional funding, safeguards against exploitative charges and metrics for job quality and retention.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1163,7 +1163,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-4-03",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.298Z"
@@ -1180,10 +1180,10 @@
       "$date": "2026-10-23T19:38:05.339Z"
     },
     "deliverables": [
-      "Institutional / employer partnership revenue model",
-      "Anti-exploitation fee safeguards & long-term retention impact"
+      "Fairness & credential-tampering stress test results",
+      "Low-connectivity accessibility & employer usability review"
     ],
-    "description": "Build a sustainable model for employers, training providers, colleges or public programmes. Include verification costs, placement/service fees or institutional funding, safeguards against exploitative charges and metrics for job quality and retention.",
+    "description": "Test matching quality, ranking fairness, employer usability, fraudulent credentials, connectivity constraints and performance across different candidate profiles. Avoid claiming job guarantees.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1193,7 +1193,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-4-03",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.339Z"
@@ -1300,10 +1300,10 @@
       "$date": "2026-10-23T19:38:05.496Z"
     },
     "deliverables": [
-      "Blackout / network outage scenario simulation",
-      "False-alarm audit, response time metrics & inclusion assessment"
+      "Community cooperative / local body financing blueprint",
+      "Service delivery cost, maintenance plan & resilience outcomes pitch"
     ],
-    "description": "Run scenario exercises for false alarms, missed events, power/network loss and unequal access to resources. Measure actionability, response time, inclusion and potential unintended harm.",
+    "description": "Create a business and partnership model with cooperatives, employers, local bodies, insurers or community organisations. Show willingness to pay, service delivery cost, maintenance, safeguards and resilience outcomes.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1313,7 +1313,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-4-04",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.496Z"
@@ -1330,10 +1330,10 @@
       "$date": "2026-10-23T19:38:05.538Z"
     },
     "deliverables": [
-      "Community cooperative / local body financing blueprint",
-      "Service delivery cost, maintenance plan & resilience outcomes pitch"
+      "Blackout / network outage scenario simulation",
+      "False-alarm audit, response time metrics & inclusion assessment"
     ],
-    "description": "Create a business and partnership model with cooperatives, employers, local bodies, insurers or community organisations. Show willingness to pay, service delivery cost, maintenance, safeguards and resilience outcomes.",
+    "description": "Run scenario exercises for false alarms, missed events, power/network loss and unequal access to resources. Measure actionability, response time, inclusion and potential unintended harm.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1343,7 +1343,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-4-04",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.538Z"
@@ -1450,10 +1450,10 @@
       "$date": "2026-10-23T19:38:05.700Z"
     },
     "deliverables": [
-      "Dual use-case stress test (fintech vs HR AI deployment)",
-      "Usability time audit, false assurance checks & auditability report"
+      "Managed compliance service model for small organizations",
+      "Pricing tiers, liability boundaries & governance maturity roadmap"
     ],
-    "description": "Run the toolkit against two contrasting synthetic use cases and a failure scenario. Test completeness, usability, auditability, false assurance and the time required for a small team to operate it.",
+    "description": "Design a viable product or managed-service model for SMEs, colleges, NGOs or professional advisers. Include update costs, expert escalation, liability limits, customer acquisition and measurable improvement in governance maturity.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1463,7 +1463,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-4-05",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.700Z"
@@ -1480,10 +1480,10 @@
       "$date": "2026-10-23T19:38:05.745Z"
     },
     "deliverables": [
-      "Managed compliance service model for small organizations",
-      "Pricing tiers, liability boundaries & governance maturity roadmap"
+      "Dual use-case stress test (fintech vs HR AI deployment)",
+      "Usability time audit, false assurance checks & auditability report"
     ],
-    "description": "Design a viable product or managed-service model for SMEs, colleges, NGOs or professional advisers. Include update costs, expert escalation, liability limits, customer acquisition and measurable improvement in governance maturity.",
+    "description": "Run the toolkit against two contrasting synthetic use cases and a failure scenario. Test completeness, usability, auditability, false assurance and the time required for a small team to operate it.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1493,7 +1493,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-4-05",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-04",
     "updatedAt": {
       "$date": "2026-10-23T19:38:05.745Z"
@@ -1600,10 +1600,10 @@
       "$date": "2026-10-23T19:48:38.120Z"
     },
     "deliverables": [
-      "Zero-income & shock simulation stress test results",
-      "Accuracy, offline usability & harm mitigation benchmark"
+      "Stakeholder financial sustainability model & unit costs",
+      "Non-predatory governance plan & SDG 1/8/10 pitch deck"
     ],
-    "description": "Stress-test low-income, zero-income and unexpected-expense scenarios. Evaluate forecast error, accessibility, bias, privacy, offline operation and whether recommendations could increase financial harm.",
+    "description": "Present a sustainable model for employers, worker collectives, NGOs or financial institutions. Include who pays, consent and governance, unit costs, non-predatory safeguards, adoption plan and measurable SDG 1/8/10 outcomes.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1613,7 +1613,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-1-01",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.120Z"
@@ -1630,10 +1630,10 @@
       "$date": "2026-10-23T19:48:38.168Z"
     },
     "deliverables": [
-      "Stakeholder financial sustainability model & unit costs",
-      "Non-predatory governance plan & SDG 1/8/10 pitch deck"
+      "Zero-income & shock simulation stress test results",
+      "Accuracy, offline usability & harm mitigation benchmark"
     ],
-    "description": "Present a sustainable model for employers, worker collectives, NGOs or financial institutions. Include who pays, consent and governance, unit costs, non-predatory safeguards, adoption plan and measurable SDG 1/8/10 outcomes.",
+    "description": "Stress-test low-income, zero-income and unexpected-expense scenarios. Evaluate forecast error, accessibility, bias, privacy, offline operation and whether recommendations could increase financial harm.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1643,7 +1643,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-1-01",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.167Z"
@@ -1750,10 +1750,10 @@
       "$date": "2026-10-23T19:48:38.348Z"
     },
     "deliverables": [
-      "Disparate outcome & manipulation stress test report",
-      "Benchmark comparison against rule-based baseline & threat review"
+      "B2B2B commercial deployment model & verification pricing",
+      "Liability disclaimer framework & impact metrics pitch"
     ],
-    "description": "Test for disparate outcomes across plausible business profiles, missing-data sensitivity, manipulation and misleading confidence. Compare results with a transparent rule-based baseline and conduct a privacy threat review.",
+    "description": "Design a B2B2B model for incubators, accountants, MSME associations or lenders. Specify pricing, verification cost, liability boundaries, consent, financial assumptions and impact measures without promising loan approval.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1763,7 +1763,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-1-02",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.348Z"
@@ -1780,10 +1780,10 @@
       "$date": "2026-10-23T19:48:38.384Z"
     },
     "deliverables": [
-      "B2B2B commercial deployment model & verification pricing",
-      "Liability disclaimer framework & impact metrics pitch"
+      "Disparate outcome & manipulation stress test report",
+      "Benchmark comparison against rule-based baseline & threat review"
     ],
-    "description": "Design a B2B2B model for incubators, accountants, MSME associations or lenders. Specify pricing, verification cost, liability boundaries, consent, financial assumptions and impact measures without promising loan approval.",
+    "description": "Test for disparate outcomes across plausible business profiles, missing-data sensitivity, manipulation and misleading confidence. Compare results with a transparent rule-based baseline and conduct a privacy threat review.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1793,7 +1793,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-1-02",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.384Z"
@@ -1900,10 +1900,10 @@
       "$date": "2026-10-23T19:48:38.529Z"
     },
     "deliverables": [
-      "Adversarial prompt injection & precision/recall audit",
-      "Credential privacy security guarantee certification"
+      "Distribution partnership roll-out plan & unit economics",
+      "Incident escalation protocol & harm-reduction pitch deck"
     ],
-    "description": "Evaluate precision, recall, false alarms, language performance, prompt-injection/adversarial cases and user comprehension. Demonstrate that it never requests PINs, passwords, OTPs or full payment credentials.",
+    "description": "Propose distribution through banks, merchants, campuses or consumer organisations. Model cost per user, incident escalation, content updates, liability, trust and measurable harm-reduction outcomes.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1913,7 +1913,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-1-03",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.529Z"
@@ -1930,10 +1930,10 @@
       "$date": "2026-10-23T19:48:38.573Z"
     },
     "deliverables": [
-      "Distribution partnership roll-out plan & unit economics",
-      "Incident escalation protocol & harm-reduction pitch deck"
+      "Adversarial prompt injection & precision/recall audit",
+      "Credential privacy security guarantee certification"
     ],
-    "description": "Propose distribution through banks, merchants, campuses or consumer organisations. Model cost per user, incident escalation, content updates, liability, trust and measurable harm-reduction outcomes.",
+    "description": "Evaluate precision, recall, false alarms, language performance, prompt-injection/adversarial cases and user comprehension. Demonstrate that it never requests PINs, passwords, OTPs or full payment credentials.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -1943,7 +1943,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-1-03",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.573Z"
@@ -2050,10 +2050,10 @@
       "$date": "2026-10-23T19:48:38.745Z"
     },
     "deliverables": [
-      "Extreme weather historical back-test simulation",
-      "False payout vs missed event error rate matrix"
+      "Licensed insurer / cooperative distribution model",
+      "Consumer grievance handling, disclosures & SDG impact pitch"
     ],
-    "description": "Back-test the concept on held-out periods or simulated extreme events. Measure missed-event and false-payout rates, affordability, accessibility and impacts on different producer profiles.",
+    "description": "Develop a responsible partnership model involving licensed insurers, cooperatives, data providers or public programmes. Include distribution costs, consumer disclosures, grievance handling, regulatory dependencies and SDG impact metrics.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2063,7 +2063,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-1-04",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.745Z"
@@ -2080,10 +2080,10 @@
       "$date": "2026-10-23T19:48:38.784Z"
     },
     "deliverables": [
-      "Licensed insurer / cooperative distribution model",
-      "Consumer grievance handling, disclosures & SDG impact pitch"
+      "Extreme weather historical back-test simulation",
+      "False payout vs missed event error rate matrix"
     ],
-    "description": "Develop a responsible partnership model involving licensed insurers, cooperatives, data providers or public programmes. Include distribution costs, consumer disclosures, grievance handling, regulatory dependencies and SDG impact metrics.",
+    "description": "Back-test the concept on held-out periods or simulated extreme events. Measure missed-event and false-payout rates, affordability, accessibility and impacts on different producer profiles.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2093,7 +2093,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-1-04",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.784Z"
@@ -2200,10 +2200,10 @@
       "$date": "2026-10-23T19:48:38.928Z"
     },
     "deliverables": [
-      "Hallucination resistance & outdated rule handling stress test",
-      "Official channel escalation & abstention reliability benchmark"
+      "CSC/NGO community deployment operating plan",
+      "Anti-predatory zero-fee safeguards & public funding pitch"
     ],
-    "description": "Test factual accuracy, stale-information handling, ambiguous cases, accessibility, hallucination resistance and privacy. The prototype must abstain and refer users to official channels when evidence is insufficient.",
+    "description": "Model deployment through community service centres, colleges, NGOs or local bodies. Explain verification operations, update responsibilities, funding, user support and safeguards against charging vulnerable users for free entitlements.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2213,7 +2213,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-1-05",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.927Z"
@@ -2230,10 +2230,10 @@
       "$date": "2026-10-23T19:48:38.984Z"
     },
     "deliverables": [
-      "CSC/NGO community deployment operating plan",
-      "Anti-predatory zero-fee safeguards & public funding pitch"
+      "Hallucination resistance & outdated rule handling stress test",
+      "Official channel escalation & abstention reliability benchmark"
     ],
-    "description": "Model deployment through community service centres, colleges, NGOs or local bodies. Explain verification operations, update responsibilities, funding, user support and safeguards against charging vulnerable users for free entitlements.",
+    "description": "Test factual accuracy, stale-information handling, ambiguous cases, accessibility, hallucination resistance and privacy. The prototype must abstain and refer users to official channels when evidence is insufficient.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2243,7 +2243,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-1-05",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-01",
     "updatedAt": {
       "$date": "2026-10-23T19:48:38.984Z"
@@ -2350,10 +2350,10 @@
       "$date": "2026-10-23T19:48:39.128Z"
     },
     "deliverables": [
-      "Logistics surge & low-demand stress test benchmarks",
-      "Recommendation stability & net producer margin evaluation"
+      "Fair producer-first commercial business model",
+      "Fulfilment economics, quality assurance & margin pitch deck"
     ],
-    "description": "Run scenario tests for low demand, rising logistics costs, competitor entry and production limits. Evaluate forecast error, recommendation stability, customer acquisition cost and producer margin.",
+    "description": "Build a go-to-market model with producer onboarding, quality assurance, channel partners, fulfilment, pricing/commission, returns and repeat-purchase economics. Show how value reaches the producer, not only the platform.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2363,7 +2363,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-2-01",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.127Z"
@@ -2380,10 +2380,10 @@
       "$date": "2026-10-23T19:48:39.163Z"
     },
     "deliverables": [
-      "Fair producer-first commercial business model",
-      "Fulfilment economics, quality assurance & margin pitch deck"
+      "Logistics surge & low-demand stress test benchmarks",
+      "Recommendation stability & net producer margin evaluation"
     ],
-    "description": "Build a go-to-market model with producer onboarding, quality assurance, channel partners, fulfilment, pricing/commission, returns and repeat-purchase economics. Show how value reaches the producer, not only the platform.",
+    "description": "Run scenario tests for low demand, rising logistics costs, competitor entry and production limits. Evaluate forecast error, recommendation stability, customer acquisition cost and producer margin.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2393,7 +2393,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-2-01",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.162Z"
@@ -2500,10 +2500,10 @@
       "$date": "2026-10-23T19:48:39.314Z"
     },
     "deliverables": [
-      "Peak cancellation & traffic disruption simulation",
-      "Recovery rate, spoilage reduction & compliance benchmarks"
+      "Multi-stakeholder operating & funding model",
+      "Food-safety liability terms & auditable SDG 12.3 pitch"
     ],
-    "description": "Simulate peak days, cancelled pickups, traffic delays and demand mismatch. Measure edible quantity recovered, spoilage, delivery cost, match completion and safety-rule compliance.",
+    "description": "Design a viable multi-sided operating model with kitchens/retailers, logistics providers, recipient organisations and funders. Specify liability, verification, cold-chain dependencies, incentives and auditable SDG 12.3 metrics.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2513,7 +2513,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-2-02",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.313Z"
@@ -2530,10 +2530,10 @@
       "$date": "2026-10-23T19:48:39.358Z"
     },
     "deliverables": [
-      "Multi-stakeholder operating & funding model",
-      "Food-safety liability terms & auditable SDG 12.3 pitch"
+      "Peak cancellation & traffic disruption simulation",
+      "Recovery rate, spoilage reduction & compliance benchmarks"
     ],
-    "description": "Design a viable multi-sided operating model with kitchens/retailers, logistics providers, recipient organisations and funders. Specify liability, verification, cold-chain dependencies, incentives and auditable SDG 12.3 metrics.",
+    "description": "Simulate peak days, cancelled pickups, traffic delays and demand mismatch. Measure edible quantity recovered, spoilage, delivery cost, match completion and safety-rule compliance.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2543,7 +2543,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-2-02",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.358Z"
@@ -2650,10 +2650,10 @@
       "$date": "2026-10-23T19:48:39.518Z"
     },
     "deliverables": [
-      "Opt-out performance & privacy leakage stress test",
-      "Fairness audit against consumer vulnerability exploitation"
+      "SME commercial SaaS / subscription model",
+      "Data governance policy, prohibited uses & incremental ROI pitch"
     ],
-    "description": "Test lift against a simple baseline, segment stability, bias, privacy leakage risks and performance when users opt out. Evaluate whether recommendations could exploit vulnerability or discriminate.",
+    "description": "Present a business model for SMEs or sector associations, including implementation burden, pricing, data governance, measurable incremental value and a clear policy for prohibited uses.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2663,7 +2663,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-2-03",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.518Z"
@@ -2680,10 +2680,10 @@
       "$date": "2026-10-23T19:48:39.556Z"
     },
     "deliverables": [
-      "SME commercial SaaS / subscription model",
-      "Data governance policy, prohibited uses & incremental ROI pitch"
+      "Opt-out performance & privacy leakage stress test",
+      "Fairness audit against consumer vulnerability exploitation"
     ],
-    "description": "Present a business model for SMEs or sector associations, including implementation burden, pricing, data governance, measurable incremental value and a clear policy for prohibited uses.",
+    "description": "Test lift against a simple baseline, segment stability, bias, privacy leakage risks and performance when users opt out. Evaluate whether recommendations could exploit vulnerability or discriminate.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2693,7 +2693,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-2-03",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.556Z"
@@ -2800,10 +2800,10 @@
       "$date": "2026-10-23T19:48:39.714Z"
     },
     "deliverables": [
-      "Adversarial claim phrasing & stale evidence stress test",
-      "Epistemic certainty audit (absence of evidence distinction)"
+      "Independent verification business & revenue model",
+      "Conflict-of-interest safeguards & trust metric pitch deck"
     ],
-    "description": "Evaluate source faithfulness, translation fidelity, false certainty, stale evidence, adversarial phrasing and user comprehension. Test whether the tool can distinguish absence of evidence from evidence of absence.",
+    "description": "Design a sustainable verification model for consumer groups, marketplaces, media, educational institutions or brands. Include reviewer costs, conflict-of-interest safeguards, correction procedures and trust/impact metrics.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2813,7 +2813,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-2-04",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.713Z"
@@ -2830,10 +2830,10 @@
       "$date": "2026-10-23T19:48:39.758Z"
     },
     "deliverables": [
-      "Independent verification business & revenue model",
-      "Conflict-of-interest safeguards & trust metric pitch deck"
+      "Adversarial claim phrasing & stale evidence stress test",
+      "Epistemic certainty audit (absence of evidence distinction)"
     ],
-    "description": "Design a sustainable verification model for consumer groups, marketplaces, media, educational institutions or brands. Include reviewer costs, conflict-of-interest safeguards, correction procedures and trust/impact metrics.",
+    "description": "Evaluate source faithfulness, translation fidelity, false certainty, stale evidence, adversarial phrasing and user comprehension. Test whether the tool can distinguish absence of evidence from evidence of absence.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2843,7 +2843,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-2-04",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.758Z"
@@ -2950,10 +2950,10 @@
       "$date": "2026-10-23T19:48:39.918Z"
     },
     "deliverables": [
-      "Festival crowding & network disruption stress test",
-      "Queue proxy reduction & local merchant spend distribution audit"
+      "Public-private-community regional governance model",
+      "Local artisan / vendor economic empowerment & SDG 8/11/12 pitch"
     ],
-    "description": "Stress-test festival peaks, disruptions, accessibility needs and low-connectivity conditions. Measure queue or travel-time proxies, local-spend distribution, waste/service load and fairness of recommendations.",
+    "description": "Propose a public-private-community business model that benefits small local enterprises while protecting public-interest functions. Include data governance, stakeholder incentives, operational costs and SDG 8/11/12 indicators.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2963,7 +2963,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 4 for TRACK-2-05",
     "timeframe": "Milestone Phase 4",
-    "title": "Challenge 4: Stress test, validation and impact",
+    "title": "Challenge 4: Business model, deployment and investment pitch",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.918Z"
@@ -2980,10 +2980,10 @@
       "$date": "2026-10-23T19:48:39.954Z"
     },
     "deliverables": [
-      "Public-private-community regional governance model",
-      "Local artisan / vendor economic empowerment & SDG 8/11/12 pitch"
+      "Festival crowding & network disruption stress test",
+      "Queue proxy reduction & local merchant spend distribution audit"
     ],
-    "description": "Propose a public-private-community business model that benefits small local enterprises while protecting public-interest functions. Include data governance, stakeholder incentives, operational costs and SDG 8/11/12 indicators.",
+    "description": "Stress-test festival peaks, disruptions, accessibility needs and low-connectivity conditions. Measure queue or travel-time proxies, local-spend distribution, waste/service load and fairness of recommendations.",
     "documentName": "",
     "documentSize": "",
     "documentUrl": "",
@@ -2993,7 +2993,7 @@
     "subTrack": "",
     "subtitle": "Dedicated Challenge 5 for TRACK-2-05",
     "timeframe": "Milestone Phase 5",
-    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "title": "Challenge 5: Stress test, validation and impact",
     "trackId": "TRK-02",
     "updatedAt": {
       "$date": "2026-10-23T19:48:39.954Z"
