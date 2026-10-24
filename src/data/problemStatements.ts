@@ -13,7 +13,7 @@ export interface ProblemStatement {
   difficulty: 'Intermediate' | 'Advanced';
 }
 
-export const HACKATHON_LAUNCH_TARGET_ISO = '2026-10-24T12:00:00+05:30';
+export const HACKATHON_LAUNCH_TARGET_ISO = '2026-10-24T13:00:00+05:30';
 
 // Production repository - populated dynamically by admin
 export const PROBLEM_STATEMENTS: ProblemStatement[] = [];

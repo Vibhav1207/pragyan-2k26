@@ -130,7 +130,7 @@ const SystemSettingsSchema = new mongoose.Schema({
   maintenanceMode: { type: Boolean, default: false },
   homepageVisibility: { type: Boolean, default: true },
   announcementVisibility: { type: Boolean, default: true },
-  psUnlockTime: { type: String, default: '2026-10-24T12:00:00+05:30' },
+  psUnlockTime: { type: String, default: '2026-10-24T13:00:00+05:30' },
   psGlobalVisible: { type: Boolean, default: false }
 });
 

@@ -596,11 +596,11 @@ app.get('/api/problem-statements', async (req, res, next) => {
 
     // Public / Participant request (and Main Website view):
     const settings = await SystemSettings.findOne().lean();
-    const unlockTarget = settings?.psUnlockTime || '2026-10-24T12:00:00+05:30';
+    const unlockTarget = settings?.psUnlockTime || '2026-10-24T13:00:00+05:30';
     const isPastUnlockTime = Date.now() >= new Date(unlockTarget).getTime();
     const isGlobalVisible = Boolean(settings?.psGlobalVisible);
 
-    // If countdown reached 12:00 PM OR admin clicked ALL UNHIDDEN:
+    // If countdown reached 1:00 PM OR admin clicked ALL UNHIDDEN:
     if (isPastUnlockTime || isGlobalVisible) {
       const allPs = await ProblemStatement.find().sort({ order: 1, createdAt: 1 });
       return res.json(allPs);

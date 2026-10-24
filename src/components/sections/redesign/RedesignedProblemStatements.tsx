@@ -242,7 +242,7 @@ export const RedesignedProblemStatements: React.FC<RedesignedProblemStatementsPr
               )}
 
               <div className="pt-2 text-xs font-mono text-[#D2CAB6]">
-                Official Launch Scheduled at 12:00 PM &bull; 24 October 2026
+                Official Launch Scheduled at 1:00 PM &bull; 24 October 2026
               </div>
             </div>
           </ScrollReveal>
