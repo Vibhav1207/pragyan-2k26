@@ -92,18 +92,21 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
         <div className="flex items-center gap-2 bg-[#F9F4EA] px-4 py-2.5 rounded-2xl border border-[#D2CAB6] shadow-inner shrink-0">
           <span className="text-[11px] font-mono font-bold text-[#162E28] uppercase">ROADMAP:</span>
           <div className="flex gap-1.5">
-            {activeMilestones.map(({ num, isLive }) => (
-              <div
-                key={num}
-                className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-black transition-all ${isLive
-                    ? 'bg-[#162E28] text-[#E5BE61] shadow-sm border border-[#A77A1C]'
-                    : 'bg-[#D2CAB6]/60 text-[#7B8379] border border-[#D2CAB6]'
-                  }`}
-                title={`Milestone Challenge ${num}: ${isLive ? 'Live & Unlocked' : 'Pending Release'}`}
-              >
-                {isLive ? `#${num}` : <Lock className="w-3 h-3 text-[#7B8379]" />}
-              </div>
-            ))}
+            {activeMilestones.map(({ num, isLive }) => {
+              const label = num === 4 ? '4.1' : num === 5 ? '4.2' : `#${num}`;
+              return (
+                <div
+                  key={num}
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-black transition-all ${isLive
+                      ? 'bg-[#162E28] text-[#E5BE61] shadow-sm border border-[#A77A1C]'
+                      : 'bg-[#D2CAB6]/60 text-[#7B8379] border border-[#D2CAB6]'
+                    }`}
+                  title={`Milestone Challenge ${num === 4 ? '4.1' : num === 5 ? '4.2' : num}: ${isLive ? 'Live & Unlocked' : 'Pending Release'}`}
+                >
+                  {isLive ? label : <Lock className="w-3 h-3 text-[#7B8379]" />}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -172,7 +175,7 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                 <div className="flex items-center justify-between gap-2 border-b border-[#D2CAB6]/60 pb-3">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="w-8 h-8 rounded-lg bg-[#162E28] text-[#E5BE61] font-serif font-black text-sm flex items-center justify-center shadow-inner">
-                      0{chal.challengeNumber}
+                      {chal.challengeNumber === 4 ? '4.1' : chal.challengeNumber === 5 ? '4.2' : `0${chal.challengeNumber}`}
                     </span>
                     <span className="text-[10px] font-mono font-black uppercase tracking-wider text-emerald-800 bg-emerald-900/10 px-2 py-0.5 rounded-md border border-emerald-600/30">
                       LIVE CHALLENGE
@@ -202,9 +205,11 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                   )}
                 </div>
 
-                <p className="text-xs text-[#7B8379] leading-relaxed">
-                  {chal.description}
-                </p>
+                {chal.description ? (
+                  <p className="text-xs text-[#7B8379] leading-relaxed">
+                    {chal.description}
+                  </p>
+                ) : null}
 
                 {chal.deliverables && chal.deliverables.length > 0 && (
                   <div className="space-y-1.5 pt-2 border-t border-[#D2CAB6]/40">
@@ -231,7 +236,11 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                     className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] text-xs font-mono font-bold transition shadow-sm w-full justify-center"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download Challenge Brief ({chal.documentName || '.docx'})</span>
+                    <span>
+                      {chal.documentName?.toLowerCase().endsWith('.pptx') || chal.documentUrl?.toLowerCase().endsWith('.pptx')
+                        ? `Download Presentation Template (${chal.documentSize || 'PPTX'})`
+                        : `Download Challenge Brief (${chal.documentName || '.docx'})`}
+                    </span>
                   </a>
                 </div>
               )}
@@ -246,11 +255,11 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
               </div>
               <div className="space-y-1">
                 <div className="font-serif font-bold text-sm text-[#162E28] uppercase">
-                  Challenge 0{livePhasesCount + 1} Pending Release
+                  {livePhasesCount === 4 ? 'Challenge 4.2 (Impact on SDG) Pending Release' : `Challenge 0${livePhasesCount + 1} Pending Release`}
                 </div>
                 <p className="text-[11px] font-sans text-[#7B8379] max-w-xs">
                   {livePhasesCount === 4
-                    ? 'Final milestone challenge 5 will be unlocked by the evaluation committee as the final phase commences.'
+                    ? 'Challenge 4.2: Impact on SDG will be unlocked by the evaluation committee as the final milestone phase commences.'
                     : `Milestone challenges ${livePhasesCount + 1} to 5 will be unlocked by the evaluation committee as each phase progresses.`}
                 </p>
               </div>

@@ -187,7 +187,7 @@ export const AdminChallenges: React.FC = () => {
                       title={`Click to ${isAnyLive ? 'Hide' : 'Release'} Challenge ${num} for all problem statements`}
                     >
                       {isAnyLive ? <Unlock className="w-3.5 h-3.5 text-emerald-300" /> : <Lock className="w-3.5 h-3.5 text-[#7B8379]" />}
-                      <span>CHALLENGE {num}: {isAnyLive ? 'RELEASED' : 'LOCKED'}</span>
+                      <span>CHALLENGE {num === 4 ? '4.1' : num === 5 ? '4.2' : num}: {isAnyLive ? 'RELEASED' : 'LOCKED'}</span>
                     </button>
                   );
                 })}
@@ -256,7 +256,7 @@ export const AdminChallenges: React.FC = () => {
                         : 'bg-[#D2CAB6] border-[#7B8379]/40 text-[#7B8379]'
                     }`}>
                       <span className="text-[10px] font-mono uppercase font-bold">CHAL</span>
-                      <span className="font-serif font-black text-lg leading-none">0{c.challengeNumber}</span>
+                      <span className="font-serif font-black text-lg leading-none">{c.challengeNumber === 4 ? '4.1' : c.challengeNumber === 5 ? '4.2' : `0${c.challengeNumber}`}</span>
                     </div>
 
                     <div className="space-y-1">
