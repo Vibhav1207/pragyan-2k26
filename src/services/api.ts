@@ -50,7 +50,7 @@ try {
     localStorage.removeItem('pragyan_settings_v2');
   }
   const storedChallenges = localStorage.getItem('pragyan_challenges_v2');
-  if (storedChallenges && (!storedChallenges.includes('Challenge 4.1: Impact on SDG') || !storedChallenges.includes('Pragyan_Hackathon_2k26_Template.pptx'))) {
+  if (storedChallenges && (!storedChallenges.includes('Challenge 4.1: Business model, deployment and investment pitch') || !storedChallenges.includes('Pragyan_Hackathon_2k26_Template.pptx'))) {
     localStorage.removeItem('pragyan_challenges_v2');
   }
 } catch {
