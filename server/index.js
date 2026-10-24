@@ -292,6 +292,24 @@ async function seedDatabaseIfNeeded() {
     }
 
     try {
+      const annExists = await Announcement.findOne({ title: 'Vibhav' });
+      if (!annExists) {
+        await Announcement.deleteMany({});
+        await Announcement.create({
+          title: 'Vibhav',
+          content: 'The first 2 challenges for the tracks are now live!',
+          status: 'PUBLISHED',
+          publishDate: new Date(),
+          createdAt: new Date(),
+          author: 'Vibhav'
+        });
+        console.log('📢 Seeded live announcement in MongoDB: [Vibhav] The first 2 challenges for the tracks are now live!');
+      }
+    } catch (annErr) {
+      console.warn('Note seeding announcement in MongoDB:', annErr.message);
+    }
+
+    try {
       const jsonPath = path.join(rootDir, 'pragyan.hackathonchallenges.json');
       if (fs.existsSync(jsonPath)) {
         const raw = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));

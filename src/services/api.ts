@@ -134,21 +134,12 @@ const INITIAL_TRACKS: Track[] = [
 const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
-    title: 'PRAGYAN 2K26 COMMENCING',
-    content: 'Welcome to Pragyan 2K26 National Level Hackathon on SDG Goal 2030 at Sanjivani University, Kopargaon.',
+    title: 'Vibhav',
+    content: 'The first 2 challenges for the tracks are now live!',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
-    author: 'Sanjivani Innovation Cell'
-  },
-  {
-    id: 'ANN-02',
-    title: 'PROBLEM STATEMENTS REPOSITORY',
-    content: 'Problem statement blueprints across all 4 innovation tracks with official Word document specifications are managed by track evaluators.',
-    status: 'PUBLISHED',
-    publishDate: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    author: 'PRAGYAN Committee'
+    author: 'Vibhav'
   }
 ];
 
@@ -593,7 +584,11 @@ class PragyanAPIService {
   }
 
   getAnnouncements(): Announcement[] {
-    const list = getStored<Announcement[]>(STORAGE_KEYS.ANNOUNCEMENTS, INITIAL_ANNOUNCEMENTS);
+    let list = getStored<Announcement[]>(STORAGE_KEYS.ANNOUNCEMENTS, INITIAL_ANNOUNCEMENTS);
+    if (!Array.isArray(list) || !list.some(a => a.title === 'Vibhav')) {
+      list = INITIAL_ANNOUNCEMENTS;
+      setStored(STORAGE_KEYS.ANNOUNCEMENTS, list);
+    }
     const valid = list.filter(a => a && a.title && !a.title.includes('ADFF') && a.title.trim().length > 0);
     return normalizeSdgContent(valid.length > 0 ? valid : INITIAL_ANNOUNCEMENTS);
   }
