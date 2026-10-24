@@ -324,7 +324,7 @@ async function seedDatabaseIfNeeded() {
 
         for (const c of raw) {
           const num = Number(c.challengeNumber) || 1;
-          const isLive = num === 1 || num === 2;
+          const isLive = Boolean(c.isEnabled) || num === 1 || num === 2 || num === 3 || num === 4;
           await HackathonChallenge.findOneAndUpdate(
             { challengeId: c.challengeId },
             {
@@ -350,7 +350,7 @@ async function seedDatabaseIfNeeded() {
             { upsert: true }
           );
         }
-        console.log('✅ Synchronized 100 challenges into MongoDB (Challenges 1 & 2 open for each track).');
+        console.log('✅ Synchronized 100 challenges into MongoDB (Challenges 1, 2, 3 & 4 open for each track).');
       }
     } catch (chalErr) {
       console.warn('Note synchronizing challenges from JSON:', chalErr.message);

@@ -249,7 +249,9 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                   Challenge 0{livePhasesCount + 1} Pending Release
                 </div>
                 <p className="text-[11px] font-sans text-[#7B8379] max-w-xs">
-                  Milestone challenges 4 and 5 will be unlocked by the evaluation committee as each phase progresses.
+                  {livePhasesCount === 4
+                    ? 'Final milestone challenge 5 will be unlocked by the evaluation committee as the final phase commences.'
+                    : `Milestone challenges ${livePhasesCount + 1} to 5 will be unlocked by the evaluation committee as each phase progresses.`}
                 </p>
               </div>
             </div>

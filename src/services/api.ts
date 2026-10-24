@@ -850,7 +850,7 @@ class PragyanAPIService {
     }
     let updated = false;
     list = list.map(c => {
-      if ((c.challengeNumber === 1 || c.challengeNumber === 2 || c.challengeNumber === 3) && !c.isEnabled) {
+      if ((c.challengeNumber === 1 || c.challengeNumber === 2 || c.challengeNumber === 3 || c.challengeNumber === 4) && !c.isEnabled) {
         updated = true;
         return { ...c, isEnabled: true };
       }
