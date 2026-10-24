@@ -166,7 +166,7 @@ const INITIAL_CHALLENGES: HackathonChallenge[] = [
     ],
     timeframe: 'Milestone Phase 1',
     order: 1,
-    isEnabled: false
+    isEnabled: true
   },
   {
     id: 'CHAL-02',
@@ -182,7 +182,7 @@ const INITIAL_CHALLENGES: HackathonChallenge[] = [
     ],
     timeframe: 'Milestone Phase 2',
     order: 2,
-    isEnabled: false
+    isEnabled: true
   },
   {
     id: 'CHAL-03',
@@ -930,7 +930,18 @@ class PragyanAPIService {
   }
 
   getChallenges(includeDisabled = false): HackathonChallenge[] {
-    const list = getStored<HackathonChallenge[]>(STORAGE_KEYS.CHALLENGES, INITIAL_CHALLENGES);
+    let list = getStored<HackathonChallenge[]>(STORAGE_KEYS.CHALLENGES, INITIAL_CHALLENGES);
+    let updated = false;
+    list = list.map(c => {
+      if ((c.challengeNumber === 1 || c.challengeNumber === 2) && !c.isEnabled) {
+        updated = true;
+        return { ...c, isEnabled: true };
+      }
+      return c;
+    });
+    if (updated) {
+      setStored(STORAGE_KEYS.CHALLENGES, list);
+    }
     if (includeDisabled) return list;
     return list.filter(c => c.isEnabled);
   }

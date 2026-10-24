@@ -17,11 +17,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/animejs": "^3.1.13",
     "@types/canvas-confetti": "^1.9.0",
-    "@types/node": "^24.13.3",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
     "@types/three": "^0.185.4",
-    "@vitejs/plugin-react": "^6.1.1",
     "animejs": "^4.5.0",
     "bcryptjs": "^3.0.3",
     "canvas-confetti": "^1.9.4",
@@ -44,9 +40,7 @@
     "recharts": "^3.10.1",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
-    "three": "^0.185.1",
-    "typescript": "~6.0.2",
-    "vite": "^8.2.2"
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -55,8 +49,14 @@
     "@types/gridfs-stream": "^0.5.39",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.2.0",
+    "@types/node": "^24.13.3",
     "@types/papaparse": "^5.5.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.1",
     "mongodb-memory-server": "^11.3.0",
-    "oxlint": "^1.79.0"
+    "oxlint": "^1.79.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
   }
 }
