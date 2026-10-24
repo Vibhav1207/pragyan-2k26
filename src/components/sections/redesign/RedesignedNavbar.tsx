@@ -96,7 +96,7 @@ export const RedesignedNavbar: React.FC<RedesignedNavbarProps> = ({ onRegisterCl
               SANJIVANI UNIVERSITY
             </a>
             <Link to="/" className="font-mono text-[10px] text-[#E5BE61] font-extrabold tracking-widest uppercase hover:underline">
-              PRAGYAN 2K26 • National Level Hackathon on SDG GOAL 2927
+              PRAGYAN 2K26 • National Level Hackathon on SDG GOAL 2030
             </Link>
           </div>
         </div>

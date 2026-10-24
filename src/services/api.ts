@@ -13,6 +13,7 @@ import type {
   HackathonChallenge
 } from '../types/admin';
 import { INITIAL_PROBLEM_STATEMENTS } from '../data/initialProblemStatements';
+import { normalizeSdgContent } from '../utils/sdgContent';
 
 const STORAGE_KEYS = {
   TEAMS: 'pragyan_teams_v2',
@@ -122,7 +123,7 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
     title: 'PRAGYAN 2K26 COMMENCING',
-    content: 'Welcome to Pragyan 2K26 National Level Hackathon on SDG Goal 2027 at Sanjivani University, Kopargaon.',
+    content: 'Welcome to Pragyan 2K26 National Level Hackathon on SDG Goal 2030 at Sanjivani University, Kopargaon.',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -624,7 +625,7 @@ class PragyanAPIService {
   getAnnouncements(): Announcement[] {
     const list = getStored<Announcement[]>(STORAGE_KEYS.ANNOUNCEMENTS, INITIAL_ANNOUNCEMENTS);
     const valid = list.filter(a => a && a.title && !a.title.includes('ADFF') && a.title.trim().length > 0);
-    return valid.length > 0 ? valid : INITIAL_ANNOUNCEMENTS;
+    return normalizeSdgContent(valid.length > 0 ? valid : INITIAL_ANNOUNCEMENTS);
   }
 
   createAnnouncement(annData: Omit<Announcement, 'id' | 'createdAt'>): Announcement {
@@ -649,7 +650,7 @@ class PragyanAPIService {
   }
 
   getCMS(): HomepageCMS {
-    return getStored<HomepageCMS>(STORAGE_KEYS.CMS, INITIAL_CMS);
+    return normalizeSdgContent(getStored<HomepageCMS>(STORAGE_KEYS.CMS, INITIAL_CMS));
   }
 
   updateCMS(cms: HomepageCMS): HomepageCMS {

@@ -199,7 +199,7 @@ export const RedesignedFooter: React.FC = () => {
             © 2026 PRAGYAN 2K26. SANJIVANI UNIVERSITY. ALL RIGHTS RESERVED.
           </div>
           <div>
-            <span className="text-[#E5BE61] font-bold">SDG GOAL 2027 // NATIONAL HACKATHON</span>
+            <span className="text-[#E5BE61] font-bold">SDG GOAL 2030 // NATIONAL HACKATHON</span>
           </div>
         </div>
 

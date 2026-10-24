@@ -183,6 +183,24 @@ const HackathonChallengeSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+const AnalyticsPageViewSchema = new mongoose.Schema({
+  viewId: { type: String, required: true, unique: true },
+  visitorId: { type: String, required: true },
+  path: { type: String, required: true },
+  title: { type: String, default: '' },
+  referrer: { type: String, default: '' },
+  device: { type: String, enum: ['desktop', 'tablet', 'mobile'], required: true },
+  sequence: { type: Number, required: true },
+  startedAt: { type: Date, required: true, index: true },
+  lastSeenAt: { type: Date, required: true },
+  endedAt: { type: Date, default: null },
+  expiresAt: { type: Date, required: true }
+});
+AnalyticsPageViewSchema.index({ lastSeenAt: -1, endedAt: 1 });
+AnalyticsPageViewSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+AnalyticsPageViewSchema.index({ visitorId: 1 });
+
+export const AnalyticsPageView = mongoose.model('AnalyticsPageView', AnalyticsPageViewSchema);
 export const User = mongoose.model('User', UserSchema);
 export const Admin = mongoose.model('Admin', AdminSchema);
 export const Team = mongoose.model('Team', TeamSchema);

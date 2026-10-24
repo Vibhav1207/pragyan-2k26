@@ -80,7 +80,7 @@ export const FOUR_CONCEPTS = [
   {
     title: "IDEATE",
     subtitle: "Real Problems",
-    description: "Identify & analyze high-impact challenges rooted in United Nations SDG Goal 2027 targets.",
+    description: "Identify & analyze high-impact challenges rooted in United Nations SDG Goal 2030 targets.",
     iconName: "Lightbulb"
   },
   {

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import { createAnalyticsRouter } from './analytics.js';
 import dns from 'dns';
 import {
   User,
@@ -65,6 +66,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use('/api/analytics/collect', express.json({ limit: '2kb' }));
 app.use(express.json({ limit: '10mb' }));
 
 function createRateLimiter(windowMs, maxRequests, message) {
@@ -91,7 +93,10 @@ const authLimiter = createRateLimiter(15 * 60 * 1000, 1000, 'Too many login atte
 const apiLimiter = createRateLimiter(15 * 60 * 1000, 1000, 'Rate limit exceeded. Please slow down.');
 const submissionLimiter = createRateLimiter(15 * 60 * 1000, 100, 'Too many submission requests. Please try again later.');
 
-app.use('/api/', apiLimiter);
+app.use('/api/', (req, res, next) => {
+  if (req.path === '/analytics/collect') return next();
+  return apiLimiter(req, res, next);
+});
 
 let dbConnected = false;
 let dbPromise = null;
@@ -307,6 +312,8 @@ const authenticateAdmin = (req, res, next) => {
     return res.status(401).json({ error: 'Invalid or expired admin token' });
   }
 };
+
+app.use('/api/analytics', createAnalyticsRouter({ authenticateAdmin, ensureDbConnected }));
 
 const authenticateParticipant = (req, res, next) => {
   const authHeader = req.headers.authorization;

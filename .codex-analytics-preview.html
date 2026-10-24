@@ -1,0 +1,5 @@
+<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Local analytics preview</title></head><body><div id="root"></div><script>
+localStorage.setItem('pragyan_admin_user', JSON.stringify({ id: 'local-preview', name: 'Local preview admin', email: 'preview@example.test', role: 'ADMIN' }));
+localStorage.setItem('pragyan_admin_token', 'local-analytics-preview');
+history.replaceState(null, '', '/admin/analytics');
+</script><script type="module" src="/src/main.tsx"></script></body></html>

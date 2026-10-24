@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import './index.css';
 import { AuthProvider } from './context/AuthContext';
 import { AppRoutes } from './routes/AppRoutes';
+import { WebsiteAnalyticsTracker } from './components/analytics/WebsiteAnalyticsTracker';
 
 const GOOGLE_CLIENT_ID = 'demo-pragyan-2k26-google-client-id.apps.googleusercontent.com';
 
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <BrowserRouter>
+        <WebsiteAnalyticsTracker />
         <AuthProvider>
           <AppRoutes />
         </AuthProvider>

@@ -19,6 +19,7 @@ const AdminAnnouncements = lazy(() => import('../pages/admin/AdminAnnouncements'
 const AdminExportCenter = lazy(() => import('../pages/admin/AdminExportCenter').then(m => ({ default: m.AdminExportCenter })));
 const AdminActivityLogs = lazy(() => import('../pages/admin/AdminActivityLogs').then(m => ({ default: m.AdminActivityLogs })));
 const AdminSettings = lazy(() => import('../pages/admin/AdminSettings').then(m => ({ default: m.AdminSettings })));
+const AdminAnalytics = lazy(() => import('../pages/admin/AdminAnalytics').then(m => ({ default: m.AdminAnalytics })));
 
 const RouteLoadingFallback: React.FC = () => (
   <div className="min-h-screen w-full flex items-center justify-center bg-[#F9F4EA]">
@@ -116,6 +117,7 @@ export const AppRoutes: React.FC = () => {
             </AdminProtectedRoute>
           }
         />
+        <Route path="/admin/analytics" element={<AdminProtectedRoute><AdminAnalytics /></AdminProtectedRoute>} />
         <Route path="/admin/submissions" element={<Navigate to="/admin/problem-statements" replace />} />
         <Route path="/admin/files" element={<Navigate to="/admin/problem-statements" replace />} />
         <Route

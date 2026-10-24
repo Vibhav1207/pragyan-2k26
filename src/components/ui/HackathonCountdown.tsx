@@ -263,7 +263,7 @@ export const HackathonHeroCountdown: React.FC = () => {
           </h3>
 
           <p className="text-xs sm:text-sm font-sans text-[#7B8379] max-w-xl">
-            Selected national finalist teams assemble for an intensive 24-hour on-ground innovation sprint driving solutions for UN Sustainable Development Goals 2027 at Sanjivani University.
+            Selected national finalist teams assemble for an intensive 24-hour on-ground innovation sprint driving solutions for UN Sustainable Development Goals 2030 at Sanjivani University.
           </p>
         </div>
 

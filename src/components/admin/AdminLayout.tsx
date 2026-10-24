@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
+  BarChart3,
   UserCheck, 
   FileText, 
   Award,
@@ -38,6 +39,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title, subti
 
   const navItems = [
     { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+    { label: 'Website Analytics', path: '/admin/analytics', icon: BarChart3 },
     { label: 'Participants', path: '/admin/participants', icon: UserCheck },
     { label: 'Problem Statements', path: '/admin/problem-statements', icon: FileText },
     { label: '5 Challenges', path: '/admin/challenges', icon: Award },

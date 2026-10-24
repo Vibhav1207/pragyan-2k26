@@ -95,7 +95,7 @@ export const ParticipantProfile: React.FC = () => {
                   Official Problem Statements
                 </h3>
                 <p className="text-xs text-[#D2CAB6] font-sans max-w-xl">
-                  12 industry problem statements across 4 tracks are scheduled to unlock tomorrow at 12:00 PM IST (Oct 24, 2026) for all participating teams.
+                  20 problem statements across 4 tracks are scheduled to unlock tomorrow at 12:00 PM IST (Oct 24, 2026) for all participating teams.
                 </p>
               </div>
 
