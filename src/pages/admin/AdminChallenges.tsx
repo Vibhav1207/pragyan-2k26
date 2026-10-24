@@ -27,7 +27,6 @@ export const AdminChallenges: React.FC = () => {
     subtitle: '',
     description: '',
     timeframe: '',
-    deliverablesText: '',
     trackId: 'all',
     psId: '',
     isEnabled: false
@@ -73,7 +72,6 @@ export const AdminChallenges: React.FC = () => {
       subtitle: c.subtitle || '',
       description: c.description || '',
       timeframe: c.timeframe || '',
-      deliverablesText: (c.deliverables || []).join('\n'),
       trackId: c.trackId || 'all',
       psId: c.psId || '',
       isEnabled: c.isEnabled
@@ -84,17 +82,11 @@ export const AdminChallenges: React.FC = () => {
     e.preventDefault();
     if (!editingChallenge) return;
 
-    const deliverables = formData.deliverablesText
-      .split('\n')
-      .map(d => d.trim())
-      .filter(Boolean);
-
     await apiService.updateChallenge(editingChallenge.challengeId, {
       title: formData.title,
       subtitle: formData.subtitle,
       description: formData.description,
       timeframe: formData.timeframe,
-      deliverables,
       trackId: formData.trackId,
       psId: formData.psId.trim(),
       isEnabled: formData.isEnabled
@@ -302,21 +294,6 @@ export const AdminChallenges: React.FC = () => {
                         {c.description}
                       </p>
 
-                      {c.deliverables && c.deliverables.length > 0 && (
-                        <div className="pt-2">
-                          <span className="text-[10px] font-mono font-bold text-[#162E28] uppercase tracking-wider block mb-1">
-                            Key Deliverables:
-                          </span>
-                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs text-[#162E28]">
-                            {c.deliverables.map((deliv, idx) => (
-                              <li key={idx} className="flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#A77A1C]" />
-                                <span>{deliv}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -443,19 +420,6 @@ export const AdminChallenges: React.FC = () => {
                     rows={3}
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    className="w-full p-2.5 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] focus:outline-none focus:border-[#A77A1C]"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="font-bold text-[#162E28] uppercase">
-                    Key Deliverables (one per line)
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={formData.deliverablesText}
-                    onChange={(e) => setFormData(prev => ({ ...prev, deliverablesText: e.target.value }))}
-                    placeholder="Deliverable 1&#10;Deliverable 2&#10;Deliverable 3"
                     className="w-full p-2.5 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] focus:outline-none focus:border-[#A77A1C]"
                   />
                 </div>

@@ -9,6 +9,7 @@ import {
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
 import type { Announcement, AnnouncementStatus } from '../../types/admin';
+import { toDateTimeLocal } from '../../utils/dateTime';
 
 export const AdminAnnouncements: React.FC = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>(() => apiService.getAnnouncements());
@@ -18,7 +19,7 @@ export const AdminAnnouncements: React.FC = () => {
     title: '',
     content: '',
     status: 'PUBLISHED' as AnnouncementStatus,
-    publishDate: new Date().toISOString().slice(0, 16),
+    publishDate: toDateTimeLocal(new Date().toISOString()),
     author: 'PRAGYAN Admin Committee'
   });
 
@@ -31,14 +32,17 @@ export const AdminAnnouncements: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    apiService.createAnnouncement(formData);
+    apiService.createAnnouncement({
+      ...formData,
+      publishDate: new Date(formData.publishDate).toISOString()
+    });
     setAnnouncements(apiService.getAnnouncements());
     setIsModalOpen(false);
     setFormData({
       title: '',
       content: '',
       status: 'PUBLISHED',
-      publishDate: new Date().toISOString().slice(0, 16),
+      publishDate: toDateTimeLocal(new Date().toISOString()),
       author: 'PRAGYAN Admin Committee'
     });
   };
@@ -161,9 +165,12 @@ export const AdminAnnouncements: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Publish Date</label>
+                  <label htmlFor="announcement-publish-date" className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Publish Date</label>
                   <input
+                    id="announcement-publish-date"
                     type="datetime-local"
+                    required
+                    step={60}
                     value={formData.publishDate}
                     onChange={(e) => setFormData({ ...formData, publishDate: e.target.value })}
                     className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"

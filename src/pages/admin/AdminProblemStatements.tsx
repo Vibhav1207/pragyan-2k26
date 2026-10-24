@@ -24,6 +24,7 @@ import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
 import type { AdminProblemStatement, Track } from '../../types/admin';
 import { downloadProblemStatementWordDoc } from '../../utils/wordDocHelper';
+import { toDateTimeLocal } from '../../utils/dateTime';
 
 export const AdminProblemStatements: React.FC = () => {
   const [problemStatements, setProblemStatements] = useState<AdminProblemStatement[]>(() => 
@@ -51,7 +52,7 @@ export const AdminProblemStatements: React.FC = () => {
     documentSize: '',
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     isVisible: false, // Default HIDDEN as requested
-    releaseAt: '2026-10-24T12:00:00',
+    releaseAt: toDateTimeLocal(apiService.getSettings().psUnlockTime),
     difficulty: 'Intermediate' as 'Intermediate' | 'Advanced'
   });
 
@@ -96,7 +97,7 @@ export const AdminProblemStatements: React.FC = () => {
       documentSize: '',
       fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       isVisible: true, // Set to visible so participants can see it
-      releaseAt: '2026-10-24T12:00:00',
+      releaseAt: toDateTimeLocal(apiService.getSettings().psUnlockTime),
       difficulty: 'Intermediate'
     });
     setUploadFileName('');
@@ -118,7 +119,7 @@ export const AdminProblemStatements: React.FC = () => {
       documentSize: ps.documentSize || '',
       fileType: ps.fileType || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       isVisible: ps.isVisible,
-      releaseAt: ps.releaseAt ? ps.releaseAt.slice(0, 16) : '2026-10-24T12:00',
+      releaseAt: toDateTimeLocal(ps.releaseAt),
       difficulty: ps.difficulty || 'Intermediate'
     });
     setUploadFileName(ps.documentName || '');

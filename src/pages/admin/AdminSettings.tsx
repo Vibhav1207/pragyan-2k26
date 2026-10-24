@@ -3,16 +3,25 @@ import { Settings, Save, CheckCircle2 } from 'lucide-react';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { apiService } from '../../services/api';
 import type { SystemSettings } from '../../types/admin';
+import { toDateTimeLocal } from '../../utils/dateTime';
+
+const getDateTimeFields = (settings: SystemSettings) => ({
+  registrationDeadline: toDateTimeLocal(settings.registrationDeadline),
+  psUnlockTime: toDateTimeLocal(settings.psUnlockTime)
+});
 
 export const AdminSettings: React.FC = () => {
   const [settings, setSettings] = useState<SystemSettings>(() => apiService.getSettings());
+  const [dateTimeFields, setDateTimeFields] = useState(() => getDateTimeFields(settings));
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   useEffect(() => {
     let isMounted = true;
     apiService.fetchSettingsAsync().then((fresh) => {
       if (isMounted && fresh) {
         setSettings(fresh);
+        setDateTimeFields(getDateTimeFields(fresh));
       }
     });
     return () => { isMounted = false; };
@@ -25,9 +34,18 @@ export const AdminSettings: React.FC = () => {
   });
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
-  const handleSaveSettings = async () => {
+  const handleSaveSettings = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (window.confirm('Save system configuration changes? Important changes will take effect immediately.')) {
-      await apiService.updateSettingsAsync(settings);
+      await apiService.updateSettingsAsync({
+        ...settings,
+        registrationDeadline: dateTimeFields.registrationDeadline === toDateTimeLocal(settings.registrationDeadline)
+          ? settings.registrationDeadline
+          : new Date(dateTimeFields.registrationDeadline).toISOString(),
+        psUnlockTime: dateTimeFields.psUnlockTime === toDateTimeLocal(settings.psUnlockTime)
+          ? settings.psUnlockTime
+          : new Date(dateTimeFields.psUnlockTime).toISOString()
+      });
       setSavedSuccess(true);
       setTimeout(() => setSavedSuccess(false), 3000);
     }
@@ -68,7 +86,8 @@ export const AdminSettings: React.FC = () => {
               </span>
             )}
             <button
-              onClick={handleSaveSettings}
+              type="submit"
+              form="system-settings-form"
               className="px-5 py-2.5 rounded-xl bg-[#162E28] hover:bg-[#2B3E35] text-[#E5BE61] border border-[#A77A1C]/40 font-mono font-bold text-xs uppercase flex items-center gap-2 shadow-md transition"
             >
               <Save className="w-4 h-4 text-[#E5BE61]" /> SAVE SETTINGS
@@ -76,12 +95,13 @@ export const AdminSettings: React.FC = () => {
           </div>
         </div>
 
+        <form id="system-settings-form" onSubmit={handleSaveSettings} className="space-y-8">
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">
             1. REGISTRATION CONFIGURATION
           </h4>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <div className="space-y-1">
               <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Registration Portal Status</label>
@@ -99,13 +119,17 @@ export const AdminSettings: React.FC = () => {
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Registration Deadline</label>
+              <label htmlFor="registration-deadline" className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Registration Deadline</label>
               <input
-                type="text"
-                value={settings.registrationDeadline}
-                onChange={(e) => setSettings({ ...settings, registrationDeadline: e.target.value })}
+                id="registration-deadline"
+                type="datetime-local"
+                required
+                step={60}
+                value={dateTimeFields.registrationDeadline}
+                onChange={(e) => setDateTimeFields(prev => ({ ...prev, registrationDeadline: e.target.value }))}
                 className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"
               />
+              <p className="text-[10px] text-[#7B8379]">Local time ({timeZone})</p>
             </div>
 
             <div className="space-y-1">
@@ -157,13 +181,17 @@ export const AdminSettings: React.FC = () => {
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Master Release Date & Time</label>
+              <label htmlFor="ps-unlock-time" className="text-xs font-mono font-bold text-[#7B8379] uppercase tracking-wider">Master Release Date & Time</label>
               <input
+                id="ps-unlock-time"
                 type="datetime-local"
-                value={settings.psUnlockTime ? settings.psUnlockTime.slice(0, 16) : '2026-10-24T12:00'}
-                onChange={(e) => setSettings({ ...settings, psUnlockTime: new Date(e.target.value).toISOString() })}
+                required
+                step={60}
+                value={dateTimeFields.psUnlockTime}
+                onChange={(e) => setDateTimeFields(prev => ({ ...prev, psUnlockTime: e.target.value }))}
                 className="w-full p-2.5 rounded-xl bg-[#F9F4EA] border border-[#D2CAB6] text-[#162E28] text-xs font-mono focus:outline-none focus:border-[#A77A1C] transition"
               />
+              <p className="text-[10px] text-[#7B8379]">Local time ({timeZone})</p>
             </div>
 
             <div className="space-y-1">
@@ -201,6 +229,8 @@ export const AdminSettings: React.FC = () => {
             </button>
           </div>
         </div>
+
+        </form>
 
         <div className="bg-[#E9E1D2] border border-[#D2CAB6] p-6 rounded-3xl space-y-4 shadow-sm">
           <h4 className="font-serif font-bold text-lg text-[#162E28] uppercase border-b border-[#D2CAB6]/60 pb-2">

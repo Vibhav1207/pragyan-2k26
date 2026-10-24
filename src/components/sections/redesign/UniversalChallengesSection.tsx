@@ -1,7 +1,6 @@
 import React from 'react';
 import { 
   Award, 
-  CheckCircle2, 
   Lock, 
   Clock, 
   Download
@@ -148,21 +147,6 @@ export const UniversalChallengesSection: React.FC<UniversalChallengesSectionProp
                   {chal.description}
                 </p>
 
-                {chal.deliverables && chal.deliverables.length > 0 && (
-                  <div className="pt-2 bg-[#E9E1D2]/50 p-3 rounded-xl border border-[#D2CAB6]/80 space-y-1.5">
-                    <span className="text-[10px] font-mono font-bold text-[#162E28] uppercase tracking-wider block">
-                      Required Deliverables:
-                    </span>
-                    <ul className="space-y-1">
-                      {chal.deliverables.map((deliv, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-[#162E28]">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#A77A1C] shrink-0 mt-0.5" />
-                          <span>{deliv}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
 
               {chal.documentUrl && (
