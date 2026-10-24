@@ -135,7 +135,7 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'ANN-01',
     title: 'Vibhav',
-    content: 'The first 2 challenges for the tracks are now live!',
+    content: 'The 3rd challenge for the tracks is now live!',
     status: 'PUBLISHED',
     publishDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -850,7 +850,7 @@ class PragyanAPIService {
     }
     let updated = false;
     list = list.map(c => {
-      if ((c.challengeNumber === 1 || c.challengeNumber === 2) && !c.isEnabled) {
+      if ((c.challengeNumber === 1 || c.challengeNumber === 2 || c.challengeNumber === 3) && !c.isEnabled) {
         updated = true;
         return { ...c, isEnabled: true };
       }

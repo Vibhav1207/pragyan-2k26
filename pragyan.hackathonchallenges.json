@@ -1,3000 +1,3002 @@
-[{
-  "_id": {
-    "$oid": "6adbb7a03323350c65041b9f"
-  },
-  "challengeId": "CHAL-TRACK-3-01-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:03.428Z"
-  },
-  "deliverables": [
-    "System boundary map (sources, storage, demand groups)",
-    "Baseline reliability audit & equity metric definition"
-  ],
-  "description": "Choose a defined system boundary and map sources, storage, demand groups, losses and service interruptions. Define baseline reliability and an equity measure for allocation.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": true,
-  "order": 1,
-  "psId": "TRACK-3-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-3-01",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:38.050Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a03323350c65041ba0"
-  },
-  "challengeId": "CHAL-TRACK-3-01-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:03.821Z"
-  },
-  "deliverables": [
-    "Synthetic water-balance dataset & weather scenarios",
-    "Sensor uncertainty & missing condition documentation"
-  ],
-  "description": "Build a water-balance dataset using sample or synthetic readings, weather scenarios, occupancy/production schedules and leak events. Document uncertainty and missing sensor conditions.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-3-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-3-01",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:03.821Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a03323350c65041ba1"
-  },
-  "challengeId": "CHAL-TRACK-3-01-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:03.860Z"
-  },
-  "deliverables": [
-    "Demand forecasting & anomaly detection prototype",
-    "Explainable alert panel with operator manual override"
-  ],
-  "description": "Prototype demand forecasting, anomaly detection or allocation scenarios with understandable explanations and a manual override for operators.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-3-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-3-01",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:03.860Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a03323350c65041ba2"
-  },
-  "challengeId": "CHAL-TRACK-3-01-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:03.905Z"
-  },
-  "deliverables": [
-    "Stress test report (drought, spikes, sensor failures)",
-    "Accuracy metrics (forecast error, detection time, avoided loss)"
-  ],
-  "description": "Test drought, sudden demand spikes, sensor failure and conflicting stakeholder needs. Measure forecast error, time to detect anomalies, avoided loss estimates and distributional consequences.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-3-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-3-01",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:03.905Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a03323350c65041ba3"
-  },
-  "challengeId": "CHAL-TRACK-3-01-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:03.949Z"
-  },
-  "deliverables": [
-    "Cluster deployment blueprint & maintenance budget",
-    "Governance, emergency protocol & SDG 6 outcomes pitch deck"
-  ],
-  "description": "Design a deployable model for campuses, industrial clusters, utilities or local bodies. Include sensor/data costs, maintenance, governance, payment mechanism, emergency protocols and SDG 6 outcomes.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-3-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-3-01",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:03.948Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a03323350c65041ba4"
-  },
-  "challengeId": "CHAL-TRACK-3-02-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:03.986Z"
-  },
-  "deliverables": [
-    "Harvest-to-market lifecycle loss mapping",
-    "Stakeholder loss allocation & temperature exposure analysis"
-  ],
-  "description": "Select a perishable commodity and map harvest-to-market stages, loss points, temperature exposure, quality grading and who bears each loss.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-3-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-3-02",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:44.716Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041ba5"
-  },
-  "challengeId": "CHAL-TRACK-3-02-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.024Z"
-  },
-  "deliverables": [
-    "Time-temperature & transit duration simulator dataset",
-    "Assumptions vs measured data register"
-  ],
-  "description": "Create a dataset or simulator combining time-temperature exposure, transit time, storage capacity, price changes and demand. Separate measured values from assumptions and avoid unsupported food-safety claims.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-3-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-3-02",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.024Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041ba6"
-  },
-  "challengeId": "CHAL-TRACK-3-02-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.059Z"
-  },
-  "deliverables": [
-    "Dynamic routing & post-harvest dispatch engine",
-    "Explainable trade-off matrix & low-tech fallback protocols"
-  ],
-  "description": "Build a prototype that recommends dispatch, storage, sale, processing or redistribution options with explainable trade-offs and low-tech fallback procedures.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-3-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-3-02",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.058Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041ba7"
-  },
-  "challengeId": "CHAL-TRACK-3-02-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.100Z"
-  },
-  "deliverables": [
-    "Outage & delay simulation benchmarks",
-    "Comparative loss reduction & margin analysis vs baseline"
-  ],
-  "description": "Stress-test power outages, delayed vehicles, sensor failure, price shocks and incorrect quality data. Compare estimated loss, margin, energy use and service reliability with a baseline.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-3-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-3-02",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.100Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041ba8"
-  },
-  "challengeId": "CHAL-TRACK-3-02-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.139Z"
-  },
-  "deliverables": [
-    "FPO/Aggregator operating financial model",
-    "Farmer value capture strategy & SDG 2/12 metrics pitch"
-  ],
-  "description": "Present a business model for FPOs, aggregators, cold stores, logistics firms or buyers. Include shared asset utilisation, maintenance, financing, farmer value capture and measurable SDG 2/12 outcomes.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-3-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-3-02",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.139Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041ba9"
-  },
-  "challengeId": "CHAL-TRACK-3-03-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.179Z"
-  },
-  "deliverables": [
-    "Industrial cluster input-output flow mapping",
-    "Priority circular material streams prioritization matrix"
-  ],
-  "description": "Select an industrial cluster or plausible group of firms and map inputs, outputs, rejects, energy use and waste disposal routes. Identify the material streams with the strongest potential for circular use.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-3-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-3-03",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:42.923Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041baa"
-  },
-  "challengeId": "CHAL-TRACK-3-03-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.219Z"
-  },
-  "deliverables": [
-    "Cluster material-flow inventory dataset",
-    "Confidentiality boundaries & proprietary data disclosure analysis"
-  ],
-  "description": "Create a synthetic material-flow inventory with volumes, quality grades, timing, transport distance, handling requirements and indicative costs. Identify data firms may not wish to disclose.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-3-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-3-03",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.219Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bab"
-  },
-  "challengeId": "CHAL-TRACK-3-03-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.259Z"
-  },
-  "deliverables": [
-    "By-product compatibility matching engine",
-    "Logistics/processing cost estimator with privacy filters"
-  ],
-  "description": "Build a matching and scenario tool that pairs compatible by-products with potential users, estimates logistics and processing costs, and allows firms to share only necessary information.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-3-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-3-03",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.258Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bac"
-  },
-  "challengeId": "CHAL-TRACK-3-03-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.300Z"
-  },
-  "deliverables": [
-    "Supply volatility & buyer withdrawal sensitivity test",
-    "Net diverted material, emission & cost savings calculation"
-  ],
-  "description": "Test changes in material quality, irregular supply, transport costs and a buyer withdrawing. Estimate net material diverted, cost savings, additional emissions and contamination/compliance risks.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-3-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-3-03",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.299Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bad"
-  },
-  "challengeId": "CHAL-TRACK-3-03-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.339Z"
-  },
-  "deliverables": [
-    "Cluster governance charter & fee structure",
-    "Quality assurance liability, dispute resolution & circularity audit"
-  ],
-  "description": "Develop a cluster-level revenue and governance model: membership, transaction fee, verification service or shared logistics. Specify quality assurance, liability, confidentiality, dispute resolution and auditable circularity metrics.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-3-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-3-03",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.339Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bae"
-  },
-  "challengeId": "CHAL-TRACK-3-04-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.385Z"
-  },
-  "deliverables": [
-    "Failure mode & consequence map for target machinery",
-    "Measurable baseline (downtime, specific energy consumption)"
-  ],
-  "description": "Choose one equipment/process type and map failure consequences, maintenance practice, energy use and data availability. Define a measurable baseline such as downtime, energy per unit or response time.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-3-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-3-04",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:42.248Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041baf"
-  },
-  "challengeId": "CHAL-TRACK-3-04-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.419Z"
-  },
-  "deliverables": [
-    "Labelled machine telemetry & energy dataset",
-    "Sampling frequency & fault signature taxonomy"
-  ],
-  "description": "Develop a labelled synthetic or sample dataset of operating signals, maintenance logs and energy patterns. Specify data quality, sampling frequency and plausible fault signatures.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-3-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-3-04",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.419Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb0"
-  },
-  "challengeId": "CHAL-TRACK-3-04-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.459Z"
-  },
-  "deliverables": [
-    "Predictive anomaly detection prototype",
-    "Prioritized maintenance queue & energy-use scenario comparator"
-  ],
-  "description": "Build an anomaly detection or predictive-maintenance prototype with interpretable alerts, confidence levels and a prioritised maintenance queue; add an energy-use scenario comparison.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-3-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-3-04",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.459Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb1"
-  },
-  "challengeId": "CHAL-TRACK-3-04-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.499Z"
-  },
-  "deliverables": [
-    "Sensor noise & edge-case stress test report",
-    "Precision/recall metrics & estimated TCO reduction"
-  ],
-  "description": "Test on unseen scenarios, noisy sensors, changing workloads and rare failures. Evaluate false alarms, missed events, response usefulness, estimated energy savings and total cost of ownership.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-3-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-3-04",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.498Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb2"
-  },
-  "challengeId": "CHAL-TRACK-3-04-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.539Z"
-  },
-  "deliverables": [
-    "MSME service deployment & calibration roadmap",
-    "Shared-savings / subscription revenue model & liability terms"
-  ],
-  "description": "Design a service model for MSMEs or facility managers, including installation, calibration, maintenance, subscription or shared-savings pricing, liability and verified performance metrics.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-3-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-3-04",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.539Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb3"
-  },
-  "challengeId": "CHAL-TRACK-3-05-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.579Z"
-  },
-  "deliverables": [
-    "Freight network topology (nodes, routes, lead times)",
-    "Decision-making bottleneck & failure modes inventory"
-  ],
-  "description": "Define a commodity and network with suppliers, nodes, capacity, lead times and service commitments. Identify the critical failure modes and the current decision-making bottleneck.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-3-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-3-05",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:41.179Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb4"
-  },
-  "challengeId": "CHAL-TRACK-3-05-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.619Z"
-  },
-  "deliverables": [
-    "Multi-node synthetic route cost & capacity dataset",
-    "Service-level agreement (SLA) & green emissions baseline"
-  ],
-  "description": "Create a reproducible synthetic network dataset with route costs, time windows, demand variability, capacity constraints and disruption scenarios. Define service-level and sustainability objectives.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-3-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-3-05",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.618Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb5"
-  },
-  "challengeId": "CHAL-TRACK-3-05-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.660Z"
-  },
-  "deliverables": [
-    "Multi-modal logistics simulation twin prototype",
-    "Scenario engine comparing buffers, rerouting & consolidation"
-  ],
-  "description": "Build a scenario engine or optimisation prototype comparing routing, inventory buffers, alternate suppliers, shipment consolidation and shared transport options.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-3-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-3-05",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.660Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb6"
-  },
-  "challengeId": "CHAL-TRACK-3-05-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.699Z"
-  },
-  "deliverables": [
-    "Network bottleneck & disruption stress test benchmarks",
-    "Resilience, on-time delivery & small-supplier fairness audit"
-  ],
-  "description": "Run stress tests for road closures, supplier failure, demand surges and conflicting objectives. Compare cost, delivery reliability, emissions proxy, resilience and fairness to smaller suppliers.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-3-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-3-05",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.698Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb7"
-  },
-  "challengeId": "CHAL-TRACK-3-05-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.739Z"
-  },
-  "deliverables": [
-    "B2B logistics platform roll-out blueprint",
-    "Data-sharing incentives, pricing tiers & scale-up pitch"
-  ],
-  "description": "Propose a B2B operating model for logistics providers, producer groups or regional buyers. Include onboarding, data-sharing incentives, pricing, implementation effort, cybersecurity and scale-up economics.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-3-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-3-05",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-03",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.738Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb8"
-  },
-  "challengeId": "CHAL-TRACK-4-01-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.774Z"
-  },
-  "deliverables": [
-    "Workflow friction breakdown (hours, error rates, costs)",
-    "Human-in-the-loop decision boundary definition"
-  ],
-  "description": "Select one workflow and document time, error rates, bottlenecks, skill requirements and consequences of incorrect output. Define a baseline and what decisions must remain human-approved.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-4-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-4-01",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:40.136Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bb9"
-  },
-  "challengeId": "CHAL-TRACK-4-01-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.819Z"
-  },
-  "deliverables": [
-    "MSME task/document synthetic dataset",
-    "Comparison matrix: LLM vs deterministic templates (accuracy, privacy)"
-  ],
-  "description": "Build a representative synthetic document/task set. Compare general-purpose AI, templates and a deterministic workflow; define evaluation criteria for accuracy, privacy and hallucination risk.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-4-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-4-01",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.818Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bba"
-  },
-  "challengeId": "CHAL-TRACK-4-01-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.854Z"
-  },
-  "deliverables": [
-    "Source-grounded task co-pilot prototype (not generic chatbot)",
-    "Auditable draft review & escalation trail"
-  ],
-  "description": "Prototype a narrow co-pilot with source-grounded outputs, editable drafts, escalation paths and an audit trail. Demonstrate the end-to-end workflow rather than a generic chatbot.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-4-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-4-01",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.853Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bbb"
-  },
-  "challengeId": "CHAL-TRACK-4-01-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.899Z"
-  },
-  "deliverables": [
-    "Adversarial input & data leakage stress test",
-    "Time/cost per task benchmarks vs human baseline"
-  ],
-  "description": "Test on unseen and adversarial cases, ambiguous instructions and incomplete documents. Measure task completion time, error rate, correction burden, cost per task and data leakage risks.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-4-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-4-01",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.899Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bbc"
-  },
-  "challengeId": "CHAL-TRACK-4-01-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.934Z"
-  },
-  "deliverables": [
-    "MSME unit economics & customer acquisition strategy",
-    "Inference budget, liability terms & ROI pitch deck"
-  ],
-  "description": "Build a commercially credible offering for a defined MSME segment. Include onboarding, human support, pricing, inference/tool costs, integration, liability, measurable ROI and a roadmap for responsible scale.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-4-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-4-01",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:04.934Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a13323350c65041bbd"
-  },
-  "challengeId": "CHAL-TRACK-4-02-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:04.979Z"
-  },
-  "deliverables": [
-    "Local waste stream volume & seasonality audit",
-    "Material ownership & contamination stakeholder map"
-  ],
-  "description": "Select one material stream and map source volume, seasonality, current handling, contamination and stakeholders. Establish a measurable baseline and identify who controls the material.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-4-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-4-02",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:39.059Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bbe"
-  },
-  "challengeId": "CHAL-TRACK-4-02-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.014Z"
-  },
-  "deliverables": [
-    "Buyer demand evidence & collection radius model",
-    "Regulatory quality requirements vs competing materials analysis"
-  ],
-  "description": "Research potential products and buyers; estimate collection radius, processing requirements, applicable safety/quality requirements and competing materials. Distinguish verified demand from assumptions.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-4-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-4-02",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.014Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bbf"
-  },
-  "challengeId": "CHAL-TRACK-4-02-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.060Z"
-  },
-  "deliverables": [
-    "Product/process demonstrator & material-flow model",
-    "Equipment sizing, inputs & rejects balance sheet"
-  ],
-  "description": "Build a product/service prototype or process demonstrator and a material-flow model showing yields, rejects, inputs and required equipment.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-4-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-4-02",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.059Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc0"
-  },
-  "challengeId": "CHAL-TRACK-4-02-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.094Z"
-  },
-  "deliverables": [
-    "Feedstock price & supply volatility sensitivity test",
-    "Lifecycle environmental trade-offs & quality variation report"
-  ],
-  "description": "Test demand and technical feasibility with samples or simulations. Conduct sensitivity analysis for feedstock shortages, price changes, quality variation, logistics and lifecycle trade-offs.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-4-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-4-02",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.093Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc1"
-  },
-  "challengeId": "CHAL-TRACK-4-02-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.139Z"
-  },
-  "deliverables": [
-    "Bankable financial plan (Capex, Opex, margins, working capital)",
-    "Compliance plan, local job creation & verified green metrics"
-  ],
-  "description": "Present an investable business model with supply agreements, customer validation, capex/opex, gross margin, working capital, safety/compliance plan, job creation and verified environmental indicators.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-4-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-4-02",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.139Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc2"
-  },
-  "challengeId": "CHAL-TRACK-4-03-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.174Z"
-  },
-  "deliverables": [
-    "Target worker group employment barrier journey map",
-    "Stakeholder evidence on screening biases & retention drop-offs"
-  ],
-  "description": "Select one worker group and occupational cluster. Map barriers from skill acquisition to interview, hiring, retention and progression using stakeholder evidence.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-4-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-4-03",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:38.379Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc3"
-  },
-  "challengeId": "CHAL-TRACK-4-03-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.219Z"
-  },
-  "deliverables": [
-    "Synthetic applicant & vacancy profile repository",
-    "Algorithmic non-discrimination criteria & sensitive attribute list"
-  ],
-  "description": "Create synthetic candidate and vacancy profiles with explicit skill evidence, accessibility needs and employer requirements. Define fair matching criteria and sensitive attributes that must not be used as proxies for worth.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-4-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-4-03",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.218Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc4"
-  },
-  "challengeId": "CHAL-TRACK-4-03-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.254Z"
-  },
-  "deliverables": [
-    "Skills-evidence portfolio & task verification prototype",
-    "Transparent matching workflow with applicant appeal mechanisms"
-  ],
-  "description": "Prototype a skills-evidence portfolio and explainable matching workflow, including practical task verification, candidate correction/appeal and accessible interfaces.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-4-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-4-03",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.253Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc5"
-  },
-  "challengeId": "CHAL-TRACK-4-03-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.299Z"
-  },
-  "deliverables": [
-    "Fairness & credential-tampering stress test results",
-    "Low-connectivity accessibility & employer usability review"
-  ],
-  "description": "Test matching quality, ranking fairness, employer usability, fraudulent credentials, connectivity constraints and performance across different candidate profiles. Avoid claiming job guarantees.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-4-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-4-03",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.298Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc6"
-  },
-  "challengeId": "CHAL-TRACK-4-03-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.339Z"
-  },
-  "deliverables": [
-    "Institutional / employer partnership revenue model",
-    "Anti-exploitation fee safeguards & long-term retention impact"
-  ],
-  "description": "Build a sustainable model for employers, training providers, colleges or public programmes. Include verification costs, placement/service fees or institutional funding, safeguards against exploitative charges and metrics for job quality and retention.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-4-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-4-03",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.339Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc7"
-  },
-  "challengeId": "CHAL-TRACK-4-04-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.379Z"
-  },
-  "deliverables": [
-    "Climate hazard exposure & vulnerable population mapping",
-    "Pre-, during-, and post-event critical decision register"
-  ],
-  "description": "Choose one hazard and user group; map exposure, vulnerability, existing coping measures and the decisions that must be made before, during and after an event.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-4-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-4-04",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:38.715Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc8"
-  },
-  "challengeId": "CHAL-TRACK-4-04-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.414Z"
-  },
-  "deliverables": [
-    "Multi-hazard synthetic climate & asset vulnerability dataset",
-    "Forecast uncertainty thresholds & expert validation protocol"
-  ],
-  "description": "Use public or synthetic weather, asset and service data to create scenarios. Document forecast uncertainty, data gaps and which recommendations require expert or official confirmation.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-4-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-4-04",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.413Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bc9"
-  },
-  "challengeId": "CHAL-TRACK-4-04-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.458Z"
-  },
-  "deliverables": [
-    "Actionable climate decision-support prototype",
-    "Vernacular alert system & cooperative resource coordination dashboard"
-  ],
-  "description": "Build an actionable decision-support prototype: alerts with confidence, preparedness checklists, resource coordination, continuity planning or a locally appropriate adaptation service.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-4-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-4-04",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.458Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bca"
-  },
-  "challengeId": "CHAL-TRACK-4-04-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.496Z"
-  },
-  "deliverables": [
-    "Blackout / network outage scenario simulation",
-    "False-alarm audit, response time metrics & inclusion assessment"
-  ],
-  "description": "Run scenario exercises for false alarms, missed events, power/network loss and unequal access to resources. Measure actionability, response time, inclusion and potential unintended harm.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-4-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-4-04",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.496Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bcb"
-  },
-  "challengeId": "CHAL-TRACK-4-04-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.538Z"
-  },
-  "deliverables": [
-    "Community cooperative / local body financing blueprint",
-    "Service delivery cost, maintenance plan & resilience outcomes pitch"
-  ],
-  "description": "Create a business and partnership model with cooperatives, employers, local bodies, insurers or community organisations. Show willingness to pay, service delivery cost, maintenance, safeguards and resilience outcomes.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-4-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-4-04",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.538Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bcc"
-  },
-  "challengeId": "CHAL-TRACK-4-05-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.576Z"
-  },
-  "deliverables": [
-    "Small enterprise AI adoption footprint & accountability map",
-    "Harm assessment & stakeholder risk exposure baseline"
-  ],
-  "description": "Choose a small organisation and map where AI is used or likely to be adopted, what decisions it influences, who may be harmed and who is accountable.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-4-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-4-05",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:39.435Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bcd"
-  },
-  "challengeId": "CHAL-TRACK-4-05-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.618Z"
-  },
-  "deliverables": [
-    "Lightweight AI risk taxonomy (privacy, bias, hallucination)",
-    "Vendor dependency & data rights audit inventory"
-  ],
-  "description": "Create a risk taxonomy and sample inventory covering data rights, privacy, bias, security, accuracy, explainability, vendor dependency and human oversight.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-4-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-4-05",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.618Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bce"
-  },
-  "challengeId": "CHAL-TRACK-4-05-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.659Z"
-  },
-  "deliverables": [
-    "Automated governance checklist & vendor card prototype",
-    "Prioritized action generator & incident log workflow"
-  ],
-  "description": "Prototype a lightweight assessment workflow, evidence register, model/vendor card, testing checklist or incident log that generates prioritised actions rather than a generic policy document.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-4-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-4-05",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.658Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bcf"
-  },
-  "challengeId": "CHAL-TRACK-4-05-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.700Z"
-  },
-  "deliverables": [
-    "Dual use-case stress test (fintech vs HR AI deployment)",
-    "Usability time audit, false assurance checks & auditability report"
-  ],
-  "description": "Run the toolkit against two contrasting synthetic use cases and a failure scenario. Test completeness, usability, auditability, false assurance and the time required for a small team to operate it.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-4-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-4-05",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.700Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbb7a23323350c65041bd0"
-  },
-  "challengeId": "CHAL-TRACK-4-05-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:38:05.745Z"
-  },
-  "deliverables": [
-    "Managed compliance service model for small organizations",
-    "Pricing tiers, liability boundaries & governance maturity roadmap"
-  ],
-  "description": "Design a viable product or managed-service model for SMEs, colleges, NGOs or professional advisers. Include update costs, expert escalation, liability limits, customer acquisition and measurable improvement in governance maturity.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-4-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-4-05",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-04",
-  "updatedAt": {
-    "$date": "2026-10-23T19:38:05.745Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1a3323350c65041bf5"
-  },
-  "challengeId": "CHAL-TRACK-1-01-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:37.344Z"
-  },
-  "deliverables": [
-    "Worker persona journey map (income cycles & shocks)",
-    "Baseline audit for emergency savings & harmful borrowing"
-  ],
-  "description": "Define two contrasting worker personas and map income cycles, expense shocks and current coping mechanisms. Establish a measurable baseline for missed essentials, emergency savings or harmful borrowing using ethical, anonymised research.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-1-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-1-01",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:39.781Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bf6"
-  },
-  "challengeId": "CHAL-TRACK-1-01-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:37.707Z"
-  },
-  "deliverables": [
-    "Cash-flow volatility simulator dataset",
-    "Rule-based vs explainable AI model comparison & data privacy boundary"
-  ],
-  "description": "Create a transparent cash-flow dataset or simulator with seasonality, delayed wages, medical shocks and family obligations. Compare rule-based forecasting with an explainable AI approach; state what data must never be collected.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-1-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-1-01",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:37.706Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bf7"
-  },
-  "challengeId": "CHAL-TRACK-1-01-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.084Z"
-  },
-  "deliverables": [
-    "Multilingual financial resilience planner prototype",
-    "Transparent recommendation audit trail & user correction workflow"
-  ],
-  "description": "Prototype a multilingual resilience planner with scenario simulation, safe nudges and referrals to verified formal services. Show how users can correct data and understand why a recommendation was generated.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-1-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-1-01",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.084Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bf8"
-  },
-  "challengeId": "CHAL-TRACK-1-01-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.120Z"
-  },
-  "deliverables": [
-    "Zero-income & shock simulation stress test results",
-    "Accuracy, offline usability & harm mitigation benchmark"
-  ],
-  "description": "Stress-test low-income, zero-income and unexpected-expense scenarios. Evaluate forecast error, accessibility, bias, privacy, offline operation and whether recommendations could increase financial harm.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-1-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-1-01",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.120Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bf9"
-  },
-  "challengeId": "CHAL-TRACK-1-01-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.168Z"
-  },
-  "deliverables": [
-    "Stakeholder financial sustainability model & unit costs",
-    "Non-predatory governance plan & SDG 1/8/10 pitch deck"
-  ],
-  "description": "Present a sustainable model for employers, worker collectives, NGOs or financial institutions. Include who pays, consent and governance, unit costs, non-predatory safeguards, adoption plan and measurable SDG 1/8/10 outcomes.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-1-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-1-01",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.167Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bfa"
-  },
-  "challengeId": "CHAL-TRACK-1-02-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.214Z"
-  },
-  "deliverables": [
-    "MSME financing journey friction breakdown",
-    "Credit readiness vs underwriting separation framework"
-  ],
-  "description": "Map the financing journey for a defined MSME segment and identify documentation, cash-flow visibility and trust barriers. Distinguish credit readiness from actual lender underwriting.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-1-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-1-02",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:40.483Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bfb"
-  },
-  "challengeId": "CHAL-TRACK-1-02-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.253Z"
-  },
-  "deliverables": [
-    "Thin-file MSME synthetic transaction dataset",
-    "Fair feature registry & prohibited proxies definition"
-  ],
-  "description": "Build a synthetic or consented dataset representing seasonality, late payments, thin-file businesses and missing records. Define fair, relevant features and prohibited proxies; document data provenance.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-1-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-1-02",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.253Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bfc"
-  },
-  "challengeId": "CHAL-TRACK-1-02-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.298Z"
-  },
-  "deliverables": [
-    "Explainable credit readiness dashboard prototype",
-    "Actionable documentation gap analyzer with uncertainty scores"
-  ],
-  "description": "Develop an explainable readiness dashboard that highlights documentation gaps, cash-flow stress and actionable improvements, with uncertainty and reasons visible to the user.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-1-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-1-02",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.298Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bfd"
-  },
-  "challengeId": "CHAL-TRACK-1-02-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.348Z"
-  },
-  "deliverables": [
-    "Disparate outcome & manipulation stress test report",
-    "Benchmark comparison against rule-based baseline & threat review"
-  ],
-  "description": "Test for disparate outcomes across plausible business profiles, missing-data sensitivity, manipulation and misleading confidence. Compare results with a transparent rule-based baseline and conduct a privacy threat review.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-1-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-1-02",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.348Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bfe"
-  },
-  "challengeId": "CHAL-TRACK-1-02-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.384Z"
-  },
-  "deliverables": [
-    "B2B2B commercial deployment model & verification pricing",
-    "Liability disclaimer framework & impact metrics pitch"
-  ],
-  "description": "Design a B2B2B model for incubators, accountants, MSME associations or lenders. Specify pricing, verification cost, liability boundaries, consent, financial assumptions and impact measures without promising loan approval.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-1-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-1-02",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.384Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041bff"
-  },
-  "challengeId": "CHAL-TRACK-1-03-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.418Z"
-  },
-  "deliverables": [
-    "Digital payment scam journey & critical intervention point",
-    "Threat actor taxonomy & false-positive tolerance boundary"
-  ],
-  "description": "Map a realistic scam journey and identify the moment when a user can still prevent harm. Define threat actors, user groups, acceptable false-positive/false-negative trade-offs and the limits of a 24-hour prototype.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-1-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-1-03",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:40.831Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c00"
-  },
-  "challengeId": "CHAL-TRACK-1-03-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.458Z"
-  },
-  "deliverables": [
-    "Synthetic scam vs legitimate message corpus (regional languages)",
-    "Annotation rubric & privacy-safe evaluation split"
-  ],
-  "description": "Create a safe, synthetic corpus of scam and legitimate examples, including regional-language variations and adversarial wording. Establish labelling rules and a privacy-safe evaluation set.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-1-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-1-03",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.457Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c01"
-  },
-  "challengeId": "CHAL-TRACK-1-03-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.493Z"
-  },
-  "deliverables": [
-    "Risk triage assistant prototype with warning explanations",
-    "Independent verification wizard & safe response checklist"
-  ],
-  "description": "Prototype a multimodal or text-first risk triage tool that explains warning signs, suggests independent verification and routes users to a safe response checklist rather than automatically blocking transactions.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-1-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-1-03",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.493Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c02"
-  },
-  "challengeId": "CHAL-TRACK-1-03-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.529Z"
-  },
-  "deliverables": [
-    "Adversarial prompt injection & precision/recall audit",
-    "Credential privacy security guarantee certification"
-  ],
-  "description": "Evaluate precision, recall, false alarms, language performance, prompt-injection/adversarial cases and user comprehension. Demonstrate that it never requests PINs, passwords, OTPs or full payment credentials.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-1-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-1-03",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.529Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c03"
-  },
-  "challengeId": "CHAL-TRACK-1-03-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.573Z"
-  },
-  "deliverables": [
-    "Distribution partnership roll-out plan & unit economics",
-    "Incident escalation protocol & harm-reduction pitch deck"
-  ],
-  "description": "Propose distribution through banks, merchants, campuses or consumer organisations. Model cost per user, incident escalation, content updates, liability, trust and measurable harm-reduction outcomes.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-1-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-1-03",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.573Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c04"
-  },
-  "challengeId": "CHAL-TRACK-1-04-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.608Z"
-  },
-  "deliverables": [
-    "Crop climate-shock pathway & geographical boundary",
-    "Weather trigger vs actual yield loss basis analysis"
-  ],
-  "description": "Select a crop/livelihood and define the shock, affected geography and financial loss pathway. Map current coping strategies and establish the difference between a weather trigger and actual loss.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-1-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-1-04",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:41.517Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c05"
-  },
-  "challengeId": "CHAL-TRACK-1-04-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.654Z"
-  },
-  "deliverables": [
-    "Historical weather trigger candidate dataset",
-    "Basis risk documentation & resolution limitations analysis"
-  ],
-  "description": "Use public or synthetic weather/yield data to study trigger candidates, historical coverage gaps and potential basis risk. Document data resolution, missing observations and limitations.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-1-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-1-04",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.654Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c06"
-  },
-  "challengeId": "CHAL-TRACK-1-04-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.693Z"
-  },
-  "deliverables": [
-    "Parametric trigger simulator prototype",
-    "Transparent payout rationale comparator with uncertainty bounds"
-  ],
-  "description": "Prototype a transparent trigger simulator that explains when a payout would or would not occur, shows uncertainty and lets users compare alternative trigger designs.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-1-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-1-04",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.693Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c07"
-  },
-  "challengeId": "CHAL-TRACK-1-04-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.745Z"
-  },
-  "deliverables": [
-    "Extreme weather historical back-test simulation",
-    "False payout vs missed event error rate matrix"
-  ],
-  "description": "Back-test the concept on held-out periods or simulated extreme events. Measure missed-event and false-payout rates, affordability, accessibility and impacts on different producer profiles.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-1-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-1-04",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.745Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c08"
-  },
-  "challengeId": "CHAL-TRACK-1-04-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.784Z"
-  },
-  "deliverables": [
-    "Licensed insurer / cooperative distribution model",
-    "Consumer grievance handling, disclosures & SDG impact pitch"
-  ],
-  "description": "Develop a responsible partnership model involving licensed insurers, cooperatives, data providers or public programmes. Include distribution costs, consumer disclosures, grievance handling, regulatory dependencies and SDG impact metrics.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-1-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-1-04",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.784Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c09"
-  },
-  "challengeId": "CHAL-TRACK-1-05-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.818Z"
-  },
-  "deliverables": [
-    "Entitlement access barrier journey map",
-    "Language, disability & connectivity friction point inventory"
-  ],
-  "description": "Choose a clearly defined user group and map the journey from awareness to application, including language, disability, connectivity and documentation barriers.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-1-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-1-05",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:41.884Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c0a"
-  },
-  "challengeId": "CHAL-TRACK-1-05-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.853Z"
-  },
-  "deliverables": [
-    "Verified welfare scheme knowledge base dataset",
-    "Rule ambiguity taxonomy & source versioning protocol"
-  ],
-  "description": "Create a verified sample knowledge base from publicly available official information. Define a source/date/version protocol and identify ambiguous rules that require human review.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-1-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-1-05",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.852Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c0b"
-  },
-  "challengeId": "CHAL-TRACK-1-05-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.887Z"
-  },
-  "deliverables": [
-    "Multilingual entitlement guidance prototype with citations",
-    "Printable/offline application checklist generator"
-  ],
-  "description": "Build a multilingual retrieval-and-guidance prototype that cites its source, date and eligibility caveats, asks only necessary questions and provides a printable/offline action plan.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-1-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-1-05",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.887Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c0c"
-  },
-  "challengeId": "CHAL-TRACK-1-05-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.928Z"
-  },
-  "deliverables": [
-    "Hallucination resistance & outdated rule handling stress test",
-    "Official channel escalation & abstention reliability benchmark"
-  ],
-  "description": "Test factual accuracy, stale-information handling, ambiguous cases, accessibility, hallucination resistance and privacy. The prototype must abstain and refer users to official channels when evidence is insufficient.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-1-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-1-05",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.927Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1b3323350c65041c0d"
-  },
-  "challengeId": "CHAL-TRACK-1-05-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:38.984Z"
-  },
-  "deliverables": [
-    "CSC/NGO community deployment operating plan",
-    "Anti-predatory zero-fee safeguards & public funding pitch"
-  ],
-  "description": "Model deployment through community service centres, colleges, NGOs or local bodies. Explain verification operations, update responsibilities, funding, user support and safeguards against charging vulnerable users for free entitlements.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-1-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-1-05",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-01",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:38.984Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c0e"
-  },
-  "challengeId": "CHAL-TRACK-2-01-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.023Z"
-  },
-  "deliverables": [
-    "Producer economics & route-to-market constraint map",
-    "Core commercial pricing/channel decision boundary"
-  ],
-  "description": "Select a producer category and map product economics, capacity, seasonality, buyer types and current route-to-market constraints. Define the commercial decision the system must improve.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-2-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-2-01",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:44.021Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c0f"
-  },
-  "challengeId": "CHAL-TRACK-2-01-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.058Z"
-  },
-  "deliverables": [
-    "Synthetic multi-tier sales & demand dataset",
-    "Buyer segmentation matrix (actual purchases vs click vanity metrics)"
-  ],
-  "description": "Combine synthetic or permissioned sales data with structured customer research and competitor observations. Segment buyers and distinguish demonstrated demand from clicks, likes or stated interest.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-2-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-2-01",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.057Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c10"
-  },
-  "challengeId": "CHAL-TRACK-2-01-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.093Z"
-  },
-  "deliverables": [
-    "Market intelligence recommendation engine prototype",
-    "Transparent pricing & channel mix confidence dashboard"
-  ],
-  "description": "Prototype an AI-assisted market intelligence workflow that recommends a target segment, product positioning, price tests and channel mix while exposing evidence and confidence.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-2-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-2-01",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.093Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c11"
-  },
-  "challengeId": "CHAL-TRACK-2-01-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.128Z"
-  },
-  "deliverables": [
-    "Logistics surge & low-demand stress test benchmarks",
-    "Recommendation stability & net producer margin evaluation"
-  ],
-  "description": "Run scenario tests for low demand, rising logistics costs, competitor entry and production limits. Evaluate forecast error, recommendation stability, customer acquisition cost and producer margin.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-2-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-2-01",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.127Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c12"
-  },
-  "challengeId": "CHAL-TRACK-2-01-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.163Z"
-  },
-  "deliverables": [
-    "Fair producer-first commercial business model",
-    "Fulfilment economics, quality assurance & margin pitch deck"
-  ],
-  "description": "Build a go-to-market model with producer onboarding, quality assurance, channel partners, fulfilment, pricing/commission, returns and repeat-purchase economics. Show how value reaches the producer, not only the platform.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-2-01",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-2-01",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.162Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c13"
-  },
-  "challengeId": "CHAL-TRACK-2-02-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.197Z"
-  },
-  "deliverables": [
-    "Surplus generation lifecycle & disposal route mapping",
-    "Safe handling boundary & decision window baseline"
-  ],
-  "description": "Map surplus generation, timing, food categories, current disposal routes and recipient constraints for one setting. Define baseline waste, safe handling boundaries and the decision window.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-2-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-2-02",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:42.591Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c14"
-  },
-  "challengeId": "CHAL-TRACK-2-02-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.233Z"
-  },
-  "deliverables": [
-    "Time-sensitive food surplus & perishability dataset",
-    "Transport capacity, distance & missed pickup uncertainty matrix"
-  ],
-  "description": "Develop a time-sensitive synthetic dataset for surplus volume, shelf-life, distance, recipient demand, transport capacity and missed pickups. Identify uncertainty and data owners.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-2-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-2-02",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.233Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c15"
-  },
-  "challengeId": "CHAL-TRACK-2-02-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.278Z"
-  },
-  "deliverables": [
-    "Surplus food allocation & routing prototype",
-    "Safe feasibility score engine & emergency fallback protocols"
-  ],
-  "description": "Build a forecasting-and-matching prototype that prioritises safe, feasible transfers using time, distance, capacity and recipient need; include fallback handling when no match is possible.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-2-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-2-02",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.277Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c16"
-  },
-  "challengeId": "CHAL-TRACK-2-02-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.314Z"
-  },
-  "deliverables": [
-    "Peak cancellation & traffic disruption simulation",
-    "Recovery rate, spoilage reduction & compliance benchmarks"
-  ],
-  "description": "Simulate peak days, cancelled pickups, traffic delays and demand mismatch. Measure edible quantity recovered, spoilage, delivery cost, match completion and safety-rule compliance.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-2-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-2-02",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.313Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c17"
-  },
-  "challengeId": "CHAL-TRACK-2-02-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.358Z"
-  },
-  "deliverables": [
-    "Multi-stakeholder operating & funding model",
-    "Food-safety liability terms & auditable SDG 12.3 pitch"
-  ],
-  "description": "Design a viable multi-sided operating model with kitchens/retailers, logistics providers, recipient organisations and funders. Specify liability, verification, cold-chain dependencies, incentives and auditable SDG 12.3 metrics.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-2-02",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-2-02",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.358Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c18"
-  },
-  "challengeId": "CHAL-TRACK-2-03-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.393Z"
-  },
-  "deliverables": [
-    "Customer decision journey & core outcome metrics",
-    "Sensitive data boundary & prohibited targeting registry"
-  ],
-  "description": "Map a customer decision journey and define a measurable outcome such as repeat purchase, service completion or reduced complaint resolution time. Identify sensitive data and unacceptable forms of targeting.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-2-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-2-03",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:43.649Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c19"
-  },
-  "challengeId": "CHAL-TRACK-2-03-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.438Z"
-  },
-  "deliverables": [
-    "Synthetic consumer dataset with consent preferences",
-    "Access control, retention & deletion compliance framework"
-  ],
-  "description": "Construct a synthetic customer dataset with missingness, imbalance and consent preferences. Define aggregation, retention, access control and deletion requirements before modelling.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-2-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-2-03",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.438Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c1a"
-  },
-  "challengeId": "CHAL-TRACK-2-03-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.474Z"
-  },
-  "deliverables": [
-    "Privacy-first next-best-action prototype",
-    "Consent choice manager & non-personalized fallback interface"
-  ],
-  "description": "Prototype a segmentation or next-best-action tool that uses explainable features, supports consent choices and provides a non-personalised alternative. Make recommendations actionable for a small business.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-2-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-2-03",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.473Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c1b"
-  },
-  "challengeId": "CHAL-TRACK-2-03-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.518Z"
-  },
-  "deliverables": [
-    "Opt-out performance & privacy leakage stress test",
-    "Fairness audit against consumer vulnerability exploitation"
-  ],
-  "description": "Test lift against a simple baseline, segment stability, bias, privacy leakage risks and performance when users opt out. Evaluate whether recommendations could exploit vulnerability or discriminate.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-2-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-2-03",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.518Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c1c"
-  },
-  "challengeId": "CHAL-TRACK-2-03-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.556Z"
-  },
-  "deliverables": [
-    "SME commercial SaaS / subscription model",
-    "Data governance policy, prohibited uses & incremental ROI pitch"
-  ],
-  "description": "Present a business model for SMEs or sector associations, including implementation burden, pricing, data governance, measurable incremental value and a clear policy for prohibited uses.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-2-03",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-2-03",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.556Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c1d"
-  },
-  "challengeId": "CHAL-TRACK-2-04-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.598Z"
-  },
-  "deliverables": [
-    "Product claim typology & distribution channel mapping",
-    "Consumer harm & greenwashing impact baseline"
-  ],
-  "description": "Choose a product category and claim types with meaningful consumer or environmental consequences. Map how claims reach consumers and define the harm caused by unsupported claims.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-2-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-2-04",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:44.375Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c1e"
-  },
-  "challengeId": "CHAL-TRACK-2-04-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.634Z"
-  },
-  "deliverables": [
-    "Traceable public claims vs primary sources corpus",
-    "Source credibility rubric & human review protocol"
-  ],
-  "description": "Build a small, traceable corpus of public claims and reliable primary sources. Establish claim categories, source credibility rules, date/version tracking and human review procedures.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-2-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-2-04",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.633Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c1f"
-  },
-  "challengeId": "CHAL-TRACK-2-04-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.679Z"
-  },
-  "deliverables": [
-    "Retrieval-grounded green-claim verification prototype",
-    "Evidence citation panel & abstention confidence display"
-  ],
-  "description": "Prototype a retrieval-based claim-checking assistant that quotes or links evidence, explains confidence and disagreement, translates carefully and abstains when sources are inadequate.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-2-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-2-04",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.678Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c20"
-  },
-  "challengeId": "CHAL-TRACK-2-04-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.714Z"
-  },
-  "deliverables": [
-    "Adversarial claim phrasing & stale evidence stress test",
-    "Epistemic certainty audit (absence of evidence distinction)"
-  ],
-  "description": "Evaluate source faithfulness, translation fidelity, false certainty, stale evidence, adversarial phrasing and user comprehension. Test whether the tool can distinguish absence of evidence from evidence of absence.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-2-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-2-04",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.713Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c21"
-  },
-  "challengeId": "CHAL-TRACK-2-04-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.758Z"
-  },
-  "deliverables": [
-    "Independent verification business & revenue model",
-    "Conflict-of-interest safeguards & trust metric pitch deck"
-  ],
-  "description": "Design a sustainable verification model for consumer groups, marketplaces, media, educational institutions or brands. Include reviewer costs, conflict-of-interest safeguards, correction procedures and trust/impact metrics.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-2-04",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-2-04",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.758Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c22"
-  },
-  "challengeId": "CHAL-TRACK-2-05-1",
-  "__v": 0,
-  "challengeNumber": 1,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.796Z"
-  },
-  "deliverables": [
-    "Shirdi visitor pilgrimage journey map",
-    "Stakeholder indicator inventory without sensitive personal profiling"
-  ],
-  "description": "Map the visitor journey across arrival, accommodation, local transport, food, worship and departure. Identify stakeholder needs and candidate indicators without collecting sensitive religious profiles.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 1,
-  "psId": "TRACK-2-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 1 for TRACK-2-05",
-  "timeframe": "Milestone Phase 1",
-  "title": "Challenge 1: Problem discovery and baseline",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T20:23:43.293Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c23"
-  },
-  "challengeId": "CHAL-TRACK-2-05-2",
-  "__v": 0,
-  "challengeNumber": 2,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.838Z"
-  },
-  "deliverables": [
-    "Synthetic festival peak & transport capacity demand dataset",
-    "Data permission requirements & estimation boundaries"
-  ],
-  "description": "Create a synthetic demand model using arrival peaks, transport capacity, public-service constraints, weather and event calendars. Identify what data would require permissions and what can be estimated safely.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 2,
-  "psId": "TRACK-2-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 2 for TRACK-2-05",
-  "timeframe": "Milestone Phase 2",
-  "title": "Challenge 2: Evidence, data and system analysis",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.838Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c24"
-  },
-  "challengeId": "CHAL-TRACK-2-05-3",
-  "__v": 0,
-  "challengeNumber": 3,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.874Z"
-  },
-  "deliverables": [
-    "Pilgrim crowd-flow & local commerce decision-support prototype",
-    "Multilingual service discovery & congestion advisory dashboard"
-  ],
-  "description": "Build a decision-support prototype for demand scenarios, multilingual service information, crowd-aware recommendations or local-business discovery; avoid claiming real-time accuracy without live data.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 3,
-  "psId": "TRACK-2-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 3 for TRACK-2-05",
-  "timeframe": "Milestone Phase 3",
-  "title": "Challenge 3: Prototype and technical/operational design",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.874Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c25"
-  },
-  "challengeId": "CHAL-TRACK-2-05-4",
-  "__v": 0,
-  "challengeNumber": 4,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.918Z"
-  },
-  "deliverables": [
-    "Festival crowding & network disruption stress test",
-    "Queue proxy reduction & local merchant spend distribution audit"
-  ],
-  "description": "Stress-test festival peaks, disruptions, accessibility needs and low-connectivity conditions. Measure queue or travel-time proxies, local-spend distribution, waste/service load and fairness of recommendations.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 4,
-  "psId": "TRACK-2-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 4 for TRACK-2-05",
-  "timeframe": "Milestone Phase 4",
-  "title": "Challenge 4: Stress test, validation and impact",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.918Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6adbba1c3323350c65041c26"
-  },
-  "challengeId": "CHAL-TRACK-2-05-5",
-  "__v": 0,
-  "challengeNumber": 5,
-  "createdAt": {
-    "$date": "2026-10-23T19:48:39.954Z"
-  },
-  "deliverables": [
-    "Public-private-community regional governance model",
-    "Local artisan / vendor economic empowerment & SDG 8/11/12 pitch"
-  ],
-  "description": "Propose a public-private-community business model that benefits small local enterprises while protecting public-interest functions. Include data governance, stakeholder incentives, operational costs and SDG 8/11/12 indicators.",
-  "documentName": "",
-  "documentSize": "",
-  "documentUrl": "",
-  "isEnabled": false,
-  "order": 5,
-  "psId": "TRACK-2-05",
-  "subTrack": "",
-  "subtitle": "Dedicated Challenge 5 for TRACK-2-05",
-  "timeframe": "Milestone Phase 5",
-  "title": "Challenge 5: Business model, deployment and investment pitch",
-  "trackId": "TRK-02",
-  "updatedAt": {
-    "$date": "2026-10-23T19:48:39.954Z"
-  }
-}]
+[
+  {
+    "_id": {
+      "$oid": "6adbb7a03323350c65041b9f"
+    },
+    "challengeId": "CHAL-TRACK-3-01-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:03.428Z"
+    },
+    "deliverables": [
+      "System boundary map (sources, storage, demand groups)",
+      "Baseline reliability audit & equity metric definition"
+    ],
+    "description": "Choose a defined system boundary and map sources, storage, demand groups, losses and service interruptions. Define baseline reliability and an equity measure for allocation.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 1,
+    "psId": "TRACK-3-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-3-01",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:38.050Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a03323350c65041ba0"
+    },
+    "challengeId": "CHAL-TRACK-3-01-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:03.821Z"
+    },
+    "deliverables": [
+      "Synthetic water-balance dataset & weather scenarios",
+      "Sensor uncertainty & missing condition documentation"
+    ],
+    "description": "Build a water-balance dataset using sample or synthetic readings, weather scenarios, occupancy/production schedules and leak events. Document uncertainty and missing sensor conditions.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-3-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-3-01",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:03.821Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a03323350c65041ba1"
+    },
+    "challengeId": "CHAL-TRACK-3-01-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:03.860Z"
+    },
+    "deliverables": [
+      "Demand forecasting & anomaly detection prototype",
+      "Explainable alert panel with operator manual override"
+    ],
+    "description": "Prototype demand forecasting, anomaly detection or allocation scenarios with understandable explanations and a manual override for operators.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-3-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-3-01",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:03.860Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a03323350c65041ba2"
+    },
+    "challengeId": "CHAL-TRACK-3-01-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:03.905Z"
+    },
+    "deliverables": [
+      "Stress test report (drought, spikes, sensor failures)",
+      "Accuracy metrics (forecast error, detection time, avoided loss)"
+    ],
+    "description": "Test drought, sudden demand spikes, sensor failure and conflicting stakeholder needs. Measure forecast error, time to detect anomalies, avoided loss estimates and distributional consequences.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-3-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-3-01",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:03.905Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a03323350c65041ba3"
+    },
+    "challengeId": "CHAL-TRACK-3-01-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:03.949Z"
+    },
+    "deliverables": [
+      "Cluster deployment blueprint & maintenance budget",
+      "Governance, emergency protocol & SDG 6 outcomes pitch deck"
+    ],
+    "description": "Design a deployable model for campuses, industrial clusters, utilities or local bodies. Include sensor/data costs, maintenance, governance, payment mechanism, emergency protocols and SDG 6 outcomes.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-3-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-3-01",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:03.948Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a03323350c65041ba4"
+    },
+    "challengeId": "CHAL-TRACK-3-02-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:03.986Z"
+    },
+    "deliverables": [
+      "Harvest-to-market lifecycle loss mapping",
+      "Stakeholder loss allocation & temperature exposure analysis"
+    ],
+    "description": "Select a perishable commodity and map harvest-to-market stages, loss points, temperature exposure, quality grading and who bears each loss.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-3-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-3-02",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:44.716Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041ba5"
+    },
+    "challengeId": "CHAL-TRACK-3-02-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.024Z"
+    },
+    "deliverables": [
+      "Time-temperature & transit duration simulator dataset",
+      "Assumptions vs measured data register"
+    ],
+    "description": "Create a dataset or simulator combining time-temperature exposure, transit time, storage capacity, price changes and demand. Separate measured values from assumptions and avoid unsupported food-safety claims.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-3-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-3-02",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.024Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041ba6"
+    },
+    "challengeId": "CHAL-TRACK-3-02-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.059Z"
+    },
+    "deliverables": [
+      "Dynamic routing & post-harvest dispatch engine",
+      "Explainable trade-off matrix & low-tech fallback protocols"
+    ],
+    "description": "Build a prototype that recommends dispatch, storage, sale, processing or redistribution options with explainable trade-offs and low-tech fallback procedures.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-3-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-3-02",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.058Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041ba7"
+    },
+    "challengeId": "CHAL-TRACK-3-02-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.100Z"
+    },
+    "deliverables": [
+      "Outage & delay simulation benchmarks",
+      "Comparative loss reduction & margin analysis vs baseline"
+    ],
+    "description": "Stress-test power outages, delayed vehicles, sensor failure, price shocks and incorrect quality data. Compare estimated loss, margin, energy use and service reliability with a baseline.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-3-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-3-02",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.100Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041ba8"
+    },
+    "challengeId": "CHAL-TRACK-3-02-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.139Z"
+    },
+    "deliverables": [
+      "FPO/Aggregator operating financial model",
+      "Farmer value capture strategy & SDG 2/12 metrics pitch"
+    ],
+    "description": "Present a business model for FPOs, aggregators, cold stores, logistics firms or buyers. Include shared asset utilisation, maintenance, financing, farmer value capture and measurable SDG 2/12 outcomes.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-3-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-3-02",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.139Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041ba9"
+    },
+    "challengeId": "CHAL-TRACK-3-03-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.179Z"
+    },
+    "deliverables": [
+      "Industrial cluster input-output flow mapping",
+      "Priority circular material streams prioritization matrix"
+    ],
+    "description": "Select an industrial cluster or plausible group of firms and map inputs, outputs, rejects, energy use and waste disposal routes. Identify the material streams with the strongest potential for circular use.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-3-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-3-03",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:42.923Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041baa"
+    },
+    "challengeId": "CHAL-TRACK-3-03-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.219Z"
+    },
+    "deliverables": [
+      "Cluster material-flow inventory dataset",
+      "Confidentiality boundaries & proprietary data disclosure analysis"
+    ],
+    "description": "Create a synthetic material-flow inventory with volumes, quality grades, timing, transport distance, handling requirements and indicative costs. Identify data firms may not wish to disclose.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-3-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-3-03",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.219Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bab"
+    },
+    "challengeId": "CHAL-TRACK-3-03-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.259Z"
+    },
+    "deliverables": [
+      "By-product compatibility matching engine",
+      "Logistics/processing cost estimator with privacy filters"
+    ],
+    "description": "Build a matching and scenario tool that pairs compatible by-products with potential users, estimates logistics and processing costs, and allows firms to share only necessary information.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-3-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-3-03",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.258Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bac"
+    },
+    "challengeId": "CHAL-TRACK-3-03-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.300Z"
+    },
+    "deliverables": [
+      "Supply volatility & buyer withdrawal sensitivity test",
+      "Net diverted material, emission & cost savings calculation"
+    ],
+    "description": "Test changes in material quality, irregular supply, transport costs and a buyer withdrawing. Estimate net material diverted, cost savings, additional emissions and contamination/compliance risks.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-3-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-3-03",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.299Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bad"
+    },
+    "challengeId": "CHAL-TRACK-3-03-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.339Z"
+    },
+    "deliverables": [
+      "Cluster governance charter & fee structure",
+      "Quality assurance liability, dispute resolution & circularity audit"
+    ],
+    "description": "Develop a cluster-level revenue and governance model: membership, transaction fee, verification service or shared logistics. Specify quality assurance, liability, confidentiality, dispute resolution and auditable circularity metrics.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-3-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-3-03",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.339Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bae"
+    },
+    "challengeId": "CHAL-TRACK-3-04-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.385Z"
+    },
+    "deliverables": [
+      "Failure mode & consequence map for target machinery",
+      "Measurable baseline (downtime, specific energy consumption)"
+    ],
+    "description": "Choose one equipment/process type and map failure consequences, maintenance practice, energy use and data availability. Define a measurable baseline such as downtime, energy per unit or response time.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-3-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-3-04",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:42.248Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041baf"
+    },
+    "challengeId": "CHAL-TRACK-3-04-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.419Z"
+    },
+    "deliverables": [
+      "Labelled machine telemetry & energy dataset",
+      "Sampling frequency & fault signature taxonomy"
+    ],
+    "description": "Develop a labelled synthetic or sample dataset of operating signals, maintenance logs and energy patterns. Specify data quality, sampling frequency and plausible fault signatures.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-3-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-3-04",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.419Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb0"
+    },
+    "challengeId": "CHAL-TRACK-3-04-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.459Z"
+    },
+    "deliverables": [
+      "Predictive anomaly detection prototype",
+      "Prioritized maintenance queue & energy-use scenario comparator"
+    ],
+    "description": "Build an anomaly detection or predictive-maintenance prototype with interpretable alerts, confidence levels and a prioritised maintenance queue; add an energy-use scenario comparison.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-3-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-3-04",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.459Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb1"
+    },
+    "challengeId": "CHAL-TRACK-3-04-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.499Z"
+    },
+    "deliverables": [
+      "Sensor noise & edge-case stress test report",
+      "Precision/recall metrics & estimated TCO reduction"
+    ],
+    "description": "Test on unseen scenarios, noisy sensors, changing workloads and rare failures. Evaluate false alarms, missed events, response usefulness, estimated energy savings and total cost of ownership.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-3-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-3-04",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.498Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb2"
+    },
+    "challengeId": "CHAL-TRACK-3-04-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.539Z"
+    },
+    "deliverables": [
+      "MSME service deployment & calibration roadmap",
+      "Shared-savings / subscription revenue model & liability terms"
+    ],
+    "description": "Design a service model for MSMEs or facility managers, including installation, calibration, maintenance, subscription or shared-savings pricing, liability and verified performance metrics.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-3-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-3-04",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.539Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb3"
+    },
+    "challengeId": "CHAL-TRACK-3-05-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.579Z"
+    },
+    "deliverables": [
+      "Freight network topology (nodes, routes, lead times)",
+      "Decision-making bottleneck & failure modes inventory"
+    ],
+    "description": "Define a commodity and network with suppliers, nodes, capacity, lead times and service commitments. Identify the critical failure modes and the current decision-making bottleneck.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-3-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-3-05",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:41.179Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb4"
+    },
+    "challengeId": "CHAL-TRACK-3-05-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.619Z"
+    },
+    "deliverables": [
+      "Multi-node synthetic route cost & capacity dataset",
+      "Service-level agreement (SLA) & green emissions baseline"
+    ],
+    "description": "Create a reproducible synthetic network dataset with route costs, time windows, demand variability, capacity constraints and disruption scenarios. Define service-level and sustainability objectives.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-3-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-3-05",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.618Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb5"
+    },
+    "challengeId": "CHAL-TRACK-3-05-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.660Z"
+    },
+    "deliverables": [
+      "Multi-modal logistics simulation twin prototype",
+      "Scenario engine comparing buffers, rerouting & consolidation"
+    ],
+    "description": "Build a scenario engine or optimisation prototype comparing routing, inventory buffers, alternate suppliers, shipment consolidation and shared transport options.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-3-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-3-05",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.660Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb6"
+    },
+    "challengeId": "CHAL-TRACK-3-05-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.699Z"
+    },
+    "deliverables": [
+      "Network bottleneck & disruption stress test benchmarks",
+      "Resilience, on-time delivery & small-supplier fairness audit"
+    ],
+    "description": "Run stress tests for road closures, supplier failure, demand surges and conflicting objectives. Compare cost, delivery reliability, emissions proxy, resilience and fairness to smaller suppliers.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-3-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-3-05",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.698Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb7"
+    },
+    "challengeId": "CHAL-TRACK-3-05-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.739Z"
+    },
+    "deliverables": [
+      "B2B logistics platform roll-out blueprint",
+      "Data-sharing incentives, pricing tiers & scale-up pitch"
+    ],
+    "description": "Propose a B2B operating model for logistics providers, producer groups or regional buyers. Include onboarding, data-sharing incentives, pricing, implementation effort, cybersecurity and scale-up economics.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-3-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-3-05",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-03",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.738Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb8"
+    },
+    "challengeId": "CHAL-TRACK-4-01-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.774Z"
+    },
+    "deliverables": [
+      "Workflow friction breakdown (hours, error rates, costs)",
+      "Human-in-the-loop decision boundary definition"
+    ],
+    "description": "Select one workflow and document time, error rates, bottlenecks, skill requirements and consequences of incorrect output. Define a baseline and what decisions must remain human-approved.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-4-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-4-01",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:40.136Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bb9"
+    },
+    "challengeId": "CHAL-TRACK-4-01-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.819Z"
+    },
+    "deliverables": [
+      "MSME task/document synthetic dataset",
+      "Comparison matrix: LLM vs deterministic templates (accuracy, privacy)"
+    ],
+    "description": "Build a representative synthetic document/task set. Compare general-purpose AI, templates and a deterministic workflow; define evaluation criteria for accuracy, privacy and hallucination risk.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-4-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-4-01",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.818Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bba"
+    },
+    "challengeId": "CHAL-TRACK-4-01-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.854Z"
+    },
+    "deliverables": [
+      "Source-grounded task co-pilot prototype (not generic chatbot)",
+      "Auditable draft review & escalation trail"
+    ],
+    "description": "Prototype a narrow co-pilot with source-grounded outputs, editable drafts, escalation paths and an audit trail. Demonstrate the end-to-end workflow rather than a generic chatbot.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-4-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-4-01",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.853Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bbb"
+    },
+    "challengeId": "CHAL-TRACK-4-01-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.899Z"
+    },
+    "deliverables": [
+      "Adversarial input & data leakage stress test",
+      "Time/cost per task benchmarks vs human baseline"
+    ],
+    "description": "Test on unseen and adversarial cases, ambiguous instructions and incomplete documents. Measure task completion time, error rate, correction burden, cost per task and data leakage risks.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-4-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-4-01",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.899Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bbc"
+    },
+    "challengeId": "CHAL-TRACK-4-01-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.934Z"
+    },
+    "deliverables": [
+      "MSME unit economics & customer acquisition strategy",
+      "Inference budget, liability terms & ROI pitch deck"
+    ],
+    "description": "Build a commercially credible offering for a defined MSME segment. Include onboarding, human support, pricing, inference/tool costs, integration, liability, measurable ROI and a roadmap for responsible scale.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-4-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-4-01",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:04.934Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a13323350c65041bbd"
+    },
+    "challengeId": "CHAL-TRACK-4-02-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:04.979Z"
+    },
+    "deliverables": [
+      "Local waste stream volume & seasonality audit",
+      "Material ownership & contamination stakeholder map"
+    ],
+    "description": "Select one material stream and map source volume, seasonality, current handling, contamination and stakeholders. Establish a measurable baseline and identify who controls the material.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-4-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-4-02",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:39.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bbe"
+    },
+    "challengeId": "CHAL-TRACK-4-02-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.014Z"
+    },
+    "deliverables": [
+      "Buyer demand evidence & collection radius model",
+      "Regulatory quality requirements vs competing materials analysis"
+    ],
+    "description": "Research potential products and buyers; estimate collection radius, processing requirements, applicable safety/quality requirements and competing materials. Distinguish verified demand from assumptions.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-4-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-4-02",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.014Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bbf"
+    },
+    "challengeId": "CHAL-TRACK-4-02-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.060Z"
+    },
+    "deliverables": [
+      "Product/process demonstrator & material-flow model",
+      "Equipment sizing, inputs & rejects balance sheet"
+    ],
+    "description": "Build a product/service prototype or process demonstrator and a material-flow model showing yields, rejects, inputs and required equipment.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-4-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-4-02",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.059Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc0"
+    },
+    "challengeId": "CHAL-TRACK-4-02-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.094Z"
+    },
+    "deliverables": [
+      "Feedstock price & supply volatility sensitivity test",
+      "Lifecycle environmental trade-offs & quality variation report"
+    ],
+    "description": "Test demand and technical feasibility with samples or simulations. Conduct sensitivity analysis for feedstock shortages, price changes, quality variation, logistics and lifecycle trade-offs.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-4-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-4-02",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.093Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc1"
+    },
+    "challengeId": "CHAL-TRACK-4-02-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.139Z"
+    },
+    "deliverables": [
+      "Bankable financial plan (Capex, Opex, margins, working capital)",
+      "Compliance plan, local job creation & verified green metrics"
+    ],
+    "description": "Present an investable business model with supply agreements, customer validation, capex/opex, gross margin, working capital, safety/compliance plan, job creation and verified environmental indicators.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-4-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-4-02",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.139Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc2"
+    },
+    "challengeId": "CHAL-TRACK-4-03-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.174Z"
+    },
+    "deliverables": [
+      "Target worker group employment barrier journey map",
+      "Stakeholder evidence on screening biases & retention drop-offs"
+    ],
+    "description": "Select one worker group and occupational cluster. Map barriers from skill acquisition to interview, hiring, retention and progression using stakeholder evidence.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-4-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-4-03",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:38.379Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc3"
+    },
+    "challengeId": "CHAL-TRACK-4-03-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.219Z"
+    },
+    "deliverables": [
+      "Synthetic applicant & vacancy profile repository",
+      "Algorithmic non-discrimination criteria & sensitive attribute list"
+    ],
+    "description": "Create synthetic candidate and vacancy profiles with explicit skill evidence, accessibility needs and employer requirements. Define fair matching criteria and sensitive attributes that must not be used as proxies for worth.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-4-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-4-03",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.218Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc4"
+    },
+    "challengeId": "CHAL-TRACK-4-03-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.254Z"
+    },
+    "deliverables": [
+      "Skills-evidence portfolio & task verification prototype",
+      "Transparent matching workflow with applicant appeal mechanisms"
+    ],
+    "description": "Prototype a skills-evidence portfolio and explainable matching workflow, including practical task verification, candidate correction/appeal and accessible interfaces.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-4-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-4-03",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.253Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc5"
+    },
+    "challengeId": "CHAL-TRACK-4-03-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.299Z"
+    },
+    "deliverables": [
+      "Fairness & credential-tampering stress test results",
+      "Low-connectivity accessibility & employer usability review"
+    ],
+    "description": "Test matching quality, ranking fairness, employer usability, fraudulent credentials, connectivity constraints and performance across different candidate profiles. Avoid claiming job guarantees.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-4-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-4-03",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.298Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc6"
+    },
+    "challengeId": "CHAL-TRACK-4-03-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.339Z"
+    },
+    "deliverables": [
+      "Institutional / employer partnership revenue model",
+      "Anti-exploitation fee safeguards & long-term retention impact"
+    ],
+    "description": "Build a sustainable model for employers, training providers, colleges or public programmes. Include verification costs, placement/service fees or institutional funding, safeguards against exploitative charges and metrics for job quality and retention.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-4-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-4-03",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.339Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc7"
+    },
+    "challengeId": "CHAL-TRACK-4-04-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.379Z"
+    },
+    "deliverables": [
+      "Climate hazard exposure & vulnerable population mapping",
+      "Pre-, during-, and post-event critical decision register"
+    ],
+    "description": "Choose one hazard and user group; map exposure, vulnerability, existing coping measures and the decisions that must be made before, during and after an event.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-4-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-4-04",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:38.715Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc8"
+    },
+    "challengeId": "CHAL-TRACK-4-04-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.414Z"
+    },
+    "deliverables": [
+      "Multi-hazard synthetic climate & asset vulnerability dataset",
+      "Forecast uncertainty thresholds & expert validation protocol"
+    ],
+    "description": "Use public or synthetic weather, asset and service data to create scenarios. Document forecast uncertainty, data gaps and which recommendations require expert or official confirmation.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-4-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-4-04",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.413Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bc9"
+    },
+    "challengeId": "CHAL-TRACK-4-04-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.458Z"
+    },
+    "deliverables": [
+      "Actionable climate decision-support prototype",
+      "Vernacular alert system & cooperative resource coordination dashboard"
+    ],
+    "description": "Build an actionable decision-support prototype: alerts with confidence, preparedness checklists, resource coordination, continuity planning or a locally appropriate adaptation service.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-4-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-4-04",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.458Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bca"
+    },
+    "challengeId": "CHAL-TRACK-4-04-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.496Z"
+    },
+    "deliverables": [
+      "Blackout / network outage scenario simulation",
+      "False-alarm audit, response time metrics & inclusion assessment"
+    ],
+    "description": "Run scenario exercises for false alarms, missed events, power/network loss and unequal access to resources. Measure actionability, response time, inclusion and potential unintended harm.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-4-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-4-04",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.496Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bcb"
+    },
+    "challengeId": "CHAL-TRACK-4-04-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.538Z"
+    },
+    "deliverables": [
+      "Community cooperative / local body financing blueprint",
+      "Service delivery cost, maintenance plan & resilience outcomes pitch"
+    ],
+    "description": "Create a business and partnership model with cooperatives, employers, local bodies, insurers or community organisations. Show willingness to pay, service delivery cost, maintenance, safeguards and resilience outcomes.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-4-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-4-04",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.538Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bcc"
+    },
+    "challengeId": "CHAL-TRACK-4-05-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.576Z"
+    },
+    "deliverables": [
+      "Small enterprise AI adoption footprint & accountability map",
+      "Harm assessment & stakeholder risk exposure baseline"
+    ],
+    "description": "Choose a small organisation and map where AI is used or likely to be adopted, what decisions it influences, who may be harmed and who is accountable.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-4-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-4-05",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:39.435Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bcd"
+    },
+    "challengeId": "CHAL-TRACK-4-05-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.618Z"
+    },
+    "deliverables": [
+      "Lightweight AI risk taxonomy (privacy, bias, hallucination)",
+      "Vendor dependency & data rights audit inventory"
+    ],
+    "description": "Create a risk taxonomy and sample inventory covering data rights, privacy, bias, security, accuracy, explainability, vendor dependency and human oversight.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-4-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-4-05",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.618Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bce"
+    },
+    "challengeId": "CHAL-TRACK-4-05-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.659Z"
+    },
+    "deliverables": [
+      "Automated governance checklist & vendor card prototype",
+      "Prioritized action generator & incident log workflow"
+    ],
+    "description": "Prototype a lightweight assessment workflow, evidence register, model/vendor card, testing checklist or incident log that generates prioritised actions rather than a generic policy document.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-4-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-4-05",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.658Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bcf"
+    },
+    "challengeId": "CHAL-TRACK-4-05-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.700Z"
+    },
+    "deliverables": [
+      "Dual use-case stress test (fintech vs HR AI deployment)",
+      "Usability time audit, false assurance checks & auditability report"
+    ],
+    "description": "Run the toolkit against two contrasting synthetic use cases and a failure scenario. Test completeness, usability, auditability, false assurance and the time required for a small team to operate it.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-4-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-4-05",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.700Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbb7a23323350c65041bd0"
+    },
+    "challengeId": "CHAL-TRACK-4-05-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:38:05.745Z"
+    },
+    "deliverables": [
+      "Managed compliance service model for small organizations",
+      "Pricing tiers, liability boundaries & governance maturity roadmap"
+    ],
+    "description": "Design a viable product or managed-service model for SMEs, colleges, NGOs or professional advisers. Include update costs, expert escalation, liability limits, customer acquisition and measurable improvement in governance maturity.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-4-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-4-05",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-04",
+    "updatedAt": {
+      "$date": "2026-10-23T19:38:05.745Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1a3323350c65041bf5"
+    },
+    "challengeId": "CHAL-TRACK-1-01-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:37.344Z"
+    },
+    "deliverables": [
+      "Worker persona journey map (income cycles & shocks)",
+      "Baseline audit for emergency savings & harmful borrowing"
+    ],
+    "description": "Define two contrasting worker personas and map income cycles, expense shocks and current coping mechanisms. Establish a measurable baseline for missed essentials, emergency savings or harmful borrowing using ethical, anonymised research.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-1-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-1-01",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:39.781Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bf6"
+    },
+    "challengeId": "CHAL-TRACK-1-01-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:37.707Z"
+    },
+    "deliverables": [
+      "Cash-flow volatility simulator dataset",
+      "Rule-based vs explainable AI model comparison & data privacy boundary"
+    ],
+    "description": "Create a transparent cash-flow dataset or simulator with seasonality, delayed wages, medical shocks and family obligations. Compare rule-based forecasting with an explainable AI approach; state what data must never be collected.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-1-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-1-01",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:37.706Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bf7"
+    },
+    "challengeId": "CHAL-TRACK-1-01-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.084Z"
+    },
+    "deliverables": [
+      "Multilingual financial resilience planner prototype",
+      "Transparent recommendation audit trail & user correction workflow"
+    ],
+    "description": "Prototype a multilingual resilience planner with scenario simulation, safe nudges and referrals to verified formal services. Show how users can correct data and understand why a recommendation was generated.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-1-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-1-01",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.084Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bf8"
+    },
+    "challengeId": "CHAL-TRACK-1-01-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.120Z"
+    },
+    "deliverables": [
+      "Zero-income & shock simulation stress test results",
+      "Accuracy, offline usability & harm mitigation benchmark"
+    ],
+    "description": "Stress-test low-income, zero-income and unexpected-expense scenarios. Evaluate forecast error, accessibility, bias, privacy, offline operation and whether recommendations could increase financial harm.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-1-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-1-01",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.120Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bf9"
+    },
+    "challengeId": "CHAL-TRACK-1-01-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.168Z"
+    },
+    "deliverables": [
+      "Stakeholder financial sustainability model & unit costs",
+      "Non-predatory governance plan & SDG 1/8/10 pitch deck"
+    ],
+    "description": "Present a sustainable model for employers, worker collectives, NGOs or financial institutions. Include who pays, consent and governance, unit costs, non-predatory safeguards, adoption plan and measurable SDG 1/8/10 outcomes.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-1-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-1-01",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.167Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bfa"
+    },
+    "challengeId": "CHAL-TRACK-1-02-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.214Z"
+    },
+    "deliverables": [
+      "MSME financing journey friction breakdown",
+      "Credit readiness vs underwriting separation framework"
+    ],
+    "description": "Map the financing journey for a defined MSME segment and identify documentation, cash-flow visibility and trust barriers. Distinguish credit readiness from actual lender underwriting.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-1-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-1-02",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:40.483Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bfb"
+    },
+    "challengeId": "CHAL-TRACK-1-02-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.253Z"
+    },
+    "deliverables": [
+      "Thin-file MSME synthetic transaction dataset",
+      "Fair feature registry & prohibited proxies definition"
+    ],
+    "description": "Build a synthetic or consented dataset representing seasonality, late payments, thin-file businesses and missing records. Define fair, relevant features and prohibited proxies; document data provenance.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-1-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-1-02",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.253Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bfc"
+    },
+    "challengeId": "CHAL-TRACK-1-02-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.298Z"
+    },
+    "deliverables": [
+      "Explainable credit readiness dashboard prototype",
+      "Actionable documentation gap analyzer with uncertainty scores"
+    ],
+    "description": "Develop an explainable readiness dashboard that highlights documentation gaps, cash-flow stress and actionable improvements, with uncertainty and reasons visible to the user.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-1-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-1-02",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.298Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bfd"
+    },
+    "challengeId": "CHAL-TRACK-1-02-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.348Z"
+    },
+    "deliverables": [
+      "Disparate outcome & manipulation stress test report",
+      "Benchmark comparison against rule-based baseline & threat review"
+    ],
+    "description": "Test for disparate outcomes across plausible business profiles, missing-data sensitivity, manipulation and misleading confidence. Compare results with a transparent rule-based baseline and conduct a privacy threat review.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-1-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-1-02",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.348Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bfe"
+    },
+    "challengeId": "CHAL-TRACK-1-02-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.384Z"
+    },
+    "deliverables": [
+      "B2B2B commercial deployment model & verification pricing",
+      "Liability disclaimer framework & impact metrics pitch"
+    ],
+    "description": "Design a B2B2B model for incubators, accountants, MSME associations or lenders. Specify pricing, verification cost, liability boundaries, consent, financial assumptions and impact measures without promising loan approval.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-1-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-1-02",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.384Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041bff"
+    },
+    "challengeId": "CHAL-TRACK-1-03-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.418Z"
+    },
+    "deliverables": [
+      "Digital payment scam journey & critical intervention point",
+      "Threat actor taxonomy & false-positive tolerance boundary"
+    ],
+    "description": "Map a realistic scam journey and identify the moment when a user can still prevent harm. Define threat actors, user groups, acceptable false-positive/false-negative trade-offs and the limits of a 24-hour prototype.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-1-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-1-03",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:40.831Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c00"
+    },
+    "challengeId": "CHAL-TRACK-1-03-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.458Z"
+    },
+    "deliverables": [
+      "Synthetic scam vs legitimate message corpus (regional languages)",
+      "Annotation rubric & privacy-safe evaluation split"
+    ],
+    "description": "Create a safe, synthetic corpus of scam and legitimate examples, including regional-language variations and adversarial wording. Establish labelling rules and a privacy-safe evaluation set.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-1-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-1-03",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.457Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c01"
+    },
+    "challengeId": "CHAL-TRACK-1-03-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.493Z"
+    },
+    "deliverables": [
+      "Risk triage assistant prototype with warning explanations",
+      "Independent verification wizard & safe response checklist"
+    ],
+    "description": "Prototype a multimodal or text-first risk triage tool that explains warning signs, suggests independent verification and routes users to a safe response checklist rather than automatically blocking transactions.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-1-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-1-03",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.493Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c02"
+    },
+    "challengeId": "CHAL-TRACK-1-03-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.529Z"
+    },
+    "deliverables": [
+      "Adversarial prompt injection & precision/recall audit",
+      "Credential privacy security guarantee certification"
+    ],
+    "description": "Evaluate precision, recall, false alarms, language performance, prompt-injection/adversarial cases and user comprehension. Demonstrate that it never requests PINs, passwords, OTPs or full payment credentials.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-1-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-1-03",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.529Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c03"
+    },
+    "challengeId": "CHAL-TRACK-1-03-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.573Z"
+    },
+    "deliverables": [
+      "Distribution partnership roll-out plan & unit economics",
+      "Incident escalation protocol & harm-reduction pitch deck"
+    ],
+    "description": "Propose distribution through banks, merchants, campuses or consumer organisations. Model cost per user, incident escalation, content updates, liability, trust and measurable harm-reduction outcomes.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-1-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-1-03",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.573Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c04"
+    },
+    "challengeId": "CHAL-TRACK-1-04-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.608Z"
+    },
+    "deliverables": [
+      "Crop climate-shock pathway & geographical boundary",
+      "Weather trigger vs actual yield loss basis analysis"
+    ],
+    "description": "Select a crop/livelihood and define the shock, affected geography and financial loss pathway. Map current coping strategies and establish the difference between a weather trigger and actual loss.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-1-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-1-04",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:41.517Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c05"
+    },
+    "challengeId": "CHAL-TRACK-1-04-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.654Z"
+    },
+    "deliverables": [
+      "Historical weather trigger candidate dataset",
+      "Basis risk documentation & resolution limitations analysis"
+    ],
+    "description": "Use public or synthetic weather/yield data to study trigger candidates, historical coverage gaps and potential basis risk. Document data resolution, missing observations and limitations.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-1-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-1-04",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.654Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c06"
+    },
+    "challengeId": "CHAL-TRACK-1-04-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.693Z"
+    },
+    "deliverables": [
+      "Parametric trigger simulator prototype",
+      "Transparent payout rationale comparator with uncertainty bounds"
+    ],
+    "description": "Prototype a transparent trigger simulator that explains when a payout would or would not occur, shows uncertainty and lets users compare alternative trigger designs.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-1-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-1-04",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.693Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c07"
+    },
+    "challengeId": "CHAL-TRACK-1-04-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.745Z"
+    },
+    "deliverables": [
+      "Extreme weather historical back-test simulation",
+      "False payout vs missed event error rate matrix"
+    ],
+    "description": "Back-test the concept on held-out periods or simulated extreme events. Measure missed-event and false-payout rates, affordability, accessibility and impacts on different producer profiles.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-1-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-1-04",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.745Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c08"
+    },
+    "challengeId": "CHAL-TRACK-1-04-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.784Z"
+    },
+    "deliverables": [
+      "Licensed insurer / cooperative distribution model",
+      "Consumer grievance handling, disclosures & SDG impact pitch"
+    ],
+    "description": "Develop a responsible partnership model involving licensed insurers, cooperatives, data providers or public programmes. Include distribution costs, consumer disclosures, grievance handling, regulatory dependencies and SDG impact metrics.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-1-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-1-04",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.784Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c09"
+    },
+    "challengeId": "CHAL-TRACK-1-05-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.818Z"
+    },
+    "deliverables": [
+      "Entitlement access barrier journey map",
+      "Language, disability & connectivity friction point inventory"
+    ],
+    "description": "Choose a clearly defined user group and map the journey from awareness to application, including language, disability, connectivity and documentation barriers.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-1-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-1-05",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:41.884Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c0a"
+    },
+    "challengeId": "CHAL-TRACK-1-05-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.853Z"
+    },
+    "deliverables": [
+      "Verified welfare scheme knowledge base dataset",
+      "Rule ambiguity taxonomy & source versioning protocol"
+    ],
+    "description": "Create a verified sample knowledge base from publicly available official information. Define a source/date/version protocol and identify ambiguous rules that require human review.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-1-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-1-05",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.852Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c0b"
+    },
+    "challengeId": "CHAL-TRACK-1-05-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.887Z"
+    },
+    "deliverables": [
+      "Multilingual entitlement guidance prototype with citations",
+      "Printable/offline application checklist generator"
+    ],
+    "description": "Build a multilingual retrieval-and-guidance prototype that cites its source, date and eligibility caveats, asks only necessary questions and provides a printable/offline action plan.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-1-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-1-05",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.887Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c0c"
+    },
+    "challengeId": "CHAL-TRACK-1-05-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.928Z"
+    },
+    "deliverables": [
+      "Hallucination resistance & outdated rule handling stress test",
+      "Official channel escalation & abstention reliability benchmark"
+    ],
+    "description": "Test factual accuracy, stale-information handling, ambiguous cases, accessibility, hallucination resistance and privacy. The prototype must abstain and refer users to official channels when evidence is insufficient.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-1-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-1-05",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.927Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1b3323350c65041c0d"
+    },
+    "challengeId": "CHAL-TRACK-1-05-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:38.984Z"
+    },
+    "deliverables": [
+      "CSC/NGO community deployment operating plan",
+      "Anti-predatory zero-fee safeguards & public funding pitch"
+    ],
+    "description": "Model deployment through community service centres, colleges, NGOs or local bodies. Explain verification operations, update responsibilities, funding, user support and safeguards against charging vulnerable users for free entitlements.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-1-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-1-05",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-01",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:38.984Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c0e"
+    },
+    "challengeId": "CHAL-TRACK-2-01-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.023Z"
+    },
+    "deliverables": [
+      "Producer economics & route-to-market constraint map",
+      "Core commercial pricing/channel decision boundary"
+    ],
+    "description": "Select a producer category and map product economics, capacity, seasonality, buyer types and current route-to-market constraints. Define the commercial decision the system must improve.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-2-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-2-01",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:44.021Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c0f"
+    },
+    "challengeId": "CHAL-TRACK-2-01-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.058Z"
+    },
+    "deliverables": [
+      "Synthetic multi-tier sales & demand dataset",
+      "Buyer segmentation matrix (actual purchases vs click vanity metrics)"
+    ],
+    "description": "Combine synthetic or permissioned sales data with structured customer research and competitor observations. Segment buyers and distinguish demonstrated demand from clicks, likes or stated interest.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-2-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-2-01",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.057Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c10"
+    },
+    "challengeId": "CHAL-TRACK-2-01-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.093Z"
+    },
+    "deliverables": [
+      "Market intelligence recommendation engine prototype",
+      "Transparent pricing & channel mix confidence dashboard"
+    ],
+    "description": "Prototype an AI-assisted market intelligence workflow that recommends a target segment, product positioning, price tests and channel mix while exposing evidence and confidence.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-2-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-2-01",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.093Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c11"
+    },
+    "challengeId": "CHAL-TRACK-2-01-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.128Z"
+    },
+    "deliverables": [
+      "Logistics surge & low-demand stress test benchmarks",
+      "Recommendation stability & net producer margin evaluation"
+    ],
+    "description": "Run scenario tests for low demand, rising logistics costs, competitor entry and production limits. Evaluate forecast error, recommendation stability, customer acquisition cost and producer margin.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-2-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-2-01",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.127Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c12"
+    },
+    "challengeId": "CHAL-TRACK-2-01-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.163Z"
+    },
+    "deliverables": [
+      "Fair producer-first commercial business model",
+      "Fulfilment economics, quality assurance & margin pitch deck"
+    ],
+    "description": "Build a go-to-market model with producer onboarding, quality assurance, channel partners, fulfilment, pricing/commission, returns and repeat-purchase economics. Show how value reaches the producer, not only the platform.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-2-01",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-2-01",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.162Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c13"
+    },
+    "challengeId": "CHAL-TRACK-2-02-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.197Z"
+    },
+    "deliverables": [
+      "Surplus generation lifecycle & disposal route mapping",
+      "Safe handling boundary & decision window baseline"
+    ],
+    "description": "Map surplus generation, timing, food categories, current disposal routes and recipient constraints for one setting. Define baseline waste, safe handling boundaries and the decision window.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-2-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-2-02",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:42.591Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c14"
+    },
+    "challengeId": "CHAL-TRACK-2-02-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.233Z"
+    },
+    "deliverables": [
+      "Time-sensitive food surplus & perishability dataset",
+      "Transport capacity, distance & missed pickup uncertainty matrix"
+    ],
+    "description": "Develop a time-sensitive synthetic dataset for surplus volume, shelf-life, distance, recipient demand, transport capacity and missed pickups. Identify uncertainty and data owners.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-2-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-2-02",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.233Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c15"
+    },
+    "challengeId": "CHAL-TRACK-2-02-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.278Z"
+    },
+    "deliverables": [
+      "Surplus food allocation & routing prototype",
+      "Safe feasibility score engine & emergency fallback protocols"
+    ],
+    "description": "Build a forecasting-and-matching prototype that prioritises safe, feasible transfers using time, distance, capacity and recipient need; include fallback handling when no match is possible.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-2-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-2-02",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.277Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c16"
+    },
+    "challengeId": "CHAL-TRACK-2-02-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.314Z"
+    },
+    "deliverables": [
+      "Peak cancellation & traffic disruption simulation",
+      "Recovery rate, spoilage reduction & compliance benchmarks"
+    ],
+    "description": "Simulate peak days, cancelled pickups, traffic delays and demand mismatch. Measure edible quantity recovered, spoilage, delivery cost, match completion and safety-rule compliance.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-2-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-2-02",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.313Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c17"
+    },
+    "challengeId": "CHAL-TRACK-2-02-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.358Z"
+    },
+    "deliverables": [
+      "Multi-stakeholder operating & funding model",
+      "Food-safety liability terms & auditable SDG 12.3 pitch"
+    ],
+    "description": "Design a viable multi-sided operating model with kitchens/retailers, logistics providers, recipient organisations and funders. Specify liability, verification, cold-chain dependencies, incentives and auditable SDG 12.3 metrics.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-2-02",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-2-02",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.358Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c18"
+    },
+    "challengeId": "CHAL-TRACK-2-03-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.393Z"
+    },
+    "deliverables": [
+      "Customer decision journey & core outcome metrics",
+      "Sensitive data boundary & prohibited targeting registry"
+    ],
+    "description": "Map a customer decision journey and define a measurable outcome such as repeat purchase, service completion or reduced complaint resolution time. Identify sensitive data and unacceptable forms of targeting.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-2-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-2-03",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:43.649Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c19"
+    },
+    "challengeId": "CHAL-TRACK-2-03-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.438Z"
+    },
+    "deliverables": [
+      "Synthetic consumer dataset with consent preferences",
+      "Access control, retention & deletion compliance framework"
+    ],
+    "description": "Construct a synthetic customer dataset with missingness, imbalance and consent preferences. Define aggregation, retention, access control and deletion requirements before modelling.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-2-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-2-03",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.438Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c1a"
+    },
+    "challengeId": "CHAL-TRACK-2-03-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.474Z"
+    },
+    "deliverables": [
+      "Privacy-first next-best-action prototype",
+      "Consent choice manager & non-personalized fallback interface"
+    ],
+    "description": "Prototype a segmentation or next-best-action tool that uses explainable features, supports consent choices and provides a non-personalised alternative. Make recommendations actionable for a small business.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-2-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-2-03",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.473Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c1b"
+    },
+    "challengeId": "CHAL-TRACK-2-03-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.518Z"
+    },
+    "deliverables": [
+      "Opt-out performance & privacy leakage stress test",
+      "Fairness audit against consumer vulnerability exploitation"
+    ],
+    "description": "Test lift against a simple baseline, segment stability, bias, privacy leakage risks and performance when users opt out. Evaluate whether recommendations could exploit vulnerability or discriminate.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-2-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-2-03",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.518Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c1c"
+    },
+    "challengeId": "CHAL-TRACK-2-03-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.556Z"
+    },
+    "deliverables": [
+      "SME commercial SaaS / subscription model",
+      "Data governance policy, prohibited uses & incremental ROI pitch"
+    ],
+    "description": "Present a business model for SMEs or sector associations, including implementation burden, pricing, data governance, measurable incremental value and a clear policy for prohibited uses.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-2-03",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-2-03",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.556Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c1d"
+    },
+    "challengeId": "CHAL-TRACK-2-04-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.598Z"
+    },
+    "deliverables": [
+      "Product claim typology & distribution channel mapping",
+      "Consumer harm & greenwashing impact baseline"
+    ],
+    "description": "Choose a product category and claim types with meaningful consumer or environmental consequences. Map how claims reach consumers and define the harm caused by unsupported claims.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-2-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-2-04",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:44.375Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c1e"
+    },
+    "challengeId": "CHAL-TRACK-2-04-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.634Z"
+    },
+    "deliverables": [
+      "Traceable public claims vs primary sources corpus",
+      "Source credibility rubric & human review protocol"
+    ],
+    "description": "Build a small, traceable corpus of public claims and reliable primary sources. Establish claim categories, source credibility rules, date/version tracking and human review procedures.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-2-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-2-04",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.633Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c1f"
+    },
+    "challengeId": "CHAL-TRACK-2-04-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.679Z"
+    },
+    "deliverables": [
+      "Retrieval-grounded green-claim verification prototype",
+      "Evidence citation panel & abstention confidence display"
+    ],
+    "description": "Prototype a retrieval-based claim-checking assistant that quotes or links evidence, explains confidence and disagreement, translates carefully and abstains when sources are inadequate.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-2-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-2-04",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.678Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c20"
+    },
+    "challengeId": "CHAL-TRACK-2-04-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.714Z"
+    },
+    "deliverables": [
+      "Adversarial claim phrasing & stale evidence stress test",
+      "Epistemic certainty audit (absence of evidence distinction)"
+    ],
+    "description": "Evaluate source faithfulness, translation fidelity, false certainty, stale evidence, adversarial phrasing and user comprehension. Test whether the tool can distinguish absence of evidence from evidence of absence.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-2-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-2-04",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.713Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c21"
+    },
+    "challengeId": "CHAL-TRACK-2-04-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.758Z"
+    },
+    "deliverables": [
+      "Independent verification business & revenue model",
+      "Conflict-of-interest safeguards & trust metric pitch deck"
+    ],
+    "description": "Design a sustainable verification model for consumer groups, marketplaces, media, educational institutions or brands. Include reviewer costs, conflict-of-interest safeguards, correction procedures and trust/impact metrics.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-2-04",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-2-04",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.758Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c22"
+    },
+    "challengeId": "CHAL-TRACK-2-05-1",
+    "__v": 0,
+    "challengeNumber": 1,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.796Z"
+    },
+    "deliverables": [
+      "Shirdi visitor pilgrimage journey map",
+      "Stakeholder indicator inventory without sensitive personal profiling"
+    ],
+    "description": "Map the visitor journey across arrival, accommodation, local transport, food, worship and departure. Identify stakeholder needs and candidate indicators without collecting sensitive religious profiles.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 1,
+    "psId": "TRACK-2-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 1 for TRACK-2-05",
+    "timeframe": "Milestone Phase 1",
+    "title": "Challenge 1: Problem discovery and baseline",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T20:23:43.293Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c23"
+    },
+    "challengeId": "CHAL-TRACK-2-05-2",
+    "__v": 0,
+    "challengeNumber": 2,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.838Z"
+    },
+    "deliverables": [
+      "Synthetic festival peak & transport capacity demand dataset",
+      "Data permission requirements & estimation boundaries"
+    ],
+    "description": "Create a synthetic demand model using arrival peaks, transport capacity, public-service constraints, weather and event calendars. Identify what data would require permissions and what can be estimated safely.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 2,
+    "psId": "TRACK-2-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 2 for TRACK-2-05",
+    "timeframe": "Milestone Phase 2",
+    "title": "Challenge 2: Evidence, data and system analysis",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.838Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c24"
+    },
+    "challengeId": "CHAL-TRACK-2-05-3",
+    "__v": 0,
+    "challengeNumber": 3,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.874Z"
+    },
+    "deliverables": [
+      "Pilgrim crowd-flow & local commerce decision-support prototype",
+      "Multilingual service discovery & congestion advisory dashboard"
+    ],
+    "description": "Build a decision-support prototype for demand scenarios, multilingual service information, crowd-aware recommendations or local-business discovery; avoid claiming real-time accuracy without live data.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": true,
+    "order": 3,
+    "psId": "TRACK-2-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 3 for TRACK-2-05",
+    "timeframe": "Milestone Phase 3",
+    "title": "Challenge 3: Prototype and technical/operational design",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.874Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c25"
+    },
+    "challengeId": "CHAL-TRACK-2-05-4",
+    "__v": 0,
+    "challengeNumber": 4,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.918Z"
+    },
+    "deliverables": [
+      "Festival crowding & network disruption stress test",
+      "Queue proxy reduction & local merchant spend distribution audit"
+    ],
+    "description": "Stress-test festival peaks, disruptions, accessibility needs and low-connectivity conditions. Measure queue or travel-time proxies, local-spend distribution, waste/service load and fairness of recommendations.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 4,
+    "psId": "TRACK-2-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 4 for TRACK-2-05",
+    "timeframe": "Milestone Phase 4",
+    "title": "Challenge 4: Stress test, validation and impact",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.918Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6adbba1c3323350c65041c26"
+    },
+    "challengeId": "CHAL-TRACK-2-05-5",
+    "__v": 0,
+    "challengeNumber": 5,
+    "createdAt": {
+      "$date": "2026-10-23T19:48:39.954Z"
+    },
+    "deliverables": [
+      "Public-private-community regional governance model",
+      "Local artisan / vendor economic empowerment & SDG 8/11/12 pitch"
+    ],
+    "description": "Propose a public-private-community business model that benefits small local enterprises while protecting public-interest functions. Include data governance, stakeholder incentives, operational costs and SDG 8/11/12 indicators.",
+    "documentName": "",
+    "documentSize": "",
+    "documentUrl": "",
+    "isEnabled": false,
+    "order": 5,
+    "psId": "TRACK-2-05",
+    "subTrack": "",
+    "subtitle": "Dedicated Challenge 5 for TRACK-2-05",
+    "timeframe": "Milestone Phase 5",
+    "title": "Challenge 5: Business model, deployment and investment pitch",
+    "trackId": "TRK-02",
+    "updatedAt": {
+      "$date": "2026-10-23T19:48:39.954Z"
+    }
+  }
+]
