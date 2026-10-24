@@ -138,18 +138,15 @@ export const AdminProblemStatements: React.FC = () => {
     setUploadFileName(file.name);
     setUploadFileSize(sizeFormatted);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = reader.result as string;
-      setFormData(prev => ({
-        ...prev,
-        documentName: file.name,
-        documentUrl: base64,
-        documentSize: sizeFormatted,
-        fileType: file.type || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      }));
-    };
-    reader.readAsDataURL(file);
+    // Reference static path in /pragyan/ directly to avoid storing heavy docx base64 into localStorage or MongoDB
+    const staticUrl = `/pragyan/${file.name}`;
+    setFormData(prev => ({
+      ...prev,
+      documentName: file.name,
+      documentUrl: staticUrl,
+      documentSize: sizeFormatted,
+      fileType: file.type || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    }));
   };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
@@ -684,8 +681,7 @@ export const AdminProblemStatements: React.FC = () => {
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                   placeholder="e.g. Hyper-Localized Micro-Credit & AI Credit Scoring for Rural Agri-SMEs"
                   className="w-full p-3 rounded-xl bg-[#E9E1D2] border border-[#D2CAB6] text-[#162E28] placeholder-[#7B8379] focus:outline-none focus:border-[#A77A1C]"
-                >
-                </input>
+                />
               </div>
 
               {/* Word Document Upload Field */}

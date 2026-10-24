@@ -34,7 +34,12 @@ try {
   localStorage.removeItem('pragyan_teams_v1');
   localStorage.removeItem('pragyan_teams');
   const storedPs = localStorage.getItem('pragyan_problem_statements_v2');
-  if (storedPs && (storedPs.includes('Hyper-Localized Micro-Credit') || storedPs.includes('PS-TRK1-01'))) {
+  if (storedPs && (
+    storedPs.includes('Hyper-Localized Micro-Credit') ||
+    storedPs.includes('PS-TRK1-01') ||
+    storedPs.includes('data:application') ||
+    !storedPs.includes('PRAGYAN_2K26_PS_3-01')
+  )) {
     localStorage.removeItem('pragyan_problem_statements_v2');
   }
 } catch {
@@ -343,7 +348,29 @@ class PragyanAPIService {
   }
 
   getProblemStatements(includeHidden = false): AdminProblemStatement[] {
-    const list = getStored<AdminProblemStatement[]>(STORAGE_KEYS.PROBLEM_STATEMENTS, INITIAL_PROBLEM_STATEMENTS);
+    let list = getStored<AdminProblemStatement[]>(STORAGE_KEYS.PROBLEM_STATEMENTS, INITIAL_PROBLEM_STATEMENTS);
+
+    // Merge official document paths from INITIAL_PROBLEM_STATEMENTS if missing or if base64
+    const initMap = new Map(INITIAL_PROBLEM_STATEMENTS.map(i => [i.id, i]));
+    let modified = false;
+    list = list.map(item => {
+      const init = initMap.get(item.id) || INITIAL_PROBLEM_STATEMENTS.find(i => i.title?.trim().toLowerCase() === item.title?.trim().toLowerCase());
+      if (init && init.documentUrl && (!item.documentUrl || item.documentUrl.startsWith('data:'))) {
+        modified = true;
+        return {
+          ...item,
+          documentUrl: init.documentUrl,
+          documentName: init.documentName || item.documentName,
+          documentSize: init.documentSize || item.documentSize
+        };
+      }
+      return item;
+    });
+
+    if (modified) {
+      setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
+    }
+
     if (includeHidden) return list;
 
     const settings = this.getSettings();
@@ -365,25 +392,34 @@ class PragyanAPIService {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data)) {
-          const mapped: AdminProblemStatement[] = data.map((item: any) => ({
-            id: item.psId || item.id || `PS-${item._id}`,
-            trackId: item.trackId,
-            trackTitle: item.trackTitle,
-            subTrack: item.subTrack || '',
-            title: item.title,
-            description: item.description,
-            context: item.context,
-            documentName: item.documentName,
-            documentUrl: item.documentUrl,
-            documentSize: item.documentSize,
-            fileType: item.fileType,
-            isVisible: Boolean(item.isVisible === true || item.isVisible === 'true'),
-            releaseAt: item.releaseAt,
-            order: item.order,
-            difficulty: item.difficulty,
-            createdAt: item.createdAt || new Date().toISOString(),
-            updatedAt: item.updatedAt
-          }));
+          const initMap = new Map(INITIAL_PROBLEM_STATEMENTS.map(i => [i.id, i]));
+          const mapped: AdminProblemStatement[] = data.map((item: any) => {
+            const rawId = item.psId || item.id || `PS-${item._id}`;
+            const init = initMap.get(rawId) || INITIAL_PROBLEM_STATEMENTS.find(i => i.title?.trim().toLowerCase() === item.title?.trim().toLowerCase());
+            const docUrl = (item.documentUrl && !item.documentUrl.startsWith('data:')) ? item.documentUrl : (init?.documentUrl || '');
+            const docName = item.documentName || init?.documentName || '';
+            const docSize = item.documentSize || init?.documentSize || '';
+
+            return {
+              id: rawId,
+              trackId: item.trackId,
+              trackTitle: item.trackTitle,
+              subTrack: item.subTrack || '',
+              title: item.title,
+              description: item.description,
+              context: item.context,
+              documentName: docName,
+              documentUrl: docUrl,
+              documentSize: docSize,
+              fileType: item.fileType,
+              isVisible: Boolean(item.isVisible === true || item.isVisible === 'true'),
+              releaseAt: item.releaseAt,
+              order: item.order,
+              difficulty: item.difficulty,
+              createdAt: item.createdAt || new Date().toISOString(),
+              updatedAt: item.updatedAt
+            };
+          });
           if (includeHidden) {
             setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, mapped);
             return mapped;
@@ -401,10 +437,15 @@ class PragyanAPIService {
 
   async createProblemStatement(data: Omit<AdminProblemStatement, 'id' | 'createdAt'>): Promise<AdminProblemStatement> {
     const list = this.getProblemStatements(true);
+    const cleanData = { ...data };
+    if (cleanData.documentUrl && cleanData.documentUrl.startsWith('data:')) {
+      cleanData.documentUrl = cleanData.documentName ? `/pragyan/${cleanData.documentName}` : '';
+    }
+
     const newPs: AdminProblemStatement = {
-      ...data,
+      ...cleanData,
       id: `PS-${Date.now().toString(36).toUpperCase()}`,
-      isVisible: Boolean(data.isVisible ?? false),
+      isVisible: Boolean(cleanData.isVisible ?? false),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -443,6 +484,11 @@ class PragyanAPIService {
 
   async updateProblemStatement(id: string, updates: Partial<AdminProblemStatement>): Promise<AdminProblemStatement | null> {
     const list = this.getProblemStatements(true);
+    const cleanUpdates = { ...updates };
+    if (cleanUpdates.documentUrl && cleanUpdates.documentUrl.startsWith('data:')) {
+      cleanUpdates.documentUrl = cleanUpdates.documentName ? `/pragyan/${cleanUpdates.documentName}` : '';
+    }
+
     const norm = (s?: string) => (s || '').trim().toLowerCase().replace(/^ps-/, '');
     const targetNorm = norm(id);
 
@@ -454,7 +500,7 @@ class PragyanAPIService {
     );
 
     if (index !== -1) {
-      list[index] = { ...list[index], ...updates, updatedAt: new Date().toISOString() };
+      list[index] = { ...list[index], ...cleanUpdates, updatedAt: new Date().toISOString() };
       setStored(STORAGE_KEYS.PROBLEM_STATEMENTS, list);
       this.logActivity('PS_UPDATED', id, `Updated problem statement: ${list[index].title}`, 'INFO');
     }
@@ -464,7 +510,7 @@ class PragyanAPIService {
     }
 
     try {
-      const payload = index !== -1 ? { ...list[index], psId: id } : { ...updates, psId: id };
+      const payload = index !== -1 ? { ...list[index], psId: id } : { ...cleanUpdates, psId: id };
       let res = await fetch(`/api/problem-statements/${encodeURIComponent(id)}`, {
         method: 'PUT',
         headers: getAuthHeaders(),

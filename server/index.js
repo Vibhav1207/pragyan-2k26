@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { createAnalyticsRouter } from './analytics.js';
 import dns from 'dns';
 import {
@@ -31,7 +33,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'pragyan-2k26-admin-super-secret-key-2026';
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://vibhavpateltechfest_db_user:TechfestPass2026@task1web.qqdtxkg.mongodb.net/pragyan?retryWrites=true&w=majority&appName=task1web';
+let rawUri = process.env.MONGODB_URI || 'mongodb+srv://vibhavpateltechfest_db_user:TechfestPass2026@task1web.qqdtxkg.mongodb.net/pragyan?retryWrites=true&w=majority&appName=task1web';
+if (rawUri.startsWith('MONGODB_URI=')) {
+  rawUri = rawUri.replace(/^MONGODB_URI=/, '');
+}
+const MONGODB_URI = rawUri.trim();
 
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -68,6 +74,14 @@ app.use(cors({
 
 app.use('/api/analytics/collect', express.json({ limit: '2kb' }));
 app.use(express.json({ limit: '10mb' }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, '..');
+
+app.use('/pragyan', express.static(path.join(rootDir, 'public', 'pragyan')));
+app.use('/pragyan', express.static(path.join(rootDir, 'pragyan')));
+app.use(express.static(path.join(rootDir, 'public')));
 
 function createRateLimiter(windowMs, maxRequests, message) {
   const requests = new Map();
@@ -659,7 +673,7 @@ app.post('/api/problem-statements', authenticateAdmin, async (req, res, next) =>
       description: sanitizeString(description || ''),
       context: sanitizeString(context || ''),
       documentName: sanitizeString(documentName || ''),
-      documentUrl: documentUrl || '',
+      documentUrl: (documentUrl && documentUrl.startsWith('data:')) ? (documentName ? `/pragyan/${documentName}` : '') : (documentUrl || ''),
       documentSize: sanitizeString(documentSize || ''),
       fileType: fileType || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       isVisible: Boolean(isVisible === true || isVisible === 'true'),
@@ -689,6 +703,9 @@ app.put('/api/problem-statements/:id', authenticateAdmin, async (req, res, next)
     const strippedId = cleanId.replace(/^PS-/i, '');
 
     const updates = { ...req.body, updatedAt: new Date() };
+    if (updates.documentUrl && updates.documentUrl.startsWith('data:')) {
+      updates.documentUrl = updates.documentName ? `/pragyan/${updates.documentName}` : '';
+    }
     if (updates.releaseAt) {
       updates.releaseAt = new Date(updates.releaseAt);
     }

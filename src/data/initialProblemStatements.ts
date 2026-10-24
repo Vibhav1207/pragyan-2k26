@@ -167,9 +167,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 11,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_3-01.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_3-01.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-3-02',
@@ -182,9 +182,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 12,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_3-02.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_3-02.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-3-03',
@@ -197,9 +197,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 13,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_3-03.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_3-03.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-3-04',
@@ -212,9 +212,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 14,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_3-04.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_3-04.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-3-05',
@@ -227,9 +227,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 15,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_3-05.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_3-05.docx',
+    documentSize: '347 KB'
   },
 
   // --- TRACK 4: ENTREPRENEURSHIP & FUTURE OF MANAGEMENT ---
@@ -244,9 +244,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 16,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_4-01.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_4-01.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-4-02',
@@ -259,9 +259,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 17,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_4-02.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_4-02.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-4-03',
@@ -274,9 +274,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 18,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_4-03.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_4-03.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-4-04',
@@ -289,9 +289,9 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 19,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_4-04.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_4-04.docx',
+    documentSize: '347 KB'
   },
   {
     id: 'TRACK-4-05',
@@ -304,8 +304,8 @@ export const INITIAL_PROBLEM_STATEMENTS: AdminProblemStatement[] = [
     order: 20,
     isVisible: false,
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    documentName: '',
-    documentUrl: '',
-    documentSize: ''
+    documentName: 'PRAGYAN_2K26_PS_4-05.docx',
+    documentUrl: '/pragyan/PRAGYAN_2K26_PS_4-05.docx',
+    documentSize: '347 KB'
   }
 ];

@@ -8,8 +8,42 @@ import type { AdminProblemStatement } from '../types/admin';
 export function downloadProblemStatementWordDoc(ps: AdminProblemStatement) {
   const filename = ps.documentName || `PRAGYAN2K26_${ps.id}_${ps.title.slice(0, 25).replace(/[^a-zA-Z0-9]/g, '_')}.docx`;
 
-  // If a custom uploaded file exists, download it directly
-  if (ps.documentUrl && (ps.documentUrl.startsWith('data:') || ps.documentUrl.startsWith('http:') || ps.documentUrl.startsWith('https:') || ps.documentUrl.startsWith('blob:'))) {
+  // If a custom document exists (e.g. /pragyan/PRAGYAN_2K26_PS_3-01.docx, http, https, or blob), download it directly
+  if (ps.documentUrl && (
+    ps.documentUrl.startsWith('/') ||
+    ps.documentUrl.startsWith('./') ||
+    ps.documentUrl.startsWith('http:') ||
+    ps.documentUrl.startsWith('https:') ||
+    ps.documentUrl.startsWith('blob:') ||
+    ps.documentUrl.startsWith('data:')
+  )) {
+    if (ps.documentUrl.startsWith('/') || ps.documentUrl.startsWith('./')) {
+      fetch(ps.documentUrl)
+        .then(res => {
+          if (!res.ok) throw new Error('File fetch failed');
+          return res.blob();
+        })
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
+        })
+        .catch(() => {
+          const link = document.createElement('a');
+          link.href = ps.documentUrl!;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      return;
+    }
+
     const link = document.createElement('a');
     link.href = ps.documentUrl;
     link.download = filename;
