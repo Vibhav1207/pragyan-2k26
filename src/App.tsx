@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 
 import { CustomCursor } from './components/ui/CustomCursor';
 import { DailyIntroLoader } from './components/ui/DailyIntroLoader';
+import { HackathonThankYouOverlay } from './components/ui/HackathonThankYouOverlay';
 import { RedesignedNavbar } from './components/sections/redesign/RedesignedNavbar';
 import { RedesignedHero } from './components/sections/redesign/RedesignedHero';
 import { RedesignedMissionSection } from './components/sections/redesign/RedesignedMissionSection';
@@ -74,6 +75,7 @@ export function App() {
   return (
     <div className="min-h-screen bg-[#F9F4EA] text-[#050C0C] relative font-sans overflow-x-hidden selection:bg-[#162E28] selection:text-[#E5BE61]">
       <DailyIntroLoader />
+      <HackathonThankYouOverlay />
       <CustomCursor />
       <RedesignedNavbar onRegisterClick={handleRegisterClick} />
 
