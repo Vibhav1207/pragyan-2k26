@@ -350,7 +350,7 @@ async function seedDatabaseIfNeeded() {
             { upsert: true }
           );
         }
-        console.log('✅ Synchronized 100 challenges into MongoDB (Challenges 1, 2, 3 & 4 open for each track).');
+        console.log('✅ Synchronized 100 challenges into MongoDB (Challenges 1, 2, 3, 4 & 4.2 open for each track).');
       }
     } catch (chalErr) {
       console.warn('Note synchronizing challenges from JSON:', chalErr.message);

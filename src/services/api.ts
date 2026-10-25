@@ -864,7 +864,7 @@ class PragyanAPIService {
           documentSize: init.documentSize
         };
       }
-      if ((c.challengeNumber === 1 || c.challengeNumber === 2 || c.challengeNumber === 3 || c.challengeNumber === 4) && !c.isEnabled) {
+      if ((c.challengeNumber === 1 || c.challengeNumber === 2 || c.challengeNumber === 3 || c.challengeNumber === 4 || c.challengeNumber === 5) && !c.isEnabled) {
         updated = true;
         return { ...c, isEnabled: true };
       }
